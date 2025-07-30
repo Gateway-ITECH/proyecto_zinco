@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - zinco_ctei_actores
+id: cteiactor_delete_action
+label: 'Delete cteiactors'
+type: cteiactor
+plugin: entity:delete_action:cteiactor
+configuration: {  }

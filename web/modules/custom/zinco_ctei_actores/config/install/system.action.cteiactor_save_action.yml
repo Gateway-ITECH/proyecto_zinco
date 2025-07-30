@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - zinco_ctei_actores
+id: cteiactor_save_action
+label: 'Save cteiactors'
+type: cteiactor
+plugin: entity:save_action:cteiactor
+configuration: {  }

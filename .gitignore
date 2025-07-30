@@ -1,0 +1,77 @@
+# Ignorar archivos y directorios de Drupal comunes
+
+# Directorios generados
+/web/sites/*/files/
+/web/sites/*/private/
+/web/sites/*/temp/
+/vendor/
+/web/modules/contrib/
+/web/themes/contrib/
+/web/profiles/contrib/
+/web/libraries/
+
+# Archivos de configuración locales
+/web/sites/*/settings.local.php
+/web/sites/*/services.local.yml
+/drush/drush.yml
+/drush/sites/self.site.yml
+
+# Archivos de caché y temporales
+*.sql
+*.sqlite
+*.bak
+*.swp
+*.log
+*.DS_Store
+Thumbs.db
+.sass-cache/
+.idea/
+.vscode/
+npm-debug.log
+yarn-error.log
+
+# Archivos generados por Composer
+composer.lock
+/web/core/
+# Archivos y directorios de entornos de desarrollo (opcional)
+.ddev/
+.lando/
+.vagrant/
+config/sync/
+web/sites/default/files-public/
+web/sites/default/files-private/
+web/sites/default/files-temp/
+
+# Archivos de depuración y desarrollo
+phpcs.xml
+phpstan.neon
+phpunit.xml
+behat.yml
+
+# Archivos de Drupal específicos para el sitio
+/web/sites/default/settings.php # No debe ser ignorado completamente, pero a menudo se modifica localmente. Considerar plantilla.
+/web/sites/default/services.yml # Similar a settings.php
+
+# Ignorar archivos específicos de drush que pueden ser generados
+drush/drush.local.yml
+
+# Ignorar archivos de pruebas
+/tests/
+
+# Ignorar el directorio de sincronización de configuración si se usa Drush config export/import
+# Esto es crucial para la gestión de configuración en Drupal 8/9/10
+/config/sync/
+
+# Archivos de entornos específicos que no deben ser versionados
+.env
+.env.*
+
+# Ignorar archivos de registro de Composer y NPM/Yarn
+composer-asset-plugin.json
+package-lock.json
+yarn.lock
+
+# Archivos de compilación de frontend (si aplica)
+/web/themes/custom/*/node_modules/
+/web/themes/custom/*/dist/
+/web/themes/custom/*/build/

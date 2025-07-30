@@ -1,0 +1,5 @@
+name: 'Zinco CTEI actores'
+type: module
+description: '@todo Add description.'
+package: 'Zinco CTEI'
+core_version_requirement: ^10 || ^11

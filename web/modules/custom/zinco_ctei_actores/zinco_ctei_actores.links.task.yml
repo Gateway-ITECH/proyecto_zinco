@@ -1,0 +1,49 @@
+entity.zincoactor.settings:
+  title: 'Settings'
+  route_name: entity.zincoactor.settings
+  base_route: entity.zincoactor.settings
+entity.zincoactor.view:
+  title: 'View'
+  route_name: entity.zincoactor.canonical
+  base_route: entity.zincoactor.canonical
+entity.zincoactor.edit_form:
+  title: 'Edit'
+  route_name: entity.zincoactor.edit_form
+  base_route: entity.zincoactor.canonical
+entity.zincoactor.delete_form:
+  title: 'Delete'
+  route_name: entity.zincoactor.delete_form
+  base_route: entity.zincoactor.canonical
+  weight: 10
+entity.zincoactor.collection:
+  title: 'ZincoActors'
+  route_name: entity.zincoactor.collection
+  base_route: system.admin_content
+  weight: 10
+
+entity.cteiactor.view:
+  title: 'View'
+  route_name: entity.cteiactor.canonical
+  base_route: entity.cteiactor.canonical
+entity.cteiactor.edit_form:
+  title: 'Edit'
+  route_name: entity.cteiactor.edit_form
+  base_route: entity.cteiactor.canonical
+entity.cteiactor.delete_form:
+  title: 'Delete'
+  route_name: entity.cteiactor.delete_form
+  base_route: entity.cteiactor.canonical
+  weight: 10
+entity.cteiactor.collection:
+  title: 'CTEIActors'
+  route_name: entity.cteiactor.collection
+  base_route: system.admin_content
+  weight: 10
+entity.cteiactor_type.edit_form:
+  title: 'Edit'
+  route_name: entity.cteiactor_type.edit_form
+  base_route: entity.cteiactor_type.edit_form
+entity.cteiactor_type.collection:
+  title: 'List'
+  route_name: entity.cteiactor_type.collection
+  base_route: entity.cteiactor_type.collection
