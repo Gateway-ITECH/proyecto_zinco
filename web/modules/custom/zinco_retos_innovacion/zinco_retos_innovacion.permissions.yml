@@ -1,0 +1,4 @@
+administer zinco_retos_innovacion types:
+  title: 'Administer zinco retos innovacion types'
+  description: 'Maintain the types of zinco retos innovacion entity.'
+  restrict access: true

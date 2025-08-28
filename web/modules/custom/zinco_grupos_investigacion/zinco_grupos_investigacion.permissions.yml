@@ -1,0 +1,3 @@
+administer zinco_grupos_investigacion:
+  title: 'Administer zinco grupos investigacions'
+  restrict access: true

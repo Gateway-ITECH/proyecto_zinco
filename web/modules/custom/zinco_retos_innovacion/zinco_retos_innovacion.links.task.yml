@@ -1,0 +1,26 @@
+entity.zinco_retos_innovacion.view:
+  title: 'View'
+  route_name: entity.zinco_retos_innovacion.canonical
+  base_route: entity.zinco_retos_innovacion.canonical
+entity.zinco_retos_innovacion.edit_form:
+  title: 'Edit'
+  route_name: entity.zinco_retos_innovacion.edit_form
+  base_route: entity.zinco_retos_innovacion.canonical
+entity.zinco_retos_innovacion.delete_form:
+  title: 'Delete'
+  route_name: entity.zinco_retos_innovacion.delete_form
+  base_route: entity.zinco_retos_innovacion.canonical
+  weight: 10
+entity.zinco_retos_innovacion.collection:
+  title: 'Zinco retos innovacions'
+  route_name: entity.zinco_retos_innovacion.collection
+  base_route: system.admin_content
+  weight: 10
+entity.zinco_retos_innovacion_type.edit_form:
+  title: 'Edit'
+  route_name: entity.zinco_retos_innovacion_type.edit_form
+  base_route: entity.zinco_retos_innovacion_type.edit_form
+entity.zinco_retos_innovacion_type.collection:
+  title: 'List'
+  route_name: entity.zinco_retos_innovacion_type.collection
+  base_route: entity.zinco_retos_innovacion_type.collection

@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - zinco_reconocimientos
+id: zinco_reconocimientos_delete_action
+label: 'Delete zinco reconocimientoss'
+type: zinco_reconocimientos
+plugin: entity:delete_action:zinco_reconocimientos
+configuration: {  }

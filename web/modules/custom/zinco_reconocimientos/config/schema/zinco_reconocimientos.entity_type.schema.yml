@@ -1,0 +1,12 @@
+zinco_reconocimientos.zinco_reconocimientos_type.*:
+  type: config_entity
+  label: 'Zinco reconocimientos type config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    uuid:
+      type: string

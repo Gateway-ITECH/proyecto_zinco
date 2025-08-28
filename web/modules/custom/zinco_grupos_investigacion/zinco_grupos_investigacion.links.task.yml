@@ -1,0 +1,22 @@
+entity.zinco_grupos_investigacion.settings:
+  title: 'Settings'
+  route_name: entity.zinco_grupos_investigacion.settings
+  base_route: entity.zinco_grupos_investigacion.settings
+entity.zinco_grupos_investigacion.view:
+  title: 'View'
+  route_name: entity.zinco_grupos_investigacion.canonical
+  base_route: entity.zinco_grupos_investigacion.canonical
+entity.zinco_grupos_investigacion.edit_form:
+  title: 'Edit'
+  route_name: entity.zinco_grupos_investigacion.edit_form
+  base_route: entity.zinco_grupos_investigacion.canonical
+entity.zinco_grupos_investigacion.delete_form:
+  title: 'Delete'
+  route_name: entity.zinco_grupos_investigacion.delete_form
+  base_route: entity.zinco_grupos_investigacion.canonical
+  weight: 10
+entity.zinco_grupos_investigacion.collection:
+  title: 'Zinco grupos investigacions'
+  route_name: entity.zinco_grupos_investigacion.collection
+  base_route: system.admin_content
+  weight: 10

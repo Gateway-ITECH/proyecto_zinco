@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - zinco_reconocimientos
+id: zinco_reconocimientos_save_action
+label: 'Save zinco reconocimientoss'
+type: zinco_reconocimientos
+plugin: entity:save_action:zinco_reconocimientos
+configuration: {  }

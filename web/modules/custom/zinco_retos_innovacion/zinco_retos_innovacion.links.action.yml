@@ -1,0 +1,11 @@
+zinco_retos_innovacion.type_add:
+  title: 'Add zinco retos innovacion type'
+  route_name: entity.zinco_retos_innovacion_type.add_form
+  appears_on:
+    - entity.zinco_retos_innovacion_type.collection
+
+zinco_retos_innovacion.add_page:
+  title: 'Add zinco retos innovacion'
+  route_name: entity.zinco_retos_innovacion.add_page
+  appears_on:
+    - entity.zinco_retos_innovacion.collection

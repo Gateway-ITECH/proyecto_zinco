@@ -1,0 +1,10 @@
+entity.zinco_actors_zincoactors.edit_form:
+  route_name: entity.zinco_actors_zincoactors.edit_form
+  group: zinco_actors_zincoactors
+  title: 'Edit'
+
+entity.zinco_actors_zincoactors.delete_form:
+  route_name: entity.zinco_actors_zincoactors.delete_form
+  group: zinco_actors_zincoactors
+  title: 'Delete'
+  weight: 10

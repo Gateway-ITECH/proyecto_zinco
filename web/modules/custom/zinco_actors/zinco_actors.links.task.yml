@@ -1,0 +1,26 @@
+entity.zinco_actors_zincoactors.view:
+  title: 'View'
+  route_name: entity.zinco_actors_zincoactors.canonical
+  base_route: entity.zinco_actors_zincoactors.canonical
+entity.zinco_actors_zincoactors.edit_form:
+  title: 'Edit'
+  route_name: entity.zinco_actors_zincoactors.edit_form
+  base_route: entity.zinco_actors_zincoactors.canonical
+entity.zinco_actors_zincoactors.delete_form:
+  title: 'Delete'
+  route_name: entity.zinco_actors_zincoactors.delete_form
+  base_route: entity.zinco_actors_zincoactors.canonical
+  weight: 10
+entity.zinco_actors_zincoactors.collection:
+  title: 'ZincoActorss'
+  route_name: entity.zinco_actors_zincoactors.collection
+  base_route: system.admin_content
+  weight: 10
+entity.zinco_actors_zincoactors_type.edit_form:
+  title: 'Edit'
+  route_name: entity.zinco_actors_zincoactors_type.edit_form
+  base_route: entity.zinco_actors_zincoactors_type.edit_form
+entity.zinco_actors_zincoactors_type.collection:
+  title: 'List'
+  route_name: entity.zinco_actors_zincoactors_type.collection
+  base_route: entity.zinco_actors_zincoactors_type.collection

@@ -1,0 +1,10 @@
+entity.zinco_producto_servicio.edit_form:
+  route_name: entity.zinco_producto_servicio.edit_form
+  group: zinco_producto_servicio
+  title: 'Edit'
+
+entity.zinco_producto_servicio.delete_form:
+  route_name: entity.zinco_producto_servicio.delete_form
+  group: zinco_producto_servicio
+  title: 'Delete'
+  weight: 10

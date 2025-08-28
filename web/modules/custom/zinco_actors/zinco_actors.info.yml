@@ -1,0 +1,5 @@
+name: 'Zinco actores'
+type: module
+description: 'Module for defining custom content entity ZincoActors'
+package: Zinco
+core_version_requirement: ^10 || ^11

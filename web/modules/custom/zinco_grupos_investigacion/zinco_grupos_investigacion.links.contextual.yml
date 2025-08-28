@@ -1,0 +1,10 @@
+entity.zinco_grupos_investigacion.edit_form:
+  route_name: entity.zinco_grupos_investigacion.edit_form
+  group: zinco_grupos_investigacion
+  title: 'Edit'
+
+entity.zinco_grupos_investigacion.delete_form:
+  route_name: entity.zinco_grupos_investigacion.delete_form
+  group: zinco_grupos_investigacion
+  title: 'Delete'
+  weight: 10

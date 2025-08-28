@@ -1,0 +1,5 @@
+name: 'Zinco retos innovacion'
+type: module
+description: 'Zinco retos innovacion custom module.'
+package: 'Zinco'
+core_version_requirement: ^10 || ^11

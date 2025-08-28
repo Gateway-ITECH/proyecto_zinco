@@ -1,0 +1,85 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @file
+ * Provides a zinco retos innovacion entity type.
+ */
+
+use Drupal\Core\Render\Element;
+use Drupal\user\UserInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function zinco_retos_innovacion_theme(): array {
+  return [
+    'zinco_retos_innovacion' => ['render element' => 'elements'],
+  ];
+}
+
+/**
+ * Prepares variables for zinco retos innovacion templates.
+ *
+ * Default template: zinco-retos-innovacion.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An associative array containing the zinco retos innovacion information and any
+ *     fields attached to the entity.
+ *   - attributes: HTML attributes for the containing element.
+ */
+function template_preprocess_zinco_retos_innovacion(array &$variables): void {
+  $variables['view_mode'] = $variables['elements']['#view_mode'];
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+}
+
+/**
+ * Implements hook_user_cancel().
+ */
+function zinco_retos_innovacion_user_cancel($edit, UserInterface $account, $method): void {
+  switch ($method) {
+    case 'user_cancel_block_unpublish':
+      // Unpublish zinco retos innovacions.
+      $storage = \Drupal::entityTypeManager()->getStorage('zinco_retos_innovacion');
+      $zinco_retos_innovacion_ids = $storage->getQuery()
+        ->condition('uid', $account->id())
+        ->condition('status', 1)
+        ->accessCheck(FALSE)
+        ->execute();
+      foreach ($storage->loadMultiple($zinco_retos_innovacion_ids) as $zinco_retos_innovacion) {
+        $zinco_retos_innovacion->set('status', FALSE)->save();
+      }
+      break;
+
+    case 'user_cancel_reassign':
+      // Anonymize zinco retos innovacions.
+      $storage = \Drupal::entityTypeManager()->getStorage('zinco_retos_innovacion');
+      $zinco_retos_innovacion_ids = $storage->getQuery()
+        ->condition('uid', $account->id())
+        ->accessCheck(FALSE)
+        ->execute();
+      foreach ($storage->loadMultiple($zinco_retos_innovacion_ids) as $zinco_retos_innovacion) {
+        $zinco_retos_innovacion->setOwnerId(0)->save();
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_predelete() for user entities.
+ */
+function zinco_retos_innovacion_user_predelete(UserInterface $account): void {
+  // Delete zinco retos innovacions that belong to this account.
+  $storage = \Drupal::entityTypeManager()->getStorage('zinco_retos_innovacion');
+  $zinco_retos_innovacion_ids = $storage->getQuery()
+    ->condition('uid', $account->id())
+    ->accessCheck(FALSE)
+    ->execute();
+  $storage->delete(
+    $storage->loadMultiple($zinco_retos_innovacion_ids)
+  );
+}

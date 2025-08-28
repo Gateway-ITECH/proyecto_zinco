@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - zinco_producto_servicio
+id: zinco_producto_servicio_save_action
+label: 'Save zinco producto servicios'
+type: zinco_producto_servicio
+plugin: entity:save_action:zinco_producto_servicio
+configuration: {  }

@@ -1,0 +1,5 @@
+zinco_grupos_investigacion.add_form:
+  title: 'Add zinco grupos investigacion'
+  route_name: entity.zinco_grupos_investigacion.add_form
+  appears_on:
+    - entity.zinco_grupos_investigacion.collection

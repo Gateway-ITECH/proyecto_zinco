@@ -1,0 +1,10 @@
+entity.zinco_reconocimientos.edit_form:
+  route_name: entity.zinco_reconocimientos.edit_form
+  group: zinco_reconocimientos
+  title: 'Edit'
+
+entity.zinco_reconocimientos.delete_form:
+  route_name: entity.zinco_reconocimientos.delete_form
+  group: zinco_reconocimientos
+  title: 'Delete'
+  weight: 10

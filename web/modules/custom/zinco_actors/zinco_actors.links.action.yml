@@ -1,0 +1,11 @@
+zinco_actors_zincoactors.type_add:
+  title: 'Add zincoactors type'
+  route_name: entity.zinco_actors_zincoactors_type.add_form
+  appears_on:
+    - entity.zinco_actors_zincoactors_type.collection
+
+zinco_actors_zincoactors.add_page:
+  title: 'Add zincoactors'
+  route_name: entity.zinco_actors_zincoactors.add_page
+  appears_on:
+    - entity.zinco_actors_zincoactors.collection

@@ -1,0 +1,11 @@
+zinco_producto_servicio.type_add:
+  title: 'Add zinco producto servicio type'
+  route_name: entity.zinco_producto_servicio_type.add_form
+  appears_on:
+    - entity.zinco_producto_servicio_type.collection
+
+zinco_producto_servicio.add_page:
+  title: 'Add zinco producto servicio'
+  route_name: entity.zinco_producto_servicio.add_page
+  appears_on:
+    - entity.zinco_producto_servicio.collection

@@ -1,0 +1,7 @@
+zinco_front.home:
+  path: '/home'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::home'
+    _title: 'Home'
+  requirements:
+    _permission: 'access content'

@@ -1,0 +1,11 @@
+entity.zinco_actors_zincoactors_type.collection:
+  title: 'ZincoActors types'
+  description: 'Manage and CRUD actions on ZincoActors type.'
+  parent: system.admin_structure
+  route_name: entity.zinco_actors_zincoactors_type.collection
+
+entity.zinco_actors_zincoactors.collection:
+  title: 'ZincoActorss'
+  description: 'List of zincoactorss.'
+  route_name: entity.zinco_actors_zincoactors.collection
+  parent: system.admin_content

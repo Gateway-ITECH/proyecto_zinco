@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - zinco_actors
+id: zinco_actors_zincoactors_save_action
+label: 'Save zincoactorss'
+type: zinco_actors_zincoactors
+plugin: entity:save_action:zinco_actors_zincoactors
+configuration: {  }

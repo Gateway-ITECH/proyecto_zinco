@@ -1,0 +1,26 @@
+entity.zinco_producto_servicio.view:
+  title: 'View'
+  route_name: entity.zinco_producto_servicio.canonical
+  base_route: entity.zinco_producto_servicio.canonical
+entity.zinco_producto_servicio.edit_form:
+  title: 'Edit'
+  route_name: entity.zinco_producto_servicio.edit_form
+  base_route: entity.zinco_producto_servicio.canonical
+entity.zinco_producto_servicio.delete_form:
+  title: 'Delete'
+  route_name: entity.zinco_producto_servicio.delete_form
+  base_route: entity.zinco_producto_servicio.canonical
+  weight: 10
+entity.zinco_producto_servicio.collection:
+  title: 'Zinco producto servicios'
+  route_name: entity.zinco_producto_servicio.collection
+  base_route: system.admin_content
+  weight: 10
+entity.zinco_producto_servicio_type.edit_form:
+  title: 'Edit'
+  route_name: entity.zinco_producto_servicio_type.edit_form
+  base_route: entity.zinco_producto_servicio_type.edit_form
+entity.zinco_producto_servicio_type.collection:
+  title: 'List'
+  route_name: entity.zinco_producto_servicio_type.collection
+  base_route: entity.zinco_producto_servicio_type.collection

@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - zinco_grupos_investigacion
+id: zinco_grupos_investigacion_save_action
+label: 'Save zinco grupos investigacions'
+type: zinco_grupos_investigacion
+plugin: entity:save_action:zinco_grupos_investigacion
+configuration: {  }

@@ -1,0 +1,5 @@
+name: 'Zinco grupos investigacion'
+type: module
+description: 'Module for defining custom content entity ZincoGruposInvestigacion'
+package: Zinco
+core_version_requirement: ^10 || ^11

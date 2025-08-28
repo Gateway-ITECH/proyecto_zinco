@@ -1,0 +1,12 @@
+zinco_retos_innovacion.zinco_retos_innovacion_type.*:
+  type: config_entity
+  label: 'Zinco retos innovacion type config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    uuid:
+      type: string
