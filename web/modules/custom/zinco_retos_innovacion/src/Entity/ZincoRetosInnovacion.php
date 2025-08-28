@@ -300,7 +300,7 @@ class ZincoRetosInnovacion extends ContentEntityBase implements ZincoRetosInnova
     $fields['organizador_reto'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Organizador del reto'))
       ->setDescription(t('The organization or individual organizing the Zinco Reto Innovacion.'))
-      ->setSetting('target_type', 'zinco_actors')
+      ->setSetting('target_type', 'zinco_actors_zincoactors')
       ->setSetting('handler_settings', ['target_bundles' => NULL]) // Allow all bundles of zinco_actors
       ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
       ->setDisplayOptions('form', [
@@ -369,9 +369,9 @@ class ZincoRetosInnovacion extends ContentEntityBase implements ZincoRetosInnova
 
     $fields['aprobado_por'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Aprobado por'))
-      ->setDescription(t('The Zinco Actor who approved the Zinco Reto Innovacion.'))
-      ->setSetting('target_type', 'zinco_actors')
-      ->setSetting('handler_settings', ['target_bundles' => NULL]) // Allow all bundles of zinco_actors
+      ->setDescription(t('The user who approved the Zinco Reto Innovacion.'))
+      ->setSetting('target_type', 'user')
+      ->setSetting('handler_settings', ['target_bundles' => NULL]) // Allow all bundles of user
       ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
       ->setDisplayOptions('form', [
         'type' => 'entity_reference_autocomplete',
