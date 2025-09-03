@@ -4,7 +4,7 @@
  * @file
  * Primary hook implementations for the Zinco Front module.
  */
-
+use Drupal\user\UserInterface;
 /**
  * Implements hook_theme().
  */
@@ -22,3 +22,13 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
     ],
   ];
 }
+
+/**
+ * Implements hook_user_update().
+ */
+function zinco_front_user_update(UserInterface $account) {
+  // Invalidate the user data cache when a user is updated.
+  var_dump($account->getCacheTags());
+  \Drupal::service('cache_tags.invalidator')->invalidateTags($account->getCacheTags());
+}
+

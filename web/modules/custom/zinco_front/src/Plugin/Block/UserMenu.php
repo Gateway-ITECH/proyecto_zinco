@@ -63,13 +63,10 @@ class UserMenu extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#theme'] = 'zinco_front_user_menu';
     $build['#logged_in'] = $this->currentUser->isAuthenticated();
     $build['#user_name'] = $this->currentUser->getDisplayName();
+    $build['#cache']['tags'][] = 'user:' . $this->currentUser->id();
     $user_picture = NULL;
     if ($this->currentUser->isAuthenticated()) {
         $account = \Drupal\user\Entity\User::load($this->currentUser->id());
-        $tags = $account->getCacheTags();
-        $cacheTagsInvalidator = \Drupal::service('cache_tags.invalidator');
-        $cacheTagsInvalidator->invalidateTags($tags);
-
         if ($account && $account->user_picture && !$account->user_picture->isEmpty()) {
             $file = $account->user_picture->entity;
             if ($file) {
