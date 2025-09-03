@@ -1,0 +1,26 @@
+/* Estilos para el bloque UserMenu */
+.user-menu-block .notification-dropdown {
+  position: relative;
+}
+
+.user-menu-block .notification-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  font-size: 0.7em;
+  padding: .2em .5em;
+  border-radius: 50%;
+}
+
+.user-menu-block .user-avatar {
+  object-fit: cover;
+}
+
+.user-menu-block .dropdown-toggle::after {
+  display: none; /* Oculta la flecha por defecto de Bootstrap */
+}
+
+/* Ajustes para los iconos de Font Awesome */
+.user-menu-block .fas {
+  font-size: 1.2em;
+}

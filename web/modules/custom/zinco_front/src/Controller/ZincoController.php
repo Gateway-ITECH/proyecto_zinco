@@ -22,4 +22,17 @@ class ZincoController extends ControllerBase {
     ];
   }
 
+  /**
+   * Returns a dashboard page.
+   *
+   * @return array
+   *   A simple renderable array.
+   */
+  public function dashboard() {
+    return [
+      '#type' => 'markup',
+      '#markup' => $this->t('Dashboard Page'),
+    ];
+  }
+
 }

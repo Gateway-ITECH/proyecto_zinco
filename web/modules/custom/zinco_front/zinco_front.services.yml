@@ -1,0 +1,5 @@
+services:
+  zinco_front.user_update_subscriber:
+    class: Drupal\zinco_front\EventSubscriber\UserUpdateSubscriber
+    tags:
+      - { name: event_subscriber }

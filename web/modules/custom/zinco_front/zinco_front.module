@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Primary hook implementations for the Zinco Front module.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function zinco_front_theme($existing_theme, $type, $theme_name) {
+  return [
+    'zinco_front_user_menu' => [
+      'variables' => [
+        'logged_in' => FALSE,
+        'user_name' => '',
+        'user_picture' => NULL,
+        'unread_notifications' => 0,
+        'logout_url' => '',
+      ],
+      'template' => 'block--user-menu',
+    ],
+  ];
+}

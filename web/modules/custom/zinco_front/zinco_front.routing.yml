@@ -5,3 +5,11 @@ zinco_front.home:
     _title: 'Home'
   requirements:
     _permission: 'access content'
+
+zinco_front.dashboard:
+  path: '/dashboard'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::dashboard'
+    _title: 'Dashboard'
+  requirements:
+    _permission: 'access content'

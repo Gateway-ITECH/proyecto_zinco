@@ -1,0 +1,13 @@
+user-menu:
+  version: 1.x
+  css:
+    theme:
+      css/user-menu.css: {}
+      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css: { type: external, minified: true }
+  js:
+    js/user-menu.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/once
+    - bootstrap_barrio/global-styling # Assuming Bootstrap Barrio's JS is needed for dropdowns
