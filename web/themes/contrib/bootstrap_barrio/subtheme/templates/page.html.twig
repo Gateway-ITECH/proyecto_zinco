@@ -92,7 +92,7 @@
           {% endif %}
           </nav>
         {% endif %}
-        {% if page.header or page.primary_menu or page.header_form %}
+        {% if page.header or page.primary_menu or page.header_form or page.header_right %}
           <nav{{ navbar_attributes }}>
             {% if container_navbar %}
             <div class="container">
@@ -100,27 +100,37 @@
               {{ page.header }}
               {% if page.primary_menu or page.header_form %}
                 <button class="navbar-toggler collapsed" type="button" data-bs-toggle="{{ navbar_collapse_btn_data }}" data-bs-target="#CollapsingNavbar" aria-controls="CollapsingNavbar" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="{{ navbar_collapse_class }}" id="CollapsingNavbar">
+                <div class="{{ navbar_collapse_class }} justify-content-center" id="CollapsingNavbar">
                   {% if navbar_offcanvas %}
-                    <div class="offcanvas-header">
-                      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
+                  <div class="offcanvas-header">
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                  </div>
+                  <div class="offcanvas-body">
                   {% endif %}
+                  <div class="d-flex justify-content-center w-100">
                   {{ page.primary_menu }}
                   {% if page.header_form %}
                     <div class="form-inline navbar-form justify-content-end">
-                      {{ page.header_form }}
+                    {{ page.header_form }}
                     </div>
                   {% endif %}
+                  </div>
+                  <div class="d-flex justify-content-center w-100">
+                    {{ page.header_right }}
+                  </div>
                   {% if navbar_offcanvas %}
-                    </div>
+                  </div>
                   {% endif %}
                 </div>
+
+                
+
+                
               {% endif %}
               {% if sidebar_collapse %}
                 <button class="navbar-toggler navbar-toggler-left collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#CollapsingLeft" aria-controls="CollapsingLeft" aria-expanded="false" aria-label="Toggle navigation"></button>
               {% endif %}
+     
             {% if container_navbar %}
             </div>
             {% endif %}
