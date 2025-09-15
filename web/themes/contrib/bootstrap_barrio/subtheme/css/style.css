@@ -2,3 +2,7 @@
  * @file
  * Subtheme specific CSS.
  */
+
+.chart-card-height {
+  min-height: 450px; /* Adjust this value as needed to match the height of the other card */
+}

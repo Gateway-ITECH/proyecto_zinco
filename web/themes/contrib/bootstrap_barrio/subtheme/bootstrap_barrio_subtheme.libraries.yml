@@ -32,3 +32,23 @@ color.preview:
     color/preview.js: {}
   dependencies:
     - color/drupal.color
+
+chartjs:
+  remote: https://www.chartjs.org/
+  version: 3.x
+  license:
+    name: MIT
+    url: https://github.com/chartjs/Chart.js/blob/master/LICENSE.md
+    gpl-compatible: true
+  js:
+    https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js: { type: external, minified: true }
+
+zinco-dashboard-charts:
+  version: VERSION
+  js:
+    js/zinco-dashboard-charts.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings
+    - bootstrap_barrio_subtheme/chartjs
