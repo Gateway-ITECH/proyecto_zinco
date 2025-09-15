@@ -20,6 +20,20 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'block--user-menu',
     ],
+    'dump_data_table' => [
+      'variables' => [
+        'table_name' => NULL,
+        'headers' => [],
+        'rows' => [],
+      ],
+      'template' => 'dump-data-table',
+    ],
+    'zinco_dashboard' => [
+      'variables' => [
+        'test_var' => NULL,
+      ],
+      'template' => 'zinco-dashboard',
+    ],
   ];
 }
 

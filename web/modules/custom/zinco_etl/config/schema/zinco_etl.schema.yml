@@ -1,0 +1,12 @@
+zinco_etl.settings:
+  type: config_object
+  label: 'Zinco ETL settings'
+  mapping:
+    azure_blob_connection_string:
+      type: text
+      label: 'Azure Blob Storage Connection String'
+      translatable: false
+    azure_blob_container_name:
+      type: text
+      label: 'Azure Blob Storage Container Name'
+      translatable: false

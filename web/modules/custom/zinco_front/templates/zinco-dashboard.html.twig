@@ -1,0 +1,103 @@
+{#
+/**
+ * @file
+ * Zinco Front dashboard page.
+ *
+ * Available variables:
+ * - test_var: A variable passed from the controller.
+ */
+#}
+<div class="zinco-dashboard-header d-flex justify-content-between align-items-center mb-4">
+  <div class="zinco-dashboard-title-section">
+    <h1 class="h3">Dashboard centralizado</h1>
+    <p class="text-muted mb-0">Exploración visual de la producción científica, tecnológica e innovadora de Córdoba.</p>
+  </div>
+  <div class="zinco-dashboard-actions">
+    <button class="btn btn-outline-secondary"><span class="icon-filter-slash me-2"></span> Limpiar Filtros</button>
+  </div>
+</div>
+
+<div class="zinco-dashboard-filters mb-4">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="municipio-select">Municipio</label>
+        <select class="form-select" id="municipio-select">
+          <option selected>Seleccione una opción...</option>
+          <!-- Opciones de municipio -->
+        </select>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="sector-select">Sector</label>
+        <select class="form-select" id="sector-select">
+          <option selected>Seleccione una opción...</option>
+          <!-- Opciones de sector -->
+        </select>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="tecnologias-select">Tecnologías 4.0</label>
+        <select class="form-select" id="tecnologias-select">
+          <option selected>Seleccione una opción...</option>
+          <!-- Opciones de tecnologías 4.0 -->
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="zinco-dashboard-cards mb-4">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="card-title text-muted text-uppercase mb-0">Producción Total</h6>
+            <span class="icon-clipboard-check text-muted"></span>
+          </div>
+          <h3 class="card-text mb-1">178</h3>
+          <p class="card-text text-success small"><span class="icon-arrow-up me-1"></span>8.5% vs. período anterior</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="card-title text-muted text-uppercase mb-0">Propiedad Intelectual</h6>
+            <span class="icon-award text-muted"></span>
+          </div>
+          <h3 class="card-text mb-1">21</h3>
+          <p class="card-text text-danger small"><span class="icon-arrow-down me-1"></span>-3.1% vs. período anterior</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="card-title text-muted text-uppercase mb-0">Desarrollo Tecnológico</h6>
+            <span class="icon-code text-muted"></span>
+          </div>
+          <h3 class="card-text mb-1">52</h3>
+          <p class="card-text text-success small"><span class="icon-arrow-up me-1"></span>12.8% vs. período anterior</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="card-title text-muted text-uppercase mb-0">Tesis Dirigidas</h6>
+            <span class="icon-graduation-cap text-muted"></span>
+          </div>
+          <h3 class="card-text mb-1">15</h3>
+          <p class="card-text text-muted small"><span class="icon-arrow-right me-1"></span>-0.2% vs. período anterior</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

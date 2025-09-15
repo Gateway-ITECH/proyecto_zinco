@@ -1,0 +1,4 @@
+services:
+  zinco_etl.azure_uploader:
+    class: Drupal\zinco_etl\Service\AzureUploaderService
+    arguments: ['@config.factory', '@logger.factory', '@string_translation']

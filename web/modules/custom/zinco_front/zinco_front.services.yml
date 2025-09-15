@@ -1,2 +1,4 @@
-
-  
+services:
+  zinco_front.dump_data_service:
+    class: Drupal\zinco_front\Service\DumpDataService
+    arguments: ['@database']

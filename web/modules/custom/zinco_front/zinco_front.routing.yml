@@ -10,6 +10,12 @@ zinco_front.dashboard:
   path: '/dashboard'
   defaults:
     _controller: '\Drupal\zinco_front\Controller\ZincoController::dashboard'
-    _title: 'Dashboard'
+  requirements:
+    _permission: 'access content'
+zinco_front.dump_data:
+  path: '/dump-data/{tableName}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::dumpData'
+    _title: 'Dump Data'
   requirements:
     _permission: 'access content'

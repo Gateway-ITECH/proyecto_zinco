@@ -26,7 +26,8 @@
         "drupal/paragraphs": "^1.19",
         "drupal/taxonomy_import": "^2.1",
         "drupal/taxonomy_manager": "^2.0",
-        "drush/drush": "^13.6"
+        "drush/drush": "^13.6",
+        "guzzlehttp/guzzle": "^7.0"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -105,5 +106,8 @@
                 "      composer remove drupal/core-project-message"
             ]
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.5"
     }
 }

@@ -89,7 +89,7 @@ class ZincoGruposInvestigacion extends ContentEntityBase implements ZincoGruposI
     $fields = parent::baseFieldDefinitions($entity_type);
 
     $fields['label'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Label'))
+      ->setLabel(t('Nombre'))
       ->setRequired(TRUE)
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', [
@@ -106,7 +106,7 @@ class ZincoGruposInvestigacion extends ContentEntityBase implements ZincoGruposI
 
     $fields['titulo'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Titulo'))
-      ->setRequired(TRUE)
+      ->setRequired(FALSE)
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',
