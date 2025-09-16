@@ -1,0 +1,7 @@
+entity.zinco_proyectos_idi.settings:
+  path: 'admin/structure/zinco-proyectos-idi'
+  defaults:
+    _form: '\Drupal\zinco_proyectos_idi\Form\ZincoProyectosIdiSettingsForm'
+    _title: 'Zinco proyectos idi'
+  requirements:
+    _permission: 'administer zinco_proyectos_idi'

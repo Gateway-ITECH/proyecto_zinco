@@ -1,0 +1,11 @@
+entity.zinco_proyectos_idi.settings:
+  title: 'Zinco proyectos idi'
+  description: 'Configure a Zinco proyectos idi entity type.'
+  route_name:  entity.zinco_proyectos_idi.settings
+  parent: system.admin_structure
+
+entity.zinco_proyectos_idi.collection:
+  title: 'Zinco proyectos idis'
+  description: 'List of zinco proyectos idis.'
+  route_name: entity.zinco_proyectos_idi.collection
+  parent: system.admin_content

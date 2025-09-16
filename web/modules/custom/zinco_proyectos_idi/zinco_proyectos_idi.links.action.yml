@@ -1,0 +1,5 @@
+zinco_proyectos_idi.add_form:
+  title: 'Add zinco proyectos idi'
+  route_name: entity.zinco_proyectos_idi.add_form
+  appears_on:
+    - entity.zinco_proyectos_idi.collection
