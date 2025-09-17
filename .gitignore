@@ -58,7 +58,7 @@ config/sync/
 web/sites/default/files-public/
 web/sites/default/files-private/
 web/sites/default/files-temp/
-backups/
+
 
 # Archivos de depuración y desarrollo
 phpcs.xml
