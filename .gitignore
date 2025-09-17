@@ -49,8 +49,7 @@ phpunit.xml
 behat.yml
 
 # Archivos de Drupal específicos para el sitio
-/web/sites/default/settings.php # No debe ser ignorado completamente, pero a menudo se modifica localmente. Considerar plantilla.
-/web/sites/default/services.yml # Similar a settings.php
+/web/sites/default/
 
 # Ignorar archivos específicos de drush que pueden ser generados
 drush/drush.local.yml
