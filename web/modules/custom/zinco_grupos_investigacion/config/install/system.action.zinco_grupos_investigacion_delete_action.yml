@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - zinco_grupos_investigacion
+id: zinco_grupos_investigacion_delete_action
+label: 'Delete zinco grupos investigacions'
+type: zinco_grupos_investigacion
+plugin: entity:delete_action:zinco_grupos_investigacion
+configuration: {  }

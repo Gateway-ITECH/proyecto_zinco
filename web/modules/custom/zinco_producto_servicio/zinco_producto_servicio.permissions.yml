@@ -1,0 +1,4 @@
+administer zinco_producto_servicio types:
+  title: 'Administer zinco producto servicio types'
+  description: 'Maintain the types of zinco producto servicio entity.'
+  restrict access: true

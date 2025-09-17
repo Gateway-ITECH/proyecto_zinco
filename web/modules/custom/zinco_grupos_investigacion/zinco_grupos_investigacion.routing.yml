@@ -1,0 +1,7 @@
+entity.zinco_grupos_investigacion.settings:
+  path: 'admin/structure/zinco-grupos-investigacion'
+  defaults:
+    _form: '\Drupal\zinco_grupos_investigacion\Form\ZincoGruposInvestigacionSettingsForm'
+    _title: 'Zinco grupos investigacion'
+  requirements:
+    _permission: 'administer zinco_grupos_investigacion'

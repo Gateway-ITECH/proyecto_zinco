@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains zinco_etl.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function zinco_etl_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the zinco_etl module.
+    case 'help.page.zinco_etl':
+      $output = '';
+      $output .= '<h3>' . t('About the Zinco ETL module') . '</h3>';
+      $output .= '<p>' . t('Provides functionality to manage ETL processes for Zinco.') . '</p>';
+      return $output;
+
+    default:
+  }
+}

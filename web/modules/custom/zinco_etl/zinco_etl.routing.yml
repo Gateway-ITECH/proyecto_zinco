@@ -1,0 +1,7 @@
+zinco_etl.settings_form:
+  path: '/admin/config/zinco-etl/settings'
+  defaults:
+    _form: '\Drupal\zinco_etl\Form\SettingsForm'
+    _title: 'Zinco ETL Settings'
+  requirements:
+    _permission: 'administer zinco etl configuration'

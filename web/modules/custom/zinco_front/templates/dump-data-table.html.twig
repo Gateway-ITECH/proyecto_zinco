@@ -1,0 +1,36 @@
+{#
+/**
+ * @file
+ * Default theme implementation for displaying dumped table data.
+ *
+ * Available variables:
+ * - table_name: The name of the table being displayed.
+ * - headers: An array of table headers.
+ * - rows: An array of table rows, where each row is an array of cell data.
+ */
+#}
+<div class="dump-data-table">
+  <h2>{{ 'Data from table: @table_name'|t({'@table_name': table_name}) }}</h2>
+  {% if rows %}
+    <table class="views-table">
+      <thead>
+        <tr>
+          {% for header in headers %}
+            <th>{{ header }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+          <tr>
+            {% for cell in row %}
+              <td>{{ cell }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>{{ 'No data found for table: @table_name'|t({'@table_name': table_name}) }}</p>
+  {% endif %}
+</div>

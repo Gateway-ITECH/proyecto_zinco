@@ -1,0 +1,4 @@
+administer zinco_actors_zincoactors types:
+  title: 'Administer zincoactors types'
+  description: 'Maintain the types of zincoactors entity.'
+  restrict access: true

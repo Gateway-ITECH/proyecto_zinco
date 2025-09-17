@@ -1,0 +1,5 @@
+name: 'Zinco Front'
+type: module
+description: 'Custom module for Zinco Front-end functionalities.'
+package: Zinco
+core_version_requirement: ^10 || ^11

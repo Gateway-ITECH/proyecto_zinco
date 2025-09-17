@@ -1,0 +1,4 @@
+administer zinco etl configuration:
+  title: 'Administer Zinco ETL configuration'
+  description: 'Allow users to configure Zinco ETL settings.'
+  restrict access: true

@@ -1,0 +1,11 @@
+entity.zinco_reconocimientos_type.collection:
+  title: 'Zinco reconocimientos types'
+  description: 'Manage and CRUD actions on Zinco reconocimientos type.'
+  parent: system.admin_structure
+  route_name: entity.zinco_reconocimientos_type.collection
+
+entity.zinco_reconocimientos.collection:
+  title: 'Zinco reconocimientoss'
+  description: 'List of zinco reconocimientoss.'
+  route_name: entity.zinco_reconocimientos.collection
+  parent: system.admin_content

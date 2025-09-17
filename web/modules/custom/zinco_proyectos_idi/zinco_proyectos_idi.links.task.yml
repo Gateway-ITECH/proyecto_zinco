@@ -1,0 +1,22 @@
+entity.zinco_proyectos_idi.settings:
+  title: 'Settings'
+  route_name: entity.zinco_proyectos_idi.settings
+  base_route: entity.zinco_proyectos_idi.settings
+entity.zinco_proyectos_idi.view:
+  title: 'View'
+  route_name: entity.zinco_proyectos_idi.canonical
+  base_route: entity.zinco_proyectos_idi.canonical
+entity.zinco_proyectos_idi.edit_form:
+  title: 'Edit'
+  route_name: entity.zinco_proyectos_idi.edit_form
+  base_route: entity.zinco_proyectos_idi.canonical
+entity.zinco_proyectos_idi.delete_form:
+  title: 'Delete'
+  route_name: entity.zinco_proyectos_idi.delete_form
+  base_route: entity.zinco_proyectos_idi.canonical
+  weight: 10
+entity.zinco_proyectos_idi.collection:
+  title: 'Zinco proyectos idis'
+  route_name: entity.zinco_proyectos_idi.collection
+  base_route: system.admin_content
+  weight: 10

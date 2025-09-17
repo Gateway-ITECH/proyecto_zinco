@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - zinco_actors
+id: zinco_actors_zincoactors_delete_action
+label: 'Delete zincoactorss'
+type: zinco_actors_zincoactors
+plugin: entity:delete_action:zinco_actors_zincoactors
+configuration: {  }

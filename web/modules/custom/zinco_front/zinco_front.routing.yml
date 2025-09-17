@@ -1,0 +1,71 @@
+zinco_front.home:
+  path: '/home'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::home'
+    _title: 'Home'
+  requirements:
+    _permission: 'access content'
+
+zinco_front.dashboard:
+  path: '/dashboard'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::dashboard'
+  requirements:
+    _permission: 'access content'
+
+zinco_front.perfil_empresas:
+  path: '/perfiles/empresas'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::perfil_empresas'
+  requirements:
+    _permission: 'access content'
+
+zinco_front.perfil_ies:
+  path: '/perfiles/ies'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::perfil_ies'
+    _title: 'Perfil de IES'
+  requirements:
+    _permission: 'access content'
+
+zinco_front.perfil_entidades_gobierno:
+  path: '/perfiles/entidades-gobierno'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::perfil_entidades_gobierno'
+  requirements:
+    _permission: 'access content'
+zinco_front.dump_data:
+  path: '/dump-data/{tableName}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::dumpData'
+    _title: 'Dump Data'
+  requirements:
+    _permission: 'access content'
+
+zinco_front.perfil_investigador:
+  path: '/perfiles/investigador'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::perfil_investigador'
+  requirements:
+    _permission: 'access content'
+
+zinco_front.perfil_grupos_investigacion:
+  path: '/perfiles/grupos-investigacion'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::perfil_grupos_investigacion'
+  requirements:
+    _permission: 'access content'
+
+zinco_front.perfil_parque_tecnologico:
+  path: '/perfiles/parque-tecnologico'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::perfil_parque_tecnologico'
+  requirements:
+    _permission: 'access content'
+
+zinco_front.perfil_agente_financiador:
+  path: '/perfiles/agente-financiador'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::perfil_agente_financiador'
+  requirements:
+    _permission: 'access content'

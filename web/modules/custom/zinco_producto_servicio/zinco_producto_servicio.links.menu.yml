@@ -1,0 +1,11 @@
+entity.zinco_producto_servicio_type.collection:
+  title: 'Zinco producto servicio types'
+  description: 'Manage and CRUD actions on Zinco producto servicio type.'
+  parent: system.admin_structure
+  route_name: entity.zinco_producto_servicio_type.collection
+
+entity.zinco_producto_servicio.collection:
+  title: 'Zinco producto servicios'
+  description: 'List of zinco producto servicios.'
+  route_name: entity.zinco_producto_servicio.collection
+  parent: system.admin_content

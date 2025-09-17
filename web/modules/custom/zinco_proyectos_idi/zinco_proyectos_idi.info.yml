@@ -1,0 +1,5 @@
+name: 'Zinco proyectos idi'
+type: module
+description: 'Zinco proyectos idi module'
+package: 'Zinco'
+core_version_requirement: ^10 || ^11

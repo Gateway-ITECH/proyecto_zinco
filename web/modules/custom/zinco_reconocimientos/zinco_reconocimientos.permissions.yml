@@ -1,0 +1,4 @@
+administer zinco_reconocimientos types:
+  title: 'Administer zinco reconocimientos types'
+  description: 'Maintain the types of zinco reconocimientos entity.'
+  restrict access: true

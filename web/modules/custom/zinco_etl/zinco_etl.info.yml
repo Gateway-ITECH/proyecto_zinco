@@ -1,0 +1,5 @@
+name: 'Zinco ETL'
+type: module
+description: 'Provides functionality to manage ETL processes for Zinco.'
+core_version_requirement: ^9 || ^10 || ^11
+package: 'Zinco'

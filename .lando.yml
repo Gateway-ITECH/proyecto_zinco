@@ -9,18 +9,59 @@ config:
   webroot: web
   database: mysql
   drush: global:12
+  xdebug: false
 services:
   database:
     type: mysql:8.0
     port: 3306
     healthcheck:
       command: mysql --defaults-extra-file=/app/.lando/mysql/healthcheck.cnf --silent --execute "SHOW DATABASES;"
+  appserver:
+    overrides:
+      environment:
+        XDEBUG_MODE: 'debug,develop'
+    config:
+      php: .lando.php.ini
+ 
   pma:
     type: phpmyadmin:5.2
     hosts:
       - database
+  python:
+    type: python:3.11
+    # Define la sección 'build'
+    build:
+      # Usa un array de comandos para ejecutar.
+      - "pip install --no-cache-dir -r requirements.txt"
 php:
   memory_limit: 512M
   extensions:
     - gd
     - mbstring
+tooling:
+  phpunitdebug:
+    service: appserver
+    cmd: php -d xdebug.remote_port=9003 vendor/bin/phpunit
+
+  xdebug-on:
+    service: appserver
+    description: Enable Xdebug.
+    user: root
+    cmd:
+      - docker-php-ext-enable xdebug && kill -USR2 $(pgrep -o php-fpm) > /dev/null || /etc/init.d/apache2 reload
+      - tput setaf 2 && echo "Xdebug On" && tput sgr 0 && echo
+
+  xdebug-off:
+    service: appserver
+    description: Disable Xdebug.
+    user: root
+    cmd:
+      - rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && kill -USR2 $(pgrep -o php-fpm) > /dev/null || /etc/init.d/apache2 reload
+      - tput setaf 1 && echo "Xdebug Off" && tput sgr 0 && echo
+
+   # Agrega un comando 'python' que se ejecute en el servicio 'python'.
+  python:
+    service: python
+  # También es buena idea exponer 'pip' para gestionar paquetes.
+  pip:
+    service: python

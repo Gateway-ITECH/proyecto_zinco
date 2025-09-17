@@ -1,0 +1,90 @@
+<?php
+
+/**
+ * @file
+ * Primary hook implementations for the Zinco Front module.
+ */
+use Drupal\user\UserInterface;
+/**
+ * Implements hook_theme().
+ */
+function zinco_front_theme($existing_theme, $type, $theme_name) {
+  return [
+    'zinco_front_user_menu' => [
+      'variables' => [
+        'logged_in' => FALSE,
+        'user_name' => '',
+        'user_picture' => NULL,
+        'unread_notifications' => 0,
+        'logout_url' => '',
+      ],
+      'template' => 'block--user-menu',
+    ],
+    'dump_data_table' => [
+      'variables' => [
+        'table_name' => NULL,
+        'headers' => [],
+        'rows' => [],
+      ],
+      'template' => 'dump-data-table',
+    ],
+    'zinco_dashboard' => [
+      'variables' => [
+        'test_var' => NULL,
+      ],
+      'template' => 'zinco-dashboard',
+    ],
+    'perfil_investigador' => [
+      'variables' => [
+        'test_var' => NULL,
+      ],
+      'template' => 'perfil-investigador',
+    ],
+    'perfil_entidades_gobierno' => [
+      'variables' => [
+        'test_var' => NULL,
+      ],
+      'template' => 'perfil-entidades-gobierno',
+    ],
+    'perfil_grupos_investigacion' => [
+      'variables' => [
+        'title' => NULL,
+      ],
+      'template' => 'perfil-grupos-investigacion',
+    ],
+    'perfil_parque_tecnologico' => [
+      'variables' => [
+        'title' => NULL,
+      ],
+      'template' => 'perfil-parque-tecnologico',
+    ],
+    'perfil_empresas' => [
+      'variables' => [
+        'title' => NULL,
+      ],
+      'template' => 'perfil-empresas',
+    ],
+    'perfil_parque_tecnologico' => [
+      'variables' => [
+        'title' => NULL,
+      ],
+      'template' => 'perfil-parque-tecnologico',
+    ],
+    'perfil_agente_financiador' => [
+      'variables' => [
+        'title' => NULL,
+      ],
+      'template' => 'perfil-agente-financiador',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_user_update().
+ */
+function zinco_front_user_update(UserInterface $account) {
+  // Invalidate the user data cache when a user is updated.
+  var_dump($account->getCacheTags());
+  \Drupal::service('cache_tags.invalidator')->invalidateTags($account->getCacheTags());
+}
+

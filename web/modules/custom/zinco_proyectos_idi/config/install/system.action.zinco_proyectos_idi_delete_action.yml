@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - zinco_proyectos_idi
+id: zinco_proyectos_idi_delete_action
+label: 'Delete zinco proyectos idis'
+type: zinco_proyectos_idi
+plugin: entity:delete_action:zinco_proyectos_idi
+configuration: {  }

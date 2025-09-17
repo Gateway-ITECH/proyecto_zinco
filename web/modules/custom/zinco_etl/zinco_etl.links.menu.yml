@@ -1,0 +1,6 @@
+zinco_etl.settings_form:
+  title: 'Zinco ETL settings'
+  description: 'Configure settings for Zinco ETL module.'
+  parent: system.admin_config_development
+  route_name: zinco_etl.settings_form
+  weight: 10

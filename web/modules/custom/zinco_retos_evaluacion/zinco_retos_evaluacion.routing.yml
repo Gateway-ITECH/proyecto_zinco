@@ -1,0 +1,7 @@
+entity.zinco_retos_evaluacion.settings:
+  path: 'admin/structure/zinco-retos-evaluacion'
+  defaults:
+    _form: '\Drupal\zinco_retos_evaluacion\Form\ZincoRetosEvaluacionSettingsForm'
+    _title: 'Zinco retos evaluacion'
+  requirements:
+    _permission: 'administer zinco_retos_evaluacion'

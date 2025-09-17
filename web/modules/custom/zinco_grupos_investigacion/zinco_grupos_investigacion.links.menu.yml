@@ -1,0 +1,11 @@
+entity.zinco_grupos_investigacion.settings:
+  title: 'Zinco grupos investigacion'
+  description: 'Configure a Zinco grupos investigacion entity type.'
+  route_name:  entity.zinco_grupos_investigacion.settings
+  parent: system.admin_structure
+
+entity.zinco_grupos_investigacion.collection:
+  title: 'Zinco grupos investigacions'
+  description: 'List of zinco grupos investigacions.'
+  route_name: entity.zinco_grupos_investigacion.collection
+  parent: system.admin_content

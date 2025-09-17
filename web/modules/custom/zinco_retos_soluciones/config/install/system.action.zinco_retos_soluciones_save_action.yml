@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - zinco_retos_soluciones
+id: zinco_retos_soluciones_save_action
+label: 'Save zinco retos solucioness'
+type: zinco_retos_soluciones
+plugin: entity:save_action:zinco_retos_soluciones
+configuration: {  }

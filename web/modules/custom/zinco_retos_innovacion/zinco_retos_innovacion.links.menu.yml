@@ -1,0 +1,11 @@
+entity.zinco_retos_innovacion_type.collection:
+  title: 'Zinco retos innovacion types'
+  description: 'Manage and CRUD actions on Zinco retos innovacion type.'
+  parent: system.admin_structure
+  route_name: entity.zinco_retos_innovacion_type.collection
+
+entity.zinco_retos_innovacion.collection:
+  title: 'Zinco retos innovacions'
+  description: 'List of zinco retos innovacions.'
+  route_name: entity.zinco_retos_innovacion.collection
+  parent: system.admin_content

@@ -1,0 +1,3 @@
+administer zinco_proyectos_idi:
+  title: 'Administer zinco proyectos idis'
+  restrict access: true

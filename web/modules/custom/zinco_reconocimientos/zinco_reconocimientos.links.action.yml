@@ -1,0 +1,11 @@
+zinco_reconocimientos.type_add:
+  title: 'Add zinco reconocimientos type'
+  route_name: entity.zinco_reconocimientos_type.add_form
+  appears_on:
+    - entity.zinco_reconocimientos_type.collection
+
+zinco_reconocimientos.add_page:
+  title: 'Add zinco reconocimientos'
+  route_name: entity.zinco_reconocimientos.add_page
+  appears_on:
+    - entity.zinco_reconocimientos.collection

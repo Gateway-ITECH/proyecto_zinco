@@ -1,0 +1,10 @@
+entity.zinco_retos_soluciones.edit_form:
+  route_name: entity.zinco_retos_soluciones.edit_form
+  group: zinco_retos_soluciones
+  title: 'Edit'
+
+entity.zinco_retos_soluciones.delete_form:
+  route_name: entity.zinco_retos_soluciones.delete_form
+  group: zinco_retos_soluciones
+  title: 'Delete'
+  weight: 10

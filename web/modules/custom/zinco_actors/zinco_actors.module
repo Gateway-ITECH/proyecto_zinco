@@ -1,0 +1,83 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for zinco_actors module.
+ */
+
+use Drupal\Core\Render\Element;
+use Drupal\user\UserInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function zinco_actors_theme(): array {
+  return [
+    'zinco_actors_zincoactors' => ['render element' => 'elements'],
+  ];
+}
+
+/**
+ * Prepares variables for zincoactors templates.
+ *
+ * Default template: zinco-actors-zincoactors.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An associative array containing the zincoactors information and any
+ *     fields attached to the entity.
+ *   - attributes: HTML attributes for the containing element.
+ */
+function template_preprocess_zinco_actors_zincoactors(array &$variables): void {
+  $variables['view_mode'] = $variables['elements']['#view_mode'];
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+}
+
+/**
+ * Implements hook_user_cancel().
+ */
+function zinco_actors_user_cancel($edit, UserInterface $account, $method): void {
+  switch ($method) {
+    case 'user_cancel_block_unpublish':
+      // Unpublish zincoactorss.
+      $storage = \Drupal::entityTypeManager()->getStorage('zinco_actors_zincoactors');
+      $zinco_actors_zincoactors_ids = $storage->getQuery()
+        ->condition('uid', $account->id())
+        ->condition('status', 1)
+        ->accessCheck(FALSE)
+        ->execute();
+      foreach ($storage->loadMultiple($zinco_actors_zincoactors_ids) as $zinco_actors_zincoactors) {
+        $zinco_actors_zincoactors->set('status', FALSE)->save();
+      }
+      break;
+
+    case 'user_cancel_reassign':
+      // Anonymize zincoactorss.
+      $storage = \Drupal::entityTypeManager()->getStorage('zinco_actors_zincoactors');
+      $zinco_actors_zincoactors_ids = $storage->getQuery()
+        ->condition('uid', $account->id())
+        ->accessCheck(FALSE)
+        ->execute();
+      foreach ($storage->loadMultiple($zinco_actors_zincoactors_ids) as $zinco_actors_zincoactors) {
+        $zinco_actors_zincoactors->setOwnerId(0)->save();
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_predelete() for user entities.
+ */
+function zinco_actors_user_predelete(UserInterface $account): void {
+  // Delete zincoactorss that belong to this account.
+  $storage = \Drupal::entityTypeManager()->getStorage('zinco_actors_zincoactors');
+  $zinco_actors_zincoactors_ids = $storage->getQuery()
+    ->condition('uid', $account->id())
+    ->accessCheck(FALSE)
+    ->execute();
+  $storage->delete(
+    $storage->loadMultiple($zinco_actors_zincoactors_ids)
+  );
+}
