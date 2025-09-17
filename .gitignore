@@ -6,24 +6,6 @@
 /web/sites/*/temp/
 /vendor/
 /web/modules/contrib/
-/web/themes/contrib/bootstrap_barrio/components/
-/web/themes/contrib/bootstrap_barrio/config/
-/web/themes/contrib/bootstrap_barrio/css/
-/web/themes/contrib/bootstrap_barrio/fonts/
-/web/themes/contrib/bootstrap_barrio/images/
-/web/themes/contrib/bootstrap_barrio/js/
-/web/themes/contrib/bootstrap_barrio/layouts/
-/web/themes/contrib/bootstrap_barrio/scss/
-/web/themes/contrib/bootstrap_barrio/templates/
-/web/themes/contrib/bootstrap_barrio/tests/
-/web/themes/contrib/bootstrap_barrio/*.yml
-/web/themes/contrib/bootstrap_barrio/*.php
-/web/themes/contrib/bootstrap_barrio/*.theme
-/web/themes/contrib/bootstrap_barrio/*.json
-/web/themes/contrib/bootstrap_barrio/*.txt
-/web/themes/contrib/bootstrap_barrio/*.png
-/web/themes/contrib/bootstrap_barrio/*.svg
-/web/themes/contrib/bootstrap_barrio/*.md
 /web/profiles/contrib/
 /web/libraries/
 
