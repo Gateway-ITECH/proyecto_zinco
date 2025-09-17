@@ -1,0 +1,5 @@
+zinco_retos_evaluacion.add_form:
+  title: 'Add zinco retos evaluacion'
+  route_name: entity.zinco_retos_evaluacion.add_form
+  appears_on:
+    - entity.zinco_retos_evaluacion.collection

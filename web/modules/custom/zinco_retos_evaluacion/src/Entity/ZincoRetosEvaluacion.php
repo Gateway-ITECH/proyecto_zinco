@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drupal\zinco_proyectos_idi\Entity;
+namespace Drupal\zinco_retos_evaluacion\Entity;
 
 use Drupal\Core\Entity\Attribute\ContentEntityType;
 use Drupal\Core\Entity\ContentEntityBase;
@@ -16,19 +16,19 @@ use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\user\EntityOwnerTrait;
 use Drupal\views\EntityViewsData;
-use Drupal\zinco_proyectos_idi\Form\ZincoProyectosIdiForm;
-use Drupal\zinco_proyectos_idi\ZincoProyectosIdiInterface;
-use Drupal\zinco_proyectos_idi\ZincoProyectosIdiListBuilder;
+use Drupal\zinco_retos_evaluacion\Form\ZincoRetosEvaluacionForm;
+use Drupal\zinco_retos_evaluacion\ZincoRetosEvaluacionInterface;
+use Drupal\zinco_retos_evaluacion\ZincoRetosEvaluacionListBuilder;
 
 /**
- * Defines the zinco proyectos idi entity class.
+ * Defines the zinco retos evaluacion entity class.
  */
 #[ContentEntityType(
-  id: 'zinco_proyectos_idi',
-  label: new TranslatableMarkup('Zinco proyectos idi'),
-  label_collection: new TranslatableMarkup('Zinco proyectos idis'),
-  label_singular: new TranslatableMarkup('zinco proyectos idi'),
-  label_plural: new TranslatableMarkup('zinco proyectos idis'),
+  id: 'zinco_retos_evaluacion',
+  label: new TranslatableMarkup('Zinco retos evaluacion'),
+  label_collection: new TranslatableMarkup('Zinco retos evaluacions'),
+  label_singular: new TranslatableMarkup('zinco retos evaluacion'),
+  label_plural: new TranslatableMarkup('zinco retos evaluacions'),
   entity_keys: [
     'id' => 'id',
     'label' => 'label',
@@ -37,11 +37,11 @@ use Drupal\zinco_proyectos_idi\ZincoProyectosIdiListBuilder;
     'uuid' => 'uuid',
   ],
   handlers: [
-    'list_builder' => ZincoProyectosIdiListBuilder::class,
+    'list_builder' => ZincoRetosEvaluacionListBuilder::class,
     'views_data' => EntityViewsData::class,
     'form' => [
-      'add' => ZincoProyectosIdiForm::class,
-      'edit' => ZincoProyectosIdiForm::class,
+      'add' => ZincoRetosEvaluacionForm::class,
+      'edit' => ZincoRetosEvaluacionForm::class,
       'delete' => ContentEntityDeleteForm::class,
       'delete-multiple-confirm' => DeleteMultipleForm::class,
     ],
@@ -50,22 +50,22 @@ use Drupal\zinco_proyectos_idi\ZincoProyectosIdiListBuilder;
     ],
   ],
   links: [
-    'collection' => '/admin/content/zinco-proyectos-idi',
-    'add-form' => '/zinco-proyectos-idi/add',
-    'canonical' => '/zinco-proyectos-idi/{zinco_proyectos_idi}',
-    'edit-form' => '/zinco-proyectos-idi/{zinco_proyectos_idi}/edit',
-    'delete-form' => '/zinco-proyectos-idi/{zinco_proyectos_idi}/delete',
-    'delete-multiple-form' => '/admin/content/zinco-proyectos-idi/delete-multiple',
+    'collection' => '/admin/content/zinco-retos-evaluacion',
+    'add-form' => '/zinco-retos-evaluacion/add',
+    'canonical' => '/zinco-retos-evaluacion/{zinco_retos_evaluacion}',
+    'edit-form' => '/zinco-retos-evaluacion/{zinco_retos_evaluacion}/edit',
+    'delete-form' => '/zinco-retos-evaluacion/{zinco_retos_evaluacion}/delete',
+    'delete-multiple-form' => '/admin/content/zinco-retos-evaluacion/delete-multiple',
   ],
-  admin_permission: 'administer zinco_proyectos_idi',
-  base_table: 'zinco_proyectos_idi',
+  admin_permission: 'administer zinco_retos_evaluacion',
+  base_table: 'zinco_retos_evaluacion',
   label_count: [
-    'singular' => '@count zinco proyectos idis',
-    'plural' => '@count zinco proyectos idis',
+    'singular' => '@count zinco retos evaluacions',
+    'plural' => '@count zinco retos evaluacions',
   ],
-  field_ui_base_route: 'entity.zinco_proyectos_idi.settings',
+  field_ui_base_route: 'entity.zinco_retos_evaluacion.settings',
 )]
-class ZincoProyectosIdi extends ContentEntityBase implements ZincoProyectosIdiInterface {
+class ZincoRetosEvaluacion extends ContentEntityBase implements ZincoRetosEvaluacionInterface {
 
   use EntityChangedTrait;
   use EntityOwnerTrait;
@@ -89,7 +89,7 @@ class ZincoProyectosIdi extends ContentEntityBase implements ZincoProyectosIdiIn
     $fields = parent::baseFieldDefinitions($entity_type);
 
     $fields['label'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Título'))
+      ->setLabel(t('Label'))
       ->setRequired(TRUE)
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', [
@@ -163,7 +163,7 @@ class ZincoProyectosIdi extends ContentEntityBase implements ZincoProyectosIdiIn
 
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Authored on'))
-      ->setDescription(t('The time that the zinco proyectos idi was created.'))
+      ->setDescription(t('The time that the zinco retos evaluacion was created.'))
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'timestamp',
@@ -178,7 +178,7 @@ class ZincoProyectosIdi extends ContentEntityBase implements ZincoProyectosIdiIn
 
     $fields['changed'] = BaseFieldDefinition::create('changed')
       ->setLabel(t('Changed'))
-      ->setDescription(t('The time that the zinco proyectos idi was last edited.'));
+      ->setDescription(t('The time that the zinco retos evaluacion was last edited.'));
 
     return $fields;
   }

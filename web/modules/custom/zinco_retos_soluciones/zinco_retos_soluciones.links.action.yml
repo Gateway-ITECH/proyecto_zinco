@@ -1,0 +1,5 @@
+zinco_retos_soluciones.add_form:
+  title: 'Add zinco retos soluciones'
+  route_name: entity.zinco_retos_soluciones.add_form
+  appears_on:
+    - entity.zinco_retos_soluciones.collection

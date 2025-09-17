@@ -95,4 +95,91 @@ class ZincoController extends ControllerBase {
     ];
   }
 
+  /**
+   * Returns an investigator profile page.
+   *
+   * @return array
+   *   A simple renderable array.
+   */
+  public function perfil_investigador() {
+    return [
+      '#theme' => 'perfil_investigador',
+    ];
+  }
+
+  /**
+   * Returns an empresas profile page.
+   *
+   * @return array
+   *   A simple renderable array.
+   */
+  public function perfil_empresas() {
+    return [
+      '#theme' => 'perfil_empresas',
+    ];
+  }
+
+  /**
+   * Returns an IES profile page.
+   *
+   * @return array
+   *   A simple renderable array.
+   */
+  public function perfil_ies() {
+    return [
+      '#theme' => 'perfil_ies',
+      '#title' => $this->t('Perfil de IES'),
+    ];
+   
+  
+  }
+
+  /**
+   * Returns an entidades gobierno profile page.
+   *
+   * @return array
+   *   A simple renderable array.
+   */
+  public function perfil_entidades_gobierno() {
+    return [
+      '#theme' => 'perfil_entidades_gobierno',
+    ];
+  }
+  
+    /**
+     * Returns a parque tecnologico profile page.
+     *
+     * @return array
+     *   A simple renderable array.
+     */
+    public function perfil_parque_tecnologico() {
+      return [
+        '#theme' => 'perfil_parque_tecnologico',
+      ];
+    }
+
+   /**
+     * Returns a research group profile page.
+     *
+     * @return array
+     *   A simple renderable array.
+     */
+    public function perfil_grupos_investigacion() {
+      return [
+        '#theme' => 'perfil_grupos_investigacion',
+      ];
+    }
+
+  /**
+   * Returns a financiador profile page.
+   *
+   * @return array
+   *   A simple renderable array.
+   */
+  public function perfil_agente_financiador() {
+    return [
+      '#theme' => 'perfil_agente_financiador',
+    ];
+  }
+
 }

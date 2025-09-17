@@ -1,0 +1,11 @@
+entity.zinco_retos_soluciones.settings:
+  title: 'Zinco retos soluciones'
+  description: 'Configure a Zinco retos soluciones entity type.'
+  route_name:  entity.zinco_retos_soluciones.settings
+  parent: system.admin_structure
+
+entity.zinco_retos_soluciones.collection:
+  title: 'Zinco retos solucioness'
+  description: 'List of zinco retos solucioness.'
+  route_name: entity.zinco_retos_soluciones.collection
+  parent: system.admin_content

@@ -1,0 +1,3 @@
+administer zinco_retos_evaluacion:
+  title: 'Administer zinco retos evaluacions'
+  restrict access: true

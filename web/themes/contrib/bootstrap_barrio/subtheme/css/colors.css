@@ -45,7 +45,7 @@ a:focus,
   color: white;
 }
 .nav-link {
-  color: rgb(231, 231, 231);
+  color: #ccc;
 }
 .nav-link:hover,
 .nav-link:focus {

@@ -1,0 +1,7 @@
+entity.zinco_retos_soluciones.settings:
+  path: 'admin/structure/zinco-retos-soluciones'
+  defaults:
+    _form: '\Drupal\zinco_retos_soluciones\Form\ZincoRetosSolucionesSettingsForm'
+    _title: 'Zinco retos soluciones'
+  requirements:
+    _permission: 'administer zinco_retos_soluciones'

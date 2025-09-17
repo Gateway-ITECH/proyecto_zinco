@@ -1,0 +1,11 @@
+entity.zinco_retos_evaluacion.settings:
+  title: 'Zinco retos evaluacion'
+  description: 'Configure a Zinco retos evaluacion entity type.'
+  route_name:  entity.zinco_retos_evaluacion.settings
+  parent: system.admin_structure
+
+entity.zinco_retos_evaluacion.collection:
+  title: 'Zinco retos evaluacions'
+  description: 'List of zinco retos evaluacions.'
+  route_name: entity.zinco_retos_evaluacion.collection
+  parent: system.admin_content

@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - zinco_retos_evaluacion
+id: zinco_retos_evaluacion_delete_action
+label: 'Delete zinco retos evaluacions'
+type: zinco_retos_evaluacion
+plugin: entity:delete_action:zinco_retos_evaluacion
+configuration: {  }

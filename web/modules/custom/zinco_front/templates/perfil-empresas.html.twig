@@ -1,0 +1,203 @@
+{#
+/**
+ * @file
+ * Zinco Front investigator profile page.
+ *
+ * Available variables:
+ * - title: The title of the page.
+ */
+#}
+<div class="card mb-3">
+  <div class="row g-0">
+    <div class="col-md-3 d-flex align-items-center justify-content-center">
+      <img src="https://placehold.co/100x100?text=Empresa" class="img-fluid rounded-start p-3" alt="Company Logo">
+    </div>
+    <div class="col-md-9">
+      <div class="card-body">
+        <p class="card-text text-muted mb-0">Empresa Explotadora de Conocimiento</p>
+        <h4 class="card-title">Agro-Innovación S.A.S.</h4>
+        <p class="card-text">Transformando el campo con tecnología</p>
+        <p class="card-text">
+          <small class="text-muted">
+            <span class="icon-industry me-1"></span>Sector: <strong>AgroTech</strong>
+            <span class="icon-users me-1 ms-3"></span>Tamaño: <strong>Mediana (51-200 emp.)</strong>
+            <span class="icon-location-dot me-1 ms-3"></span>Medellín, Antioquia
+          </small>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+      <div class="col-md-8">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Información General</h5>
+            <div class="row">
+              <div class="col-md-6">
+                <p class="card-text text-muted mb-0">Razón Social</p>
+                <p class="card-text">Agro-Innovación S.A.S.</p>
+              </div>
+              <div class="col-md-6">
+                <p class="card-text text-muted mb-0">NIT</p>
+                <p class="card-text">900.123.456-7</p>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <h6 class="mb-1">Descripción de la Empresa</h6>
+                <p class="card-text"><strong>Misión:</strong> Potenciar la productividad y sostenibilidad del sector agrícola a través de soluciones tecnológicas innovadoras, accesibles y fáciles de usar para los agricultores.</p>
+                <p class="card-text"><strong>Visión:</strong> Ser la empresa líder en AgroTech en América Latina, reconocida por nuestro impacto en la seguridad alimentaria y el desarrollo rural.</p>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <h6 class="mb-1">Productos y Propuesta de Valor</h6>
+                <p class="card-text">Ofrecemos una plataforma integral (SaaS) con sensores IoT para monitoreo de cultivos en tiempo real, análisis de datos con IA para predicción de cosechas y optimización de recursos hídricos. Nuestra propuesta de valor radica en democratizar la agricultura de precisión.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion mb-3" id="accordionInnovationActivity">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingInnovationActivity">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInnovationActivity" aria-expanded="true" aria-controls="collapseInnovationActivity">
+                Actividad de Innovación
+              </button>
+            </h2>
+            <div id="collapseInnovationActivity" class="accordion-collapse collapse show" aria-labelledby="headingInnovationActivity" data-bs-parent="#accordionInnovationActivity">
+              <div class="accordion-body">
+                <ul class="nav nav-tabs" id="innovationTabs" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="projects-idi-tab" data-bs-toggle="tab" data-bs-target="#projects-idi" type="button" role="tab" aria-controls="projects-idi" aria-selected="true">Proyectos I+D+i</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="absorption-capacity-tab" data-bs-toggle="tab" data-bs-target="#absorption-capacity" type="button" role="tab" aria-controls="absorption-capacity" aria-selected="false">Capacidad de Absorción</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="incentives-received-tab" data-bs-toggle="tab" data-bs-target="#incentives-received" type="button" role="tab" aria-controls="incentives-received" aria-selected="false">Incentivos Recibidos</button>
+                  </li>
+                </ul>
+                <div class="tab-content pt-3" id="innovationTabContent">
+                  <div class="tab-pane fade show active" id="projects-idi" role="tabpanel" aria-labelledby="projects-idi-tab">
+                    <div class="card mb-2">
+                      <div class="card-body">
+                        <p class="mb-0">Desarrollo de un algoritmo de IA para la detección temprana de plagas en cultivos de café.</p>
+                        <p class="text-muted mb-0"><small>Tipo: Interno | Estado: Finalizado</small></p>
+                      </div>
+                    </div>
+                    <div class="card mb-2">
+                      <div class="card-body">
+                        <p class="mb-0">Proyecto de co-creación con la Universidad de Antioquia para el desarrollo de sensores de bajo costo.</p>
+                        <p class="text-muted mb-0"><small>Tipo: Colaboración | Estado: En curso</small></p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="absorption-capacity" role="tabpanel" aria-labelledby="absorption-capacity-tab">
+                    <p>Contenido de Capacidad de Absorción para Empresas</p>
+                  </div>
+                  <div class="tab-pane fade" id="incentives-received" role="tabpanel" aria-labelledby="incentives-received-tab">
+                    <p>Contenido de Incentivos Recibidos para Empresas</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion mb-3" id="accordionInnovationChallenges">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingInnovationChallenges">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInnovationChallenges" aria-expanded="true" aria-controls="collapseInnovationChallenges">
+                Retos de Innovación Publicados
+              </button>
+            </h2>
+            <div id="collapseInnovationChallenges" class="accordion-collapse collapse show" aria-labelledby="headingInnovationChallenges" data-bs-parent="#accordionInnovationChallenges">
+              <div class="accordion-body">
+                <div class="card mb-2">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                      <h6 class="mb-0">Optimización del uso de fertilizantes en cultivos de papa</h6>
+                      <span class="badge bg-success-subtle text-success">Abierto</span>
+                    </div>
+                    <p class="card-text text-muted mt-2">Buscamos soluciones que permitan reducir en un 20% el uso de fertilizantes nitrogenados sin afectar la productividad.</p>
+                  </div>
+                </div>
+                <div class="card mb-2">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                      <h6 class="mb-0">Sistema de trazabilidad para cacao de origen usando Blockchain</h6>
+                      <span class="badge bg-warning-subtle text-warning">En evaluación</span>
+                    </div>
+                    <p class="card-text text-muted mt-2">Desarrollar una solución para garantizar la trazabilidad y calidad del cacao desde la finca hasta el consumidor final.</p>
+                  </div>
+                </div>
+                <div class="card mb-2">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                      <h6 class="mb-0">Automatización de la cosecha de aguacate Hass</h6>
+                      <span class="badge bg-secondary-subtle text-secondary">Cerrado</span>
+                    </div>
+                    <p class="card-text text-muted mt-2">Se buscó un prototipo de robot o sistema automatizado para la recolección del fruto.</p>
+                  </div>
+                </div>
+                <a href="#" class="mt-3 d-block">Ver todos los retos</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-4">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Líneas de Negocio e Innovación</h5>
+            <ul class="list-unstyled">
+              <li class="mb-2"><span class="icon-seedling me-2"></span>Agricultura de Precisión</li>
+              <li class="mb-2"><span class="icon-flask me-2"></span>Biotecnología Agrícola</li>
+              <li class="mb-2"><span class="icon-leaf me-2"></span>Desarrollo de Biopesticidas</li>
+              <li class="mb-0"><span class="icon-robot me-2"></span>Automatización en Cultivos</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Contacto</h5>
+            <p class="card-text"><span class="icon-building me-2"></span><strong>Dirección</strong></p>
+            <p class="card-text">Calle 10 # 20-30, El Poblado, Medellín, Antioquia</p>
+            <p class="card-text mt-3"><span class="icon-phone me-2"></span><strong>Teléfono</strong></p>
+            <p class="card-text">+57 4 123 4567</p>
+            <p class="card-text mt-3"><span class="icon-envelope me-2"></span><strong>Email</strong></p>
+            <p class="card-text">contacto@agroinnovacion.com</p>
+            <p class="card-text mt-3"><span class="icon-globe me-2"></span><strong>Sitio Web</strong></p>
+            <p class="card-text"><a href="http://www.agroinnovacion.com" target="_blank">www.agroinnovacion.com</a></p>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Alianzas y Colaboraciones</h5>
+            <p class="card-text"><strong>Universidades</strong></p>
+            <p class="card-text">Universidad Nacional de Colombia, Universidad EAFIT</p>
+            <p class="card-text mt-3"><strong>Empresas</strong></p>
+            <p class="card-text">TecnoCultivo S.A., BioAgro Ltda.</p>
+            <p class="card-text mt-3"><strong>Centros de Investigación</strong></p>
+            <p class="card-text">Corpoica, Agrosavia</p>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Reconocimientos y Certificaciones</h5>
+            <p class="card-text"><strong>Premios</strong></p>
+            <p class="card-text">Premio Nacional de Innovación Agrícola 2022</p>
+            <p class="card-text mt-3"><strong>Certificaciones</strong></p>
+            <p class="card-text">ISO 9001, Certificación de Buenas Prácticas Agrícolas (BPA)</p>
+          </div>
+        </div>
+      </div>
+</div>
+

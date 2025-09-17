@@ -1,0 +1,22 @@
+entity.zinco_retos_soluciones.settings:
+  title: 'Settings'
+  route_name: entity.zinco_retos_soluciones.settings
+  base_route: entity.zinco_retos_soluciones.settings
+entity.zinco_retos_soluciones.view:
+  title: 'View'
+  route_name: entity.zinco_retos_soluciones.canonical
+  base_route: entity.zinco_retos_soluciones.canonical
+entity.zinco_retos_soluciones.edit_form:
+  title: 'Edit'
+  route_name: entity.zinco_retos_soluciones.edit_form
+  base_route: entity.zinco_retos_soluciones.canonical
+entity.zinco_retos_soluciones.delete_form:
+  title: 'Delete'
+  route_name: entity.zinco_retos_soluciones.delete_form
+  base_route: entity.zinco_retos_soluciones.canonical
+  weight: 10
+entity.zinco_retos_soluciones.collection:
+  title: 'Zinco retos solucioness'
+  route_name: entity.zinco_retos_soluciones.collection
+  base_route: system.admin_content
+  weight: 10
