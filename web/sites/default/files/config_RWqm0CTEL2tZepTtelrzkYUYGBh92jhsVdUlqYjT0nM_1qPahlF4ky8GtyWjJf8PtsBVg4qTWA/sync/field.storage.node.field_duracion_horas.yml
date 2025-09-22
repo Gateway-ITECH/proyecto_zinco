@@ -1,0 +1,20 @@
+uuid: 90bcdf0a-bc8e-40aa-bc08-ad20f1efd867
+langcode: es
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_duracion_horas
+field_name: field_duracion_horas
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

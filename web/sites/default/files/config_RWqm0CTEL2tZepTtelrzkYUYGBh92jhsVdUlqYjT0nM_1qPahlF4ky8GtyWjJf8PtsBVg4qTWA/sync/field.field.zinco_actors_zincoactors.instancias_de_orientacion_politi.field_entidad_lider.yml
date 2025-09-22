@@ -1,0 +1,35 @@
+uuid: 2102edf3-29f0-49cd-b4c7-45af3812692e
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_entidad_lider
+    - zinco_actors.zinco_actors_zincoactors_type.empresa_explotadora_de_conocimie
+    - zinco_actors.zinco_actors_zincoactors_type.empresa_generadora_de_conocimien
+    - zinco_actors.zinco_actors_zincoactors_type.entidad_gobierno
+    - zinco_actors.zinco_actors_zincoactors_type.instancias_de_orientacion_politi
+    - zinco_actors.zinco_actors_zincoactors_type.institucion_de_educacion_superio
+id: zinco_actors_zincoactors.instancias_de_orientacion_politi.field_entidad_lider
+field_name: field_entidad_lider
+entity_type: zinco_actors_zincoactors
+bundle: instancias_de_orientacion_politi
+label: 'Entidad lider'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:zinco_actors_zincoactors'
+  handler_settings:
+    target_bundles:
+      empresa_explotadora_de_conocimie: empresa_explotadora_de_conocimie
+      empresa_generadora_de_conocimien: empresa_generadora_de_conocimien
+      entidad_gobierno: entidad_gobierno
+      institucion_de_educacion_superio: institucion_de_educacion_superio
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: empresa_generadora_de_conocimien
+field_type: entity_reference

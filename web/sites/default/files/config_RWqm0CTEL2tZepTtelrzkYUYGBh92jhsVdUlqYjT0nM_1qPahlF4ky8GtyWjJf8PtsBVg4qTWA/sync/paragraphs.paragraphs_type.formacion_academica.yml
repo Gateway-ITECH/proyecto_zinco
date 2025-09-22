@@ -1,0 +1,10 @@
+uuid: b275b599-90d4-403c-820b-16d66eb53910
+langcode: es
+status: true
+dependencies: {  }
+id: formacion_academica
+label: 'Formación académica'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

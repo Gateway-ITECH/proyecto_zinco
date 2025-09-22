@@ -1,0 +1,21 @@
+uuid: a782bd7e-94f1-435d-a44f-6bd33886a455
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_fecha_de_apertura
+    - node.type.convocatoria
+  module:
+    - datetime
+id: node.convocatoria.field_fecha_de_apertura
+field_name: field_fecha_de_apertura
+entity_type: node
+bundle: convocatoria
+label: 'Fecha de apertura'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

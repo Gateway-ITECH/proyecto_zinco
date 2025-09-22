@@ -1,0 +1,23 @@
+uuid: e97b0cdd-fdf8-480a-87a6-a2243c69d7aa
+langcode: es
+status: true
+dependencies:
+  module:
+    - file
+    - zinco_retos_soluciones
+id: zinco_retos_soluciones.field_archvos_solucion
+field_name: field_archvos_solucion
+entity_type: zinco_retos_soluciones
+type: file
+settings:
+  target_type: file
+  display_field: false
+  display_default: false
+  uri_scheme: public
+module: file
+locked: false
+cardinality: 10
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

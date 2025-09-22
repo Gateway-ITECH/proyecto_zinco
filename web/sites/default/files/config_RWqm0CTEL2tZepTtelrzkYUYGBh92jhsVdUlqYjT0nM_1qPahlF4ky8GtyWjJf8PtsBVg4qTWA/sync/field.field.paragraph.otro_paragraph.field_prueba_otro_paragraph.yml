@@ -1,0 +1,29 @@
+uuid: 9427e2a4-f453-44d7-9439-05e19fbd80b8
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_prueba_otro_paragraph
+    - paragraphs.paragraphs_type.otro_paragraph
+    - zinco_actors.zinco_actors_zincoactors_type.entidad_gobierno
+id: paragraph.otro_paragraph.field_prueba_otro_paragraph
+field_name: field_prueba_otro_paragraph
+entity_type: paragraph
+bundle: otro_paragraph
+label: 'prueba otro paragraph'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:zinco_actors_zincoactors'
+  handler_settings:
+    target_bundles:
+      entidad_gobierno: entidad_gobierno
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,9 @@
+uuid: 505cf614-adf4-4ff7-a938-a73567370bc6
+langcode: es
+status: true
+dependencies: {  }
+id: parque_tecnologico
+label: 'Parque tecnológico'
+weight: 10
+is_admin: false
+permissions: {  }

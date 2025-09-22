@@ -1,0 +1,117 @@
+uuid: 2a64a2bc-ff7f-4b53-a553-01f27c880ca0
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.field.zinco_actors_zincoactors.parque_tecnologico.field_miembros_de_parque_tecnolo
+    - image.style.thumbnail
+    - zinco_actors.zinco_actors_zincoactors_type.parque_tecnologico
+  module:
+    - image
+    - paragraphs
+    - text
+id: zinco_actors_zincoactors.parque_tecnologico.default
+targetEntityType: zinco_actors_zincoactors
+bundle: parque_tecnologico
+mode: default
+content:
+  description:
+    type: text_textarea
+    weight: 1
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  email:
+    type: string_textfield
+    weight: 7
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_miembros_de_parque_tecnolo:
+    type: paragraphs
+    weight: 4
+    region: content
+    settings:
+      title: Párrafo
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  imagen_perfil:
+    type: image_image
+    weight: 9
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+  label:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  municipio:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  sector_economico_principal:
+    type: entity_reference_autocomplete
+    weight: 3
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  sitio_web:
+    type: string_textfield
+    weight: 8
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  tecnologias_clave:
+    type: entity_reference_autocomplete
+    weight: 2
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  telefono:
+    type: string_textfield
+    weight: 6
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

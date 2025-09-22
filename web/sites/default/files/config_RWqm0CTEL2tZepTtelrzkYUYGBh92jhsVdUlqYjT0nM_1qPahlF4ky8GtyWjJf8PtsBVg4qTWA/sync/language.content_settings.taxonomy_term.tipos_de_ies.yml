@@ -1,0 +1,11 @@
+uuid: e9a47a9f-ba7f-42d1-9f21-21bd2583d1f1
+langcode: es
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.tipos_de_ies
+id: taxonomy_term.tipos_de_ies
+target_entity_type_id: taxonomy_term
+target_bundle: tipos_de_ies
+default_langcode: site_default
+language_alterable: false

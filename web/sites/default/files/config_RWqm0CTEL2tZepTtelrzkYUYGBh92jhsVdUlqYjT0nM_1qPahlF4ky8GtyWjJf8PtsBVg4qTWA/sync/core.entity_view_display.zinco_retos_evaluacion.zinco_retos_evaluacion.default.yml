@@ -1,0 +1,114 @@
+uuid: 9975d977-2fa1-4f75-9442-35b168334b60
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.field.zinco_retos_evaluacion.zinco_retos_evaluacion.field_comentarios_evaluacion
+    - field.field.zinco_retos_evaluacion.zinco_retos_evaluacion.field_evaluador
+    - field.field.zinco_retos_evaluacion.zinco_retos_evaluacion.field_fecha_de_evaluacion
+    - field.field.zinco_retos_evaluacion.zinco_retos_evaluacion.field_puntuacion_de_solucion
+    - field.field.zinco_retos_evaluacion.zinco_retos_evaluacion.field_solucion_evaluada
+  module:
+    - datetime
+    - entity_reference_revisions
+    - text
+    - user
+    - zinco_retos_evaluacion
+id: zinco_retos_evaluacion.zinco_retos_evaluacion.default
+targetEntityType: zinco_retos_evaluacion
+bundle: zinco_retos_evaluacion
+mode: default
+content:
+  created:
+    type: timestamp
+    label: above
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+      tooltip:
+        date_format: long
+        custom_date_format: ''
+      time_diff:
+        enabled: false
+        future_format: '@interval hence'
+        past_format: '@interval ago'
+        granularity: 2
+        refresh: 60
+    third_party_settings: {  }
+    weight: 20
+    region: content
+  description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_comentarios_evaluacion:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 25
+    region: content
+  field_evaluador:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 22
+    region: content
+  field_fecha_de_evaluacion:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 23
+    region: content
+  field_puntuacion_de_solucion:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 24
+    region: content
+  field_solucion_evaluada:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 21
+    region: content
+  label:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: -5
+    region: content
+  status:
+    type: boolean
+    label: above
+    settings:
+      format: enabled-disabled
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  uid:
+    type: author
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 15
+    region: content
+hidden: {  }

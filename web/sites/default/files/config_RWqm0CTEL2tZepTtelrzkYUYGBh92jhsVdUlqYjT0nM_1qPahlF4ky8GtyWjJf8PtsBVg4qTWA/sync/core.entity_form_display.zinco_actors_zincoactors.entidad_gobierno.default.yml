@@ -1,0 +1,160 @@
+uuid: 1daee42d-e580-4ced-9eb5-6e92b211d570
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.field.zinco_actors_zincoactors.entidad_gobierno.field_cargo_representante_legal
+    - field.field.zinco_actors_zincoactors.entidad_gobierno.field_mecanismos_de_financiamien
+    - field.field.zinco_actors_zincoactors.entidad_gobierno.field_nivel_gobierno
+    - field.field.zinco_actors_zincoactors.entidad_gobierno.field_nombre_representante_legal
+    - field.field.zinco_actors_zincoactors.entidad_gobierno.field_normativas
+    - field.field.zinco_actors_zincoactors.entidad_gobierno.field_sede_principal
+    - field.field.zinco_actors_zincoactors.entidad_gobierno.field_tipo_entidad
+    - image.style.thumbnail
+    - zinco_actors.zinco_actors_zincoactors_type.entidad_gobierno
+  module:
+    - image
+    - text
+id: zinco_actors_zincoactors.entidad_gobierno.default
+targetEntityType: zinco_actors_zincoactors
+bundle: entidad_gobierno
+mode: default
+content:
+  description:
+    type: text_textarea
+    weight: 1
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  email:
+    type: string_textfield
+    weight: 11
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_cargo_representante_legal:
+    type: string_textfield
+    weight: 7
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_mecanismos_de_financiamien:
+    type: text_textfield
+    weight: 14
+    region: content
+    settings:
+      size: 255
+      placeholder: ''
+    third_party_settings: {  }
+  field_nivel_gobierno:
+    type: entity_reference_autocomplete
+    weight: 3
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_nombre_representante_legal:
+    type: string_textfield
+    weight: 6
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_normativas:
+    type: text_textfield
+    weight: 15
+    region: content
+    settings:
+      size: 255
+      placeholder: ''
+    third_party_settings: {  }
+  field_sede_principal:
+    type: string_textfield
+    weight: 9
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_tipo_entidad:
+    type: entity_reference_autocomplete
+    weight: 2
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  imagen_perfil:
+    type: image_image
+    weight: 13
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+  label:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  municipio:
+    type: entity_reference_autocomplete
+    weight: 8
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  sector_economico_principal:
+    type: options_select
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  sitio_web:
+    type: string_textfield
+    weight: 12
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  tecnologias_clave:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  telefono:
+    type: string_textfield
+    weight: 10
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

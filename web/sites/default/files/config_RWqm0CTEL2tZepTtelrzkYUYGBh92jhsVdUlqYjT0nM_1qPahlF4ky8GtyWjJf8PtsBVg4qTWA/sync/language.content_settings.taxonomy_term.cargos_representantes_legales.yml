@@ -1,0 +1,11 @@
+uuid: ef777e08-40b9-4b96-ab89-6562eebd0fef
+langcode: es
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.cargos_representantes_legales
+id: taxonomy_term.cargos_representantes_legales
+target_entity_type_id: taxonomy_term
+target_bundle: cargos_representantes_legales
+default_langcode: site_default
+language_alterable: false

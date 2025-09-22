@@ -1,0 +1,10 @@
+uuid: 3440edb2-3a78-4b14-ae80-e00c1c147f22
+langcode: es
+status: true
+dependencies: {  }
+id: trayectoria_profesional
+label: 'Trayectoria profesional'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

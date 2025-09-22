@@ -1,0 +1,9 @@
+uuid: 4c496d11-629d-470e-921c-386136344c6f
+langcode: es
+status: true
+dependencies: {  }
+name: 'Tipos de generadores de conocimiento'
+vid: tipos_de_generadores_de_conocimi
+description: 'Tipos de empresas generadoras de conocimiento'
+weight: 0
+new_revision: false

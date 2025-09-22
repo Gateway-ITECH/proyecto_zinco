@@ -1,0 +1,21 @@
+uuid: f629acff-f224-43a6-a54d-6745acdceccd
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_fecha_de_nacimiento
+    - zinco_actors.zinco_actors_zincoactors_type.investigador
+  module:
+    - datetime
+id: zinco_actors_zincoactors.investigador.field_fecha_de_nacimiento
+field_name: field_fecha_de_nacimiento
+entity_type: zinco_actors_zincoactors
+bundle: investigador
+label: 'Fecha de nacimiento'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

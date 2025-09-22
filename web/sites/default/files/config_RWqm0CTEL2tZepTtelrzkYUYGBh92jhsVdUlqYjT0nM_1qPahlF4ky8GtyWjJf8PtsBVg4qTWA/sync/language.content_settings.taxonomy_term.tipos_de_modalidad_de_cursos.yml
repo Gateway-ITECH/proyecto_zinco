@@ -1,0 +1,11 @@
+uuid: 6eac37ef-471c-4329-9c1c-e30846767731
+langcode: es
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.tipos_de_modalidad_de_cursos
+id: taxonomy_term.tipos_de_modalidad_de_cursos
+target_entity_type_id: taxonomy_term
+target_bundle: tipos_de_modalidad_de_cursos
+default_langcode: site_default
+language_alterable: false

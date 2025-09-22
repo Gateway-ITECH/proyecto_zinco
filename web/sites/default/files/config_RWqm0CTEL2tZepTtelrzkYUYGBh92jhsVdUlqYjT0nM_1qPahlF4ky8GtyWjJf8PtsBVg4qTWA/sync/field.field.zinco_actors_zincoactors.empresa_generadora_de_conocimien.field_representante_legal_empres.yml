@@ -1,0 +1,19 @@
+uuid: 7d556937-8f57-481a-a9bb-e799066c83c4
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_representante_legal_empres
+    - zinco_actors.zinco_actors_zincoactors_type.empresa_generadora_de_conocimien
+id: zinco_actors_zincoactors.empresa_generadora_de_conocimien.field_representante_legal_empres
+field_name: field_representante_legal_empres
+entity_type: zinco_actors_zincoactors
+bundle: empresa_generadora_de_conocimien
+label: 'Representante legal empresa'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

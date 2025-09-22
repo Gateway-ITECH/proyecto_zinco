@@ -1,0 +1,11 @@
+uuid: 6d5944a3-510b-4e1c-bc5f-f63e89efa9ad
+langcode: es
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.estados_proyectos
+id: taxonomy_term.estados_proyectos
+target_entity_type_id: taxonomy_term
+target_bundle: estados_proyectos
+default_langcode: site_default
+language_alterable: false

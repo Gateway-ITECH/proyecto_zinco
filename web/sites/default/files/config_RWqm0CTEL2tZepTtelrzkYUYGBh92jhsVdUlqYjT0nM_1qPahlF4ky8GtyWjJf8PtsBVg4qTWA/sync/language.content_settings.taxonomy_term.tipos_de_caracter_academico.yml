@@ -1,0 +1,11 @@
+uuid: 4582d06a-3b93-431d-b12b-32186a48e4dd
+langcode: es
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.tipos_de_caracter_academico
+id: taxonomy_term.tipos_de_caracter_academico
+target_entity_type_id: taxonomy_term
+target_bundle: tipos_de_caracter_academico
+default_langcode: site_default
+language_alterable: false

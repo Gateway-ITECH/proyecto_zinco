@@ -1,0 +1,11 @@
+uuid: 381979bd-9383-4795-bb38-46493fc27a54
+langcode: es
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.ciiu_colombia
+id: taxonomy_term.ciiu_colombia
+target_entity_type_id: taxonomy_term
+target_bundle: ciiu_colombia
+default_langcode: site_default
+language_alterable: false

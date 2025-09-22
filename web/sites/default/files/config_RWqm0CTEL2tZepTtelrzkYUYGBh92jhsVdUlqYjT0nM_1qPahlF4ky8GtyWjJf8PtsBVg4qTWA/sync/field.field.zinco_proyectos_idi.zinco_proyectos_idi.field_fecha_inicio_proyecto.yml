@@ -1,0 +1,21 @@
+uuid: c08efd7c-0ce5-4b09-bad9-9f337e69cc6b
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_proyectos_idi.field_fecha_inicio_proyecto
+  module:
+    - datetime
+    - zinco_proyectos_idi
+id: zinco_proyectos_idi.zinco_proyectos_idi.field_fecha_inicio_proyecto
+field_name: field_fecha_inicio_proyecto
+entity_type: zinco_proyectos_idi
+bundle: zinco_proyectos_idi
+label: 'Fecha inicio proyecto'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

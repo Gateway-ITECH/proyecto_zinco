@@ -1,0 +1,9 @@
+uuid: 4fc76cec-5455-4726-b2be-47c34d0ea813
+langcode: es
+status: true
+dependencies: {  }
+id: investigador
+label: Investigador
+weight: 9
+is_admin: false
+permissions: {  }

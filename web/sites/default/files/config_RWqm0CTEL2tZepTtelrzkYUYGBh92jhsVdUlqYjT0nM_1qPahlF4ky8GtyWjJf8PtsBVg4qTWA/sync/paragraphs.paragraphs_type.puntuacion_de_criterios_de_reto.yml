@@ -1,0 +1,10 @@
+uuid: 40ee58af-7bdb-4b4a-bef2-92db37891076
+langcode: es
+status: true
+dependencies: {  }
+id: puntuacion_de_criterios_de_reto
+label: 'Puntuación de criterios de reto'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

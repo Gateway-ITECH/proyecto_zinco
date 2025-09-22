@@ -1,0 +1,29 @@
+uuid: 696a9a00-46e6-48dd-bb7f-690dd826e6fa
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_estado_acreditacion
+    - taxonomy.vocabulary.estados_de_acreditacion_de_ies
+    - zinco_actors.zinco_actors_zincoactors_type.institucion_de_educacion_superio
+id: zinco_actors_zincoactors.institucion_de_educacion_superio.field_estado_acreditacion
+field_name: field_estado_acreditacion
+entity_type: zinco_actors_zincoactors
+bundle: institucion_de_educacion_superio
+label: 'Estado acreditación'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      estados_de_acreditacion_de_ies: estados_de_acreditacion_de_ies
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

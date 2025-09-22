@@ -1,0 +1,19 @@
+uuid: af856efb-d1a9-4bef-a651-e4290e5132a3
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_costo
+    - node.type.convocatoria
+id: node.convocatoria.field_costo
+field_name: field_costo
+entity_type: node
+bundle: convocatoria
+label: Costo
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

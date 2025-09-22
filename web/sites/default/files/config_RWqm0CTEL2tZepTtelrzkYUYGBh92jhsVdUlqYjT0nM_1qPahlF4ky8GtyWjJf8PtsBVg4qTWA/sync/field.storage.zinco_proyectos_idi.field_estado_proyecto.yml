@@ -1,0 +1,20 @@
+uuid: 21d83eae-1f9c-4eda-bc28-c30ea8c4b6af
+langcode: es
+status: true
+dependencies:
+  module:
+    - taxonomy
+    - zinco_proyectos_idi
+id: zinco_proyectos_idi.field_estado_proyecto
+field_name: field_estado_proyecto
+entity_type: zinco_proyectos_idi
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

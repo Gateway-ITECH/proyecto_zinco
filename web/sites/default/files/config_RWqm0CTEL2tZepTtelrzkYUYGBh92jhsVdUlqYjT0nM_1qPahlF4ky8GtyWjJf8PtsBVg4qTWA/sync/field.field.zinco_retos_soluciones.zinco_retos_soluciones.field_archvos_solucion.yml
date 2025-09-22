@@ -1,0 +1,27 @@
+uuid: 1ad5ea03-4c54-4a29-932a-67ca1d1dcf6f
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_retos_soluciones.field_archvos_solucion
+  module:
+    - file
+    - zinco_retos_soluciones
+id: zinco_retos_soluciones.zinco_retos_soluciones.field_archvos_solucion
+field_name: field_archvos_solucion
+entity_type: zinco_retos_soluciones
+bundle: zinco_retos_soluciones
+label: 'Archvos solución'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'txt pdf jpg png docx xlsx'
+  max_filesize: ''
+  description_field: false
+field_type: file

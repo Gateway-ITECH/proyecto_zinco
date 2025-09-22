@@ -1,0 +1,171 @@
+uuid: 2f34b74d-a36f-483c-823e-8e64d8441ea4
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.field.zinco_actors_zincoactors.empresa_generadora_de_conocimien.field_actor_del_cual_depende
+    - field.field.zinco_actors_zincoactors.empresa_generadora_de_conocimien.field_clasificacion
+    - field.field.zinco_actors_zincoactors.empresa_generadora_de_conocimien.field_mision_empresa
+    - field.field.zinco_actors_zincoactors.empresa_generadora_de_conocimien.field_representante_legal_empres
+    - field.field.zinco_actors_zincoactors.empresa_generadora_de_conocimien.field_siglas_empresa
+    - image.style.thumbnail
+    - zinco_actors.zinco_actors_zincoactors_type.empresa_generadora_de_conocimien
+  module:
+    - image
+    - text
+    - user
+id: zinco_actors_zincoactors.empresa_generadora_de_conocimien.default
+targetEntityType: zinco_actors_zincoactors
+bundle: empresa_generadora_de_conocimien
+mode: default
+content:
+  created:
+    type: timestamp
+    label: above
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+      tooltip:
+        date_format: long
+        custom_date_format: ''
+      time_diff:
+        enabled: false
+        future_format: '@interval hence'
+        past_format: '@interval ago'
+        granularity: 2
+        refresh: 60
+    third_party_settings: {  }
+    weight: 20
+    region: content
+  description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  email:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_actor_del_cual_depende:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 25
+    region: content
+  field_clasificacion:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 22
+    region: content
+  field_mision_empresa:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 23
+    region: content
+  field_representante_legal_empres:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 24
+    region: content
+  field_siglas_empresa:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 21
+    region: content
+  imagen_perfil:
+    type: image
+    label: above
+    settings:
+      image_link: content
+      image_style: thumbnail
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  label:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: -5
+    region: content
+  municipio:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: -3
+    region: content
+  sector_economico_principal:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: -2
+    region: content
+  sitio_web:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  status:
+    type: boolean
+    label: above
+    settings:
+      format: enabled-disabled
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  tecnologias_clave:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: -1
+    region: content
+  telefono:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  uid:
+    type: author
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 15
+    region: content
+hidden: {  }

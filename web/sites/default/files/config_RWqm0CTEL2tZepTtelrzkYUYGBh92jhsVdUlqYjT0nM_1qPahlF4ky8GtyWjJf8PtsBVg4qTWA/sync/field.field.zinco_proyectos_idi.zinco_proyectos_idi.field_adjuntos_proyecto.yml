@@ -1,0 +1,27 @@
+uuid: a2558bd5-80bc-4897-acb6-0268e3b54649
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_proyectos_idi.field_adjuntos_proyecto
+  module:
+    - file
+    - zinco_proyectos_idi
+id: zinco_proyectos_idi.zinco_proyectos_idi.field_adjuntos_proyecto
+field_name: field_adjuntos_proyecto
+entity_type: zinco_proyectos_idi
+bundle: zinco_proyectos_idi
+label: 'Adjuntos proyecto'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: txt
+  max_filesize: ''
+  description_field: false
+field_type: file

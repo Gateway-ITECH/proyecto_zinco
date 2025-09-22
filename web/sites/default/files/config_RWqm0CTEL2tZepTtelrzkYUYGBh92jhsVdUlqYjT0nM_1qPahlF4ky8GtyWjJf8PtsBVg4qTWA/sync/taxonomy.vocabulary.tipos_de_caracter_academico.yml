@@ -1,0 +1,9 @@
+uuid: 7a6e6003-5606-4b99-ab91-7d953fbf9a98
+langcode: es
+status: true
+dependencies: {  }
+name: 'Tipos de caracter académico'
+vid: tipos_de_caracter_academico
+description: 'Tipos de caracter académico de Instituciones de Educación Superior'
+weight: 0
+new_revision: false

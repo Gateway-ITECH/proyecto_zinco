@@ -1,0 +1,13 @@
+uuid: 6d18fffa-4e1e-4179-8dc6-4daa840bee3e
+langcode: es
+status: true
+dependencies:
+  module:
+    - zinco_actors
+_core:
+  default_config_hash: 4meWcDAVpVU8hleiOvBJoDletepkupr1-6Pd3eFqid4
+id: zinco_actors_zincoactors_save_action
+label: 'Save zincoactorss'
+type: zinco_actors_zincoactors
+plugin: 'entity:save_action:zinco_actors_zincoactors'
+configuration: {  }

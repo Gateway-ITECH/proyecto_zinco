@@ -1,0 +1,13 @@
+uuid: 535102e0-0cb0-48da-ac51-dc42f6702f22
+langcode: es
+status: true
+dependencies:
+  module:
+    - zinco_retos_soluciones
+_core:
+  default_config_hash: uJ51H-X0J7fLC1o3J98BlAgGuRMN7abVCeTDu8cpLsw
+id: zinco_retos_soluciones_save_action
+label: 'Save zinco retos solucioness'
+type: zinco_retos_soluciones
+plugin: 'entity:save_action:zinco_retos_soluciones'
+configuration: {  }

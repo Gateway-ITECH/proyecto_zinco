@@ -1,0 +1,14 @@
+uuid: d0d281a6-cae1-4a33-935c-5f0598766346
+langcode: es
+status: true
+dependencies:
+  config:
+    - user.role.entidad_gobierno
+  module:
+    - user
+id: user_remove_role_action.entidad_gobierno
+label: 'Elimina el rol Entidad gobierno al(los) usuario(s) seleccionado(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: entidad_gobierno

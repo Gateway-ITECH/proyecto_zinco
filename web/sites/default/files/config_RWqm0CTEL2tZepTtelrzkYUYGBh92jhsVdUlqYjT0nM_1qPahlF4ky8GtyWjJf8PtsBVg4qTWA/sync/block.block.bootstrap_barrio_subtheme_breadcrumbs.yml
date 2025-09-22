@@ -1,0 +1,22 @@
+uuid: fb15d8f5-72ea-40ef-bf3f-f7f6696bd34e
+langcode: es
+status: false
+dependencies:
+  module:
+    - system
+  theme:
+    - bootstrap_barrio_subtheme
+_core:
+  default_config_hash: d5RRR4sCguf9KoTb2urPQWdaepVzH5Vh3o0jIKsdkyg
+id: bootstrap_barrio_subtheme_breadcrumbs
+theme: bootstrap_barrio_subtheme
+region: breadcrumb
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: 'Enlaces de ayuda a la navegación'
+  label_display: '0'
+  provider: system
+visibility: {  }

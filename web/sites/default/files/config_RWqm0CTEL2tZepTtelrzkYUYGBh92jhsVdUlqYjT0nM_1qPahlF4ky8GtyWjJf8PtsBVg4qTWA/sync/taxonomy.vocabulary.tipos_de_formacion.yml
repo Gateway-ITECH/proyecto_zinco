@@ -1,0 +1,9 @@
+uuid: c1529fb5-ecaf-4e8c-97b6-e0d17ab90913
+langcode: es
+status: true
+dependencies: {  }
+name: 'Tipos de formación'
+vid: tipos_de_formacion
+description: 'Tipos de formación académica'
+weight: 0
+new_revision: false

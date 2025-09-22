@@ -1,0 +1,2 @@
+azure_blob_connection_string: DefaultEndpointsProtocol=https;AccountName=devzincostorage1;AccountKey=FMOl0ErZoipwyaDtUOMcWyrk7FJ4jAYFzIQ0TKTrjhF6BSkfGPLISQs8acPC9kZni/Ky/KXflvVN+AStz3Omcw==;EndpointSuffix=core.windows.net
+azure_blob_container_name: devzincoetlcontainer

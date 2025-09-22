@@ -1,0 +1,19 @@
+uuid: 3f38fda9-5e67-4a79-9d33-6203ff19ceec
+langcode: es
+status: true
+dependencies:
+  module:
+    - zinco_proyectos_idi
+id: zinco_proyectos_idi.field_entregables_proyecto
+field_name: field_entregables_proyecto
+entity_type: zinco_proyectos_idi
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

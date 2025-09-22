@@ -1,0 +1,11 @@
+uuid: 55e429b3-a6c1-45a6-b0bd-796bdcc24899
+langcode: es
+status: true
+dependencies:
+  config:
+    - node.type.convocatoria
+id: node.convocatoria
+target_entity_type_id: node
+target_bundle: convocatoria
+default_langcode: site_default
+language_alterable: false

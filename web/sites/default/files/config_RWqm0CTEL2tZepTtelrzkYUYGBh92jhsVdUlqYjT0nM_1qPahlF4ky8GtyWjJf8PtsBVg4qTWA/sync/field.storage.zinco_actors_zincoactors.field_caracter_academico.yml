@@ -1,0 +1,20 @@
+uuid: 73c18191-89e4-41a8-b7e5-e7f53ce566ad
+langcode: es
+status: true
+dependencies:
+  module:
+    - taxonomy
+    - zinco_actors
+id: zinco_actors_zincoactors.field_caracter_academico
+field_name: field_caracter_academico
+entity_type: zinco_actors_zincoactors
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

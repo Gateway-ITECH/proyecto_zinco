@@ -1,0 +1,29 @@
+uuid: 1438b08d-2e8c-4875-bec4-332e703c2a9c
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_estado_de_la_necesidad
+    - node.type.necesidad
+    - taxonomy.vocabulary.estados_de_necesidad
+id: node.necesidad.field_estado_de_la_necesidad
+field_name: field_estado_de_la_necesidad
+entity_type: node
+bundle: necesidad
+label: 'Estado de la necesidad'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      estados_de_necesidad: estados_de_necesidad
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

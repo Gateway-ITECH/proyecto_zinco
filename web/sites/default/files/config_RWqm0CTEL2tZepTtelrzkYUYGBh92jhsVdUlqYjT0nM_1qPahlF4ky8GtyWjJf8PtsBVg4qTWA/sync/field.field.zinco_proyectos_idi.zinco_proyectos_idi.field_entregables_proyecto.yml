@@ -1,0 +1,20 @@
+uuid: f9024a18-3b51-4697-a112-376a045b4b14
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_proyectos_idi.field_entregables_proyecto
+  module:
+    - zinco_proyectos_idi
+id: zinco_proyectos_idi.zinco_proyectos_idi.field_entregables_proyecto
+field_name: field_entregables_proyecto
+entity_type: zinco_proyectos_idi
+bundle: zinco_proyectos_idi
+label: 'Entregables proyecto'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

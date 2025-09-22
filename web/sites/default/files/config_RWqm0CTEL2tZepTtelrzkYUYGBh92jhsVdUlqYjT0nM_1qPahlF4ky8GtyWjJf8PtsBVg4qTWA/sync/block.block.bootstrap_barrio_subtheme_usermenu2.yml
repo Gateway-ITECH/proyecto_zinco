@@ -1,0 +1,29 @@
+uuid: 78768fe7-36f6-48b0-8bc0-e645f57cb5b7
+langcode: es
+status: false
+dependencies:
+  module:
+    - user
+    - zinco_front
+  theme:
+    - bootstrap_barrio_subtheme
+id: bootstrap_barrio_subtheme_usermenu2
+theme: bootstrap_barrio_subtheme
+region: top_header
+weight: -7
+provider: null
+plugin: zinco_front_user_menu
+settings:
+  id: zinco_front_user_menu
+  label: 'User Menu'
+  label_display: '0'
+  provider: zinco_front
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      anonymous: anonymous
+      empresa_explotadora_de_conocimiento: empresa_explotadora_de_conocimiento

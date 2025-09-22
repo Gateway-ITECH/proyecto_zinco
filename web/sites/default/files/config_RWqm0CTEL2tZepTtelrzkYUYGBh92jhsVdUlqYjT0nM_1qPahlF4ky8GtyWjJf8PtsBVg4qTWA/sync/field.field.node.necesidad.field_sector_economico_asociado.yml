@@ -1,0 +1,29 @@
+uuid: 5bda72a6-9dca-4729-b328-8b1da52d2147
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sector_economico_asociado
+    - node.type.necesidad
+    - taxonomy.vocabulary.ciiu_colombia
+id: node.necesidad.field_sector_economico_asociado
+field_name: field_sector_economico_asociado
+entity_type: node
+bundle: necesidad
+label: 'Sector económico asociado'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      ciiu_colombia: ciiu_colombia
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

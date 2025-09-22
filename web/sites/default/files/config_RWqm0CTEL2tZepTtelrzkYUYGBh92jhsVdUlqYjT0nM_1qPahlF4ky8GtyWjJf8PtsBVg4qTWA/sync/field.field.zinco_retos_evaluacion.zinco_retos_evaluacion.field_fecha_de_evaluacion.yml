@@ -1,0 +1,21 @@
+uuid: a8dd5fb8-774c-4746-a26a-56d1156a3e28
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_retos_evaluacion.field_fecha_de_evaluacion
+  module:
+    - datetime
+    - zinco_retos_evaluacion
+id: zinco_retos_evaluacion.zinco_retos_evaluacion.field_fecha_de_evaluacion
+field_name: field_fecha_de_evaluacion
+entity_type: zinco_retos_evaluacion
+bundle: zinco_retos_evaluacion
+label: 'Fecha de evaluación'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

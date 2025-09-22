@@ -1,0 +1,10 @@
+uuid: c8057f70-7860-4925-9109-b1d274806b28
+langcode: es
+status: true
+dependencies: {  }
+id: otro_paragraph
+label: 'otro paragraph'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

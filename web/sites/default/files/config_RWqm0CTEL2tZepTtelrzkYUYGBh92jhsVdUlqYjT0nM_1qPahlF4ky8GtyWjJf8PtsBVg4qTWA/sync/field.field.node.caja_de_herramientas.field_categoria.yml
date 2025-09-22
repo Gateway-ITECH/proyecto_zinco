@@ -1,0 +1,29 @@
+uuid: 6bda92bb-8d3a-41c4-90fb-c6b776ffa33d
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_categoria
+    - node.type.caja_de_herramientas
+    - taxonomy.vocabulary.categorias_de_caja_de_herramient
+id: node.caja_de_herramientas.field_categoria
+field_name: field_categoria
+entity_type: node
+bundle: caja_de_herramientas
+label: 'Categoría '
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      categorias_de_caja_de_herramient: categorias_de_caja_de_herramient
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

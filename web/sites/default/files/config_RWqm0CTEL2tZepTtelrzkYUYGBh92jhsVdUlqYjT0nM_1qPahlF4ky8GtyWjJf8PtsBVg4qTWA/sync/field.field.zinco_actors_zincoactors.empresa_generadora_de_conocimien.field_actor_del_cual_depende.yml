@@ -1,0 +1,34 @@
+uuid: a5d68086-939e-4ccd-a57e-113dfff00dc9
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_actor_del_cual_depende
+    - zinco_actors.zinco_actors_zincoactors_type.empresa_explotadora_de_conocimie
+    - zinco_actors.zinco_actors_zincoactors_type.empresa_generadora_de_conocimien
+    - zinco_actors.zinco_actors_zincoactors_type.entidad_gobierno
+    - zinco_actors.zinco_actors_zincoactors_type.institucion_de_educacion_superio
+id: zinco_actors_zincoactors.empresa_generadora_de_conocimien.field_actor_del_cual_depende
+field_name: field_actor_del_cual_depende
+entity_type: zinco_actors_zincoactors
+bundle: empresa_generadora_de_conocimien
+label: 'Actor del cual depende'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:zinco_actors_zincoactors'
+  handler_settings:
+    target_bundles:
+      empresa_explotadora_de_conocimie: empresa_explotadora_de_conocimie
+      empresa_generadora_de_conocimien: empresa_generadora_de_conocimien
+      entidad_gobierno: entidad_gobierno
+      institucion_de_educacion_superio: institucion_de_educacion_superio
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: empresa_explotadora_de_conocimie
+field_type: entity_reference

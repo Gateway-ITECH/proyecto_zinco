@@ -1,7 +1,22 @@
 # Ignorar archivos y directorios de Drupal comunes
 
+/web/sites/default/default.services.yml
+
 # Directorios generados
-/web/sites/*/files/
+
+/web/sites/*/files/2*
+/web/sites/*/files/cs*
+/web/sites/*/files/j*
+/web/sites/*/files/l*
+/web/sites/*/files/p*
+/web/sites/*/files/s*
+/web/sites/*/files/t*
+/web/sites/*/files/1*
+/web/sites/*/files/.h*
+/web/sites/*/files/cov*
+
+
+
 /web/sites/*/private/
 /web/sites/*/temp/
 /vendor/
@@ -10,10 +25,12 @@
 /web/libraries/
 
 # Archivos de configuración locales
-/web/sites/*/settings.local.php
-/web/sites/*/services.local.yml
+
+
 /drush/drush.yml
 /drush/sites/self.site.yml
+
+
 
 # Archivos de caché y temporales
 *.sql
@@ -37,9 +54,6 @@ composer.lock
 .lando/
 .vagrant/
 config/sync/
-web/sites/default/files-public/
-web/sites/default/files-private/
-web/sites/default/files-temp/
 backups/
 
 # Archivos de depuración y desarrollo
@@ -48,8 +62,7 @@ phpstan.neon
 phpunit.xml
 behat.yml
 
-# Archivos de Drupal específicos para el sitio
-/web/sites/default/
+
 
 # Ignorar archivos específicos de drush que pueden ser generados
 drush/drush.local.yml
@@ -74,3 +87,5 @@ yarn.lock
 /web/themes/custom/*/node_modules/
 /web/themes/custom/*/dist/
 /web/themes/custom/*/build/
+
+# Archivos de Drupal específicos para el sitio

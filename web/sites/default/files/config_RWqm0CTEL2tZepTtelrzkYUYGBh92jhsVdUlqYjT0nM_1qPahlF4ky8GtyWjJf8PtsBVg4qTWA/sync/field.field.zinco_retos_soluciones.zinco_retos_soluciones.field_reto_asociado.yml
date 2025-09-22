@@ -1,0 +1,30 @@
+uuid: 74428e57-042e-4bcc-a87a-9bf2068ea108
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_retos_soluciones.field_reto_asociado
+    - zinco_retos_innovacion.zinco_retos_innovacion_type.reto
+  module:
+    - zinco_retos_soluciones
+id: zinco_retos_soluciones.zinco_retos_soluciones.field_reto_asociado
+field_name: field_reto_asociado
+entity_type: zinco_retos_soluciones
+bundle: zinco_retos_soluciones
+label: 'Reto asociado'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:zinco_retos_innovacion'
+  handler_settings:
+    target_bundles:
+      reto: reto
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

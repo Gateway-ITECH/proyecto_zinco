@@ -1,0 +1,13 @@
+uuid: 6e367cb6-b0d6-484f-a731-54ad0cba1e57
+langcode: es
+status: true
+dependencies:
+  module:
+    - zinco_retos_innovacion
+_core:
+  default_config_hash: nXLqR7K2RsYxfVvFx_dsyeEm78ZkOc35TqBKjlGaUn4
+id: zinco_retos_innovacion_delete_action
+label: 'Delete zinco retos innovacions'
+type: zinco_retos_innovacion
+plugin: 'entity:delete_action:zinco_retos_innovacion'
+configuration: {  }

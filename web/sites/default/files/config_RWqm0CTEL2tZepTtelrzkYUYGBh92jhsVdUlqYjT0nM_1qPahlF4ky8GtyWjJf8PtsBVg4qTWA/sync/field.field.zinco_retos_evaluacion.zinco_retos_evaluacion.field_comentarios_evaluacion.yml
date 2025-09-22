@@ -1,0 +1,20 @@
+uuid: aae649c2-bc72-4b7a-9832-298ee7e7a661
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_retos_evaluacion.field_comentarios_evaluacion
+  module:
+    - zinco_retos_evaluacion
+id: zinco_retos_evaluacion.zinco_retos_evaluacion.field_comentarios_evaluacion
+field_name: field_comentarios_evaluacion
+entity_type: zinco_retos_evaluacion
+bundle: zinco_retos_evaluacion
+label: 'Comentarios evaluación '
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

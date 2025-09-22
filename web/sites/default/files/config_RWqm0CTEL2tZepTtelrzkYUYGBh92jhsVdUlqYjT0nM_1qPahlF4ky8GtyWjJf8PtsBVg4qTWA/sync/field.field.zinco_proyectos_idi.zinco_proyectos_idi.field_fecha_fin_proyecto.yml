@@ -1,0 +1,21 @@
+uuid: 09c9d5c5-329e-4b79-bebf-d755ca819254
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_proyectos_idi.field_fecha_fin_proyecto
+  module:
+    - datetime
+    - zinco_proyectos_idi
+id: zinco_proyectos_idi.zinco_proyectos_idi.field_fecha_fin_proyecto
+field_name: field_fecha_fin_proyecto
+entity_type: zinco_proyectos_idi
+bundle: zinco_proyectos_idi
+label: 'Fecha fin proyecto'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

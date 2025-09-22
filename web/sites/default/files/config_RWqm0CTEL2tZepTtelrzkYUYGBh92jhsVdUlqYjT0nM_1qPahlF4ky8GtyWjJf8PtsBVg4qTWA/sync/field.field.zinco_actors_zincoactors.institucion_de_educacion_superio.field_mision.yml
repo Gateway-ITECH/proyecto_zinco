@@ -1,0 +1,19 @@
+uuid: e521ac32-021d-4af3-aff2-74e198f16acd
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_mision
+    - zinco_actors.zinco_actors_zincoactors_type.institucion_de_educacion_superio
+id: zinco_actors_zincoactors.institucion_de_educacion_superio.field_mision
+field_name: field_mision
+entity_type: zinco_actors_zincoactors
+bundle: institucion_de_educacion_superio
+label: Misión
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

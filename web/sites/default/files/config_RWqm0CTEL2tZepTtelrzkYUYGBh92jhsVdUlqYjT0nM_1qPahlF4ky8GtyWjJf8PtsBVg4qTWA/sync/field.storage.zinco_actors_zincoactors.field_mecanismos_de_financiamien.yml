@@ -1,0 +1,20 @@
+uuid: ff8fcae6-14ff-4f8e-957c-cec32a7908a3
+langcode: es
+status: true
+dependencies:
+  module:
+    - text
+    - zinco_actors
+id: zinco_actors_zincoactors.field_mecanismos_de_financiamien
+field_name: field_mecanismos_de_financiamien
+entity_type: zinco_actors_zincoactors
+type: text
+settings:
+  max_length: 255
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

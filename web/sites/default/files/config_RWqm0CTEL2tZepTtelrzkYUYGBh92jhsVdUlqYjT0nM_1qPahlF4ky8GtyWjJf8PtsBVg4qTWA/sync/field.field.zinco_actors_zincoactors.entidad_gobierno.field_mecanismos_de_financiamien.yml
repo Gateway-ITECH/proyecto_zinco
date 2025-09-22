@@ -1,0 +1,24 @@
+uuid: 24c7737a-3c84-476b-99dc-e6f580d55dc0
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_mecanismos_de_financiamien
+    - filter.format.basic_html
+    - zinco_actors.zinco_actors_zincoactors_type.entidad_gobierno
+  module:
+    - text
+id: zinco_actors_zincoactors.entidad_gobierno.field_mecanismos_de_financiamien
+field_name: field_mecanismos_de_financiamien
+entity_type: zinco_actors_zincoactors
+bundle: entidad_gobierno
+label: 'Mecanismos de financiamiento'
+description: ' Información sobre los programas o fondos que la entidad gestiona para apoyar proyectos de CTeI'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic_html
+field_type: text

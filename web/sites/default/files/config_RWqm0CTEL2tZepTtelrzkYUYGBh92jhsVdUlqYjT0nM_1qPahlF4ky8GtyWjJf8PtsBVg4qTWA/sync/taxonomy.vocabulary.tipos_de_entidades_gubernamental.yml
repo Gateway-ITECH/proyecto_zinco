@@ -1,0 +1,9 @@
+uuid: c41392be-2335-440b-b33c-dcd46613328b
+langcode: es
+status: true
+dependencies: {  }
+name: 'Tipos de entidades gubernamentales'
+vid: tipos_de_entidades_gubernamental
+description: 'Tipos de entidades gubernamentales'
+weight: 0
+new_revision: false

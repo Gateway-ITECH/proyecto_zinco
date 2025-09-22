@@ -1,0 +1,14 @@
+uuid: 74d9652f-f364-42eb-a922-1a385c4de4ea
+langcode: es
+status: true
+dependencies:
+  config:
+    - user.role.empresa_generadora_de_conocimiento
+  module:
+    - user
+id: user_remove_role_action.empresa_generadora_de_conocimiento
+label: 'Elimina el rol Empresa generadora de conocimiento al(los) usuario(s) seleccionado(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: empresa_generadora_de_conocimiento

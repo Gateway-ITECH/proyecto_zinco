@@ -1,0 +1,6 @@
+uuid: 33543f8e-c506-4d61-9d48-57896d96cb3f
+langcode: es
+status: true
+dependencies: {  }
+id: investigador
+label: Investigador

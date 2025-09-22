@@ -1,0 +1,24 @@
+uuid: 8cc97e35-cb8b-41b4-80c5-75e9d919b28c
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_necesidad_descripcion_deta
+    - filter.format.full_html
+    - node.type.necesidad
+  module:
+    - text
+id: node.necesidad.field_necesidad_descripcion_deta
+field_name: field_necesidad_descripcion_deta
+entity_type: node
+bundle: necesidad
+label: 'Descripción detallada'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - full_html
+field_type: text_long

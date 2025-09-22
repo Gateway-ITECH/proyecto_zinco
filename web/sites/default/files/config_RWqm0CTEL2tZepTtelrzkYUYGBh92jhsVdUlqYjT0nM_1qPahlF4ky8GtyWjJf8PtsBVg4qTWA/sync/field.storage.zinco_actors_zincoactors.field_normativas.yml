@@ -1,0 +1,20 @@
+uuid: daa01166-f120-4cc2-8956-f747795eba1c
+langcode: es
+status: true
+dependencies:
+  module:
+    - text
+    - zinco_actors
+id: zinco_actors_zincoactors.field_normativas
+field_name: field_normativas
+entity_type: zinco_actors_zincoactors
+type: text
+settings:
+  max_length: 255
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

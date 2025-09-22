@@ -1,0 +1,36 @@
+uuid: b7f2ca51-7dd6-4c07-8eb1-4c56e5117844
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_proyectos_idi.field_actores_proyectos
+    - zinco_actors.zinco_actors_zincoactors_type.empresa_explotadora_de_conocimie
+    - zinco_actors.zinco_actors_zincoactors_type.empresa_generadora_de_conocimien
+    - zinco_actors.zinco_actors_zincoactors_type.institucion_de_educacion_superio
+    - zinco_actors.zinco_actors_zincoactors_type.investigador
+  module:
+    - zinco_proyectos_idi
+id: zinco_proyectos_idi.zinco_proyectos_idi.field_actores_proyectos
+field_name: field_actores_proyectos
+entity_type: zinco_proyectos_idi
+bundle: zinco_proyectos_idi
+label: 'Actores Proyectos'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:zinco_actors_zincoactors'
+  handler_settings:
+    target_bundles:
+      empresa_explotadora_de_conocimie: empresa_explotadora_de_conocimie
+      empresa_generadora_de_conocimien: empresa_generadora_de_conocimien
+      institucion_de_educacion_superio: institucion_de_educacion_superio
+      investigador: investigador
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: empresa_generadora_de_conocimien
+field_type: entity_reference

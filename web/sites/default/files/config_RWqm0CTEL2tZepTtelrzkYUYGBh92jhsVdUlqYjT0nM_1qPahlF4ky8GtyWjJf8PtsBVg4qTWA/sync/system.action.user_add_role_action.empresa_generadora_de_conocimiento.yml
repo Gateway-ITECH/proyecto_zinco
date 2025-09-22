@@ -1,0 +1,14 @@
+uuid: 2d31805d-bbc3-4960-a671-b9daf6e35601
+langcode: es
+status: true
+dependencies:
+  config:
+    - user.role.empresa_generadora_de_conocimiento
+  module:
+    - user
+id: user_add_role_action.empresa_generadora_de_conocimiento
+label: 'Añade el rol Empresa generadora de conocimiento al(los) usuario(s) seleccionado(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: empresa_generadora_de_conocimiento

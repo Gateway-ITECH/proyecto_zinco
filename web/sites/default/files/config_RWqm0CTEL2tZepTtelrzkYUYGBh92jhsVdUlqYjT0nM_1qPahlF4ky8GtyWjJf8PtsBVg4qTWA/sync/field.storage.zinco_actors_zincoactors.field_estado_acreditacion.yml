@@ -1,0 +1,20 @@
+uuid: 254b40a8-06dc-48c0-8c4c-21bc6cd5e06f
+langcode: es
+status: true
+dependencies:
+  module:
+    - taxonomy
+    - zinco_actors
+id: zinco_actors_zincoactors.field_estado_acreditacion
+field_name: field_estado_acreditacion
+entity_type: zinco_actors_zincoactors
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,20 @@
+uuid: 3f1a0caa-97a4-4caa-9304-a7e3282abdbb
+langcode: es
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+id: node.field_estado_de_la_necesidad
+field_name: field_estado_de_la_necesidad
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

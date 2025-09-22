@@ -1,0 +1,21 @@
+uuid: de8c91a5-1fd5-4390-8864-7cac6eda6c7b
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_fecha_del_evento
+    - node.type.evento
+  module:
+    - datetime
+id: node.evento.field_fecha_del_evento
+field_name: field_fecha_del_evento
+entity_type: node
+bundle: evento
+label: 'Fecha del evento'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

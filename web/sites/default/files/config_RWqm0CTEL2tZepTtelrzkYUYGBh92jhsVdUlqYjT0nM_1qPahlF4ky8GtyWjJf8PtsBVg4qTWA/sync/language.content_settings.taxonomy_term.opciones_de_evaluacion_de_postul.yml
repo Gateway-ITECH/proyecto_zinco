@@ -1,0 +1,11 @@
+uuid: 3d56384d-ca60-465b-a9e8-83ce9c22d5be
+langcode: es
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.opciones_de_evaluacion_de_postul
+id: taxonomy_term.opciones_de_evaluacion_de_postul
+target_entity_type_id: taxonomy_term
+target_bundle: opciones_de_evaluacion_de_postul
+default_langcode: site_default
+language_alterable: false

@@ -1,0 +1,14 @@
+uuid: 0545aa41-eb0c-4940-9476-4eaf9bb97a7c
+langcode: es
+status: true
+dependencies:
+  config:
+    - user.role.entidad_gobierno
+  module:
+    - user
+id: user_add_role_action.entidad_gobierno
+label: 'Añade el rol Entidad gobierno al(los) usuario(s) seleccionado(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: entidad_gobierno

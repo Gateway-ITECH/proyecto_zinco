@@ -1,0 +1,19 @@
+uuid: 5256a114-29ee-4b23-a828-c318352c8226
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_publico_objetivo
+    - node.type.convocatoria
+id: node.convocatoria.field_publico_objetivo
+field_name: field_publico_objetivo
+entity_type: node
+bundle: convocatoria
+label: 'Público objetivo'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

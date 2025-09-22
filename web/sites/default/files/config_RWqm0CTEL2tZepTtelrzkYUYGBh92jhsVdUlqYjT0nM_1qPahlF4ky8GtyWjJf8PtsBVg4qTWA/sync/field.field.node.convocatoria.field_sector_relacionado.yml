@@ -1,0 +1,29 @@
+uuid: 75335b3e-757f-40f4-acb2-aac4aac9abc1
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sector_relacionado
+    - node.type.convocatoria
+    - taxonomy.vocabulary.tecnologias_clave
+id: node.convocatoria.field_sector_relacionado
+field_name: field_sector_relacionado
+entity_type: node
+bundle: convocatoria
+label: 'Sector relacionado'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tecnologias_clave: tecnologias_clave
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

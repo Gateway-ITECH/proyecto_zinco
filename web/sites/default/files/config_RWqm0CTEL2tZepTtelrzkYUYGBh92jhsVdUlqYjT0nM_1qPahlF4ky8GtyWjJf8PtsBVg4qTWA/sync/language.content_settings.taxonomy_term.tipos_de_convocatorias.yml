@@ -1,0 +1,11 @@
+uuid: e7c37b08-406b-41d3-b5fa-dce4fa1233b8
+langcode: es
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.tipos_de_convocatorias
+id: taxonomy_term.tipos_de_convocatorias
+target_entity_type_id: taxonomy_term
+target_bundle: tipos_de_convocatorias
+default_langcode: site_default
+language_alterable: false

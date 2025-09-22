@@ -1,0 +1,43 @@
+uuid: 83e82ef4-13aa-4773-b897-d58caebdc9b2
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_proponentes
+    - node.type.necesidad
+    - zinco_actors.zinco_actors_zincoactors_type.empresa_explotadora_de_conocimie
+    - zinco_actors.zinco_actors_zincoactors_type.empresa_generadora_de_conocimien
+    - zinco_actors.zinco_actors_zincoactors_type.entidad_gobierno
+    - zinco_actors.zinco_actors_zincoactors_type.instancias_de_orientacion_politi
+    - zinco_actors.zinco_actors_zincoactors_type.institucion_de_educacion_superio
+    - zinco_actors.zinco_actors_zincoactors_type.investigador
+    - zinco_actors.zinco_actors_zincoactors_type.otri
+    - zinco_actors.zinco_actors_zincoactors_type.parque_tecnologico
+id: node.necesidad.field_proponentes
+field_name: field_proponentes
+entity_type: node
+bundle: necesidad
+label: Proponentes
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:zinco_actors_zincoactors'
+  handler_settings:
+    target_bundles:
+      empresa_explotadora_de_conocimie: empresa_explotadora_de_conocimie
+      empresa_generadora_de_conocimien: empresa_generadora_de_conocimien
+      entidad_gobierno: entidad_gobierno
+      instancias_de_orientacion_politi: instancias_de_orientacion_politi
+      institucion_de_educacion_superio: institucion_de_educacion_superio
+      investigador: investigador
+      otri: otri
+      parque_tecnologico: parque_tecnologico
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: empresa_explotadora_de_conocimie
+field_type: entity_reference

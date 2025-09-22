@@ -1,0 +1,22 @@
+uuid: 4dda25f7-2247-46c9-ab7c-31a5dbcd86a7
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_descripcion_detallada
+    - node.type.caja_de_herramientas
+  module:
+    - text
+id: node.caja_de_herramientas.field_descripcion_detallada
+field_name: field_descripcion_detallada
+entity_type: node
+bundle: caja_de_herramientas
+label: 'Descripción detallada'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text

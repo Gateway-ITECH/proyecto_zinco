@@ -1,0 +1,21 @@
+uuid: ab8db194-a2c1-459c-adec-c66c725d2d29
+langcode: es
+status: true
+dependencies:
+  module:
+    - entity_reference_revisions
+    - paragraphs
+    - zinco_actors
+id: zinco_actors_zincoactors.field_trayectoria_profesional
+field_name: field_trayectoria_profesional
+entity_type: zinco_actors_zincoactors
+type: entity_reference_revisions
+settings:
+  target_type: paragraph
+module: entity_reference_revisions
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

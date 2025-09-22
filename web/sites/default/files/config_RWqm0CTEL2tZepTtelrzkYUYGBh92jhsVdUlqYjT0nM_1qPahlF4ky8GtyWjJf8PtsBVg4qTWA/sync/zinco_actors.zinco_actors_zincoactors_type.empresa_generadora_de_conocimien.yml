@@ -1,0 +1,6 @@
+uuid: f4dd21cf-4126-4b34-8bea-42cca4152247
+langcode: es
+status: true
+dependencies: {  }
+id: empresa_generadora_de_conocimien
+label: 'Empresa generadora de conocimiento'

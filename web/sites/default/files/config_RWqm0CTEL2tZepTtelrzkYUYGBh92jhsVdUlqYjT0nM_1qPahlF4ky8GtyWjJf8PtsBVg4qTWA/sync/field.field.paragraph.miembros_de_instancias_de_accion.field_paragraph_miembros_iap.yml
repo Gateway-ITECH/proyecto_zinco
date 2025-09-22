@@ -1,0 +1,41 @@
+uuid: 810b6b77-b74c-4c2c-830e-ff945fcf581b
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_paragraph_miembros_iap
+    - paragraphs.paragraphs_type.miembros_de_instancias_de_accion
+    - zinco_actors.zinco_actors_zincoactors_type.empresa_explotadora_de_conocimie
+    - zinco_actors.zinco_actors_zincoactors_type.empresa_generadora_de_conocimien
+    - zinco_actors.zinco_actors_zincoactors_type.entidad_gobierno
+    - zinco_actors.zinco_actors_zincoactors_type.instancias_de_orientacion_politi
+    - zinco_actors.zinco_actors_zincoactors_type.institucion_de_educacion_superio
+    - zinco_actors.zinco_actors_zincoactors_type.investigador
+    - zinco_actors.zinco_actors_zincoactors_type.parque_tecnologico
+id: paragraph.miembros_de_instancias_de_accion.field_paragraph_miembros_iap
+field_name: field_paragraph_miembros_iap
+entity_type: paragraph
+bundle: miembros_de_instancias_de_accion
+label: paragraph_miembros_iap
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:zinco_actors_zincoactors'
+  handler_settings:
+    target_bundles:
+      empresa_explotadora_de_conocimie: empresa_explotadora_de_conocimie
+      empresa_generadora_de_conocimien: empresa_generadora_de_conocimien
+      entidad_gobierno: entidad_gobierno
+      instancias_de_orientacion_politi: instancias_de_orientacion_politi
+      institucion_de_educacion_superio: institucion_de_educacion_superio
+      investigador: investigador
+      parque_tecnologico: parque_tecnologico
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: empresa_explotadora_de_conocimie
+field_type: entity_reference

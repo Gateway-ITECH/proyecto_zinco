@@ -1,0 +1,19 @@
+uuid: 786e8495-79b4-46b8-bf70-294326297269
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_nombre_institucion
+    - paragraphs.paragraphs_type.formacion_academica
+id: paragraph.formacion_academica.field_nombre_institucion
+field_name: field_nombre_institucion
+entity_type: paragraph
+bundle: formacion_academica
+label: 'Nombre institucion'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

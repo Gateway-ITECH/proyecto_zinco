@@ -1,0 +1,119 @@
+uuid: 1cb2e3a6-cfb2-4113-b9cc-e335445352b9
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.field.zinco_proyectos_idi.zinco_proyectos_idi.field_actores_proyectos
+    - field.field.zinco_proyectos_idi.zinco_proyectos_idi.field_adjuntos_proyecto
+    - field.field.zinco_proyectos_idi.zinco_proyectos_idi.field_entregables_proyecto
+    - field.field.zinco_proyectos_idi.zinco_proyectos_idi.field_estado_proyecto
+    - field.field.zinco_proyectos_idi.zinco_proyectos_idi.field_fecha_fin_proyecto
+    - field.field.zinco_proyectos_idi.zinco_proyectos_idi.field_fecha_inicio_proyecto
+    - field.field.zinco_proyectos_idi.zinco_proyectos_idi.field_linea_de_investigacion
+    - field.field.zinco_proyectos_idi.zinco_proyectos_idi.field_sector_economico_proyecto
+    - field.field.zinco_proyectos_idi.zinco_proyectos_idi.field_tecnologia_principal_proye
+  module:
+    - datetime
+    - file
+    - text
+    - zinco_proyectos_idi
+id: zinco_proyectos_idi.zinco_proyectos_idi.default
+targetEntityType: zinco_proyectos_idi
+bundle: zinco_proyectos_idi
+mode: default
+content:
+  description:
+    type: text_textarea
+    weight: 1
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_actores_proyectos:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_adjuntos_proyecto:
+    type: file_generic
+    weight: 9
+    region: content
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+  field_entregables_proyecto:
+    type: string_textarea
+    weight: 8
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_estado_proyecto:
+    type: entity_reference_autocomplete
+    weight: 2
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_fecha_fin_proyecto:
+    type: datetime_default
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_fecha_inicio_proyecto:
+    type: datetime_default
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_linea_de_investigacion:
+    type: string_textarea
+    weight: 10
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_sector_economico_proyecto:
+    type: entity_reference_autocomplete
+    weight: 6
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_tecnologia_principal_proye:
+    type: entity_reference_autocomplete
+    weight: 7
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  label:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

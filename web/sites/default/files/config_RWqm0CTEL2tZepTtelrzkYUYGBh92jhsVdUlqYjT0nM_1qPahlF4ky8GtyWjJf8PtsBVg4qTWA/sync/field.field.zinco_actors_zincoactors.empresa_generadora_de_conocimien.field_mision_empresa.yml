@@ -1,0 +1,19 @@
+uuid: 053255ff-1c42-4948-8b1b-d6ee52691fb4
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_mision_empresa
+    - zinco_actors.zinco_actors_zincoactors_type.empresa_generadora_de_conocimien
+id: zinco_actors_zincoactors.empresa_generadora_de_conocimien.field_mision_empresa
+field_name: field_mision_empresa
+entity_type: zinco_actors_zincoactors
+bundle: empresa_generadora_de_conocimien
+label: 'Misión empresa'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

@@ -1,0 +1,20 @@
+uuid: eb26d1ec-a199-496f-9d78-5104f0b83f93
+langcode: es
+status: true
+dependencies:
+  module:
+    - taxonomy
+    - zinco_proyectos_idi
+id: zinco_proyectos_idi.field_tecnologia_principal_proye
+field_name: field_tecnologia_principal_proye
+entity_type: zinco_proyectos_idi
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

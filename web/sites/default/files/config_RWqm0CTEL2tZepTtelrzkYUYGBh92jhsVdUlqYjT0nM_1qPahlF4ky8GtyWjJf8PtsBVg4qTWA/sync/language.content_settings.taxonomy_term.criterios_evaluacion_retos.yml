@@ -1,0 +1,11 @@
+uuid: 80683c13-2a2f-4bca-91fc-fca61ace81fb
+langcode: es
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.criterios_evaluacion_retos
+id: taxonomy_term.criterios_evaluacion_retos
+target_entity_type_id: taxonomy_term
+target_bundle: criterios_evaluacion_retos
+default_langcode: site_default
+language_alterable: false

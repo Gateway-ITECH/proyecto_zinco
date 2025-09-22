@@ -1,0 +1,9 @@
+uuid: c565ab82-32dc-4b28-9ce9-dd9dc24dd11a
+langcode: es
+status: true
+dependencies: {  }
+name: 'Categorías grupos de investigación'
+vid: categorias_grupos_de_investigaci
+description: null
+weight: 0
+new_revision: false

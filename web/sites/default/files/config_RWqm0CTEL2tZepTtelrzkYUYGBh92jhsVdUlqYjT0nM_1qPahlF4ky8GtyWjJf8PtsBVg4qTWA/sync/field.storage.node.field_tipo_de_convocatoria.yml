@@ -1,0 +1,20 @@
+uuid: 2853ac3a-50b8-42d7-83f4-3966c74257cc
+langcode: es
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+id: node.field_tipo_de_convocatoria
+field_name: field_tipo_de_convocatoria
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

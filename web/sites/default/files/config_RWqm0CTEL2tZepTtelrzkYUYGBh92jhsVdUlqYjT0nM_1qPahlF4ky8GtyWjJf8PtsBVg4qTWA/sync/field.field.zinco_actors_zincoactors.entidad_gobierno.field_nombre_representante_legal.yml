@@ -1,0 +1,19 @@
+uuid: 5688db30-3761-4aac-a875-988834807ee5
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_nombre_representante_legal
+    - zinco_actors.zinco_actors_zincoactors_type.entidad_gobierno
+id: zinco_actors_zincoactors.entidad_gobierno.field_nombre_representante_legal
+field_name: field_nombre_representante_legal
+entity_type: zinco_actors_zincoactors
+bundle: entidad_gobierno
+label: 'Nombre representante legal'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

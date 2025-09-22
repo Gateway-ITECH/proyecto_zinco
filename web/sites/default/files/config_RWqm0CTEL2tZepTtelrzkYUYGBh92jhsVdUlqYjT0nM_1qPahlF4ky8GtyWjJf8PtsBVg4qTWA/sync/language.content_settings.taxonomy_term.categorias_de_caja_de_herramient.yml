@@ -1,0 +1,11 @@
+uuid: 8c04e4d3-4b9d-4b3a-986d-9d1ab776fd99
+langcode: es
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.categorias_de_caja_de_herramient
+id: taxonomy_term.categorias_de_caja_de_herramient
+target_entity_type_id: taxonomy_term
+target_bundle: categorias_de_caja_de_herramient
+default_langcode: site_default
+language_alterable: false

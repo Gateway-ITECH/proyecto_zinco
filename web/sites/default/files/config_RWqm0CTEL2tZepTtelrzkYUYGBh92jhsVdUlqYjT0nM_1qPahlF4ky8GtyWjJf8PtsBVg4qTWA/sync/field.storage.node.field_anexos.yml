@@ -1,0 +1,23 @@
+uuid: 3bce81eb-da27-477d-aa15-96849e2483ec
+langcode: es
+status: true
+dependencies:
+  module:
+    - file
+    - node
+id: node.field_anexos
+field_name: field_anexos
+entity_type: node
+type: file
+settings:
+  target_type: file
+  display_field: false
+  display_default: false
+  uri_scheme: public
+module: file
+locked: false
+cardinality: 5
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

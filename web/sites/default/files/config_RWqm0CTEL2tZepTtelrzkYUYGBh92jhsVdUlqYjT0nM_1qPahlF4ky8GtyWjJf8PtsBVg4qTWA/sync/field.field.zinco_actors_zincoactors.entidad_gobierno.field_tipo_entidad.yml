@@ -1,0 +1,29 @@
+uuid: a3644696-3e0b-49b0-82af-b5dc21460627
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_tipo_entidad
+    - taxonomy.vocabulary.tipos_de_entidades_gubernamental
+    - zinco_actors.zinco_actors_zincoactors_type.entidad_gobierno
+id: zinco_actors_zincoactors.entidad_gobierno.field_tipo_entidad
+field_name: field_tipo_entidad
+entity_type: zinco_actors_zincoactors
+bundle: entidad_gobierno
+label: 'Tipo entidad'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tipos_de_entidades_gubernamental: tipos_de_entidades_gubernamental
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

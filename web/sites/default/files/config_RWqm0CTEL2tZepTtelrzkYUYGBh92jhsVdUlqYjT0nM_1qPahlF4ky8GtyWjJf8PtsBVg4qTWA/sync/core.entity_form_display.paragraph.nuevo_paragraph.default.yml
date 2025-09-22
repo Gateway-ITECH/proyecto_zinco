@@ -1,0 +1,25 @@
+uuid: 0e5186bf-873c-45a1-b9bd-250f534b9ab2
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.nuevo_paragraph.field_prueba
+    - paragraphs.paragraphs_type.nuevo_paragraph
+id: paragraph.nuevo_paragraph.default
+targetEntityType: paragraph
+bundle: nuevo_paragraph
+mode: default
+content:
+  field_prueba:
+    type: entity_reference_autocomplete
+    weight: 0
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

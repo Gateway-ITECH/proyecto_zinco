@@ -1,0 +1,20 @@
+uuid: 32ba41a4-ffa7-4a4d-b28f-cef44ca562d7
+langcode: es
+status: true
+dependencies:
+  module:
+    - datetime
+    - paragraphs
+id: paragraph.field_fecha_inicio_trayectoria
+field_name: field_fecha_inicio_trayectoria
+entity_type: paragraph
+type: datetime
+settings:
+  datetime_type: date
+module: datetime
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

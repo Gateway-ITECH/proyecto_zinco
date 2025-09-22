@@ -1,0 +1,60 @@
+uuid: 2931f7e9-f12d-415f-9d4f-445588408ada
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.field.node.cursos.field_duracion_horas
+    - field.field.node.cursos.field_fecha_fin
+    - field.field.node.cursos.field_fecha_inicio
+    - field.field.node.cursos.field_modalidad_del_curso
+    - node.type.cursos
+  module:
+    - datetime
+    - user
+id: node.cursos.default
+targetEntityType: node
+bundle: cursos
+mode: default
+content:
+  field_duracion_horas:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_fecha_fin:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_fecha_inicio:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_modalidad_del_curso:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true

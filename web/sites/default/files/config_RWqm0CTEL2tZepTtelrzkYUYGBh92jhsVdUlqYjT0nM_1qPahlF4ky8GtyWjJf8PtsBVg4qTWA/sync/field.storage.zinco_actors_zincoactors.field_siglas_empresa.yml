@@ -1,0 +1,21 @@
+uuid: 76b751ca-cdfb-43c1-aa9e-5948e021a984
+langcode: es
+status: true
+dependencies:
+  module:
+    - zinco_actors
+id: zinco_actors_zincoactors.field_siglas_empresa
+field_name: field_siglas_empresa
+entity_type: zinco_actors_zincoactors
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

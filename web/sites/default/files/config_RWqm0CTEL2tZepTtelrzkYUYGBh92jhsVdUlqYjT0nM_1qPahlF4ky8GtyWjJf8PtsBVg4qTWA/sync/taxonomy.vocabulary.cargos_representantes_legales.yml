@@ -1,0 +1,9 @@
+uuid: eb15eb68-5d54-4912-8efc-b7df3fb6c8c4
+langcode: es
+status: true
+dependencies: {  }
+name: 'Cargos representantes legales'
+vid: cargos_representantes_legales
+description: 'Cargos representantes legales de entidades gubernamentales'
+weight: 0
+new_revision: false

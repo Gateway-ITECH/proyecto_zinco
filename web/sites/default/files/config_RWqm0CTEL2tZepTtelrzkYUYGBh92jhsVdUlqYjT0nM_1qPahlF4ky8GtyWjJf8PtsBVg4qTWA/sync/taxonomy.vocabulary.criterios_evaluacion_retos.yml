@@ -1,0 +1,9 @@
+uuid: 5a8a6956-cfae-4dfa-a113-2d6084dfa540
+langcode: es
+status: true
+dependencies: {  }
+name: 'Criterios evaluación retos'
+vid: criterios_evaluacion_retos
+description: 'Criterios de evaluación de retos de innovación'
+weight: 0
+new_revision: false

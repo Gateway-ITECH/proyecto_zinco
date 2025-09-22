@@ -1,0 +1,25 @@
+uuid: 194db2f2-5a1e-4be3-a806-d20041e7f395
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.miembros_de_instancias_de_accion.field_paragraph_miembros_iap
+    - paragraphs.paragraphs_type.miembros_de_instancias_de_accion
+id: paragraph.miembros_de_instancias_de_accion.default
+targetEntityType: paragraph
+bundle: miembros_de_instancias_de_accion
+mode: default
+content:
+  field_paragraph_miembros_iap:
+    type: entity_reference_autocomplete
+    weight: 0
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

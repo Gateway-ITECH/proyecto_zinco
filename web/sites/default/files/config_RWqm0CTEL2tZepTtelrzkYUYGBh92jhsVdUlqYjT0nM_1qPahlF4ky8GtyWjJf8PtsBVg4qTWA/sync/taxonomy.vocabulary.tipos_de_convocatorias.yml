@@ -1,0 +1,9 @@
+uuid: 83932322-d64f-4267-8c08-60bcedb107df
+langcode: es
+status: true
+dependencies: {  }
+name: 'Tipos de convocatorias'
+vid: tipos_de_convocatorias
+description: null
+weight: 0
+new_revision: false

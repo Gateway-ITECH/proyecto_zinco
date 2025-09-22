@@ -1,0 +1,21 @@
+uuid: caca7c96-8f1e-4087-9e4e-783e4258273c
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.miembros_de_instancias_de_accion.field_paragraph_miembros_iap
+    - paragraphs.paragraphs_type.miembros_de_instancias_de_accion
+id: paragraph.miembros_de_instancias_de_accion.default
+targetEntityType: paragraph
+bundle: miembros_de_instancias_de_accion
+mode: default
+content:
+  field_paragraph_miembros_iap:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

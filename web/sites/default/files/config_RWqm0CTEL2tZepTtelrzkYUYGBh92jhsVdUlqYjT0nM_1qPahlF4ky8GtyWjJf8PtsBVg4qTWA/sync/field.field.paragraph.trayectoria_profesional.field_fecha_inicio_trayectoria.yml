@@ -1,0 +1,21 @@
+uuid: 9e487697-82b7-4f07-a7ce-82edfa5a4579
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_fecha_inicio_trayectoria
+    - paragraphs.paragraphs_type.trayectoria_profesional
+  module:
+    - datetime
+id: paragraph.trayectoria_profesional.field_fecha_inicio_trayectoria
+field_name: field_fecha_inicio_trayectoria
+entity_type: paragraph
+bundle: trayectoria_profesional
+label: 'Fecha inicio'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

@@ -1,0 +1,19 @@
+uuid: 21602d5a-b176-450e-9f04-a0f09d74c7ea
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_siglas_ies
+    - zinco_actors.zinco_actors_zincoactors_type.institucion_de_educacion_superio
+id: zinco_actors_zincoactors.institucion_de_educacion_superio.field_siglas_ies
+field_name: field_siglas_ies
+entity_type: zinco_actors_zincoactors
+bundle: institucion_de_educacion_superio
+label: Siglas_ies
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

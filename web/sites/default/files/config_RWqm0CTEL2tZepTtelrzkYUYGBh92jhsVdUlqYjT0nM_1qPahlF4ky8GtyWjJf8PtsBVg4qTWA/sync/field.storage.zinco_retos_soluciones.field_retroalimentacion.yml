@@ -1,0 +1,19 @@
+uuid: 828dc88d-ed87-4fab-bfde-c1ca58f078b2
+langcode: es
+status: true
+dependencies:
+  module:
+    - zinco_retos_soluciones
+id: zinco_retos_soluciones.field_retroalimentacion
+field_name: field_retroalimentacion
+entity_type: zinco_retos_soluciones
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

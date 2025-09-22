@@ -1,0 +1,21 @@
+uuid: 69b945ae-57f2-439f-9493-0d1954069738
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_fecha_inicio_formacion
+    - paragraphs.paragraphs_type.formacion_academica
+  module:
+    - datetime
+id: paragraph.formacion_academica.field_fecha_inicio_formacion
+field_name: field_fecha_inicio_formacion
+entity_type: paragraph
+bundle: formacion_academica
+label: 'Fecha inicio formación'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

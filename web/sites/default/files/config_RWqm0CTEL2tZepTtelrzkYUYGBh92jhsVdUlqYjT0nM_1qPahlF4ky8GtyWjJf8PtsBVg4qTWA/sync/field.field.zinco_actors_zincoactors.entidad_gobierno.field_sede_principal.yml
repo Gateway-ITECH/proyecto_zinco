@@ -1,0 +1,19 @@
+uuid: 0fb4e661-b63f-4248-a72a-5a387fda3fb8
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_sede_principal
+    - zinco_actors.zinco_actors_zincoactors_type.entidad_gobierno
+id: zinco_actors_zincoactors.entidad_gobierno.field_sede_principal
+field_name: field_sede_principal
+entity_type: zinco_actors_zincoactors
+bundle: entidad_gobierno
+label: 'Sede principal'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

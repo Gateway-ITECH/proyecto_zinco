@@ -1,0 +1,30 @@
+uuid: 78c5f301-baae-411d-a4d6-5fe21e27ec02
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_proyectos_idi.field_tecnologia_principal_proye
+    - taxonomy.vocabulary.tecnologias_clave
+  module:
+    - zinco_proyectos_idi
+id: zinco_proyectos_idi.zinco_proyectos_idi.field_tecnologia_principal_proye
+field_name: field_tecnologia_principal_proye
+entity_type: zinco_proyectos_idi
+bundle: zinco_proyectos_idi
+label: 'Tecnología principal proyecto'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tecnologias_clave: tecnologias_clave
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

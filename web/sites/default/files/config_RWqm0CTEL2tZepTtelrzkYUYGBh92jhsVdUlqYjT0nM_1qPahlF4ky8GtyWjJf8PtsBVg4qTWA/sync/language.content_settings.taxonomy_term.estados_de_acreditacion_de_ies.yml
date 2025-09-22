@@ -1,0 +1,11 @@
+uuid: d9108fdf-57c8-487c-87d9-0af24c37e6b3
+langcode: es
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.estados_de_acreditacion_de_ies
+id: taxonomy_term.estados_de_acreditacion_de_ies
+target_entity_type_id: taxonomy_term
+target_bundle: estados_de_acreditacion_de_ies
+default_langcode: site_default
+language_alterable: false

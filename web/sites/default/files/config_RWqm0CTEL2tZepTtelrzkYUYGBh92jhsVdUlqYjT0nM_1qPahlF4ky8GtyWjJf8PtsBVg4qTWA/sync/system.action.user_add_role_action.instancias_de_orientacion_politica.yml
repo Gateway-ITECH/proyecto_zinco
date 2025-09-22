@@ -1,0 +1,14 @@
+uuid: 30410fc8-991d-4387-b803-c30195df33a4
+langcode: es
+status: true
+dependencies:
+  config:
+    - user.role.instancias_de_orientacion_politica
+  module:
+    - user
+id: user_add_role_action.instancias_de_orientacion_politica
+label: 'Añade el rol Instancias de orientación política al(los) usuario(s) seleccionado(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: instancias_de_orientacion_politica

@@ -1,0 +1,20 @@
+uuid: 28bfbf5a-8aa6-41ba-8a97-882d67a1575c
+langcode: es
+status: true
+dependencies:
+  module:
+    - zinco_retos_evaluacion
+    - zinco_retos_soluciones
+id: zinco_retos_evaluacion.field_solucion_evaluada
+field_name: field_solucion_evaluada
+entity_type: zinco_retos_evaluacion
+type: entity_reference
+settings:
+  target_type: zinco_retos_soluciones
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

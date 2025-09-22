@@ -1,0 +1,19 @@
+uuid: c6c6b666-152d-4ec8-828b-7bff0496c5e9
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_palabras_clave
+    - node.type.caja_de_herramientas
+id: node.caja_de_herramientas.field_palabras_clave
+field_name: field_palabras_clave
+entity_type: node
+bundle: caja_de_herramientas
+label: 'Palabras clave'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

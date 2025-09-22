@@ -1,0 +1,19 @@
+uuid: 57f6da65-01b1-4cca-aae0-6d0790040a7f
+langcode: es
+status: true
+dependencies:
+  module:
+    - zinco_proyectos_idi
+id: zinco_proyectos_idi.field_linea_de_investigacion
+field_name: field_linea_de_investigacion
+entity_type: zinco_proyectos_idi
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,20 @@
+uuid: 7cdc2fac-824c-42d3-9a06-c48c9fa08b3b
+langcode: es
+status: true
+dependencies:
+  module:
+    - paragraphs
+    - taxonomy
+id: paragraph.field_calificacion_de_solucion_a
+field_name: field_calificacion_de_solucion_a
+entity_type: paragraph
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

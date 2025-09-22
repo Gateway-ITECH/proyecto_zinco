@@ -1,0 +1,127 @@
+uuid: 4f97a5a9-7eba-4a7a-9e7b-cadabc90a5c4
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.field.node.convocatoria.field_costo
+    - field.field.node.convocatoria.field_fecha_de_apertura
+    - field.field.node.convocatoria.field_fecha_de_cierre
+    - field.field.node.convocatoria.field_publico_objetivo
+    - field.field.node.convocatoria.field_sector_relacionado
+    - field.field.node.convocatoria.field_tipo_de_convocatoria
+    - node.type.convocatoria
+  module:
+    - datetime
+    - path
+id: node.convocatoria.default
+targetEntityType: node
+bundle: convocatoria
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_costo:
+    type: string_textfield
+    weight: 126
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_fecha_de_apertura:
+    type: datetime_default
+    weight: 121
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_fecha_de_cierre:
+    type: datetime_default
+    weight: 122
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_publico_objetivo:
+    type: string_textarea
+    weight: 125
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_sector_relacionado:
+    type: entity_reference_autocomplete
+    weight: 123
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_tipo_de_convocatoria:
+    type: entity_reference_autocomplete
+    weight: 124
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    weight: 15
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 120
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    weight: 16
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

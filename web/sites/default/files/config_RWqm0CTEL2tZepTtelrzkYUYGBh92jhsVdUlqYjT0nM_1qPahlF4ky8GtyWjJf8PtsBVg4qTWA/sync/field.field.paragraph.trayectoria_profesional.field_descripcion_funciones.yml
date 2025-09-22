@@ -1,0 +1,19 @@
+uuid: 81a348da-dc08-46a0-9a6e-cf898c400422
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_descripcion_funciones
+    - paragraphs.paragraphs_type.trayectoria_profesional
+id: paragraph.trayectoria_profesional.field_descripcion_funciones
+field_name: field_descripcion_funciones
+entity_type: paragraph
+bundle: trayectoria_profesional
+label: 'Descripción funciones'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

@@ -1,0 +1,14 @@
+uuid: 10e04247-3247-4929-94fc-08fec4151725
+langcode: es
+status: true
+dependencies:
+  config:
+    - user.role.empresa_explotadora_de_conocimiento
+  module:
+    - user
+id: user_remove_role_action.empresa_explotadora_de_conocimiento
+label: 'Elimina el rol Empresa explotadora de conocimiento al(los) usuario(s) seleccionado(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: empresa_explotadora_de_conocimiento

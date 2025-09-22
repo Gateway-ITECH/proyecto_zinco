@@ -1,0 +1,20 @@
+uuid: e977048a-2466-411c-8afb-67413925e34f
+langcode: es
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+id: node.field_sector_economico_asociado
+field_name: field_sector_economico_asociado
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,20 @@
+uuid: e4e7b506-5bb6-4e15-ae85-a4f8735a363e
+langcode: es
+status: true
+dependencies:
+  module:
+    - user
+    - zinco_retos_evaluacion
+id: zinco_retos_evaluacion.field_evaluador
+field_name: field_evaluador
+entity_type: zinco_retos_evaluacion
+type: entity_reference
+settings:
+  target_type: user
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

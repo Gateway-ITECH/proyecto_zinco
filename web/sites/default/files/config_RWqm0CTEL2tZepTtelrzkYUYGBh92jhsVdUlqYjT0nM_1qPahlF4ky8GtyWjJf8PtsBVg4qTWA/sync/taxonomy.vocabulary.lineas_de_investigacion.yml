@@ -1,0 +1,9 @@
+uuid: 21f0a804-48ef-4c2d-a78d-484aeb8064d7
+langcode: es
+status: true
+dependencies: {  }
+name: 'Líneas de investigación'
+vid: lineas_de_investigacion
+description: null
+weight: 0
+new_revision: false

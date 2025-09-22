@@ -1,0 +1,14 @@
+uuid: 8df1de65-76c9-48f8-9261-6f356cd59c6f
+langcode: es
+status: true
+dependencies:
+  config:
+    - user.role.parque_tecnologico
+  module:
+    - user
+id: user_remove_role_action.parque_tecnologico
+label: 'Elimina el rol Parque tecnológico al(los) usuario(s) seleccionado(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: parque_tecnologico

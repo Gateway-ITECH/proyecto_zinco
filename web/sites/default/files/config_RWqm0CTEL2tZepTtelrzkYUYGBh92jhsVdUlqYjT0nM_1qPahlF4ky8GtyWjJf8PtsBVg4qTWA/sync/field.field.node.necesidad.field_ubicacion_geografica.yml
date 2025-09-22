@@ -1,0 +1,19 @@
+uuid: 3f023bb6-95a2-4621-a11c-b807ad2b06cb
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ubicacion_geografica
+    - node.type.necesidad
+id: node.necesidad.field_ubicacion_geografica
+field_name: field_ubicacion_geografica
+entity_type: node
+bundle: necesidad
+label: 'Ubicacion geográfica'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,19 @@
+uuid: 047c8305-694b-4e73-a330-f769e27393b6
+langcode: es
+status: true
+dependencies:
+  module:
+    - zinco_actors
+id: zinco_actors_zincoactors.field_vision
+field_name: field_vision
+entity_type: zinco_actors_zincoactors
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

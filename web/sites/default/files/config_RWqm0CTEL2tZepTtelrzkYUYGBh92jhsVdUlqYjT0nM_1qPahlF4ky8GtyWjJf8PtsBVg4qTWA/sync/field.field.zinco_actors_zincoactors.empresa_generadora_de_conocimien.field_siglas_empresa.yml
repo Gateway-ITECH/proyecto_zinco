@@ -1,0 +1,19 @@
+uuid: 03553af4-5a66-4f99-8352-8396d5532596
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_siglas_empresa
+    - zinco_actors.zinco_actors_zincoactors_type.empresa_generadora_de_conocimien
+id: zinco_actors_zincoactors.empresa_generadora_de_conocimien.field_siglas_empresa
+field_name: field_siglas_empresa
+entity_type: zinco_actors_zincoactors
+bundle: empresa_generadora_de_conocimien
+label: 'Siglas empresa'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

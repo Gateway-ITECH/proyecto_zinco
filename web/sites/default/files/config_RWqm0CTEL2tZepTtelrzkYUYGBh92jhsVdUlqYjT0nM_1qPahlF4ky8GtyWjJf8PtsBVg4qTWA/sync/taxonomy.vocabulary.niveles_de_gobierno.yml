@@ -1,0 +1,9 @@
+uuid: f3c9ab50-c416-4917-949b-543801151855
+langcode: es
+status: true
+dependencies: {  }
+name: 'Niveles de gobierno'
+vid: niveles_de_gobierno
+description: 'Niveles de gobierno de entidades gubernamentales'
+weight: 0
+new_revision: false

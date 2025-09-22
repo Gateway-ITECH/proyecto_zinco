@@ -1,0 +1,9 @@
+uuid: 2aa38b34-ba58-4380-a815-7386dfd1e8d1
+langcode: es
+status: true
+dependencies: {  }
+name: 'Estados de postulación a retos'
+vid: estados_de_postulacion_a_retos
+description: null
+weight: 0
+new_revision: false

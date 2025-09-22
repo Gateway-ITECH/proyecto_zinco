@@ -1,0 +1,20 @@
+uuid: 0eba8918-33ae-417f-93ec-5ce24c3a8822
+langcode: es
+status: true
+dependencies:
+  module:
+    - user
+    - zinco_actors
+id: user.field_actor
+field_name: field_actor
+entity_type: user
+type: entity_reference
+settings:
+  target_type: zinco_actors_zincoactors
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

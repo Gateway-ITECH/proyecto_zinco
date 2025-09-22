@@ -1,0 +1,21 @@
+uuid: 8c9bb226-43ab-4ba2-ad98-4eb0dfe27abc
+langcode: es
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_nombre_institucion
+field_name: field_nombre_institucion
+entity_type: paragraph
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

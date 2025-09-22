@@ -1,0 +1,14 @@
+uuid: f3c2d482-b28a-42c2-87ba-414a67aeb6ac
+langcode: es
+status: true
+dependencies:
+  config:
+    - user.role.investigador
+  module:
+    - user
+id: user_add_role_action.investigador
+label: 'Añade el rol Investigador al(los) usuario(s) seleccionado(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: investigador

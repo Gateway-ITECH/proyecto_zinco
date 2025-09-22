@@ -69,3 +69,11 @@ zinco_front.perfil_agente_financiador:
     _controller: '\Drupal\zinco_front\Controller\ZincoController::perfil_agente_financiador'
   requirements:
     _permission: 'access content'
+
+zinco_front.filter_form:
+  path: '/filter-form'
+  defaults:
+    _form: '\Drupal\zinco_front\Form\ZincoFilterForm'
+    _title: 'Filter Form'
+  requirements:
+    _permission: 'access content'

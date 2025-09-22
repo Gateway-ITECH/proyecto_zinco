@@ -1,0 +1,24 @@
+uuid: f9d31ada-eb3c-4246-837b-1d10f9e796d0
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_agenda_evento
+    - node.type.evento
+  module:
+    - text
+id: node.evento.field_agenda_evento
+field_name: field_agenda_evento
+entity_type: node
+bundle: evento
+label: 'Agenda evento'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: false
+  required_summary: false
+  allowed_formats: {  }
+field_type: text_with_summary

@@ -1,0 +1,19 @@
+uuid: de89c8cb-0a9a-42e4-bdd2-401ef5a55fa8
+langcode: es
+status: true
+dependencies:
+  module:
+    - zinco_actors
+id: zinco_actors_zincoactors.field_actor_del_cual_dep2nde
+field_name: field_actor_del_cual_dep2nde
+entity_type: zinco_actors_zincoactors
+type: entity_reference
+settings:
+  target_type: zinco_actors_zincoactors
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,19 @@
+uuid: 00c5fd29-3fd9-4498-8ea4-2f9e3d870aca
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_nombre_o_razon_social
+    - zinco_actors.zinco_actors_zincoactors_type.empresa_explotadora_de_conocimie
+id: zinco_actors_zincoactors.empresa_explotadora_de_conocimie.field_nombre_o_razon_social
+field_name: field_nombre_o_razon_social
+entity_type: zinco_actors_zincoactors
+bundle: empresa_explotadora_de_conocimie
+label: 'Nombre o Razón Social'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

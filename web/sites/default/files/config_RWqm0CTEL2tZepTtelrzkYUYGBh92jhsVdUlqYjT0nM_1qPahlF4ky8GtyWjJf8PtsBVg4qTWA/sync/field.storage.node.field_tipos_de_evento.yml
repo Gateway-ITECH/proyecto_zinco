@@ -1,0 +1,20 @@
+uuid: 55118fa8-2d6c-4f6f-8db6-5d53c266ee02
+langcode: es
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+id: node.field_tipos_de_evento
+field_name: field_tipos_de_evento
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

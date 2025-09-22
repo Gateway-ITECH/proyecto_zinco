@@ -1,0 +1,20 @@
+uuid: 5160c9d0-3e8f-4a1e-9c85-96a074e57245
+langcode: es
+status: true
+dependencies:
+  module:
+    - datetime
+    - zinco_actors
+id: zinco_actors_zincoactors.field_fecha_de_nacimiento
+field_name: field_fecha_de_nacimiento
+entity_type: zinco_actors_zincoactors
+type: datetime
+settings:
+  datetime_type: date
+module: datetime
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

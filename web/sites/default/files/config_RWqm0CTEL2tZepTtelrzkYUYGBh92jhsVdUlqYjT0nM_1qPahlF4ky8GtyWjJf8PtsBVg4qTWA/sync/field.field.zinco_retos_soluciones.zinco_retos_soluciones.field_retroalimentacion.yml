@@ -1,0 +1,20 @@
+uuid: 8d6a12ad-9d96-4cf4-9e63-15e4cf035518
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_retos_soluciones.field_retroalimentacion
+  module:
+    - zinco_retos_soluciones
+id: zinco_retos_soluciones.zinco_retos_soluciones.field_retroalimentacion
+field_name: field_retroalimentacion
+entity_type: zinco_retos_soluciones
+bundle: zinco_retos_soluciones
+label: Retroalimentación
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

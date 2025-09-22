@@ -1,0 +1,21 @@
+uuid: 1699e2be-e36d-419e-a100-9bd23d573b9d
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.nuevo_paragraph.field_prueba
+    - paragraphs.paragraphs_type.nuevo_paragraph
+id: paragraph.nuevo_paragraph.default
+targetEntityType: paragraph
+bundle: nuevo_paragraph
+mode: default
+content:
+  field_prueba:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

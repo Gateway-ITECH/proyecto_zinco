@@ -1,0 +1,11 @@
+uuid: b2aa5ee3-721d-453c-903c-d45b00e26031
+langcode: es
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.estados_de_necesidad
+id: taxonomy_term.estados_de_necesidad
+target_entity_type_id: taxonomy_term
+target_bundle: estados_de_necesidad
+default_langcode: site_default
+language_alterable: false

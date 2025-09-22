@@ -1,0 +1,21 @@
+uuid: 7e3e04f1-7a1b-4b3c-b130-c8076e553a78
+langcode: es
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_titulo_obtenido
+field_name: field_titulo_obtenido
+entity_type: paragraph
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,9 @@
+uuid: 493f23d0-b6c9-487e-8442-4be0dad2c810
+langcode: es
+status: true
+dependencies: {  }
+id: entidad_gobierno
+label: 'Entidad gobierno'
+weight: 6
+is_admin: false
+permissions: {  }

@@ -1,0 +1,20 @@
+uuid: 933da0b5-a5ee-4494-b1dc-159c55e60438
+langcode: es
+status: true
+dependencies:
+  module:
+    - datetime
+    - paragraphs
+id: paragraph.field_fecha_fin_formacion
+field_name: field_fecha_fin_formacion
+entity_type: paragraph
+type: datetime
+settings:
+  datetime_type: date
+module: datetime
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

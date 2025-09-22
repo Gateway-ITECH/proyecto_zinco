@@ -1,0 +1,9 @@
+uuid: 36f1e050-164e-41c9-bf9c-838ac932d8b8
+langcode: es
+status: true
+dependencies: {  }
+name: 'Estados de acreditación de IES'
+vid: estados_de_acreditacion_de_ies
+description: 'Estados de acreditación de calidad de Instituciones de Educación Superior'
+weight: 0
+new_revision: false

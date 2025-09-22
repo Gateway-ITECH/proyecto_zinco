@@ -1,0 +1,20 @@
+uuid: 24ab7f9f-b1a6-4518-a1e4-f8965f467f85
+langcode: es
+status: true
+dependencies:
+  module:
+    - taxonomy
+    - zinco_retos_soluciones
+id: zinco_retos_soluciones.field_estado_postulacion_idea
+field_name: field_estado_postulacion_idea
+entity_type: zinco_retos_soluciones
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

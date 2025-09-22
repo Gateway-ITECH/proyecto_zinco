@@ -1,0 +1,18 @@
+uuid: 77228ba9-5d30-400b-9a3d-f2de306a9a88
+langcode: es
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: Cursos
+type: cursos
+description: 'Permite crear un anuncio de curso para la plataforma Zinco'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true

@@ -1,0 +1,93 @@
+uuid: 7c07fc4b-c13d-4498-a9ca-7d3003d80ec8
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.field.node.necesidad.field_archivos_adjuntos
+    - field.field.node.necesidad.field_estado_de_la_necesidad
+    - field.field.node.necesidad.field_necesidad_descripcion_deta
+    - field.field.node.necesidad.field_proponentes
+    - field.field.node.necesidad.field_sector_economico_asociado
+    - field.field.node.necesidad.field_tecnologia_relacionada
+    - field.field.node.necesidad.field_tipo_de_necesidad
+    - field.field.node.necesidad.field_ubicacion_geografica
+    - node.type.necesidad
+  module:
+    - file
+    - text
+    - user
+id: node.necesidad.default
+targetEntityType: node
+bundle: necesidad
+mode: default
+content:
+  field_archivos_adjuntos:
+    type: file_default
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_estado_de_la_necesidad:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_necesidad_descripcion_deta:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_proponentes:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_sector_economico_asociado:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_tecnologia_relacionada:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_tipo_de_necesidad:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_ubicacion_geografica:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true

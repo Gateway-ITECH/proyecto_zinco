@@ -1,0 +1,9 @@
+uuid: 52139b00-fdbb-46f0-8938-8ef609f911ac
+langcode: es
+status: true
+dependencies: {  }
+name: 'Opciones de evaluación de postulaciones de retos'
+vid: opciones_de_evaluacion_de_postul
+description: null
+weight: 0
+new_revision: false

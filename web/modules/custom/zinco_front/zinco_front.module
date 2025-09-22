@@ -31,6 +31,7 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
     'zinco_dashboard' => [
       'variables' => [
         'test_var' => NULL,
+        'filter_form' => NULL,
       ],
       'template' => 'zinco-dashboard',
     ],

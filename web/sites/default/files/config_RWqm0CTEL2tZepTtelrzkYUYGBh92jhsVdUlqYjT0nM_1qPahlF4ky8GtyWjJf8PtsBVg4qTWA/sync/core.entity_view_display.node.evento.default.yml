@@ -1,0 +1,66 @@
+uuid: 58d00933-d3d2-4805-930c-6ef57d8ddb85
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.field.node.evento.field_agenda_evento
+    - field.field.node.evento.field_fecha_del_evento
+    - field.field.node.evento.field_lugar_del_evento
+    - field.field.node.evento.field_organizadores_del_evento
+    - field.field.node.evento.field_tipos_de_evento
+    - node.type.evento
+  module:
+    - datetime
+    - text
+    - user
+id: node.evento.default
+targetEntityType: node
+bundle: evento
+mode: default
+content:
+  field_agenda_evento:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_fecha_del_evento:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_lugar_del_evento:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_organizadores_del_evento:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_tipos_de_evento:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true

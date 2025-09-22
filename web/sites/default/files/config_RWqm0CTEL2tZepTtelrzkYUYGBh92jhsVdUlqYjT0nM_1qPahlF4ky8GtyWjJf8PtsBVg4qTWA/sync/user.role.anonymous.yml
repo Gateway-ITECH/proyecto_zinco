@@ -1,0 +1,82 @@
+uuid: fce58431-8219-4f93-a7ac-816af99b3a86
+langcode: es
+status: true
+dependencies:
+  config:
+    - filter.format.restricted_html
+    - node.type.caja_de_herramientas
+    - node.type.convocatoria
+    - node.type.cursos
+    - node.type.evento
+    - node.type.necesidad
+    - node.type.noticia
+  module:
+    - comment
+    - contact
+    - field_ui
+    - filter
+    - node
+    - search
+    - system
+    - zinco_actors
+    - zinco_etl
+    - zinco_grupos_investigacion
+    - zinco_proyectos_idi
+    - zinco_retos_evaluacion
+    - zinco_retos_innovacion
+    - zinco_retos_soluciones
+_core:
+  default_config_hash: 6WavjUYXIegP9AAg2zXGx54MWIVoomC3SZhNiqe-Dyk
+id: anonymous
+label: 'Usuario anónimo'
+weight: 0
+is_admin: false
+permissions:
+  - 'access comments'
+  - 'access content'
+  - 'access site-wide contact form'
+  - 'administer zinco etl configuration'
+  - 'administer zinco_actors_zincoactors display'
+  - 'administer zinco_actors_zincoactors fields'
+  - 'administer zinco_actors_zincoactors form display'
+  - 'administer zinco_actors_zincoactors types'
+  - 'administer zinco_grupos_investigacion'
+  - 'administer zinco_grupos_investigacion display'
+  - 'administer zinco_grupos_investigacion fields'
+  - 'administer zinco_grupos_investigacion form display'
+  - 'administer zinco_proyectos_idi'
+  - 'administer zinco_proyectos_idi display'
+  - 'administer zinco_proyectos_idi fields'
+  - 'administer zinco_proyectos_idi form display'
+  - 'administer zinco_retos_evaluacion'
+  - 'administer zinco_retos_evaluacion display'
+  - 'administer zinco_retos_evaluacion fields'
+  - 'administer zinco_retos_evaluacion form display'
+  - 'administer zinco_retos_innovacion display'
+  - 'administer zinco_retos_innovacion fields'
+  - 'administer zinco_retos_innovacion form display'
+  - 'administer zinco_retos_innovacion types'
+  - 'administer zinco_retos_soluciones'
+  - 'administer zinco_retos_soluciones display'
+  - 'administer zinco_retos_soluciones fields'
+  - 'administer zinco_retos_soluciones form display'
+  - 'create caja_de_herramientas content'
+  - 'create convocatoria content'
+  - 'create cursos content'
+  - 'create evento content'
+  - 'create necesidad content'
+  - 'create noticia content'
+  - 'edit any caja_de_herramientas content'
+  - 'edit any convocatoria content'
+  - 'edit any cursos content'
+  - 'edit any evento content'
+  - 'edit any necesidad content'
+  - 'edit any noticia content'
+  - 'search content'
+  - 'use text format restricted_html'
+  - 'view caja_de_herramientas revisions'
+  - 'view convocatoria revisions'
+  - 'view cursos revisions'
+  - 'view evento revisions'
+  - 'view necesidad revisions'
+  - 'view noticia revisions'

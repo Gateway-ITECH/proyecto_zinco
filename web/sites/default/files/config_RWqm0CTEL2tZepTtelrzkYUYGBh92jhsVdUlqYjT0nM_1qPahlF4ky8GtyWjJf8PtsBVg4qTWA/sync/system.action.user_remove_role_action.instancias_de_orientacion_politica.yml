@@ -1,0 +1,14 @@
+uuid: 4ee824b1-0ac0-467d-91e8-3bb54b507272
+langcode: es
+status: true
+dependencies:
+  config:
+    - user.role.instancias_de_orientacion_politica
+  module:
+    - user
+id: user_remove_role_action.instancias_de_orientacion_politica
+label: 'Elimina el rol Instancias de orientación política al(los) usuario(s) seleccionado(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: instancias_de_orientacion_politica

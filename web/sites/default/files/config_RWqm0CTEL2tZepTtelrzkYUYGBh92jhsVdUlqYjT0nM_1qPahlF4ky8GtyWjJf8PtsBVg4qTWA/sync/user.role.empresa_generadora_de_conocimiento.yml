@@ -1,0 +1,9 @@
+uuid: 83861c4e-94d5-4e86-94c7-d93618738d22
+langcode: es
+status: true
+dependencies: {  }
+id: empresa_generadora_de_conocimiento
+label: 'Empresa generadora de conocimiento'
+weight: 5
+is_admin: false
+permissions: {  }

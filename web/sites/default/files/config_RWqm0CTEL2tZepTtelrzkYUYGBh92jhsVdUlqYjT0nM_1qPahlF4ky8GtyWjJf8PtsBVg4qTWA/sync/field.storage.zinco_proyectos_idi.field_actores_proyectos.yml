@@ -1,0 +1,20 @@
+uuid: f5eb5704-50a2-443f-8a2e-7b4a657a373a
+langcode: es
+status: true
+dependencies:
+  module:
+    - zinco_actors
+    - zinco_proyectos_idi
+id: zinco_proyectos_idi.field_actores_proyectos
+field_name: field_actores_proyectos
+entity_type: zinco_proyectos_idi
+type: entity_reference
+settings:
+  target_type: zinco_actors_zincoactors
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

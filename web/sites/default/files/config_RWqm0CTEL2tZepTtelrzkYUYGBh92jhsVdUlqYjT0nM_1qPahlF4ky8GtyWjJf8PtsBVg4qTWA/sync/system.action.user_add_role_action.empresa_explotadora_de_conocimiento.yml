@@ -1,0 +1,14 @@
+uuid: fb573342-6cce-461c-8563-7008145dcce7
+langcode: es
+status: true
+dependencies:
+  config:
+    - user.role.empresa_explotadora_de_conocimiento
+  module:
+    - user
+id: user_add_role_action.empresa_explotadora_de_conocimiento
+label: 'Añade el rol Empresa explotadora de conocimiento al(los) usuario(s) seleccionado(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: empresa_explotadora_de_conocimiento

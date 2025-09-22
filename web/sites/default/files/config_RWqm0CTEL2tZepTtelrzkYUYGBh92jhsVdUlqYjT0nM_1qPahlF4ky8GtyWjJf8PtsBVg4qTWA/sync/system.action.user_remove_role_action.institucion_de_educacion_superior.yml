@@ -1,0 +1,14 @@
+uuid: db14f7a6-dc2e-4961-9acc-c4bc8532acc0
+langcode: es
+status: true
+dependencies:
+  config:
+    - user.role.institucion_de_educacion_superior
+  module:
+    - user
+id: user_remove_role_action.institucion_de_educacion_superior
+label: 'Elimina el rol Institución de educación superior al(los) usuario(s) seleccionado(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: institucion_de_educacion_superior

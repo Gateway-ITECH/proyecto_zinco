@@ -1,0 +1,20 @@
+uuid: e25903e4-07b6-4274-bbf8-8e830ee7d9e5
+langcode: es
+status: true
+dependencies:
+  module:
+    - datetime
+    - zinco_proyectos_idi
+id: zinco_proyectos_idi.field_fecha_inicio_proyecto
+field_name: field_fecha_inicio_proyecto
+entity_type: zinco_proyectos_idi
+type: datetime
+settings:
+  datetime_type: date
+module: datetime
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

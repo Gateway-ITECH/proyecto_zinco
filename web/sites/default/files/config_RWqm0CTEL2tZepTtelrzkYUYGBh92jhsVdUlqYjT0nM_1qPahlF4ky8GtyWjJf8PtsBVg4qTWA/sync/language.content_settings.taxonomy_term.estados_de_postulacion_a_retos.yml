@@ -1,0 +1,11 @@
+uuid: 686a9b7f-3c3a-414f-a5fb-54b6fcc238ad
+langcode: es
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.estados_de_postulacion_a_retos
+id: taxonomy_term.estados_de_postulacion_a_retos
+target_entity_type_id: taxonomy_term
+target_bundle: estados_de_postulacion_a_retos
+default_langcode: site_default
+language_alterable: false

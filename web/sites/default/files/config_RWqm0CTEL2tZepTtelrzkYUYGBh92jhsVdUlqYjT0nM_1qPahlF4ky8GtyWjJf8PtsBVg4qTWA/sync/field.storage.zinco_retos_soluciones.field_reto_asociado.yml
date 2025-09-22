@@ -1,0 +1,20 @@
+uuid: d04db184-e138-408d-a6d3-e152e4085698
+langcode: es
+status: true
+dependencies:
+  module:
+    - zinco_retos_innovacion
+    - zinco_retos_soluciones
+id: zinco_retos_soluciones.field_reto_asociado
+field_name: field_reto_asociado
+entity_type: zinco_retos_soluciones
+type: entity_reference
+settings:
+  target_type: zinco_retos_innovacion
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

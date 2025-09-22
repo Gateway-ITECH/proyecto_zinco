@@ -1,0 +1,37 @@
+uuid: f61520b4-e39c-4794-85f7-e9866df63e4c
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_miembros_iep
+    - paragraphs.paragraphs_type.miembros_de_instancias_de_accion
+    - zinco_actors.zinco_actors_zincoactors_type.instancias_de_orientacion_politi
+  module:
+    - entity_reference_revisions
+id: zinco_actors_zincoactors.instancias_de_orientacion_politi.field_miembros_iep
+field_name: field_miembros_iep
+entity_type: zinco_actors_zincoactors
+bundle: instancias_de_orientacion_politi
+label: miembros_iep
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      miembros_de_instancias_de_accion: miembros_de_instancias_de_accion
+    negate: 0
+    target_bundles_drag_drop:
+      miembros_de_instancias_de_accion:
+        weight: 4
+        enabled: true
+      nuevo_paragraph:
+        weight: 5
+        enabled: false
+      otro_paragraph:
+        weight: 6
+        enabled: false
+field_type: entity_reference_revisions

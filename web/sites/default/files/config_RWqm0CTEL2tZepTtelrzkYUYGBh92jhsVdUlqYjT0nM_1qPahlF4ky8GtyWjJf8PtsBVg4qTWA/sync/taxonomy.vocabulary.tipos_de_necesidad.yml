@@ -1,0 +1,9 @@
+uuid: 234c4285-2a60-4156-af20-6eec34464b60
+langcode: es
+status: true
+dependencies: {  }
+name: 'Tipos de necesidad'
+vid: tipos_de_necesidad
+description: null
+weight: 0
+new_revision: false

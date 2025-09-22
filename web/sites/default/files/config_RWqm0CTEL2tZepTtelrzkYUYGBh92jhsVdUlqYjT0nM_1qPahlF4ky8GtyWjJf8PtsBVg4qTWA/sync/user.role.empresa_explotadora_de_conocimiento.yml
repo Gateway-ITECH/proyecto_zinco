@@ -1,0 +1,9 @@
+uuid: 4fbe5162-e35f-49a9-9b11-c7703d504fb1
+langcode: es
+status: true
+dependencies: {  }
+id: empresa_explotadora_de_conocimiento
+label: 'Empresa explotadora de conocimiento'
+weight: 4
+is_admin: false
+permissions: {  }

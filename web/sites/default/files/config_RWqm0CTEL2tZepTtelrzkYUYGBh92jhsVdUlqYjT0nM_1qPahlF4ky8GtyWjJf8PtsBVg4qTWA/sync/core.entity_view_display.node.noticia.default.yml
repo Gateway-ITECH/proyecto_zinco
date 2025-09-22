@@ -1,0 +1,42 @@
+uuid: 45805263-5bdd-4949-88a2-b6b3ab4930b0
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.field.node.noticia.field_contenido_noticia
+    - field.field.node.noticia.field_imagen_destacada
+    - node.type.noticia
+  module:
+    - image
+    - text
+    - user
+id: node.noticia.default
+targetEntityType: node
+bundle: noticia
+mode: default
+content:
+  field_contenido_noticia:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_imagen_destacada:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true

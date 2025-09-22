@@ -3,6 +3,7 @@
 namespace Drupal\zinco_front\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\zinco_front\Service\DumpDataService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -10,6 +11,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Provides a ZincoController.
  */
 class ZincoController extends ControllerBase {
+
+  /**
+   * The form builder.
+   *
+   * @var \Drupal\Core\Form\FormBuilderInterface
+   */
+  protected $formBuilder;
 
   /**
    * The DumpDataService.
@@ -21,10 +29,13 @@ class ZincoController extends ControllerBase {
   /**
    * Constructs a new ZincoController object.
    *
+   * @param \Drupal\Core\Form\FormBuilderInterface $form_builder
+   *   The form builder.
    * @param \Drupal\zinco_front\Service\DumpDataService $dumpDataService
    *   The dump data service.
    */
-  public function __construct(DumpDataService $dumpDataService) {
+  public function __construct(FormBuilderInterface $form_builder, DumpDataService $dumpDataService) {
+    $this->formBuilder = $form_builder;
     $this->dumpDataService = $dumpDataService;
   }
 
@@ -33,6 +44,7 @@ class ZincoController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
+      $container->get('form_builder'),
       $container->get('zinco_front.dump_data_service')
     );
   }
@@ -89,9 +101,11 @@ class ZincoController extends ControllerBase {
    *   A simple renderable array.
    */
   public function dashboard() {
+    $form = $this->formBuilder->getForm('Drupal\zinco_front\Form\ZincoFilterForm');
     return [
       '#theme' => 'zinco_dashboard',
       '#test_var' => $this->t('Hello from controller'),
+      '#filter_form' => $form,
     ];
   }
 

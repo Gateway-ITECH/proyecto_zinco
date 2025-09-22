@@ -1,0 +1,11 @@
+uuid: 02616c8b-1dbe-4371-8f5b-b6d479ff92c4
+langcode: es
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.lineas_de_investigacion
+id: taxonomy_term.lineas_de_investigacion
+target_entity_type_id: taxonomy_term
+target_bundle: lineas_de_investigacion
+default_langcode: site_default
+language_alterable: false

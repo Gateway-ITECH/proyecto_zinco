@@ -1,0 +1,11 @@
+uuid: 0f8f3c55-dcda-4328-a98f-7e5e6237f37b
+langcode: es
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.tecnologias_clave
+id: taxonomy_term.tecnologias_clave
+target_entity_type_id: taxonomy_term
+target_bundle: tecnologias_clave
+default_langcode: site_default
+language_alterable: false

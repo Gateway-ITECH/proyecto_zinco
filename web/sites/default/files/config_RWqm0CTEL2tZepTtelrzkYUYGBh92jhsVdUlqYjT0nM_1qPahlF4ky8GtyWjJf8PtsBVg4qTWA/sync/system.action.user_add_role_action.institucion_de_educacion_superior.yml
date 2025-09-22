@@ -1,0 +1,14 @@
+uuid: e1521c39-3580-4961-8143-d51061a7285c
+langcode: es
+status: true
+dependencies:
+  config:
+    - user.role.institucion_de_educacion_superior
+  module:
+    - user
+id: user_add_role_action.institucion_de_educacion_superior
+label: 'Añade el rol Institución de educación superior al(los) usuario(s) seleccionado(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: institucion_de_educacion_superior

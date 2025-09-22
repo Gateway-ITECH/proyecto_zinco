@@ -1,0 +1,11 @@
+uuid: 04f9de24-b91a-491d-b7a2-485081f4d0dc
+langcode: es
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.categorias_grupos_de_investigaci
+id: taxonomy_term.categorias_grupos_de_investigaci
+target_entity_type_id: taxonomy_term
+target_bundle: categorias_grupos_de_investigaci
+default_langcode: site_default
+language_alterable: false

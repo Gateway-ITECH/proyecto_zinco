@@ -1,0 +1,29 @@
+uuid: 1aec5d6b-ff03-4cce-a01b-3bd41540ab01
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_calificacion_de_solucion_a
+    - paragraphs.paragraphs_type.puntuacion_de_criterios_de_reto
+    - taxonomy.vocabulary.opciones_de_evaluacion_de_postul
+id: paragraph.puntuacion_de_criterios_de_reto.field_calificacion_de_solucion_a
+field_name: field_calificacion_de_solucion_a
+entity_type: paragraph
+bundle: puntuacion_de_criterios_de_reto
+label: 'Calificacion de solución a reto'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      opciones_de_evaluacion_de_postul: opciones_de_evaluacion_de_postul
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,95 @@
+uuid: a7bc2e0a-327f-47b1-8ea4-cb575452255b
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.field.zinco_retos_soluciones.zinco_retos_soluciones.field_archvos_solucion
+    - field.field.zinco_retos_soluciones.zinco_retos_soluciones.field_autores_solucion
+    - field.field.zinco_retos_soluciones.zinco_retos_soluciones.field_estado_postulacion_idea
+    - field.field.zinco_retos_soluciones.zinco_retos_soluciones.field_reto_asociado
+    - field.field.zinco_retos_soluciones.zinco_retos_soluciones.field_retroalimentacion
+    - field.field.zinco_retos_soluciones.zinco_retos_soluciones.field_revisores_postulacion
+  module:
+    - file
+    - text
+    - zinco_retos_soluciones
+id: zinco_retos_soluciones.zinco_retos_soluciones.default
+targetEntityType: zinco_retos_soluciones
+bundle: zinco_retos_soluciones
+mode: default
+content:
+  description:
+    type: text_textarea
+    weight: 1
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_archvos_solucion:
+    type: file_generic
+    weight: 4
+    region: content
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+  field_autores_solucion:
+    type: entity_reference_autocomplete
+    weight: 2
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_estado_postulacion_idea:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_reto_asociado:
+    type: entity_reference_autocomplete
+    weight: 3
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_retroalimentacion:
+    type: string_textarea
+    weight: 6
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_revisores_postulacion:
+    type: entity_reference_autocomplete
+    weight: 7
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  label:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

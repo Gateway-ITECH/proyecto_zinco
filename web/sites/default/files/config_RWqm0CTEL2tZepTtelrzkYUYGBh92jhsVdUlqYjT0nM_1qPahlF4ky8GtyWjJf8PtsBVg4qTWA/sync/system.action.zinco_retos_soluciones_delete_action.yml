@@ -1,0 +1,13 @@
+uuid: 41e7f003-1d78-4892-aa94-c9aa12dd6545
+langcode: es
+status: true
+dependencies:
+  module:
+    - zinco_retos_soluciones
+_core:
+  default_config_hash: gr5Xh9jbKJzjR2jP9fOnG6HfM4xA3F50TyT29_ak964
+id: zinco_retos_soluciones_delete_action
+label: 'Delete zinco retos solucioness'
+type: zinco_retos_soluciones
+plugin: 'entity:delete_action:zinco_retos_soluciones'
+configuration: {  }

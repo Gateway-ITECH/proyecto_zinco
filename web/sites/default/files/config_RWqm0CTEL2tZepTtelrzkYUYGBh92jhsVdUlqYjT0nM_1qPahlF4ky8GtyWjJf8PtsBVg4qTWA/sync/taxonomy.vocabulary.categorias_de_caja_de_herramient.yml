@@ -1,0 +1,9 @@
+uuid: 2a421027-7e07-4772-ab3a-c0a408bda16b
+langcode: es
+status: true
+dependencies: {  }
+name: 'Categorías de caja de herramientas CTI'
+vid: categorias_de_caja_de_herramient
+description: null
+weight: 0
+new_revision: false

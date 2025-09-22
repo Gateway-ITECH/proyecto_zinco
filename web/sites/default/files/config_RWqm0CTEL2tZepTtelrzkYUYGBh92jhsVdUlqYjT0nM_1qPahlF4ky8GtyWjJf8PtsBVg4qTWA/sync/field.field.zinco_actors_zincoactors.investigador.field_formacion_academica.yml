@@ -1,0 +1,40 @@
+uuid: 68913896-3851-4d0f-9e0a-d183e8bf06aa
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_formacion_academica
+    - paragraphs.paragraphs_type.formacion_academica
+    - zinco_actors.zinco_actors_zincoactors_type.investigador
+  module:
+    - entity_reference_revisions
+id: zinco_actors_zincoactors.investigador.field_formacion_academica
+field_name: field_formacion_academica
+entity_type: zinco_actors_zincoactors
+bundle: investigador
+label: 'Formación académica'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      formacion_academica: formacion_academica
+    negate: 0
+    target_bundles_drag_drop:
+      formacion_academica:
+        weight: 5
+        enabled: true
+      miembros_de_instancias_de_accion:
+        weight: 6
+        enabled: false
+      nuevo_paragraph:
+        weight: 7
+        enabled: false
+      otro_paragraph:
+        weight: 8
+        enabled: false
+field_type: entity_reference_revisions

@@ -1,0 +1,21 @@
+uuid: 5aa04c60-6edf-4f43-a74a-17cd83765b54
+langcode: es
+status: true
+dependencies:
+  module:
+    - zinco_actors
+id: zinco_actors_zincoactors.field_nombre_representante_legal
+field_name: field_nombre_representante_legal
+entity_type: zinco_actors_zincoactors
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

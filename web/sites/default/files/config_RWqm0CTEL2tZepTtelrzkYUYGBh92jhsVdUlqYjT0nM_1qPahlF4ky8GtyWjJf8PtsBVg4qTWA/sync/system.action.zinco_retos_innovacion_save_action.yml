@@ -1,0 +1,13 @@
+uuid: 13f749ba-c510-4104-b579-0a8f43b02563
+langcode: es
+status: true
+dependencies:
+  module:
+    - zinco_retos_innovacion
+_core:
+  default_config_hash: IHiU4tsPsARRKkYBLBk7NZl61BnXazpgGuJ1iZxDnLI
+id: zinco_retos_innovacion_save_action
+label: 'Save zinco retos innovacions'
+type: zinco_retos_innovacion
+plugin: 'entity:save_action:zinco_retos_innovacion'
+configuration: {  }

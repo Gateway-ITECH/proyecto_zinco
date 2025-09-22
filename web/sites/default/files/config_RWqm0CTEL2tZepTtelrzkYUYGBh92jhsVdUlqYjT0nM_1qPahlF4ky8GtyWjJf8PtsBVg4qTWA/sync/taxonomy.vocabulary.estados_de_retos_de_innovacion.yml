@@ -1,0 +1,9 @@
+uuid: f814f029-500b-48ed-8131-f21670062d68
+langcode: es
+status: true
+dependencies: {  }
+name: 'Estados de retos de innovación'
+vid: estados_de_retos_de_innovacion
+description: 'Estados de retos de innovación'
+weight: 0
+new_revision: false

@@ -1,0 +1,77 @@
+uuid: e4a3d3df-1596-43fe-b5c4-8ba8edcde83c
+langcode: es
+status: true
+dependencies:
+  module:
+    - text
+    - zinco_grupos_investigacion
+id: zinco_grupos_investigacion.zinco_grupos_investigacion.default
+targetEntityType: zinco_grupos_investigacion
+bundle: zinco_grupos_investigacion
+mode: default
+content:
+  categoria_grupo:
+    type: entity_reference_autocomplete
+    weight: 3
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  codigo_oficial:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  description:
+    type: text_textarea
+    weight: 1
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  lineas_de_investigacion:
+    type: entity_reference_autocomplete
+    weight: 4
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  miembros:
+    type: entity_reference_autocomplete
+    weight: 6
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 5
+    region: content
+    settings:
+      display_label: false
+    third_party_settings: {  }
+  titulo:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  label: true
+  uid: true

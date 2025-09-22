@@ -1,0 +1,21 @@
+uuid: e46806f9-e505-4ba0-99f4-08489353968b
+langcode: es
+status: true
+dependencies:
+  module:
+    - zinco_actors
+id: zinco_actors_zincoactors.field_afiliacion_actual
+field_name: field_afiliacion_actual
+entity_type: zinco_actors_zincoactors
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

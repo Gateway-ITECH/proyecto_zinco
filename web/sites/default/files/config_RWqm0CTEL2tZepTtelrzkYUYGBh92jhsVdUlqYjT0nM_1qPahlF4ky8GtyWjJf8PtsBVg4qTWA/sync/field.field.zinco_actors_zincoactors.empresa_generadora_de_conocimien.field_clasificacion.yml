@@ -1,0 +1,29 @@
+uuid: 803a20b7-8471-4208-aa68-2dfc17828e28
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_clasificacion
+    - taxonomy.vocabulary.tipos_de_generadores_de_conocimi
+    - zinco_actors.zinco_actors_zincoactors_type.empresa_generadora_de_conocimien
+id: zinco_actors_zincoactors.empresa_generadora_de_conocimien.field_clasificacion
+field_name: field_clasificacion
+entity_type: zinco_actors_zincoactors
+bundle: empresa_generadora_de_conocimien
+label: 'Clasificación '
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tipos_de_generadores_de_conocimi: tipos_de_generadores_de_conocimi
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

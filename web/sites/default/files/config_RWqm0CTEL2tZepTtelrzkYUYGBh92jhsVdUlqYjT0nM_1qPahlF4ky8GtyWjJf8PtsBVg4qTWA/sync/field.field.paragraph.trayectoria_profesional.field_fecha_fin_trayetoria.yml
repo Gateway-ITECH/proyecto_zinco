@@ -1,0 +1,21 @@
+uuid: a1e839fa-3532-4245-b3fc-5d22142072b7
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_fecha_fin_trayetoria
+    - paragraphs.paragraphs_type.trayectoria_profesional
+  module:
+    - datetime
+id: paragraph.trayectoria_profesional.field_fecha_fin_trayetoria
+field_name: field_fecha_fin_trayetoria
+entity_type: paragraph
+bundle: trayectoria_profesional
+label: 'Fecha fin'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

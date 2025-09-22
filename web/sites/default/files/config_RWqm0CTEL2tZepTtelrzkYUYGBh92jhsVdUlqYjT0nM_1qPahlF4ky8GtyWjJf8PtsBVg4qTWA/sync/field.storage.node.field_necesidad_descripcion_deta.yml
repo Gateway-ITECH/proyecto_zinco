@@ -1,0 +1,19 @@
+uuid: 064f9a49-8ffd-4971-baf2-4c5cbceb6be4
+langcode: es
+status: true
+dependencies:
+  module:
+    - node
+    - text
+id: node.field_necesidad_descripcion_deta
+field_name: field_necesidad_descripcion_deta
+entity_type: node
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

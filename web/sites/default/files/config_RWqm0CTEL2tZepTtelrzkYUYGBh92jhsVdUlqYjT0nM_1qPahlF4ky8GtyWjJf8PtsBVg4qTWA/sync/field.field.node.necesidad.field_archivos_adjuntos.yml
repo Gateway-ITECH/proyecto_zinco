@@ -1,0 +1,27 @@
+uuid: 0bb46a45-c4fc-4505-b17c-950669081a41
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_archivos_adjuntos
+    - node.type.necesidad
+  module:
+    - file
+id: node.necesidad.field_archivos_adjuntos
+field_name: field_archivos_adjuntos
+entity_type: node
+bundle: necesidad
+label: 'Archivos adjuntos'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: txt
+  max_filesize: ''
+  description_field: false
+field_type: file

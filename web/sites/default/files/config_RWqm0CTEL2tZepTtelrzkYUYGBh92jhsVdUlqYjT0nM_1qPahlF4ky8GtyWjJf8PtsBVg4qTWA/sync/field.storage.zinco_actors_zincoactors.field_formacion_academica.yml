@@ -1,0 +1,21 @@
+uuid: 9450895b-2a4c-4d33-b22b-5a4bb219a523
+langcode: es
+status: true
+dependencies:
+  module:
+    - entity_reference_revisions
+    - paragraphs
+    - zinco_actors
+id: zinco_actors_zincoactors.field_formacion_academica
+field_name: field_formacion_academica
+entity_type: zinco_actors_zincoactors
+type: entity_reference_revisions
+settings:
+  target_type: paragraph
+module: entity_reference_revisions
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

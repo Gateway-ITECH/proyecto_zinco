@@ -1,0 +1,14 @@
+uuid: bc4e7632-596e-443f-8d9e-0d394df91b30
+langcode: es
+status: true
+dependencies:
+  config:
+    - user.role.parque_tecnologico
+  module:
+    - user
+id: user_add_role_action.parque_tecnologico
+label: 'Añade el rol Parque tecnológico al(los) usuario(s) seleccionado(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: parque_tecnologico

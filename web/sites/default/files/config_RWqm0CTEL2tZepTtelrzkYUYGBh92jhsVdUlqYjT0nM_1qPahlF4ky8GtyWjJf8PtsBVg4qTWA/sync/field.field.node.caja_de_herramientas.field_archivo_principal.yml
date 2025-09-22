@@ -1,0 +1,27 @@
+uuid: 44fae7ab-3892-4775-b931-859dad71c8d7
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_archivo_principal
+    - node.type.caja_de_herramientas
+  module:
+    - file
+id: node.caja_de_herramientas.field_archivo_principal
+field_name: field_archivo_principal
+entity_type: node
+bundle: caja_de_herramientas
+label: 'Archivo principal'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'txt docx pdf xlsx'
+  max_filesize: ''
+  description_field: false
+field_type: file

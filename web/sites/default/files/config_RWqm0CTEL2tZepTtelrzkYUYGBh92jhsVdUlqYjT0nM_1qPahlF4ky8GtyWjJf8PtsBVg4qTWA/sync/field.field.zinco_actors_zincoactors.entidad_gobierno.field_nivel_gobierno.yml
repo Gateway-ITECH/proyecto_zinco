@@ -1,0 +1,29 @@
+uuid: 769f7487-3b5c-4df6-9512-3d388a6a314b
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_nivel_gobierno
+    - taxonomy.vocabulary.niveles_de_gobierno
+    - zinco_actors.zinco_actors_zincoactors_type.entidad_gobierno
+id: zinco_actors_zincoactors.entidad_gobierno.field_nivel_gobierno
+field_name: field_nivel_gobierno
+entity_type: zinco_actors_zincoactors
+bundle: entidad_gobierno
+label: 'Nivel gobierno'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      niveles_de_gobierno: niveles_de_gobierno
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

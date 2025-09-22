@@ -1,0 +1,21 @@
+uuid: 2bbf0c5a-dc6b-43ec-8019-261dbe0929c5
+langcode: es
+status: true
+dependencies:
+  module:
+    - entity_reference_revisions
+    - paragraphs
+    - zinco_retos_evaluacion
+id: zinco_retos_evaluacion.field_puntuacion_de_solucion
+field_name: field_puntuacion_de_solucion
+entity_type: zinco_retos_evaluacion
+type: entity_reference_revisions
+settings:
+  target_type: paragraph
+module: entity_reference_revisions
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

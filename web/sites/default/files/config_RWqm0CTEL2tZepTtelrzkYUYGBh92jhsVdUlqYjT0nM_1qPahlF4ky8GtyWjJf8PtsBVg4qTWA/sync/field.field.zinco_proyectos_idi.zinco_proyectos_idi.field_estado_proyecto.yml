@@ -1,0 +1,30 @@
+uuid: 694f7736-dc1f-4918-9045-0b0988aaccb7
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_proyectos_idi.field_estado_proyecto
+    - taxonomy.vocabulary.estados_proyectos
+  module:
+    - zinco_proyectos_idi
+id: zinco_proyectos_idi.zinco_proyectos_idi.field_estado_proyecto
+field_name: field_estado_proyecto
+entity_type: zinco_proyectos_idi
+bundle: zinco_proyectos_idi
+label: 'Estado proyecto'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      estados_proyectos: estados_proyectos
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

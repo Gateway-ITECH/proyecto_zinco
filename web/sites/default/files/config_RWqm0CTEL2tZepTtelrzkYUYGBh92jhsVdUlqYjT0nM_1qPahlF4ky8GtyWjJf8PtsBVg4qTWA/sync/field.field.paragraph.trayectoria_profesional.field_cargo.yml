@@ -1,0 +1,19 @@
+uuid: 97bfeb5c-7ee9-4e7d-936e-b613782e16ba
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_cargo
+    - paragraphs.paragraphs_type.trayectoria_profesional
+id: paragraph.trayectoria_profesional.field_cargo
+field_name: field_cargo
+entity_type: paragraph
+bundle: trayectoria_profesional
+label: Cargo
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

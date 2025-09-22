@@ -1,0 +1,171 @@
+uuid: 7aa392ee-5ed2-49cf-bb82-b3219a8c61e4
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.field.zinco_actors_zincoactors.institucion_de_educacion_superio.field_caracter_academico
+    - field.field.zinco_actors_zincoactors.institucion_de_educacion_superio.field_estado_acreditacion
+    - field.field.zinco_actors_zincoactors.institucion_de_educacion_superio.field_mision
+    - field.field.zinco_actors_zincoactors.institucion_de_educacion_superio.field_siglas_ies
+    - field.field.zinco_actors_zincoactors.institucion_de_educacion_superio.field_tipo_de_ies
+    - image.style.thumbnail
+    - zinco_actors.zinco_actors_zincoactors_type.institucion_de_educacion_superio
+  module:
+    - image
+    - text
+    - user
+id: zinco_actors_zincoactors.institucion_de_educacion_superio.default
+targetEntityType: zinco_actors_zincoactors
+bundle: institucion_de_educacion_superio
+mode: default
+content:
+  created:
+    type: timestamp
+    label: above
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+      tooltip:
+        date_format: long
+        custom_date_format: ''
+      time_diff:
+        enabled: false
+        future_format: '@interval hence'
+        past_format: '@interval ago'
+        granularity: 2
+        refresh: 60
+    third_party_settings: {  }
+    weight: 20
+    region: content
+  description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  email:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_caracter_academico:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 22
+    region: content
+  field_estado_acreditacion:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 23
+    region: content
+  field_mision:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 24
+    region: content
+  field_siglas_ies:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 27
+    region: content
+  field_tipo_de_ies:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 21
+    region: content
+  imagen_perfil:
+    type: image
+    label: above
+    settings:
+      image_link: content
+      image_style: thumbnail
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  label:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: -5
+    region: content
+  municipio:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: -3
+    region: content
+  sector_economico_principal:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: -2
+    region: content
+  sitio_web:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  status:
+    type: boolean
+    label: above
+    settings:
+      format: enabled-disabled
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  tecnologias_clave:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: -1
+    region: content
+  telefono:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  uid:
+    type: author
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 15
+    region: content
+hidden: {  }

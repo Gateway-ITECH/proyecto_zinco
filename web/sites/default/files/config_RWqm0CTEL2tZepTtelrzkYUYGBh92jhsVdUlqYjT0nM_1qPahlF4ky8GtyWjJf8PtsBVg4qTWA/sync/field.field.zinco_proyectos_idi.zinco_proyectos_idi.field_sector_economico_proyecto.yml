@@ -1,0 +1,30 @@
+uuid: 63e1bb40-a7a5-462a-ac1c-9319b8f33c88
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_proyectos_idi.field_sector_economico_proyecto
+    - taxonomy.vocabulary.ciiu_colombia
+  module:
+    - zinco_proyectos_idi
+id: zinco_proyectos_idi.zinco_proyectos_idi.field_sector_economico_proyecto
+field_name: field_sector_economico_proyecto
+entity_type: zinco_proyectos_idi
+bundle: zinco_proyectos_idi
+label: 'Sector económico proyecto'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      ciiu_colombia: ciiu_colombia
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

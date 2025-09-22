@@ -1,0 +1,20 @@
+uuid: 23337978-fc2a-4d8c-96c3-9f7ddac4de90
+langcode: es
+status: true
+dependencies:
+  module:
+    - node
+    - zinco_actors
+id: node.field_proponentes
+field_name: field_proponentes
+entity_type: node
+type: entity_reference
+settings:
+  target_type: zinco_actors_zincoactors
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

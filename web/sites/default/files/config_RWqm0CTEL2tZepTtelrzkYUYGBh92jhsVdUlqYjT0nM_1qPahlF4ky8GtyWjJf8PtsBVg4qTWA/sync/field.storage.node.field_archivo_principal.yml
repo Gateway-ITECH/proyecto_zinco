@@ -1,0 +1,23 @@
+uuid: aaafd122-9af4-4340-bef5-6131868ad1c6
+langcode: es
+status: true
+dependencies:
+  module:
+    - file
+    - node
+id: node.field_archivo_principal
+field_name: field_archivo_principal
+entity_type: node
+type: file
+settings:
+  target_type: file
+  display_field: false
+  display_default: false
+  uri_scheme: public
+module: file
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

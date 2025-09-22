@@ -1,0 +1,13 @@
+uuid: b55b3d8e-73d6-4a35-8865-291618c71227
+langcode: es
+status: true
+dependencies:
+  module:
+    - zinco_grupos_investigacion
+_core:
+  default_config_hash: yD9UtX9mC2k58evT8qDQF_UtdvBrUHakpnVjk_twI3g
+id: zinco_grupos_investigacion_save_action
+label: 'Save zinco grupos investigacions'
+type: zinco_grupos_investigacion
+plugin: 'entity:save_action:zinco_grupos_investigacion'
+configuration: {  }

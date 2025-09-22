@@ -1,0 +1,21 @@
+uuid: 4c30573a-c045-44d5-b94e-179de6718de7
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_fecha_fin_formacion
+    - paragraphs.paragraphs_type.formacion_academica
+  module:
+    - datetime
+id: paragraph.formacion_academica.field_fecha_fin_formacion
+field_name: field_fecha_fin_formacion
+entity_type: paragraph
+bundle: formacion_academica
+label: 'Fecha fin formación'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

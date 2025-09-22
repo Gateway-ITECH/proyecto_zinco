@@ -1,0 +1,24 @@
+uuid: 486437e4-4e15-4206-b695-3c3842be3f92
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_normativas
+    - filter.format.basic_html
+    - zinco_actors.zinco_actors_zincoactors_type.entidad_gobierno
+  module:
+    - text
+id: zinco_actors_zincoactors.entidad_gobierno.field_normativas
+field_name: field_normativas
+entity_type: zinco_actors_zincoactors
+bundle: entidad_gobierno
+label: Normativas
+description: 'Referencias a las leyes, decretos o políticas públicas que la entidad promueve o administra en materia de CTeI.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic_html
+field_type: text

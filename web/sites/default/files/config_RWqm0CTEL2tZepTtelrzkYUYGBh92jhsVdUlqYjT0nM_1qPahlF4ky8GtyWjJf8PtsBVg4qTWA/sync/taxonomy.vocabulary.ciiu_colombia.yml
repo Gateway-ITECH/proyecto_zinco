@@ -1,0 +1,9 @@
+uuid: f7aa1920-00a4-407d-a65e-804a0839d040
+langcode: es
+status: true
+dependencies: {  }
+name: 'CIIU Colombia'
+vid: ciiu_colombia
+description: 'Estructura detallada de sectores económicos Colombia'
+weight: 0
+new_revision: false

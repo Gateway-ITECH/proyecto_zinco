@@ -1,0 +1,30 @@
+uuid: fd51491d-7631-45fa-9b3e-64278a1469b4
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_retos_soluciones.field_estado_postulacion_idea
+    - taxonomy.vocabulary.estados_de_postulacion_a_retos
+  module:
+    - zinco_retos_soluciones
+id: zinco_retos_soluciones.zinco_retos_soluciones.field_estado_postulacion_idea
+field_name: field_estado_postulacion_idea
+entity_type: zinco_retos_soluciones
+bundle: zinco_retos_soluciones
+label: 'Estado postulación idea'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      estados_de_postulacion_a_retos: estados_de_postulacion_a_retos
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

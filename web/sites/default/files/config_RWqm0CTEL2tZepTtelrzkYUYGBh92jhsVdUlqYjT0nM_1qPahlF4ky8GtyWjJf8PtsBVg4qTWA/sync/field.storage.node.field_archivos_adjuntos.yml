@@ -1,0 +1,23 @@
+uuid: edeeab00-ee13-41e1-8db5-c7b00597cf46
+langcode: es
+status: true
+dependencies:
+  module:
+    - file
+    - node
+id: node.field_archivos_adjuntos
+field_name: field_archivos_adjuntos
+entity_type: node
+type: file
+settings:
+  target_type: file
+  display_field: false
+  display_default: false
+  uri_scheme: public
+module: file
+locked: false
+cardinality: 5
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

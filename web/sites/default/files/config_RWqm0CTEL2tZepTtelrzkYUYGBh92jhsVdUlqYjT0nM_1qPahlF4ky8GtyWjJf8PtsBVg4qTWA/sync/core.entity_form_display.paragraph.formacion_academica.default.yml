@@ -1,0 +1,59 @@
+uuid: d95537db-8dd9-4c98-9d97-fd1cb87aacc0
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.formacion_academica.field_fecha_fin_formacion
+    - field.field.paragraph.formacion_academica.field_fecha_inicio_formacion
+    - field.field.paragraph.formacion_academica.field_nombre_institucion
+    - field.field.paragraph.formacion_academica.field_tipo_de_formacion
+    - field.field.paragraph.formacion_academica.field_titulo_obtenido
+    - paragraphs.paragraphs_type.formacion_academica
+  module:
+    - datetime
+id: paragraph.formacion_academica.default
+targetEntityType: paragraph
+bundle: formacion_academica
+mode: default
+content:
+  field_fecha_fin_formacion:
+    type: datetime_default
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_fecha_inicio_formacion:
+    type: datetime_default
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_nombre_institucion:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_tipo_de_formacion:
+    type: entity_reference_autocomplete
+    weight: 4
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_titulo_obtenido:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

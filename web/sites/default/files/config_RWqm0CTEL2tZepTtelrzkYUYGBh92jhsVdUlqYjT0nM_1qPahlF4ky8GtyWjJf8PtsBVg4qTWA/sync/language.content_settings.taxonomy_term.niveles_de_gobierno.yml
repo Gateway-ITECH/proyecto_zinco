@@ -1,0 +1,11 @@
+uuid: f70360be-4095-4054-879b-1040fcac1cff
+langcode: es
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.niveles_de_gobierno
+id: taxonomy_term.niveles_de_gobierno
+target_entity_type_id: taxonomy_term
+target_bundle: niveles_de_gobierno
+default_langcode: site_default
+language_alterable: false

@@ -1,0 +1,11 @@
+uuid: 0aacc4aa-f585-4578-b600-6091f3ea1d3c
+langcode: es
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.divipola
+id: taxonomy_term.divipola
+target_entity_type_id: taxonomy_term
+target_bundle: divipola
+default_langcode: site_default
+language_alterable: false

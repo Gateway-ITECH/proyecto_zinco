@@ -1,0 +1,13 @@
+uuid: 476bd2ad-449b-4630-9173-98439fc2f317
+langcode: es
+status: true
+dependencies:
+  module:
+    - zinco_retos_evaluacion
+_core:
+  default_config_hash: d3-IXND-rsFnsYKFuwpV3AnQ5Qs5_kcpXgD-D41xTo0
+id: zinco_retos_evaluacion_save_action
+label: 'Save zinco retos evaluacions'
+type: zinco_retos_evaluacion
+plugin: 'entity:save_action:zinco_retos_evaluacion'
+configuration: {  }

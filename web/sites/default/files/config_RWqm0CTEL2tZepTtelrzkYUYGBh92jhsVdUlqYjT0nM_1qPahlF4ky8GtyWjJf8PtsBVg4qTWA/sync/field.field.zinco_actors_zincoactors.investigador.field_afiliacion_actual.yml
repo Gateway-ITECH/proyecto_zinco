@@ -1,0 +1,19 @@
+uuid: 0a869e69-8ff9-4089-9179-224cf574ff51
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_afiliacion_actual
+    - zinco_actors.zinco_actors_zincoactors_type.investigador
+id: zinco_actors_zincoactors.investigador.field_afiliacion_actual
+field_name: field_afiliacion_actual
+entity_type: zinco_actors_zincoactors
+bundle: investigador
+label: 'Afiliación actual'
+description: ' Relación con la entidad a la que pertenece actualmente '
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,9 @@
+uuid: 9c467dc2-9089-4341-902a-94c5849ffb14
+langcode: es
+status: true
+dependencies: {  }
+name: Divipola
+vid: divipola
+description: 'División Político Administrativa (Colombia)'
+weight: 0
+new_revision: false

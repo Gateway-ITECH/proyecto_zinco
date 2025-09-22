@@ -1,0 +1,43 @@
+uuid: 3f7d22c9-830f-4617-95c8-30d3d2e07ad5
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_trayectoria_profesional
+    - paragraphs.paragraphs_type.trayectoria_profesional
+    - zinco_actors.zinco_actors_zincoactors_type.investigador
+  module:
+    - entity_reference_revisions
+id: zinco_actors_zincoactors.investigador.field_trayectoria_profesional
+field_name: field_trayectoria_profesional
+entity_type: zinco_actors_zincoactors
+bundle: investigador
+label: 'Trayectoria profesional'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      trayectoria_profesional: trayectoria_profesional
+    negate: 0
+    target_bundles_drag_drop:
+      formacion_academica:
+        weight: 7
+        enabled: false
+      miembros_de_instancias_de_accion:
+        weight: 8
+        enabled: false
+      nuevo_paragraph:
+        weight: 9
+        enabled: false
+      otro_paragraph:
+        weight: 10
+        enabled: false
+      trayectoria_profesional:
+        weight: 6
+        enabled: true
+field_type: entity_reference_revisions

@@ -1,0 +1,20 @@
+uuid: 418e7eb6-f039-4a09-b23a-e23263fb5061
+langcode: es
+status: true
+dependencies:
+  module:
+    - taxonomy
+    - zinco_actors
+id: zinco_actors_zincoactors.field_clasificacion
+field_name: field_clasificacion
+entity_type: zinco_actors_zincoactors
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

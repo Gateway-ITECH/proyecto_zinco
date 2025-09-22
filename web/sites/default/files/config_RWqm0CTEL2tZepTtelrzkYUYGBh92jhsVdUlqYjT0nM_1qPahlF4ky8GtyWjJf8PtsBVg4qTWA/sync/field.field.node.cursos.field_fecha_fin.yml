@@ -1,0 +1,21 @@
+uuid: 437eee05-9f59-4c25-8bab-31fe951e69e3
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_fecha_fin
+    - node.type.cursos
+  module:
+    - datetime
+id: node.cursos.field_fecha_fin
+field_name: field_fecha_fin
+entity_type: node
+bundle: cursos
+label: 'Fecha fin'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

@@ -1,0 +1,29 @@
+uuid: d11d3439-4f78-4f95-aec6-641fae78fb84
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tipo_de_necesidad
+    - node.type.necesidad
+    - taxonomy.vocabulary.tipos_de_necesidad
+id: node.necesidad.field_tipo_de_necesidad
+field_name: field_tipo_de_necesidad
+entity_type: node
+bundle: necesidad
+label: 'Tipo de necesidad'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tipos_de_necesidad: tipos_de_necesidad
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

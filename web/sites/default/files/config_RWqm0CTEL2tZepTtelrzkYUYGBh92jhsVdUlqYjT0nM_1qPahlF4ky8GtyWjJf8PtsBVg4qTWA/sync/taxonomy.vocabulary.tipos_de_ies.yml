@@ -1,0 +1,9 @@
+uuid: dd351646-6148-4c80-a4c4-1036d607a7ea
+langcode: es
+status: true
+dependencies: {  }
+name: 'Tipos de IES'
+vid: tipos_de_ies
+description: 'Tipos de Instituciones de Educación Superior'
+weight: 0
+new_revision: false

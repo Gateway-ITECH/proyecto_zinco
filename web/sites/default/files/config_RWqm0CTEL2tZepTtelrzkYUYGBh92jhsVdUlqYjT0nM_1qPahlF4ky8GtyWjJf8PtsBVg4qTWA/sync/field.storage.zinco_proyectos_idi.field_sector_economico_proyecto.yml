@@ -1,0 +1,20 @@
+uuid: 7e71bde1-a6cb-4a13-9c7e-f5fd70113a59
+langcode: es
+status: true
+dependencies:
+  module:
+    - taxonomy
+    - zinco_proyectos_idi
+id: zinco_proyectos_idi.field_sector_economico_proyecto
+field_name: field_sector_economico_proyecto
+entity_type: zinco_proyectos_idi
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,11 @@
+uuid: 7b0343b0-dc00-4ecf-9e1d-c28f56ad29ac
+langcode: es
+status: true
+dependencies:
+  config:
+    - node.type.caja_de_herramientas
+id: node.caja_de_herramientas
+target_entity_type_id: node
+target_bundle: caja_de_herramientas
+default_langcode: site_default
+language_alterable: false

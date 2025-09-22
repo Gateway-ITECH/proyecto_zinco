@@ -1,0 +1,20 @@
+uuid: 18cf7855-f6be-4ed7-8508-36186dc5637f
+langcode: es
+status: true
+dependencies:
+  module:
+    - paragraphs
+    - zinco_actors
+id: paragraph.field_prueba_otro_paragraph
+field_name: field_prueba_otro_paragraph
+entity_type: paragraph
+type: entity_reference
+settings:
+  target_type: zinco_actors_zincoactors
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

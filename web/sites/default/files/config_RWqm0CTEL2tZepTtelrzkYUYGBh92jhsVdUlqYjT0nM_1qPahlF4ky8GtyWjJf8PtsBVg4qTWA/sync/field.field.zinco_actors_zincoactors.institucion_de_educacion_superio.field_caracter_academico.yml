@@ -1,0 +1,29 @@
+uuid: b14a8158-8fe6-4a94-a731-74adb27b03c7
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_caracter_academico
+    - taxonomy.vocabulary.tipos_de_caracter_academico
+    - zinco_actors.zinco_actors_zincoactors_type.institucion_de_educacion_superio
+id: zinco_actors_zincoactors.institucion_de_educacion_superio.field_caracter_academico
+field_name: field_caracter_academico
+entity_type: zinco_actors_zincoactors
+bundle: institucion_de_educacion_superio
+label: 'Caracter académico'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tipos_de_caracter_academico: tipos_de_caracter_academico
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

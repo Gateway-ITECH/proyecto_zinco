@@ -1,0 +1,9 @@
+uuid: a8d1bdd1-b638-48b1-b3ed-6b583228418e
+langcode: es
+status: true
+dependencies: {  }
+id: instancias_de_orientacion_politica
+label: 'Instancias de orientación política'
+weight: 7
+is_admin: false
+permissions: {  }

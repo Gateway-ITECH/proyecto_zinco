@@ -1,0 +1,9 @@
+uuid: ae726628-b190-4b58-b826-531d3223ffa1
+langcode: es
+status: true
+dependencies: {  }
+id: institucion_de_educacion_superior
+label: 'Institución de educación superior'
+weight: 8
+is_admin: false
+permissions: {  }

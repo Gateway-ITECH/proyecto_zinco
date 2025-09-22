@@ -1,0 +1,20 @@
+uuid: 168df859-50b4-43f0-8765-0852282653b4
+langcode: es
+status: true
+dependencies:
+  module:
+    - datetime
+    - zinco_proyectos_idi
+id: zinco_proyectos_idi.field_fecha_fin_proyecto
+field_name: field_fecha_fin_proyecto
+entity_type: zinco_proyectos_idi
+type: datetime
+settings:
+  datetime_type: date
+module: datetime
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

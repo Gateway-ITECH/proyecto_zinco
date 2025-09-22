@@ -1,0 +1,13 @@
+uuid: 6112e126-bd2d-48c0-a8e0-5faa1f9bda74
+langcode: es
+status: true
+dependencies:
+  module:
+    - zinco_grupos_investigacion
+_core:
+  default_config_hash: HE1b0u7eK01UgeHJt6P10gb52FqYfF0eMhrlw8BtLGY
+id: zinco_grupos_investigacion_delete_action
+label: 'Delete zinco grupos investigacions'
+type: zinco_grupos_investigacion
+plugin: 'entity:delete_action:zinco_grupos_investigacion'
+configuration: {  }

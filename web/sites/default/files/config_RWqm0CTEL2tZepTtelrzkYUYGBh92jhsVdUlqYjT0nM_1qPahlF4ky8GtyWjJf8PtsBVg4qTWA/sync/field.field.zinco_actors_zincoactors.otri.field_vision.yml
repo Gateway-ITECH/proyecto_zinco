@@ -1,0 +1,19 @@
+uuid: 594fdfca-99e6-46c8-80a9-087e62bfd1eb
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.zinco_actors_zincoactors.field_vision
+    - zinco_actors.zinco_actors_zincoactors_type.otri
+id: zinco_actors_zincoactors.otri.field_vision
+field_name: field_vision
+entity_type: zinco_actors_zincoactors
+bundle: otri
+label: Visión
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

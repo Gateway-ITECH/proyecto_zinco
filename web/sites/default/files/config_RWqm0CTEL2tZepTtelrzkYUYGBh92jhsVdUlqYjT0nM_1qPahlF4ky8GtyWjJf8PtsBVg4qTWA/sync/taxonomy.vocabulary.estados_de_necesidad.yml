@@ -1,0 +1,9 @@
+uuid: 1f610fef-2327-45d4-94f7-facc9c1824e5
+langcode: es
+status: true
+dependencies: {  }
+name: 'Estados de necesidad'
+vid: estados_de_necesidad
+description: null
+weight: 0
+new_revision: false

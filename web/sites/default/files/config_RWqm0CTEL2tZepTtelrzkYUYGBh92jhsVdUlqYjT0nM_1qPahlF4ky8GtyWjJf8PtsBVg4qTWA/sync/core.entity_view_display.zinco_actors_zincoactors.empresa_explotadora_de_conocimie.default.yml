@@ -1,0 +1,105 @@
+uuid: b8cab308-30ad-4c8e-9622-9f054ea54a17
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.field.zinco_actors_zincoactors.empresa_explotadora_de_conocimie.field_actor_del_cual_dep2nde
+    - field.field.zinco_actors_zincoactors.empresa_explotadora_de_conocimie.field_nombre_o_razon_social
+    - image.style.thumbnail
+    - zinco_actors.zinco_actors_zincoactors_type.empresa_explotadora_de_conocimie
+  module:
+    - image
+    - text
+id: zinco_actors_zincoactors.empresa_explotadora_de_conocimie.default
+targetEntityType: zinco_actors_zincoactors
+bundle: empresa_explotadora_de_conocimie
+mode: default
+content:
+  description:
+    type: text_trimmed
+    label: above
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  email:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_actor_del_cual_dep2nde:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_nombre_o_razon_social:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  imagen_perfil:
+    type: image
+    label: above
+    settings:
+      image_link: content
+      image_style: thumbnail
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  municipio:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  sector_economico_principal:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  sitio_web:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  tecnologias_clave:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  telefono:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 5
+    region: content
+hidden:
+  created: true
+  label: true
+  status: true
+  uid: true

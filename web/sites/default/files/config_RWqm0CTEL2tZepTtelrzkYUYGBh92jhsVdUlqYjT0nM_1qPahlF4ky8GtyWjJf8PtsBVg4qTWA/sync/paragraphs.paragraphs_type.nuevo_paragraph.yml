@@ -1,0 +1,10 @@
+uuid: 4d8b5b55-8687-4fbf-9648-1f2980caf5a9
+langcode: es
+status: true
+dependencies: {  }
+id: nuevo_paragraph
+label: 'nuevo paragraph'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

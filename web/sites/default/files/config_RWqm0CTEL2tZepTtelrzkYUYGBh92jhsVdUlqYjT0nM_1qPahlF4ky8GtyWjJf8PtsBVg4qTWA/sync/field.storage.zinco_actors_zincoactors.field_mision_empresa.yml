@@ -1,0 +1,19 @@
+uuid: 431843ec-b44c-49f7-b935-3644595741ef
+langcode: es
+status: true
+dependencies:
+  module:
+    - zinco_actors
+id: zinco_actors_zincoactors.field_mision_empresa
+field_name: field_mision_empresa
+entity_type: zinco_actors_zincoactors
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

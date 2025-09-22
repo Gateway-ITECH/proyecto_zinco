@@ -1,0 +1,9 @@
+uuid: 102ec21f-9754-41f1-a91c-dc7cb2e37935
+langcode: es
+status: true
+dependencies: {  }
+name: 'Tipos de evento'
+vid: tipos_de_evento
+description: null
+weight: 0
+new_revision: false

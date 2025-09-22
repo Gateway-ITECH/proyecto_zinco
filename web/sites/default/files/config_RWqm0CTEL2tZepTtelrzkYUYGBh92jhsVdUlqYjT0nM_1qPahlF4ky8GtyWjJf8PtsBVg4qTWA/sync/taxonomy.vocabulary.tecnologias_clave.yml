@@ -1,0 +1,9 @@
+uuid: 171a0df0-9753-417d-806b-dc7f01a8018d
+langcode: es
+status: true
+dependencies: {  }
+name: 'Tecnologías Clave'
+vid: tecnologias_clave
+description: 'Áreas de interés dentro de la innovación tecnológica'
+weight: 0
+new_revision: false

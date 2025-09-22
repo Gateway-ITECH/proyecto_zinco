@@ -1,0 +1,21 @@
+uuid: 215e1b64-2c1a-46a3-9838-1b71ad461752
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.otro_paragraph.field_prueba_otro_paragraph
+    - paragraphs.paragraphs_type.otro_paragraph
+id: paragraph.otro_paragraph.default
+targetEntityType: paragraph
+bundle: otro_paragraph
+mode: default
+content:
+  field_prueba_otro_paragraph:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

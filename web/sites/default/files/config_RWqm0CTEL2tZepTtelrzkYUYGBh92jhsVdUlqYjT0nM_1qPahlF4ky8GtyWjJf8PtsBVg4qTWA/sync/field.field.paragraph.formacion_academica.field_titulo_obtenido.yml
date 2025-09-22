@@ -1,0 +1,19 @@
+uuid: 6275130b-9e36-4639-ac09-aa086c3db7b7
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_titulo_obtenido
+    - paragraphs.paragraphs_type.formacion_academica
+id: paragraph.formacion_academica.field_titulo_obtenido
+field_name: field_titulo_obtenido
+entity_type: paragraph
+bundle: formacion_academica
+label: 'Título obtenido'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

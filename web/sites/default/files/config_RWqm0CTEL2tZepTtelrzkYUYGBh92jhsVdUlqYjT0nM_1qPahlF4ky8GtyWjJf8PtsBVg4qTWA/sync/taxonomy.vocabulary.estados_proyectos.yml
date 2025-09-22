@@ -1,0 +1,9 @@
+uuid: bb5f5187-8266-451b-8cb3-fa6da35e97a8
+langcode: es
+status: true
+dependencies: {  }
+name: 'Estados proyectos'
+vid: estados_proyectos
+description: null
+weight: 0
+new_revision: false

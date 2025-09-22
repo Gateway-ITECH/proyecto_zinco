@@ -1,0 +1,23 @@
+uuid: 92b7c54c-8195-48a3-8414-a324ffe3ea5a
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_duracion_horas
+    - node.type.cursos
+id: node.cursos.field_duracion_horas
+field_name: field_duracion_horas
+entity_type: node
+bundle: cursos
+label: Duración
+description: 'Número de horas'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

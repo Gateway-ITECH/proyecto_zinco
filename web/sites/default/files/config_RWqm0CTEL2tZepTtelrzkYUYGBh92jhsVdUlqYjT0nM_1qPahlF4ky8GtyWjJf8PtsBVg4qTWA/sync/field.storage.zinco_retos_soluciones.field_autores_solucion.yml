@@ -1,0 +1,20 @@
+uuid: 40a7a7bd-3bf3-4846-b66e-c7974567c15c
+langcode: es
+status: true
+dependencies:
+  module:
+    - zinco_actors
+    - zinco_retos_soluciones
+id: zinco_retos_soluciones.field_autores_solucion
+field_name: field_autores_solucion
+entity_type: zinco_retos_soluciones
+type: entity_reference
+settings:
+  target_type: zinco_actors_zincoactors
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

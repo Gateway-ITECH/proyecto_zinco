@@ -1,0 +1,11 @@
+uuid: 36fc46dc-a21f-44c3-a898-7595b139123a
+langcode: es
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.tipos_de_generadores_de_conocimi
+id: taxonomy_term.tipos_de_generadores_de_conocimi
+target_entity_type_id: taxonomy_term
+target_bundle: tipos_de_generadores_de_conocimi
+default_langcode: site_default
+language_alterable: false

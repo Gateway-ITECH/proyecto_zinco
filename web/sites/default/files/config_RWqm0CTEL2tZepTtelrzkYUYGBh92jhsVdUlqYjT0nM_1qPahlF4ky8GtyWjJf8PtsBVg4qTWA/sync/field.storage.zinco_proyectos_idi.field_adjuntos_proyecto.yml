@@ -1,0 +1,23 @@
+uuid: e50dc722-3d8f-4205-8cdf-5c7a7f14180f
+langcode: es
+status: true
+dependencies:
+  module:
+    - file
+    - zinco_proyectos_idi
+id: zinco_proyectos_idi.field_adjuntos_proyecto
+field_name: field_adjuntos_proyecto
+entity_type: zinco_proyectos_idi
+type: file
+settings:
+  target_type: file
+  display_field: false
+  display_default: false
+  uri_scheme: public
+module: file
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

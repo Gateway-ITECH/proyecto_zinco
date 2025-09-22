@@ -1,0 +1,10 @@
+uuid: 89a83936-f4d7-4125-b6b9-022f15ff0d82
+langcode: es
+status: true
+dependencies: {  }
+id: miembros_de_instancias_de_accion
+label: 'Miembros de instancias de acción política'
+icon_uuid: null
+icon_default: null
+description: 'Miembros de instancias de acción política'
+behavior_plugins: {  }
