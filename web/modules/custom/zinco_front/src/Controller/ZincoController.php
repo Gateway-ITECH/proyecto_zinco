@@ -6,6 +6,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\zinco_front\Service\DumpDataService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Provides a ZincoController.
@@ -70,12 +71,23 @@ class ZincoController extends ControllerBase {
      * @param string $tableName
      *   The name of the table to dump.
      *
-     * @return array
-     *   A renderable array containing the table data.
+     * @param string $formato
+     *   (optional) The format to return the data in (e.g., 'json').
+     *
+     * @return array|\Symfony\Component\HttpFoundation\JsonResponse
+     *   A renderable array containing the table data or a JsonResponse.
      */
-    public function dumpData(string $tableName) {
+    public function dumpData(string $tableName, ?string $formato) {
       $data = $this->dumpDataService->obtenerTabla($tableName);
   
+      if ($formato === 'json') {
+        return new JsonResponse($data);
+      }
+
+      if ($formato === 'count') {
+        return count($data);
+      }
+
       $headers = [];
       $rows = [];
   
@@ -102,10 +114,17 @@ class ZincoController extends ControllerBase {
    */
   public function dashboard() {
     $form = $this->formBuilder->getForm('Drupal\zinco_front\Form\ZincoFilterForm');
+
+    $default_data = [];
+
+    $default_data['actores_grupos_de_investigacion'] = $this->dumpData('data_grupos_investigacion ', 'count');
+
+
     return [
       '#theme' => 'zinco_dashboard',
       '#test_var' => $this->t('Hello from controller'),
       '#filter_form' => $form,
+      '#default_data' => $default_data,
     ];
   }
 

@@ -35,10 +35,11 @@ zinco_front.perfil_entidades_gobierno:
   requirements:
     _permission: 'access content'
 zinco_front.dump_data:
-  path: '/dump-data/{tableName}'
+  path: '/dump-data/{tableName}/{formato}'
   defaults:
     _controller: '\Drupal\zinco_front\Controller\ZincoController::dumpData'
     _title: 'Dump Data'
+    formato: NULL
   requirements:
     _permission: 'access content'
 
