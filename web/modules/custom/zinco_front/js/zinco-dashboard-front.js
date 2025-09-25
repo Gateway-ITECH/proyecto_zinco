@@ -25,6 +25,10 @@
       let municipio = municipioSelect ? municipioSelect.value : '';
       let sector = sectorSelect ? sectorSelect.value : '';
       let tecnologias40 = tecnologias40Select ? tecnologias40Select.value : '';
+      
+      /*
+      * pestaña de actores
+      */
 
       //parametros card grupos de investigacion (minciencias)
       const grupos_investigacion_tabla = 'data_grupos_investigacion';
@@ -57,9 +61,17 @@
       const card_actores_tecnologias40_campo = 'tecnologia40';
       const card_actores_tecnologias40_elemento = 'actores_tecnologias40_grouped_data';
 
+      /*
+      * pestaña de formacion
+      */
+
       //parametros card universidades
       const card_universidades_tabla = 'data_instituciones_academicas';
-      const card_universidades_elemento = 'actores_universidades_value';
+      const card_universidades_elemento = 'formacion_universidades_value';
+
+      //parametros card programas ofertados
+      const card_programas_ofertados_tabla = 'data_programas_academicos';
+      const card_programas_ofertados_elemento = 'formacion_programas_academicos_value';
 
       // Initial call to load data when the page loads, with default or empty values.
       // pestaña de actores
@@ -74,6 +86,7 @@
 
       //pestaña de formacion
       loadData(municipio, sector, tecnologias40, card_universidades_tabla, card_universidades_elemento);
+      loadData(municipio, sector, tecnologias40, card_programas_ofertados_tabla, card_programas_ofertados_elemento);
 
       if (municipioSelect) {
         municipioSelect.addEventListener('change', function() {
@@ -95,6 +108,7 @@
 
           //pestaña de formacion
           loadData(this.value, sector, tecnologias40, card_universidades_tabla, card_universidades_elemento);
+          loadData(this.value, sector, tecnologias40, card_programas_ofertados_tabla, card_programas_ofertados_elemento);
         });
       }
 
@@ -117,6 +131,7 @@
 
           //pestaña de formacion
           loadData(municipio, this.value, tecnologias40, card_universidades_tabla, card_universidades_elemento);
+          loadData(municipio, this.value, tecnologias40, card_programas_ofertados_tabla, card_programas_ofertados_elemento);
         });
       }
 
@@ -139,6 +154,7 @@
 
           //pestaña de formacion
           loadData(municipio, sector, this.value, card_universidades_tabla, card_universidades_elemento);
+          loadData(municipio, sector, this.value, card_programas_ofertados_tabla, card_programas_ofertados_elemento);
 
         });
       }
