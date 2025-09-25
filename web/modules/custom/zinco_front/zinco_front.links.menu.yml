@@ -1,0 +1,5 @@
+zinco_front.dashboard_config_menu:
+  title: 'Zinco Dashboard Configuration'
+  description: 'Configure settings for the Zinco Front dashboard.'
+  parent: system.admin_config_system
+  route_name: zinco_front.dashboard_config

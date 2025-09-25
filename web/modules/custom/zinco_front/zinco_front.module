@@ -35,6 +35,11 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
         'default_data' => NULL,
       ],
       'template' => 'zinco-dashboard',
+      '#attached' => [
+        'library' => [
+          'zinco_front/zinco-dashboard-front',
+        ],
+      ],
     ],
     'perfil_investigador' => [
       'variables' => [

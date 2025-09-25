@@ -43,6 +43,15 @@ zinco_front.dump_data:
   requirements:
     _permission: 'access content'
 
+zinco_front.dump_grouped_data:
+  path: '/dump-grouped-data/{tableName}/{groupColumn}/{formato}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::dumpGroupedData'
+    _title: 'Dump Grouped Data'
+    formato: NULL
+  requirements:
+    _permission: 'access content'
+
 zinco_front.perfil_investigador:
   path: '/perfiles/investigador'
   defaults:
@@ -76,5 +85,40 @@ zinco_front.filter_form:
   defaults:
     _form: '\Drupal\zinco_front\Form\ZincoFilterForm'
     _title: 'Filter Form'
+  requirements:
+    _permission: 'access content'
+
+zinco_front.dump_multiple_grouped_data:
+  path: '/dump-multiple-grouped-data/{tableNames}/{groupColumn}/{formato}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::dumpMultipleGroupedData'
+    _title: 'Dump Multiple Grouped Data'
+    formato: NULL
+  requirements:
+    _permission: 'access content'
+
+zinco_front.dashboard_config:
+  path: '/admin/config/zinco-front/dashboard'
+  defaults:
+    _form: '\Drupal\zinco_front\Form\ZincoDashboardConfigForm'
+    _title: 'Zinco Dashboard Configuration'
+  requirements:
+    _permission: 'administer site configuration'
+
+zinco_front.dashboard_config_delete:
+  path: '/admin/config/zinco-front/dashboard/delete/{id}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::deleteDashboardConfigTable'
+    _title: 'Delete Dashboard Table'
+  requirements:
+    _permission: 'administer site configuration'
+    id: '\d+'
+
+zinco_front.dump_multiple_data:
+  path: '/dump-multiple-data/{tableNames}/{formato}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::dumpMultipleData'
+    _title: 'Dump Multiple Data'
+    formato: NULL
   requirements:
     _permission: 'access content'

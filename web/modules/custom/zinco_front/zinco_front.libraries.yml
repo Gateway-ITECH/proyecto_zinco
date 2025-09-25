@@ -11,3 +11,10 @@ user-menu:
     - core/drupalSettings
     - core/once
     - bootstrap_barrio/global-styling # Assuming Bootstrap Barrio's JS is needed for dropdowns
+    
+zinco-dashboard-front:
+  version: 1.x
+  js:
+    js/zinco-dashboard-front.js: {}
+  dependencies:
+    - core/drupal

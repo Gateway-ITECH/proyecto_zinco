@@ -72,7 +72,7 @@ class ZincoFilterForm extends FormBase {
     $terms = $this->entityTypeManager->getStorage('taxonomy_term')->loadMultiple($tids);
 
     foreach ($terms as $term) {
-      $options[$term->id()] = $term->getName();
+      $options[$term->getName()] = $term->getName();
     }
     return $options;
   }
@@ -119,7 +119,7 @@ class ZincoFilterForm extends FormBase {
     $form['sector'] = [
       '#type' => 'select',
       '#title' => $this->t('Sector'),
-      '#options' => $this->getTaxonomyTermsAsOptions('ciiu_colombia'),
+      '#options' => $this->getTaxonomyTermsAsOptions('sectores_clave'),
       '#empty_option' => $this->t('- Select -'),
       '#attributes' => ['class' => ['form-control', 'mb-2', 'mr-sm-2']],
       '#prefix' => '<div class="form-group col-md-4">',
