@@ -366,4 +366,33 @@ class ZincoController extends ControllerBase {
     return $this->redirect('zinco_front.dashboard_config');
   }
 
+   /**
+   * Deletes a filter entry from the Zinco Dashboard configuration.
+   *
+   * @param int $id
+   *   The ID of the filter entry to delete.
+   *
+   * @return \Symfony\Component\HttpFoundation\RedirectResponse
+   *   A redirect response to the configuration form.
+   */
+  public function deleteDashboardConfigFilter(int $id) {
+    $config = $this->configFactory->getEditable('zinco_front.dashboard.settings');
+    $filters_data = $config->get('filters_data') ?: [];
+
+    if (isset($filters_data[$id])) {
+      unset($filters_data[$id]);
+      // Re-index the array to ensure sequential keys.
+      $filters_data = array_values($filters_data);
+      $config->set('filters_data', $filters_data)->save();
+      $this->messenger()->addStatus($this->t('Filter entry has been deleted.'));
+    }
+    else {
+      $this->messenger()->addError($this->t('Filter entry not found.'));
+    }
+
+    return $this->redirect('zinco_front.dashboard_config');
+  }
+
 }
+
+ 

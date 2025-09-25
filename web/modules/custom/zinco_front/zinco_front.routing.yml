@@ -114,6 +114,15 @@ zinco_front.dashboard_config_delete:
     _permission: 'administer site configuration'
     id: '\d+'
 
+zinco_front.dashboard_config_delete_filter:
+  path: '/admin/config/zinco-front/dashboard/delete-filter/{id}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::deleteDashboardConfigFilter'
+    _title: 'Delete Dashboard Filter'
+  requirements:
+    _permission: 'administer site configuration'
+    id: '\d+'
+
 zinco_front.dump_multiple_data:
   path: '/dump-multiple-data/{tableNames}/{formato}'
   defaults:

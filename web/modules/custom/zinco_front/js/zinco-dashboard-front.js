@@ -20,6 +20,10 @@
       const grupos_investigacion_tabla = 'data_grupos_investigacion';
       const grupos_investigacion_elemento = 'actores_grupos_de_investigacion_value';
 
+      //parametros card investigadores reconocidos
+      const card_investigadores_tabla = 'data_investigadores';
+      const card_investigadores_elemento = 'actores_investigadores_reconocidos_value';
+
       //parametros card de actores por sector
       const card_actores_sector_tablas = 'data_empresas_tic-data_grupos_investigacion';
       const card_actores_sector_campo = 'sector';
@@ -37,6 +41,7 @@
 
       // Initial call to load data when the page loads, with default or empty values.
       loadData(municipio, sector, tecnologias40, grupos_investigacion_tabla, grupos_investigacion_elemento);
+      loadData(municipio, sector, tecnologias40, card_investigadores_tabla, card_investigadores_elemento);
       //loadGroupedData(municipio, sector, tecnologias40, actores_sector_economico_tabla, actores_sector_economico_campo, actores_sector_economico_elemento);
       loadMultipleGroupedData(municipio, sector, tecnologias40, card_actores_sector_tablas, card_actores_sector_campo, card_actores_sector_elemento);
       loadMultipleGroupedData(municipio, sector, tecnologias40, card_actores_municipio_tablas, card_actores_municipio_campo, card_actores_municipio_elemento);
@@ -51,6 +56,7 @@
 
           console.log('Municipio seleccionado:', this.value);
           loadData(this.value, sector, tecnologias40, grupos_investigacion_tabla, grupos_investigacion_elemento);
+          loadData(this.value, sector, tecnologias40, card_investigadores_tabla, card_investigadores_elemento);
           //loadGroupedData(this.value, sector, tecnologias40, actores_sector_economico_tabla, actores_sector_economico_campo, actores_sector_economico_elemento);
           loadMultipleGroupedData(this.value, sector, tecnologias40, card_actores_sector_tablas, card_actores_sector_campo, card_actores_sector_elemento);
           loadMultipleGroupedData(this.value, sector, tecnologias40, card_actores_municipio_tablas, card_actores_municipio_campo, card_actores_municipio_elemento);
@@ -68,6 +74,7 @@
 
           console.log('Sector seleccionado:', this.value);
           loadData(municipio, this.value, tecnologias40, grupos_investigacion_tabla, grupos_investigacion_elemento);
+          loadData(municipio, this.value, tecnologias40, card_investigadores_tabla, card_investigadores_elemento);
           //loadGroupedData(municipio, this.value, tecnologias40, actores_sector_economico_tabla, actores_sector_economico_campo, actores_sector_economico_elemento);
           loadMultipleGroupedData(municipio, this.value, tecnologias40, card_actores_sector_tablas, card_actores_sector_campo, card_actores_sector_elemento);
           loadMultipleGroupedData(municipio, this.value, tecnologias40, card_actores_municipio_tablas, card_actores_municipio_campo, card_actores_municipio_elemento);
@@ -83,6 +90,7 @@
 
           console.log('Tecnologías 4.0 seleccionadas:', this.value);
           loadData(municipio, sector, this.value, grupos_investigacion_tabla, grupos_investigacion_elemento);
+          loadData(municipio, sector, this.value, card_investigadores_tabla, card_investigadores_elemento);
           //loadGroupedData(municipio, sector, this.value, actores_sector_economico_tabla, actores_sector_economico_campo, actores_sector_economico_elemento);
           loadMultipleGroupedData(municipio, sector, this.value, card_actores_sector_tablas, card_actores_sector_campo, card_actores_sector_elemento);
           loadMultipleGroupedData(municipio, sector, this.value, card_actores_municipio_tablas, card_actores_municipio_campo, card_actores_municipio_elemento);

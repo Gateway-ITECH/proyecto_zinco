@@ -66,6 +66,8 @@ class DumpDataService {
     // Load configuration for the dashboard tables.
     $config = $this->configFactory->get('zinco_front.dashboard.settings');
     $tables_data = $config->get('tables_data') ?: [];
+    $filters_data = $config->get('filters_data') ?: [];
+
 
     // Find the configuration for the current table.
     $table_config = NULL;
@@ -81,6 +83,23 @@ class DumpDataService {
       if (!empty($value) && $table_config && isset($table_config[$field]) && $table_config[$field]) {
         $query->condition($field, $value);
       }
+    }
+
+    $filters_config = [];
+    foreach ($filters_data as $data) {
+      if ($data['table_name'] === $tableName) {
+        $filters_config[] = $data;
+      }
+    }
+
+    // Apply OR filters if provided.
+    if (!empty($filters_config)) {
+      //var_dump($filters_config);
+      $or = $query->orConditionGroup();
+      foreach ($filters_config as $value) {          
+          $or->condition($value['field'], $value['value']);
+      }
+      $query->condition($or);
     }
 
     return $query->execute()->fetchAll(\PDO::FETCH_ASSOC);
@@ -99,7 +118,7 @@ class DumpDataService {
    * @return array
    *   An array of associative arrays, where each inner array represents a row.
    */
-  public function obtenerTablaAgrupada(string $tableName, string $groupColumn, array $filters = [], , array $or_filters = []): array {
+  public function obtenerTablaAgrupada(string $tableName, string $groupColumn, array $filters = []): array {
     $query = $this->database->select($tableName, 't');
     //$query->fields('t', [$groupColumn], 'group_column');
     $query->addField('t', $groupColumn, 'group_column');
@@ -108,6 +127,7 @@ class DumpDataService {
     // Load configuration for the dashboard tables.
     $config = $this->configFactory->get('zinco_front.dashboard.settings');
     $tables_data = $config->get('tables_data') ?: [];
+    $filters_data = $config->get('filters_data') ?: [];
 
     // Find the configuration for the current table.
     $table_config = NULL;
@@ -125,11 +145,19 @@ class DumpDataService {
       }
     }
 
+    $filters_config = [];
+    foreach ($filters_data as $data) {
+      if ($data['table_name'] === $tableName) {
+        $filters_config[] = $data;
+      }
+    }
+
     // Apply OR filters if provided.
-    if (!empty($or_filters)) {
+    if (!empty($filters_config)) {
+      //var_dump($filters_config);
       $or = $query->orConditionGroup();
-      foreach ($or_filters as $field => $value) {
-          $or->condition($field, $value);
+      foreach ($filters_config as $value) {          
+          $or->condition($value['field'], $value['value']);
       }
       $query->condition($or);
     }
