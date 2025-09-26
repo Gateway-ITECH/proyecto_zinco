@@ -73,6 +73,16 @@
       const card_programas_ofertados_tabla = 'data_programas_academicos';
       const card_programas_ofertados_elemento = 'formacion_programas_academicos_value';
 
+      //parametros card de numero de programas academicos por sector
+      const card_formacion_programas_academicos_sectores_tablas = 'data_programas_academicos';
+      const card_formacion_programas_academicos_sectores_campo = 'sector';
+      const card_formacion_programas_academicos_sectores_elemento = 'formacion_programas_academicos_sectores_grouped_data';
+
+      //parametros card de numero de programas academicos por municipio
+      const card_formacion_programas_academicos_municipios_tablas = 'data_programas_academicos';
+      const card_formacion_programas_academicos_municipios_campo = 'municipio';
+      const card_formacion_programas_academicos_municipios_elemento = 'formacion_programas_academicos_municipios_grouped_data';
+
       // Initial call to load data when the page loads, with default or empty values.
       // pestaña de actores
       loadData(municipio, sector, tecnologias40, grupos_investigacion_tabla, grupos_investigacion_elemento);
@@ -87,6 +97,9 @@
       //pestaña de formacion
       loadData(municipio, sector, tecnologias40, card_universidades_tabla, card_universidades_elemento);
       loadData(municipio, sector, tecnologias40, card_programas_ofertados_tabla, card_programas_ofertados_elemento);
+      loadMultipleGroupedData(municipio, sector, tecnologias40, card_formacion_programas_academicos_sectores_tablas, card_formacion_programas_academicos_sectores_campo, card_formacion_programas_academicos_sectores_elemento);
+      loadMultipleGroupedData(municipio, sector, tecnologias40, card_formacion_programas_academicos_municipios_tablas, card_formacion_programas_academicos_municipios_campo, card_formacion_programas_academicos_municipios_elemento);
+
 
       if (municipioSelect) {
         municipioSelect.addEventListener('change', function() {
@@ -109,6 +122,7 @@
           //pestaña de formacion
           loadData(this.value, sector, tecnologias40, card_universidades_tabla, card_universidades_elemento);
           loadData(this.value, sector, tecnologias40, card_programas_ofertados_tabla, card_programas_ofertados_elemento);
+          loadMultipleGroupedData(this.value, sector, tecnologias40, card_formacion_programas_academicos_sectores_tablas, card_formacion_programas_academicos_sectores_campo, card_formacion_programas_academicos_sectores_elemento);
         });
       }
 
@@ -132,6 +146,7 @@
           //pestaña de formacion
           loadData(municipio, this.value, tecnologias40, card_universidades_tabla, card_universidades_elemento);
           loadData(municipio, this.value, tecnologias40, card_programas_ofertados_tabla, card_programas_ofertados_elemento);
+          loadMultipleGroupedData(municipio, this.value, tecnologias40, card_formacion_programas_academicos_sectores_tablas, card_formacion_programas_academicos_sectores_campo, card_formacion_programas_academicos_sectores_elemento);
         });
       }
 
@@ -155,6 +170,7 @@
           //pestaña de formacion
           loadData(municipio, sector, this.value, card_universidades_tabla, card_universidades_elemento);
           loadData(municipio, sector, this.value, card_programas_ofertados_tabla, card_programas_ofertados_elemento);
+          loadMultipleGroupedData(municipio, sector, this.value, card_formacion_programas_academicos_sectores_tablas, card_formacion_programas_academicos_sectores_campo, card_formacion_programas_academicos_sectores_elemento);
 
         });
       }
