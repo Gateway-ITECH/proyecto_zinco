@@ -121,6 +121,64 @@ class ZincoController extends ControllerBase {
     }
 
     /**
+     * Dumps data from a specified entity.
+     *
+     * @param string $entity_type_id
+     *   The entity type ID to dump.
+     * @param string $formato
+     *   (optional) The format to return the data in (e.g., 'json').
+     *
+     * @return array|\Symfony\Component\HttpFoundation\JsonResponse
+     *   A renderable array containing the entity data or a JsonResponse.
+     */
+    public function dumpEntity(string $entity_type_id, ?string $formato) {
+      $query_params = \Drupal::request()->query->all();
+      $data = $this->dumpDataService->obtenerEntidad($entity_type_id, $query_params);
+
+      if ($formato === 'json') {
+        return new JsonResponse($data);
+      }
+
+      if ($formato === 'count') {
+        return count($data);
+      }
+
+      $headers = [];
+      $rows = [];
+
+      if (!empty($data)) {
+        $headers = array_keys($data[0]);
+        foreach ($data as $row) {
+          $rows[] = array_values($row);
+        }
+      }
+
+      return [
+        '#theme' => 'dump_data_table',
+        '#table_name' => $entity_type_id,
+        '#headers' => $headers,
+        '#rows' => $rows,
+      ];
+
+      $headers = [];
+      $rows = [];
+
+      if (!empty($data)) {
+        $headers = array_keys($data[0]);
+        foreach ($data as $row) {
+          $rows[] = array_values($row);
+        }
+      }
+
+      return [
+        '#theme' => 'dump_data_table',
+        '#table_name' => $entity_type_id,
+        '#headers' => $headers,
+        '#rows' => $rows,
+      ];
+    }
+
+    /**
      * Dumps grouped data from a specified table.
      *
      * @param string $tableName

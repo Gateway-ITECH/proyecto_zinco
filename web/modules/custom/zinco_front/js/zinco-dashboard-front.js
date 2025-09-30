@@ -83,6 +83,13 @@
       const card_formacion_programas_academicos_municipios_campo = 'municipio';
       const card_formacion_programas_academicos_municipios_elemento = 'formacion_programas_academicos_municipios_grouped_data';
 
+       /*
+      * pestaña de retos
+      */
+     //parametros card retos abiertos
+      const card_retos_entidad = 'zinco_retos_innovacion_type';
+      const card_retos_elemento = 'retos_abiertos_value';
+
       // Initial call to load data when the page loads, with default or empty values.
       // pestaña de actores
       loadData(municipio, sector, tecnologias40, grupos_investigacion_tabla, grupos_investigacion_elemento);
@@ -100,6 +107,8 @@
       loadMultipleGroupedData(municipio, sector, tecnologias40, card_formacion_programas_academicos_sectores_tablas, card_formacion_programas_academicos_sectores_campo, card_formacion_programas_academicos_sectores_elemento);
       loadMultipleGroupedData(municipio, sector, tecnologias40, card_formacion_programas_academicos_municipios_tablas, card_formacion_programas_academicos_municipios_campo, card_formacion_programas_academicos_municipios_elemento);
 
+      //pestaña de retos
+      loadEntityData(municipio, sector, tecnologias40, card_retos_entidad, card_retos_elemento);
 
       if (municipioSelect) {
         municipioSelect.addEventListener('change', function() {
@@ -123,6 +132,8 @@
           loadData(this.value, sector, tecnologias40, card_universidades_tabla, card_universidades_elemento);
           loadData(this.value, sector, tecnologias40, card_programas_ofertados_tabla, card_programas_ofertados_elemento);
           loadMultipleGroupedData(this.value, sector, tecnologias40, card_formacion_programas_academicos_sectores_tablas, card_formacion_programas_academicos_sectores_campo, card_formacion_programas_academicos_sectores_elemento);
+          loadMultipleGroupedData(this.value, sector, tecnologias40, card_formacion_programas_academicos_municipios_tablas, card_formacion_programas_academicos_municipios_campo, card_formacion_programas_academicos_municipios_elemento);
+
         });
       }
 
@@ -147,6 +158,8 @@
           loadData(municipio, this.value, tecnologias40, card_universidades_tabla, card_universidades_elemento);
           loadData(municipio, this.value, tecnologias40, card_programas_ofertados_tabla, card_programas_ofertados_elemento);
           loadMultipleGroupedData(municipio, this.value, tecnologias40, card_formacion_programas_academicos_sectores_tablas, card_formacion_programas_academicos_sectores_campo, card_formacion_programas_academicos_sectores_elemento);
+          loadMultipleGroupedData(municipio, this.value, tecnologias40, card_formacion_programas_academicos_municipios_tablas, card_formacion_programas_academicos_municipios_campo, card_formacion_programas_academicos_municipios_elemento);
+
         });
       }
 
@@ -171,6 +184,8 @@
           loadData(municipio, sector, this.value, card_universidades_tabla, card_universidades_elemento);
           loadData(municipio, sector, this.value, card_programas_ofertados_tabla, card_programas_ofertados_elemento);
           loadMultipleGroupedData(municipio, sector, this.value, card_formacion_programas_academicos_sectores_tablas, card_formacion_programas_academicos_sectores_campo, card_formacion_programas_academicos_sectores_elemento);
+          loadMultipleGroupedData(municipio, sector, this.value, card_formacion_programas_academicos_municipios_tablas, card_formacion_programas_academicos_municipios_campo, card_formacion_programas_academicos_municipios_elemento);
+
 
         });
       }
@@ -249,6 +264,21 @@
               groupedDataWrapper.insertAdjacentHTML('beforeend', html);
             });
           }
+        }
+      })
+      .catch(error => {
+        console.error('Error al cargar grupos de investigación:', error);
+      });
+  }
+
+   function loadEntityData(municipio, sector, tecnologia40, entity, elemento) {
+    const url = `/dump-entity/${entity}/json?municipio=${municipio}&sector=${sector}&tecnologia40=${tecnologia40}`;
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        const countElement = document.getElementById(elemento);
+        if (countElement) {
+          countElement.textContent = data.length;
         }
       })
       .catch(error => {

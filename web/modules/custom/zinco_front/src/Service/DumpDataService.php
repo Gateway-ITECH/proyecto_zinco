@@ -4,6 +4,7 @@ namespace Drupal\zinco_front\Service;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Database\Connection;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -26,16 +27,26 @@ class DumpDataService {
   protected $configFactory;
 
   /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
    * Constructs a new DumpDataService object.
    *
    * @param \Drupal\Core\Database\Connection $database
    *   The database connection.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
    */
-  public function __construct(Connection $database, ConfigFactoryInterface $config_factory) {
+  public function __construct(Connection $database, ConfigFactoryInterface $config_factory, EntityTypeManagerInterface $entity_type_manager) {
     $this->database = $database;
     $this->configFactory = $config_factory;
+    $this->entityTypeManager = $entity_type_manager;
   }
 
   /**
@@ -44,7 +55,8 @@ class DumpDataService {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('database'),
-      $container->get('config.factory')
+      $container->get('config.factory'),
+      $container->get('entity_type.manager')
     );
   }
 
@@ -103,6 +115,94 @@ class DumpDataService {
     }
 
     return $query->execute()->fetchAll(\PDO::FETCH_ASSOC);
+  }
+
+  /**
+   * Retrieves all records from a specified entity.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID to query.
+   * @param array $filters
+   *   (optional) An associative array of filters to apply.
+   *
+   * @return array
+   *   An array of associative arrays, where each inner array represents a row.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function obtenerEntidad(string $entity_type_id, array $filters = []): array {
+    $storage = $this->entityTypeManager->getStorage('zinco_retos_innovacion');
+    $query = $storage->getQuery(); 
+    $query->accessCheck(FALSE); // Disable access checks
+    $ids = $query->execute();
+    $entities = $storage->loadMultiple($ids);
+
+    $result = [];
+    foreach ($entities as $entity) {
+        $row = [];      
+        $row['label'] = $entity->get('label')->value;   
+        $row['estado_reto_innovacion'] = !empty($entity->estado_reto_innovacion->target_id) ? \Drupal\taxonomy\Entity\Term::load($entity->estado_reto_innovacion->target_id)->getName() : '';
+        $row['sector_economico'] = $entity->get('sector_economico')->value;  
+        $row['area_enfoque'] = $entity->get('area_enfoque')->value;  
+        $result[] = $row;       
+      }
+    return $result;
+  }
+
+  /**
+   * Retrieves grouped records from a specified entity.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID to query.
+   * @param string $groupColumn
+   *   The column to group the data by.
+   * @param array $filters
+   *   (optional) An associative array of filters to apply.
+   *
+   * @return array
+   *   An array of associative arrays, where each inner array represents a row.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function obtenerEntidadAgrupada(string $entity_type_id, string $groupColumn, array $filters = []): array {
+    $entity_storage = $this->entityTypeManager->getStorage($entity_type_id);
+    $query = $entity_storage->getQuery();
+
+    foreach ($filters as $field => $value) {
+      if (!empty($value)) {
+        $query->condition($field, $value);
+      }
+    }
+
+    $query->groupBy($groupColumn);
+    $query->addExpression('COUNT(' . $groupColumn . ')', 'count');
+    $entity_ids = $query->execute();
+
+    $results = [];
+    foreach ($entity_ids as $group_value => $count) {
+      $results[] = [
+        'group_column' => $group_value,
+        'count' => $count,
+      ];
+    }
+
+    // Calculate total count for percentage.
+    $total_count_query = $entity_storage->getQuery();
+    foreach ($filters as $field => $value) {
+      if (!empty($value)) {
+        $total_count_query->condition($field, $value);
+      }
+    }
+    $total_count = count($total_count_query->execute());
+
+    // Add percentage to each result.
+    foreach ($results as &$row) {
+      $row['percentage'] = ($total_count > 0) ? round(($row['count'] / $total_count) * 100, 2) : 0;
+    }
+
+    return $results;
   }
 
   /**
@@ -234,6 +334,8 @@ class DumpDataService {
             'count' => 0,
             'percentage' => 0,
           ];
+          
+        
         }
         $consolidated_data[$group_value]['count'] += $entry['count'];
         $consolidated_data[$group_value]['percentage'] += $entry['percentage'];
@@ -247,6 +349,23 @@ class DumpDataService {
     }
 
     return ['results' => $results, 'consolidated' => $consolidated_data];
+  }
+
+  /**
+   * Retrieves all records for the 'zinco_retos_innovacion_type' entity with 'reto' bundle.
+   *
+   * @param array $filters
+   *   (optional) An associative array of additional filters to apply.
+   *
+   * @return array
+   *   An array of associative arrays, where each inner array represents a row.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function obtenerRetos(array $filters = []): array {
+    $filters['bundle'] = 'reto';
+    return $this->obtenerEntidad('zinco_retos_innovacion_type', $filters);
   }
 
 }

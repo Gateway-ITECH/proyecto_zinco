@@ -52,6 +52,15 @@ zinco_front.dump_grouped_data:
   requirements:
     _permission: 'access content'
 
+zinco_front.dump_entity:
+  path: '/dump-entity/{entity_type_id}/{formato}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::dumpEntity'
+    _title: 'Dump Entity Data'
+    formato: NULL
+  requirements:
+    _permission: 'access content'
+
 zinco_front.perfil_investigador:
   path: '/perfiles/investigador'
   defaults:
