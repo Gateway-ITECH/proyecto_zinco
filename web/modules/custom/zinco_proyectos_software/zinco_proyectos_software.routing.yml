@@ -1,0 +1,7 @@
+entity.zinco_proyectos_software.settings:
+  path: 'admin/structure/zinco-proyectos-software'
+  defaults:
+    _form: '\Drupal\zinco_proyectos_software\Form\ZincoProyectosSoftwareSettingsForm'
+    _title: 'Zinco proyectos software'
+  requirements:
+    _permission: 'administer zinco_proyectos_software'

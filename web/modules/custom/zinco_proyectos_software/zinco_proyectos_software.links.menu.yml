@@ -1,0 +1,11 @@
+entity.zinco_proyectos_software.settings:
+  title: 'Zinco proyectos software'
+  description: 'Configure a Zinco proyectos software entity type.'
+  route_name:  entity.zinco_proyectos_software.settings
+  parent: system.admin_structure
+
+entity.zinco_proyectos_software.collection:
+  title: 'Zinco proyectos softwares'
+  description: 'List of zinco proyectos softwares.'
+  route_name: entity.zinco_proyectos_software.collection
+  parent: system.admin_content

@@ -1,0 +1,10 @@
+entity.zinco_proyectos_software.edit_form:
+  route_name: entity.zinco_proyectos_software.edit_form
+  group: zinco_proyectos_software
+  title: 'Edit'
+
+entity.zinco_proyectos_software.delete_form:
+  route_name: entity.zinco_proyectos_software.delete_form
+  group: zinco_proyectos_software
+  title: 'Delete'
+  weight: 10

@@ -367,8 +367,7 @@
                   <h6 class="card-title text-muted text-uppercase mb-0">Retos en Evaluación</h6>
                   <!-- Icono para Número de Retos en Evaluación -->
                 </div>
-                <h3 class="card-text mb-1">YY</h3> {# Placeholder for actual number #}
-                <p class="card-text text-muted small"><span class="icon-arrow-right me-1"></span>Estable<br>vs. período anterior</p> {# Placeholder for actual data #}
+                <h3 class="card-text mb-1" id="retos_en_evaluacion_value">-</h3> {# Placeholder for actual number #}
               </div>
             </div>
           </div>
@@ -379,8 +378,7 @@
                   <h6 class="card-title text-muted text-uppercase mb-0">Retos Finalizados</h6>
                   <!-- Icono para Número de Retos Finalizados -->
                 </div>
-                <h3 class="card-text mb-1">ZZ</h3> {# Placeholder for actual number #}
-                <p class="card-text text-danger small"><span class="icon-chart-line me-1"></span>-Z%<br>vs. período anterior</p> {# Placeholder for actual data #}
+                <h3 class="card-text mb-1" id="retos_finalizados_value">-</h3> {# Placeholder for actual number #}
               </div>
             </div>
           </div>
@@ -475,8 +473,7 @@
                 <h6 class="card-title text-muted text-uppercase mb-0">Número de Proyectos Propuestos</h6>
                 <!-- Icono para Número de Proyectos Propuestos -->
               </div>
-              <h3 class="card-text mb-1">XX</h3> {# Placeholder for actual number #}
-              <p class="card-text text-success small"><span class="icon-chart-line me-1"></span>+X%<br>vs. período anterior</p> {# Placeholder for actual data #}
+              <h3 class="card-text mb-1" id="proyectos_propuestos_value">-</h3> {# Placeholder for actual number #}
             </div>
           </div>
         </div>
@@ -487,8 +484,7 @@
                 <h6 class="card-title text-muted text-uppercase mb-0">Número de Proyectos en Ejecución</h6>
                 <!-- Icono para Número de Proyectos en Ejecución -->
               </div>
-              <h3 class="card-text mb-1">YY</h3> {# Placeholder for actual number #}
-              <p class="card-text text-muted small"><span class="icon-arrow-right me-1"></span>Estable<br>vs. período anterior</p> {# Placeholder for actual data #}
+              <h3 class="card-text mb-1" id="proyectos_ejecucion_value">-</h3> {# Placeholder for actual number #}
             </div>
           </div>   
         </div>
@@ -499,8 +495,7 @@
                 <h6 class="card-title text-muted text-uppercase mb-0">Número de Proyectos Finalizados</h6>
                 <!-- Icono para Número de Proyectos Finalizados -->
               </div>
-              <h3 class="card-text mb-1">ZZ</h3> {# Placeholder for actual number #}
-              <p class="card-text text-danger small"><span class="icon-chart-line me-1"></span>-Z%<br>vs. período anterior</p> {# Placeholder for actual data #}
+              <h3 class="card-text mb-1" id="proyectos_finalizados_value">-</h3> {# Placeholder for actual number #}
             </div>
           </div>
         </div>
@@ -552,11 +547,10 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0">Registros de Software (Año)</h6>
+                <h6 class="card-title text-muted text-uppercase mb-0">Registros de Software</h6>
                 <!-- Icono para Registros de Software -->
               </div>
-              <h3 class="card-text mb-1">XX</h3> {# Placeholder for actual number #}
-              <p class="card-text text-success small"><span class="icon-chart-line me-1"></span>+X%<br>vs. año anterior</p> {# Placeholder for actual data #}
+              <h3 class="card-text mb-1" id="registros_software_value">-</h3> {# Placeholder for actual number #}
             </div>
           </div>
         </div>
@@ -564,11 +558,10 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0">Registros de Marcas (Año)</h6>
+                <h6 class="card-title text-muted text-uppercase mb-0">Registros de Marcas</h6>
                 <!-- Icono para Registros de Marcas -->
               </div>
-              <h3 class="card-text mb-1">YY</h3> {# Placeholder for actual number #}
-              <p class="card-text text-muted small"><span class="icon-arrow-right me-1"></span>Estable<br>vs. año anterior</p> {# Placeholder for actual data #}
+              <h3 class="card-text mb-1" id="registros_marcas_value">-</h3> {# Placeholder for actual number #}
             </div>
           </div>
         </div>
@@ -576,11 +569,10 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0">Registros de Datos (Año)</h6>
+                <h6 class="card-title text-muted text-uppercase mb-0">Registros de Datos</h6>
                 <!-- Icono para Registros de Datos -->
               </div>
-              <h3 class="card-text mb-1">ZZ</h3> {# Placeholder for actual number #}
-              <p class="card-text text-danger small"><span class="icon-chart-line me-1"></span>-Z%<br>vs. año anterior</p> {# Placeholder for actual data #}
+              <h3 class="card-text mb-1" id="registros_datos_value">-</h3> {# Placeholder for actual number #}
             </div>
           </div>
         </div>
@@ -613,8 +605,7 @@
                 <h6 class="card-title text-muted text-uppercase mb-0">Producción Total</h6>
                 <span class="icon-clipboard-check text-muted"></span>
               </div>
-              <h3 class="card-text mb-1">178</h3>
-              <p class="card-text text-success small"><span class="icon-arrow-up me-1"></span>8.5% vs. período anterior</p>
+              <h3 class="card-text mb-1" id="produccion_total_value">-</h3>
             </div>
           </div>
         </div>
@@ -625,8 +616,7 @@
                 <h6 class="card-title text-muted text-uppercase mb-0">Centros de Investigación</h6>
                 <span class="icon-award text-muted"></span>
               </div>
-              <h3 class="card-text mb-1">21</h3>
-              <p class="card-text text-danger small"><span class="icon-arrow-down me-1"></span>-3.1% vs. período anterior</p>
+              <h3 class="card-text mb-1" id="generacion_conocimiento_centros_investigacion_value">-</h3>
             </div>
           </div>
         </div>
@@ -637,8 +627,7 @@
                 <h6 class="card-title text-muted text-uppercase mb-0">CDT</h6>
                 <span class="icon-code text-muted"></span>
               </div>
-              <h3 class="card-text mb-1">52</h3>
-              <p class="card-text text-success small"><span class="icon-arrow-up me-1"></span>12.8% vs. período anterior</p>
+              <h3 class="card-text mb-1" id="generacion_conocimiento_centros_cdt_value"></h3>
             </div>
           </div>
         </div>
@@ -649,8 +638,7 @@
                 <h6 class="card-title text-muted text-uppercase mb-0">Centros de innovación</h6>
                 <span class="icon-graduation-cap text-muted"></span>
               </div>
-              <h3 class="card-text mb-1">15</h3>
-              <p class="card-text text-muted small"><span class="icon-arrow-right me-1"></span>-0.2% vs. período anterior</p>
+              <h3 class="card-text mb-1" id="generacion_conocimiento_centros_innovacion_value">-</h3>
             </div>
           </div>
         </div>
@@ -659,10 +647,10 @@
     <div class="zinco-dashboard-charts mb-4">
       <div class="row">
         <div class="col-md-12">
-          <div class="card shadow-sm chart-card-height">
+          <div class="card shadow-sm chart-card-height" id="generacion_conocimiento_grupos_investigacion_categorias_grouped_data">
             <div class="card-body">
               <h5 class="card-title">Número de grupos en categorías A1, A, B, C, D</h5>
-              <div class="mt-3">
+              <div class="mt-3 grouped_data_wrapper">
                 <div class="d-flex align-items-center mb-2">
                   <div class="progress flex-grow-1 me-2" style="height: 15px;">
                     <div class="progress-bar bg-info" role="progressbar" style="width: 5%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>

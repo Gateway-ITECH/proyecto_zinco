@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - zinco_proyectos_software
+id: zinco_proyectos_software_delete_action
+label: 'Delete zinco proyectos softwares'
+type: zinco_proyectos_software
+plugin: entity:delete_action:zinco_proyectos_software
+configuration: {  }

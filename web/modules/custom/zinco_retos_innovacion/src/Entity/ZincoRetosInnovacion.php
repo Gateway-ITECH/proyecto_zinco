@@ -297,6 +297,8 @@ class ZincoRetosInnovacion extends ContentEntityBase implements ZincoRetosInnova
       ])
       ->setDisplayConfigurable('view', TRUE);
 
+  
+
     $fields['organizador_reto'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Organizador del reto'))
       ->setDescription(t('The organization or individual organizing the Zinco Reto Innovacion.'))

@@ -1,0 +1,5 @@
+zinco_proyectos_software.add_form:
+  title: 'Add zinco proyectos software'
+  route_name: entity.zinco_proyectos_software.add_form
+  appears_on:
+    - entity.zinco_proyectos_software.collection

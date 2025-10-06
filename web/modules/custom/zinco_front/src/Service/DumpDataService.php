@@ -6,6 +6,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\taxonomy\Entity\Term;
 
 /**
  * Service for dumping data from database tables.
@@ -132,7 +133,7 @@ class DumpDataService {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function obtenerEntidad(string $entity_type_id, array $filters = []): array {
-    $storage = $this->entityTypeManager->getStorage('zinco_retos_innovacion');
+    $storage = $this->entityTypeManager->getStorage($entity_type_id);
     $query = $storage->getQuery(); 
     $query->accessCheck(FALSE); // Disable access checks
     $ids = $query->execute();
@@ -142,10 +143,34 @@ class DumpDataService {
     foreach ($entities as $entity) {
         $row = [];      
         $row['label'] = $entity->get('label')->value;   
-        $row['estado_reto_innovacion'] = !empty($entity->estado_reto_innovacion->target_id) ? \Drupal\taxonomy\Entity\Term::load($entity->estado_reto_innovacion->target_id)->getName() : '';
-        $row['sector_economico'] = $entity->get('sector_economico')->value;  
-        $row['area_enfoque'] = $entity->get('area_enfoque')->value;  
-        $result[] = $row;       
+        switch($entity_type_id){
+          case 'zinco_retos_innovacion':
+            $row['estado_reto_innovacion'] = !empty($entity->estado_reto_innovacion->target_id) ? Term::load($entity->estado_reto_innovacion->target_id)->getName() : '';
+            $row['sector'] = !empty($entity->sector_economico->target_id) ? Term::load($entity->sector_economico->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->area_enfoque->target_id) ? Term::load($entity->area_enfoque->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->field_municipio->target_id) ? Term::load($entity->field_municipio->target_id)->getName() : '';
+            break;
+          case 'zinco_proyectos_idi':
+            $row['estado_proyecto'] = !empty($entity->field_estado_proyecto->target_id) ? Term::load($entity->field_estado_proyecto->target_id)->getName() : '';
+            $row['sector'] = !empty($entity->field_sector_economico_proyecto->target_id) ? Term::load($entity->field_sector_economico_proyecto->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->field_tecnologia_principal_proye->target_id) ? Term::load($entity->field_tecnologia_principal_proye->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->field_municipio_proyecto->target_id) ? Term::load($entity->field_municipio_proyecto->target_id)->getName() : '';
+            break;
+        }
+
+        
+
+        $match = TRUE;
+        foreach ($filters as $filter_key => $filter_value) {
+          if (isset($row[$filter_key]) && $row[$filter_key] != $filter_value) {
+            $match = FALSE;
+            break;
+          }
+        }
+
+        if ($match) {
+          $result[] = $row;
+        }
       }
     return $result;
   }

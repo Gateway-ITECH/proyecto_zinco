@@ -110,7 +110,7 @@ class ZincoFilterForm extends FormBase {
       '#type' => 'select',
       '#title' => $this->t('Municipio'),
       '#options' => $this->getTaxonomyTermsAsOptions('divipola', $cordoba_tid),
-      '#empty_option' => $this->t('- Select -'),
+      '#empty_option' => $this->t('- Todos -'),
       '#attributes' => ['class' => ['form-control', 'mb-2', 'mr-sm-2']],
       '#prefix' => '<div class="form-group col-md-4">',
       '#suffix' => '</div>',
