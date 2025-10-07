@@ -119,6 +119,30 @@ class ZincoController extends ControllerBase {
         '#rows' => $rows,
       ];
     }
+  /**
+   * Dumps the sum of a cumulative field from a specified table.
+   *
+   * @param string $tableName
+   *   The name of the table to query.
+   * @param string $cumulativeFieldName
+   *   The name of the field to sum.
+   * @param string $formato
+   *   (optional) The format to return the data in (e.g., 'json').
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *   A JsonResponse containing the sum of the cumulative field.
+   */
+  public function dumpTablaCampoAcumulativo(string $tableName, string $cumulativeFieldName, ?string $formato) {
+    $query_params = \Drupal::request()->query->all();
+    $sum = $this->dumpDataService->obtenerTablaCampoAcumulativo($tableName, $cumulativeFieldName, $query_params);
+
+    if ($formato === 'json') {
+      return new JsonResponse(['sum' => $sum]);
+    }
+
+    return new JsonResponse(['error' => 'Invalid format or no format specified.'], 400);
+  }
+
 
     /**
      * Dumps data from a specified entity.

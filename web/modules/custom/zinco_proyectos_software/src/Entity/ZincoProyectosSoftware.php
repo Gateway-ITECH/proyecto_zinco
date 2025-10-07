@@ -89,7 +89,7 @@ class ZincoProyectosSoftware extends ContentEntityBase implements ZincoProyectos
     $fields = parent::baseFieldDefinitions($entity_type);
 
     $fields['label'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Label'))
+      ->setLabel(t('Nombre del software'))
       ->setRequired(TRUE)
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', [
@@ -127,7 +127,7 @@ class ZincoProyectosSoftware extends ContentEntityBase implements ZincoProyectos
       ->setDisplayConfigurable('view', TRUE);
 
     $fields['description'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Description'))
+      ->setLabel(t('Descripción del software'))
       ->setDisplayOptions('form', [
         'type' => 'text_textarea',
         'weight' => 10,

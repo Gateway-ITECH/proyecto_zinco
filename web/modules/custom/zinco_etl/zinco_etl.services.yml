@@ -2,3 +2,6 @@ services:
   zinco_etl.azure_uploader:
     class: Drupal\zinco_etl\Service\AzureUploaderService
     arguments: ['@config.factory', '@logger.factory', '@string_translation']
+  zinco_etl.gruplac_scraper:
+    class: Drupal\zinco_etl\Service\GruplacScraperService
+    arguments: ['@http_client']

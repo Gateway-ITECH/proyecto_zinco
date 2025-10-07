@@ -140,3 +140,12 @@ zinco_front.dump_multiple_data:
     formato: NULL
   requirements:
     _permission: 'access content'
+
+zinco_front.dump_tabla_campo_acumulativo:
+  path: '/dump-tabla-campo-acumulativo/{tableName}/{cumulativeFieldName}/{formato}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::dumpTablaCampoAcumulativo'
+    _title: 'Dump Tabla Campo Acumulativo'
+    formato: NULL
+  requirements:
+    _permission: 'access content'

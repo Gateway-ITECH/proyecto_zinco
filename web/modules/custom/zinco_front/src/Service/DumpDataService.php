@@ -117,6 +117,63 @@ class DumpDataService {
 
     return $query->execute()->fetchAll(\PDO::FETCH_ASSOC);
   }
+  /**
+   * Retrieves the sum of values from a specified cumulative field in a table.
+   *
+   * @param string $tableName
+   *   The name of the table to query.
+   * @param string $cumulativeFieldName
+   *   The name of the field to sum.
+   * @param array $filters
+   *   (optional) An associative array of filters to apply.
+   *
+   * @return int
+   *   The sum of the values in the cumulative field, or 0 if no records are found.
+   */
+  public function obtenerTablaCampoAcumulativo(string $tableName, string $cumulativeFieldName, array $filters = []): int {
+    $query = $this->database->select($tableName, 't')
+      ->fields('t', [$cumulativeFieldName]);
+
+    // Load configuration for the dashboard tables.
+    $config = $this->configFactory->get('zinco_front.dashboard.settings');
+    $tables_data = $config->get('tables_data') ?: [];
+    $filters_data = $config->get('filters_data') ?: [];
+
+    // Find the configuration for the current table.
+    $table_config = NULL;
+    foreach ($tables_data as $data) {
+      if ($data['table_name'] === $tableName) {
+        $table_config = $data;
+        break;
+      }
+    }
+
+    // Apply filters based on configuration.
+    foreach ($filters as $field => $value) {
+      if (!empty($value) && $table_config && isset($table_config[$field]) && $table_config[$field]) {
+        $query->condition($field, $value);
+      }
+    }
+
+    $filters_config = [];
+    foreach ($filters_data as $data) {
+      if ($data['table_name'] === $tableName) {
+        $filters_config[] = $data;
+      }
+    }
+
+    // Apply OR filters if provided.
+    if (!empty($filters_config)) {
+      $or = $query->orConditionGroup();
+      foreach ($filters_config as $value) {          
+          $or->condition($value['field'], $value['value']);
+      }
+      $query->condition($or);
+    }
+
+    $result = $query->execute()->fetchCol();
+    return array_sum($result);
+  }
 
   /**
    * Retrieves all records from a specified entity.
@@ -155,6 +212,12 @@ class DumpDataService {
             $row['sector'] = !empty($entity->field_sector_economico_proyecto->target_id) ? Term::load($entity->field_sector_economico_proyecto->target_id)->getName() : '';  
             $row['tecnologia40'] = !empty($entity->field_tecnologia_principal_proye->target_id) ? Term::load($entity->field_tecnologia_principal_proye->target_id)->getName() : '';
             $row['municipio'] = !empty($entity->field_municipio_proyecto->target_id) ? Term::load($entity->field_municipio_proyecto->target_id)->getName() : '';
+            break;
+           case 'zinco_proyectos_software':
+            $row['estado_proyecto'] = !empty($entity->field_estado_software->target_id) ? Term::load($entity->field_estado_software->target_id)->getName() : '';
+            $row['sector'] = !empty($entity->field_sector_economico_software->target_id) ? Term::load($entity->field_sector_economico_software->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->field_tecnologia_clave_software->target_id) ? Term::load($entity->field_tecnologia_clave_software->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->field_municipio_software->target_id) ? Term::load($entity->field_municipio_software->target_id)->getName() : '';
             break;
         }
 

@@ -190,6 +190,23 @@
       const card_grupos_investigacion_categorias_campo = 'categoria_minciencias';
       const card_grupos_investgacion_categorias_elemento = 'generacion_conocimiento_grupos_investigacion_categorias_grouped_data';
 
+       /*
+      * pestaña de software
+      */
+      //parametros card software activos
+      const card_software_activos_tabla = 'data_grupos_investigacion';
+      const card_software_activos_elemento = ['software_activos_value'];
+      const card_software_activos_campo_acumulativo = 'gruplac_total_softwares';
+
+      //parametros card software en desarrollo
+      const card_software_desarrollo_entidad = 'zinco_proyectos_software';
+      const card_software_desarrollo_elemento = 'software_desarrollo_value';
+      const card_software_desarrollo_filters = {'estado_proyecto': 'En desarrollo'};
+
+      //parametros card software finalizados
+      const card_software_finalizado_entidad = 'zinco_proyectos_software';
+      const card_software_finalizado_elemento = 'software_finalizado_value';
+      const card_software_finalizado_filters = {'estado_proyecto': 'Finalizado'};
 
       // Initial call to load data when the page loads, with default or empty values.
       // pestaña de actores
@@ -226,6 +243,11 @@
       loadData(municipio, sector, tecnologias40, card_produccion_total_tabla, card_produccion_total_elemento);
       loadData(municipio, sector, tecnologias40, card_centros_cdt_tabla, card_centros_cdt_elemento);
       loadMultipleGroupedData(municipio, sector, tecnologias40, card_grupos_investigacion_categorias_tablas, card_grupos_investigacion_categorias_campo, card_grupos_investgacion_categorias_elemento);
+
+      //pestaña de software
+      loadAccumulativeData(municipio, sector, tecnologias40, card_software_activos_tabla, card_software_activos_campo_acumulativo, card_software_activos_elemento);
+      loadEntityData(municipio, sector, tecnologias40, card_software_desarrollo_entidad, card_software_desarrollo_elemento, card_software_desarrollo_filters);
+      loadEntityData(municipio, sector, tecnologias40, card_software_finalizado_entidad, card_software_finalizado_elemento, card_software_finalizado_filters);
   };
 
 
@@ -245,6 +267,24 @@
         console.error('Error al cargar grupos de investigación:', error);
       });
   }
+
+  function loadAccumulativeData(municipio, sector, tecnologia40, tabla, campo_acumulativo, elementos) {
+    const url = `/dump-tabla-campo-acumulativo/${tabla}/${campo_acumulativo}/json?municipio=${municipio}&sector=${sector}&tecnologia40=${tecnologia40}`;
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        for (const elementoId of elementos) {
+          const countElement = document.getElementById(elementoId);
+          if (countElement) {
+            countElement.textContent = data.sum;
+          }
+        }
+      })
+      .catch(error => {
+        console.error('Error al cargar datos:', error);
+      });
+  }
+
 
   function loadMultipleGroupedData(municipio, sector, tecnologia40, tablas, campo, elemento) {
     const url = `/dump-multiple-grouped-data/${tablas}/${campo}/json?municipio=${municipio}&sector=${sector}&tecnologia40=${tecnologia40}`;
