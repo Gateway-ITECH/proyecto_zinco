@@ -1,0 +1,85 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @file
+ * Provides a zinco software recursos entity type.
+ */
+
+use Drupal\Core\Render\Element;
+use Drupal\user\UserInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function zinco_software_recursos_theme(): array {
+  return [
+    'zinco_software_recursos' => ['render element' => 'elements'],
+  ];
+}
+
+/**
+ * Prepares variables for zinco software recursos templates.
+ *
+ * Default template: zinco-software-recursos.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An associative array containing the zinco software recursos information and any
+ *     fields attached to the entity.
+ *   - attributes: HTML attributes for the containing element.
+ */
+function template_preprocess_zinco_software_recursos(array &$variables): void {
+  $variables['view_mode'] = $variables['elements']['#view_mode'];
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+}
+
+/**
+ * Implements hook_user_cancel().
+ */
+function zinco_software_recursos_user_cancel($edit, UserInterface $account, $method): void {
+  switch ($method) {
+    case 'user_cancel_block_unpublish':
+      // Unpublish zinco software recursoss.
+      $storage = \Drupal::entityTypeManager()->getStorage('zinco_software_recursos');
+      $zinco_software_recursos_ids = $storage->getQuery()
+        ->condition('uid', $account->id())
+        ->condition('status', 1)
+        ->accessCheck(FALSE)
+        ->execute();
+      foreach ($storage->loadMultiple($zinco_software_recursos_ids) as $zinco_software_recursos) {
+        $zinco_software_recursos->set('status', FALSE)->save();
+      }
+      break;
+
+    case 'user_cancel_reassign':
+      // Anonymize zinco software recursoss.
+      $storage = \Drupal::entityTypeManager()->getStorage('zinco_software_recursos');
+      $zinco_software_recursos_ids = $storage->getQuery()
+        ->condition('uid', $account->id())
+        ->accessCheck(FALSE)
+        ->execute();
+      foreach ($storage->loadMultiple($zinco_software_recursos_ids) as $zinco_software_recursos) {
+        $zinco_software_recursos->setOwnerId(0)->save();
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_predelete() for user entities.
+ */
+function zinco_software_recursos_user_predelete(UserInterface $account): void {
+  // Delete zinco software recursoss that belong to this account.
+  $storage = \Drupal::entityTypeManager()->getStorage('zinco_software_recursos');
+  $zinco_software_recursos_ids = $storage->getQuery()
+    ->condition('uid', $account->id())
+    ->accessCheck(FALSE)
+    ->execute();
+  $storage->delete(
+    $storage->loadMultiple($zinco_software_recursos_ids)
+  );
+}

@@ -38,7 +38,7 @@ zinco_front.dump_data:
   path: '/dump-data/{tableName}/{formato}'
   defaults:
     _controller: '\Drupal\zinco_front\Controller\ZincoController::dumpData'
-    _title: 'Dump Data'
+    _title: ''
     formato: NULL
   requirements:
     _permission: 'access content'
@@ -57,6 +57,15 @@ zinco_front.dump_entity:
   defaults:
     _controller: '\Drupal\zinco_front\Controller\ZincoController::dumpEntity'
     _title: 'Dump Entity Data'
+    formato: NULL
+  requirements:
+    _permission: 'access content'
+
+zinco_front.dump_entity_bundle:
+  path: '/dump-entity-bundle/{entity_type_id}/{bundle}/{formato}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::dumpEntityBundle'
+    _title: 'Dump Entity Bundle Data'
     formato: NULL
   requirements:
     _permission: 'access content'

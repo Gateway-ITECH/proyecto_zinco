@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drupal\zinco_reconocimientos\Entity;
+namespace Drupal\zinco_software_recursos\Entity;
 
 use Drupal\Core\Entity\Attribute\ContentEntityType;
 use Drupal\Core\Entity\ContentEntityBase;
@@ -16,33 +16,32 @@ use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\user\EntityOwnerTrait;
 use Drupal\views\EntityViewsData;
-use Drupal\zinco_reconocimientos\Form\ZincoReconocimientosForm;
-use Drupal\zinco_reconocimientos\ZincoReconocimientosInterface;
-use Drupal\zinco_reconocimientos\ZincoReconocimientosListBuilder;
+use Drupal\zinco_software_recursos\Form\ZincoSoftwareRecursosForm;
+use Drupal\zinco_software_recursos\ZincoSoftwareRecursosInterface;
+use Drupal\zinco_software_recursos\ZincoSoftwareRecursosListBuilder;
 
 /**
- * Defines the zinco reconocimientos entity class.
+ * Defines the zinco software recursos entity class.
  */
 #[ContentEntityType(
-  id: 'zinco_reconocimientos',
-  label: new TranslatableMarkup('Zinco reconocimientos'),
-  label_collection: new TranslatableMarkup('Zinco reconocimientoss'),
-  label_singular: new TranslatableMarkup('zinco reconocimientos'),
-  label_plural: new TranslatableMarkup('zinco reconocimientoss'),
+  id: 'zinco_software_recursos',
+  label: new TranslatableMarkup('Zinco software recursos'),
+  label_collection: new TranslatableMarkup('Zinco software recursoss'),
+  label_singular: new TranslatableMarkup('zinco software recursos'),
+  label_plural: new TranslatableMarkup('zinco software recursoss'),
   entity_keys: [
     'id' => 'id',
-    'bundle' => 'bundle',
     'label' => 'label',
     'owner' => 'uid',
     'published' => 'status',
     'uuid' => 'uuid',
   ],
   handlers: [
-    'list_builder' => ZincoReconocimientosListBuilder::class,
+    'list_builder' => ZincoSoftwareRecursosListBuilder::class,
     'views_data' => EntityViewsData::class,
     'form' => [
-      'add' => ZincoReconocimientosForm::class,
-      'edit' => ZincoReconocimientosForm::class,
+      'add' => ZincoSoftwareRecursosForm::class,
+      'edit' => ZincoSoftwareRecursosForm::class,
       'delete' => ContentEntityDeleteForm::class,
       'delete-multiple-confirm' => DeleteMultipleForm::class,
     ],
@@ -51,25 +50,22 @@ use Drupal\zinco_reconocimientos\ZincoReconocimientosListBuilder;
     ],
   ],
   links: [
-    'collection' => '/admin/content/zinco-reconocimientos',
-    'add-form' => '/zinco-reconocimientos/add/{zinco_reconocimientos_type}',
-    'add-page' => '/zinco-reconocimientos/add',
-    'canonical' => '/zinco-reconocimientos/{zinco_reconocimientos}',
-    'edit-form' => '/zinco-reconocimientos/{zinco_reconocimientos}/edit',
-    'delete-form' => '/zinco-reconocimientos/{zinco_reconocimientos}/delete',
-    'delete-multiple-form' => '/admin/content/zinco-reconocimientos/delete-multiple',
+    'collection' => '/admin/content/zinco-software-recursos',
+    'add-form' => '/zinco-software-recursos/add',
+    'canonical' => '/zinco-software-recursos/{zinco_software_recursos}',
+    'edit-form' => '/zinco-software-recursos/{zinco_software_recursos}/edit',
+    'delete-form' => '/zinco-software-recursos/{zinco_software_recursos}/delete',
+    'delete-multiple-form' => '/admin/content/zinco-software-recursos/delete-multiple',
   ],
-  admin_permission: 'administer zinco_reconocimientos types',
-  bundle_entity_type: 'zinco_reconocimientos_type',
-  bundle_label: new TranslatableMarkup('Zinco reconocimientos type'),
-  base_table: 'zinco_reconocimientos',
+  admin_permission: 'administer zinco_software_recursos',
+  base_table: 'zinco_software_recursos',
   label_count: [
-    'singular' => '@count zinco reconocimientoss',
-    'plural' => '@count zinco reconocimientoss',
+    'singular' => '@count zinco software recursoss',
+    'plural' => '@count zinco software recursoss',
   ],
-  field_ui_base_route: 'entity.zinco_reconocimientos_type.edit_form',
+  field_ui_base_route: 'entity.zinco_software_recursos.settings',
 )]
-class ZincoReconocimientos extends ContentEntityBase implements ZincoReconocimientosInterface {
+class ZincoSoftwareRecursos extends ContentEntityBase implements ZincoSoftwareRecursosInterface {
 
   use EntityChangedTrait;
   use EntityOwnerTrait;
@@ -93,8 +89,9 @@ class ZincoReconocimientos extends ContentEntityBase implements ZincoReconocimie
     $fields = parent::baseFieldDefinitions($entity_type);
 
     $fields['label'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Nombre'))
+      ->setLabel(t('Label'))
       ->setRequired(TRUE)
+      ->setDefaultValue(t('Nuevos recursos obtenidos'))
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',
@@ -167,7 +164,7 @@ class ZincoReconocimientos extends ContentEntityBase implements ZincoReconocimie
 
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Authored on'))
-      ->setDescription(t('The time that the zinco reconocimientos was created.'))
+      ->setDescription(t('The time that the zinco software recursos was created.'))
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'timestamp',
@@ -182,7 +179,7 @@ class ZincoReconocimientos extends ContentEntityBase implements ZincoReconocimie
 
     $fields['changed'] = BaseFieldDefinition::create('changed')
       ->setLabel(t('Changed'))
-      ->setDescription(t('The time that the zinco reconocimientos was last edited.'));
+      ->setDescription(t('The time that the zinco software recursos was last edited.'));
 
     return $fields;
   }

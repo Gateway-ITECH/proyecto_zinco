@@ -10,6 +10,7 @@
  */
 #}
 <div class="dump-data-table">
+  <a href="#" onclick="window.history.back(); return false;" class="btn btn-primary">Volver</a>
   <h2>{{ 'Data from table: @table_name'|t({'@table_name': table_name}) }}</h2>
   {% if rows %}
     <table class="views-table">

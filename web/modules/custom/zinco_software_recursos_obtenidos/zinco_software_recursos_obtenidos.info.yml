@@ -1,0 +1,5 @@
+name: 'Zinco recursos'
+type: module
+description: 'Model for Zinco retos soluciones'
+package: 'Zinco'
+core_version_requirement: ^10 || ^11

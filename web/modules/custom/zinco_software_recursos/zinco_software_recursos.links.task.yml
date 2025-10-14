@@ -1,0 +1,22 @@
+entity.zinco_software_recursos.settings:
+  title: 'Settings'
+  route_name: entity.zinco_software_recursos.settings
+  base_route: entity.zinco_software_recursos.settings
+entity.zinco_software_recursos.view:
+  title: 'View'
+  route_name: entity.zinco_software_recursos.canonical
+  base_route: entity.zinco_software_recursos.canonical
+entity.zinco_software_recursos.edit_form:
+  title: 'Edit'
+  route_name: entity.zinco_software_recursos.edit_form
+  base_route: entity.zinco_software_recursos.canonical
+entity.zinco_software_recursos.delete_form:
+  title: 'Delete'
+  route_name: entity.zinco_software_recursos.delete_form
+  base_route: entity.zinco_software_recursos.canonical
+  weight: 10
+entity.zinco_software_recursos.collection:
+  title: 'Zinco software recursoss'
+  route_name: entity.zinco_software_recursos.collection
+  base_route: system.admin_content
+  weight: 10

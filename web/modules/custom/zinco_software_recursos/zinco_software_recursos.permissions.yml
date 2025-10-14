@@ -1,0 +1,3 @@
+administer zinco_software_recursos:
+  title: 'Administer zinco software recursoss'
+  restrict access: true

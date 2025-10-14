@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - zinco_software_recursos
+id: zinco_software_recursos_save_action
+label: 'Save zinco software recursoss'
+type: zinco_software_recursos
+plugin: entity:save_action:zinco_software_recursos
+configuration: {  }

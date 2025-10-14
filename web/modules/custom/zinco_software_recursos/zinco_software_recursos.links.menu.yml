@@ -1,0 +1,11 @@
+entity.zinco_software_recursos.settings:
+  title: 'Zinco software recursos'
+  description: 'Configure a Zinco software recursos entity type.'
+  route_name:  entity.zinco_software_recursos.settings
+  parent: system.admin_structure
+
+entity.zinco_software_recursos.collection:
+  title: 'Zinco software recursoss'
+  description: 'List of zinco software recursoss.'
+  route_name: entity.zinco_software_recursos.collection
+  parent: system.admin_content

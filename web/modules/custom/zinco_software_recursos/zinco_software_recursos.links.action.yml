@@ -1,0 +1,5 @@
+zinco_software_recursos.add_form:
+  title: 'Add zinco software recursos'
+  route_name: entity.zinco_software_recursos.add_form
+  appears_on:
+    - entity.zinco_software_recursos.collection

@@ -62,7 +62,7 @@
               <div class="card shadow-sm">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h6 class="card-title text-muted text-uppercase mb-0">Grupos de Investigación (MINCIENCIAS)</h6>
+                    <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_grupos_investigacion">Grupos de Investigación (MINCIENCIAS)</a></h6>
                     <!-- Icono para Grupos de Investigación -->
                   </div>
                   <h3 class="card-text mb-1" id="actores_grupos_de_investigacion_value">-</h3>
@@ -387,11 +387,11 @@
       <div class="zinco-dashboard-charts mb-4">
         <div class="row">
           <div class="col-md-6">
-            <div class="card shadow-sm chart-card-height">
+            <div class="card shadow-sm chart-card-height" id="retos_sectores_grouped_data">
               <div class="card-body">
-                <h5 class="card-title">Retos por sectores económicos</h5>
-                <div class="mt-3">
-                  <div class="d-flex align-items-center mb-2">
+                <h5 class="card-title">Retos por sectores</h5>
+                <div class="mt-3 grouped_data_wrapper">
+                  <div class="d-flex align-items-center mb-2" >
                     <div class="progress flex-grow-1 me-2" style="height: 15px;">
                       <div class="progress-bar bg-info" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
@@ -426,10 +426,10 @@
             </div>
           </div>
           <div class="col-md-6">
-            <div class="card shadow-sm chart-card-height">
+            <div class="card shadow-sm chart-card-height" id="retos_tecnologias_grouped_data">
               <div class="card-body">
                 <h5 class="card-title">Retos por tecnología 4.0</h5>
-                <div class="mt-3">
+                <div class="mt-3 grouped_data_wrapper">
                   <div class="d-flex align-items-center mb-2">
                     <div class="progress flex-grow-1 me-2" style="height: 15px;">
                       <div class="progress-bar bg-info" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
@@ -504,10 +504,10 @@
      <div class="zinco-dashboard-charts mb-4">
       <div class="row">
         <div class="col-md-12">
-          <div class="card shadow-sm chart-card-height">
+          <div class="card shadow-sm chart-card-height" id="proyectos_sectores_grouped_data">
             <div class="card-body">
               <h5 class="card-title">Número de proyectos por sector</h5>
-              <div class="mt-3">
+              <div class="mt-3 grouped_data_wrapper">
                 <div class="d-flex align-items-center mb-2">
                   <div class="progress flex-grow-1 me-2" style="height: 15px;">
                     <div class="progress-bar bg-info" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
@@ -738,11 +738,10 @@
             <div class="card shadow-sm">
               <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                  <h6 class="card-title text-muted text-uppercase mb-0">Recursos Captados</h6>
+                  <h6 class="card-title text-muted text-uppercase mb-0">Recursos Captados (COP)</h6>
                   <!-- Icono para Recursos Captados -->
                 </div>
-                <h3 class="card-text mb-1">$$$</h3> {# Placeholder for actual amount #}
-                <p class="card-text text-success small"><span class="icon-chart-line me-1"></span>+X%<br>vs. período anterior</p> {# Placeholder for actual data #}
+                <h3 class="card-text mb-1" id="software_recursos_captados_value">-</h3> {# Placeholder for actual amount #}
               </div>
             </div>
           </div>
@@ -753,8 +752,7 @@
                   <h6 class="card-title text-muted text-uppercase mb-0">Número de Eventos</h6>
                   <!-- Icono para Número de Eventos -->
                 </div>
-                <h3 class="card-text mb-1">NN</h3> {# Placeholder for actual number #}
-                <p class="card-text text-muted small"><span class="icon-arrow-right me-1"></span>Estable<br>vs. período anterior</p> {# Placeholder for actual data #}
+                <h3 class="card-text mb-1" id="software_eventos_value">-</h3> {# Placeholder for actual number #}
               </div>
               
             </div>
@@ -765,10 +763,10 @@
     <div class="zinco-dashboard-charts mb-4">
                 <div class="row">
                   <div class="col-md-12">
-                    <div class="card shadow-sm chart-card-height">
+                    <div class="card shadow-sm chart-card-height" id="software_fuentes_financiacion_grouped_data">
                       <div class="card-body">
-                        <h5 class="card-title">Software Activos por Fuente de Financiación</h5>
-                        <div class="mt-3">
+                        <h5 class="card-title">Software por Fuente de Financiación</h5>
+                        <div class="mt-3 grouped_data_wrapper">
                           <div class="d-flex align-items-center mb-2">
                             <div class="progress flex-grow-1 me-2" style="height: 15px;">
                               <div class="progress-bar bg-info" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
@@ -807,11 +805,10 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0">Empresas Altamente Innovadoras</h6>
+                <h6 class="card-title text-muted text-uppercase mb-0">Emp. Altamente Innovadoras</h6>
                 <!-- Icono para Empresas Altamente Innovadoras -->
               </div>
-              <h3 class="card-text mb-1">AA</h3> {# Placeholder for actual number #}
-              <p class="card-text text-success small"><span class="icon-chart-line me-1"></span>+X%<br>vs. período anterior</p> {# Placeholder for actual data #}
+              <h3 class="card-text mb-1" id="empresas_altamente_innovadoras_value">-</h3> {# Placeholder for actual number #}
             </div>
           </div>
         </div>
@@ -822,8 +819,7 @@
                 <h6 class="card-title text-muted text-uppercase mb-0">Unidades Empresariales de I+D+i</h6>
                 <!-- Icono para Unidades Empresariales de I+D+i -->
               </div>
-              <h3 class="card-text mb-1">BB</h3> {# Placeholder for actual number #}
-              <p class="card-text text-muted small"><span class="icon-arrow-right me-1"></span>Estable<br>vs. período anterior</p> {# Placeholder for actual data #}
+              <h3 class="card-text mb-1" id="empresas_unidades_idi_value">-</h3> {# Placeholder for actual number #}
             </div>
           </div>
         </div>
@@ -834,8 +830,7 @@
                 <h6 class="card-title text-muted text-uppercase mb-0">Spin-off</h6>
                 <!-- Icono para Spin-off -->
               </div>
-              <h3 class="card-text mb-1">CC</h3> {# Placeholder for actual number #}
-              <p class="card-text text-danger small"><span class="icon-chart-line me-1"></span>-Z%<br>vs. período anterior</p> {# Placeholder for actual data #}
+              <h3 class="card-text mb-1" id="empresas_startups_value">-</h3> {# Placeholder for actual number #}
             </div>
           </div>
         </div>
@@ -846,8 +841,7 @@
                 <h6 class="card-title text-muted text-uppercase mb-0">Startups</h6>
                 <!-- Icono para Startups -->
               </div>
-              <h3 class="card-text mb-1">DD</h3> {# Placeholder for actual number #}
-              <p class="card-text text-success small"><span class="icon-chart-line me-1"></span>+Y%<br>vs. período anterior</p> {# Placeholder for actual data #}
+              <h3 class="card-text mb-1" id="empresas_spinoffs_value">-</h3> {# Placeholder for actual number #}
             </div>
           </div>
         </div>
@@ -856,10 +850,10 @@
     <div class="zinco-dashboard-charts mb-4">
       <div class="row">
         <div class="col-md-6">
-          <div class="card shadow-sm chart-card-height">
+          <div class="card shadow-sm chart-card-height" id="empresas_sectores_grouped_data">
             <div class="card-body">
               <h5 class="card-title">Número Total de Empresas por Sector</h5>
-              <div class="mt-3">
+              <div class="mt-3 grouped_data_wrapper">
                 <div class="d-flex align-items-center mb-2">
                   <div class="progress flex-grow-1 me-2" style="height: 15px;">
                     <div class="progress-bar bg-info" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
@@ -889,10 +883,10 @@
           </div>
         </div>
         <div class="col-md-6">
-          <div class="card shadow-sm chart-card-height">
+          <div class="card shadow-sm chart-card-height" id="empresas_tecnologias_grouped_data">
             <div class="card-body">
-              <h5 class="card-title">Porcentaje de Empresas por Sector</h5>
-              <div class="mt-3">
+              <h5 class="card-title">Número de Empresas por Tecnologías</h5>
+              <div class="mt-3 grouped_data_wrapper">
                 <div class="d-flex align-items-center mb-2">
                   <div class="progress flex-grow-1 me-2" style="height: 15px;">
                     <div class="progress-bar bg-info" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
@@ -934,8 +928,7 @@
                 <h6 class="card-title text-muted text-uppercase mb-0">Artículos de Investigación</h6>
                 <!-- Icono para Artículos de Investigación -->
               </div>
-              <h3 class="card-text mb-1">AA</h3> {# Placeholder for actual number #}
-              <p class="card-text text-success small"><span class="icon-chart-line me-1"></span>+X%<br>vs. período anterior</p> {# Placeholder for actual data #}
+              <h3 class="card-text mb-1" id="articulos_investigacion_value">-</h3> {# Placeholder for actual number #}
             </div>
           </div>
         </div>
@@ -946,8 +939,7 @@
                 <h6 class="card-title text-muted text-uppercase mb-0">Patentes</h6>
                 <!-- Icono para Patentes -->
               </div>
-              <h3 class="card-text mb-1">BB</h3> {# Placeholder for actual number #}
-              <p class="card-text text-muted small"><span class="icon-arrow-right me-1"></span>Estable<br>vs. período anterior</p> {# Placeholder for actual data #}
+              <h3 class="card-text mb-1" id="patentes_value">-</h3> {# Placeholder for actual number #}
             </div>
           </div>
         </div>
@@ -958,8 +950,7 @@
                 <h6 class="card-title text-muted text-uppercase mb-0">Productos Tecnológicos</h6>
                 <!-- Icono para Productos Tecnológicos -->
               </div>
-              <h3 class="card-text mb-1">CC</h3> {# Placeholder for actual number #}
-              <p class="card-text text-danger small"><span class="icon-chart-line me-1"></span>-Z%<br>vs. período anterior</p> {# Placeholder for actual data #}
+              <h3 class="card-text mb-1" id="productos_tecnologicos_value">-</h3> {# Placeholder for actual number #}
             </div>
           </div>
         </div>
@@ -970,8 +961,7 @@
                 <h6 class="card-title text-muted text-uppercase mb-0">Consultorías</h6>
                 <!-- Icono para Consultorías -->
               </div>
-              <h3 class="card-text mb-1">DD</h3> {# Placeholder for actual number #}
-              <p class="card-text text-success small"><span class="icon-chart-line me-1"></span>+Y%<br>vs. período anterior</p> {# Placeholder for actual data #}
+              <h3 class="card-text mb-1" id="consultorias_value">-</h3> {# Placeholder for actual number #}
             </div>
           </div>
         </div>

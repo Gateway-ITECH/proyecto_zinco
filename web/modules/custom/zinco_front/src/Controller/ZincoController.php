@@ -203,6 +203,29 @@ class ZincoController extends ControllerBase {
     }
 
     /**
+     * Dumps data from a specified entity bundle.
+     *
+     * @param string $entity_type_id
+     *   The entity type ID to dump.
+     * @param string $bundle
+     *   The bundle ID to filter by.
+     * @param string $formato
+     *   (optional) The format to return the data in (e.g., 'json').
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     *   A JsonResponse containing the entity bundle data.
+     */
+    public function dumpEntityBundle(string $entity_type_id, string $bundle, ?string $formato) {
+      $data = $this->dumpDataService->obtenerBundle($entity_type_id, $bundle);
+
+      if ($formato === 'json') {
+        return new JsonResponse($data);
+      }
+
+      return new JsonResponse(['error' => 'Invalid format or no format specified.'], 400);
+    }
+
+    /**
      * Dumps grouped data from a specified table.
      *
      * @param string $tableName

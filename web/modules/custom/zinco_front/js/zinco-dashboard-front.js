@@ -148,6 +148,16 @@
       const card_retos_finalizados_elemento = 'retos_finalizados_value';
       const card_retos_finalizados_filters = {'estado_reto_innovacion': 'Cumplido'};
 
+      //parametros card retos por sectores
+      const card_retos_sectores_entidad = 'zinco_retos_innovacion';
+      const card_retos_sectores_campo = 'sector';
+      const card_retos_sectores_elemento = 'retos_sectores_grouped_data';
+
+      //parametros card retos por tecnologia
+      const card_retos_tecnologias_entidad = 'zinco_retos_innovacion';
+      const card_retos_tecnologias_campo = 'tecnologia40';
+      const card_retos_tecnologias_elemento = 'retos_tecnologias_grouped_data';
+
        /*
       * pestaña de proyectos
       */
@@ -166,6 +176,11 @@
       const card_proyectos_finalizados_entidad = 'zinco_proyectos_idi';
       const card_proyectos_finalizados_elemento = 'proyectos_finalizados_value';
       const card_proyectos_finalizados_filters = {'estado_proyecto': 'Finalizado'};
+
+      //parametros card proyectos por sector
+      const card_proyectos_sectores_entidad = 'zinco_proyectos_idi';
+      const card_proyectos_sectores_campo = 'sector';
+      const card_proyectos_sectores_elemento = 'proyectos_sectores_grouped_data';
 
        /*
       * pestaña de protección intelectual
@@ -208,6 +223,77 @@
       const card_software_finalizado_elemento = 'software_finalizado_value';
       const card_software_finalizado_filters = {'estado_proyecto': 'Finalizado'};
 
+      //parametros card recursos captados
+      const card_software_recursos_captados_entidad = 'zinco_software_recursos';
+      const card_software_recursos_captados_elemento = 'software_recursos_captados_value';
+      const card_software_recursos_captados_filters = {};
+
+      //parametros card eventos
+      const card_software_eventos_entidad = 'node';
+      //const card_software_eventos_bundle = 'evento';
+      const card_software_eventos_elemento = 'software_eventos_value';
+      const card_software_eventos_filters = { 'tipo_evento': 'Aceleradora-Incubadora'};
+
+      //parametros card software por fuente de financiacion
+      const card_software_fuentes_financiacion_entidad = 'zinco_software_recursos';
+      const card_software_fuentes_financiacion_campo = 'fuente_financiacion';
+      const card_software_fuentes_financiacion_elemento = 'software_fuentes_financiacion_grouped_data';
+
+      /*
+      * pestaña de empresas
+      */
+
+      //parametros card empresas altamente innovadoras
+      const card_empresas_altamente_innovadoras_tabla = 'data_view_empresas_altamente_innovadoras';
+      const card_empresas_altamente_innovadoras_elemento = ['empresas_altamente_innovadoras_value'];
+
+      //parametros card unidades empresariales de I+D+i
+      const card_empresas_unidades_idi_tabla = 'data_view_empresas_unidades_idi';
+      const card_empresas_unidades_idi_elemento = ['empresas_unidades_idi_value'];
+
+      //parametros card startups
+      const card_empresas_startups_entidad = 'zinco_reconocimientos';
+      const card_empresas_startups_elemento = 'empresas_startups_value';
+      const card_empresas_startups_filters = { 'bundle': 'startup' };
+
+      //parametros card spinoffs
+      const card_empresas_spinoffs_entidad = 'zinco_reconocimientos';
+      const card_empresas_spinoffs_elemento = 'empresas_spinoffs_value';
+      const card_empresas_spinoffs_filters = { 'bundle': 'spin_off' };
+
+      //parametros card empresas por sectores
+      const card_empresas_sectores_tablas = 'data_empresas_tic';
+      const card_empresas_sectores_campo = 'sector';
+      const card_empresas_sectores_elemento = 'empresas_sectores_grouped_data';
+
+      //parametros card empresas por tecnologias
+      const card_empresas_tecnologias_tablas = 'data_empresas_tic';
+      const card_empresas_tenologias_campo = 'tecnologia40';
+      const card_empresas_tecnologias_elemento = 'empresas_tecnologias_grouped_data';
+
+      /*
+      * pestaña de produccion cientifica
+      */
+
+      //parametros card articulos de investigacion
+      const card_articulos_investigacion_tabla = 'data_view_articulos_investigacion';
+      const card_articulos_investigacion_elemento = ['articulos_investigacion_value'];
+
+      //parametros card articulos de investigacion
+      const card_patentes_tabla = 'data_view_patentes';
+      const card_patentes_elemento = ['patentes_value'];
+
+      //parametros card productos tecnologicos
+      const card_productos_tecnologicos_tabla = 'data_view_productos_tecnologicos';
+      const card_productos_tecnologicos_elemento = ['productos_tecnologicos_value'];
+
+      //parametros card consultorias
+      const card_consultorias_tabla = 'data_view_consultorias';
+      const card_consultorias_elemento = ['consultorias_value'];
+    
+
+
+
       // Initial call to load data when the page loads, with default or empty values.
       // pestaña de actores
       loadData(municipio, sector, tecnologias40, grupos_investigacion_tabla, grupos_investigacion_elemento);
@@ -230,11 +316,14 @@
       loadEntityData(municipio, sector, tecnologias40, card_retos_entidad, card_retos_elemento, card_retos_filters);
       loadEntityData(municipio, sector, tecnologias40, card_retos_en_evaluacion_entidad, card_retos_en_evaluacion_elemento, card_retos_en_evaluacion_filters);
       loadEntityData(municipio, sector, tecnologias40, card_retos_finalizados_entidad, card_retos_finalizados_elemento, card_retos_finalizados_filters);
+      loadEntityGroupedData(municipio, sector, tecnologias40, card_retos_sectores_entidad, card_retos_sectores_elemento, card_retos_sectores_campo);
+      loadEntityGroupedData(municipio, sector, tecnologias40, card_retos_tecnologias_entidad, card_retos_tecnologias_elemento, card_retos_tecnologias_campo);
 
       //pestaña de proyectos
       loadEntityData(municipio, sector, tecnologias40, card_proyectos_propuestos_entidad, card_proyectos_propuestos_elemento, card_proyectos_propuestos_filters);
       loadEntityData(municipio, sector, tecnologias40, card_proyectos_ejecucion_entidad, card_proyectos_ejecucion_elemento, card_proyectos_ejecucion_filters);
       loadEntityData(municipio, sector, tecnologias40, card_proyectos_finalizados_entidad, card_proyectos_finalizados_elemento, card_proyectos_finalizados_filters);
+      loadEntityGroupedData(municipio, sector, tecnologias40, card_proyectos_sectores_entidad, card_proyectos_sectores_elemento, card_proyectos_sectores_campo);
 
       //pestaña de proteccion intelectual
       loadData(municipio, sector, tecnologias40, card_registros_software_tabla, card_registros_software_elemento);
@@ -248,6 +337,23 @@
       loadAccumulativeData(municipio, sector, tecnologias40, card_software_activos_tabla, card_software_activos_campo_acumulativo, card_software_activos_elemento);
       loadEntityData(municipio, sector, tecnologias40, card_software_desarrollo_entidad, card_software_desarrollo_elemento, card_software_desarrollo_filters);
       loadEntityData(municipio, sector, tecnologias40, card_software_finalizado_entidad, card_software_finalizado_elemento, card_software_finalizado_filters);
+      loadEntityData(municipio, sector, tecnologias40, card_software_recursos_captados_entidad, card_software_recursos_captados_elemento, card_software_recursos_captados_filters, 'monto_obtenido');
+      loadEntityData(municipio, sector, tecnologias40, card_software_eventos_entidad, card_software_eventos_elemento, card_software_eventos_filters);
+      loadEntityGroupedData(municipio, sector, tecnologias40, card_software_fuentes_financiacion_entidad, card_software_fuentes_financiacion_elemento, card_software_fuentes_financiacion_campo);
+
+      //pestaña de empresas
+      loadData(municipio, sector, tecnologias40, card_empresas_altamente_innovadoras_tabla, card_empresas_altamente_innovadoras_elemento);
+      loadData(municipio, sector, tecnologias40, card_empresas_unidades_idi_tabla, card_empresas_unidades_idi_elemento);
+      loadEntityData(municipio, sector, tecnologias40, card_empresas_startups_entidad, card_empresas_startups_elemento, card_empresas_startups_filters);
+      loadEntityData(municipio, sector, tecnologias40, card_empresas_spinoffs_entidad, card_empresas_spinoffs_elemento, card_empresas_spinoffs_filters);
+      loadMultipleGroupedData(municipio, sector, tecnologias40, card_empresas_sectores_tablas, card_empresas_sectores_campo, card_empresas_sectores_elemento);
+      loadMultipleGroupedData(municipio, sector, tecnologias40, card_empresas_tecnologias_tablas, card_empresas_tenologias_campo, card_empresas_tecnologias_elemento);
+
+      //pestaña de produccion cientifica
+      loadData(municipio, sector, tecnologias40, card_articulos_investigacion_tabla, card_articulos_investigacion_elemento);
+      loadData(municipio, sector, tecnologias40, card_patentes_tabla, card_patentes_elemento);
+      loadData(municipio, sector, tecnologias40, card_productos_tecnologicos_tabla, card_productos_tecnologicos_elemento);
+      loadData(municipio, sector, tecnologias40, card_consultorias_tabla, card_consultorias_elemento);
   };
 
 
@@ -350,7 +456,7 @@
       });
   }
 
-   function loadEntityData(municipio, sector, tecnologia40, entity, elemento, filters) {
+   function loadEntityData(municipio, sector, tecnologia40, entity, elemento, filters, campo_acumulativo = null) {
     let url = `/dump-entity/${entity}/json`;
     const params = new URLSearchParams();
     if (municipio) params.append('municipio', municipio);
@@ -370,11 +476,116 @@
       .then(data => {
         const countElement = document.getElementById(elemento);
         if (countElement) {
-          countElement.textContent = data.length;
+          if (campo_acumulativo && data.length > 0) {
+            const sum = data.reduce((acc, item) => parseInt(acc) + (parseInt(item[campo_acumulativo]) || 0), 0);
+            countElement.textContent = sum;
+          } else {
+            countElement.textContent = data.length;
+          }
         }
       })
       .catch(error => {
-        console.error('Error al cargar grupos de investigación:', error);
+        console.error('Error al cargar datos:', error);
+      });
+  }
+
+  function loadEntityGroupedData(municipio, sector, tecnologia40, entity, elemento, campo, filters) {
+    let url = `/dump-entity/${entity}/json`;
+    const params = new URLSearchParams();
+    if (municipio) params.append('municipio', municipio);
+    if (sector) params.append('sector', sector);
+    if (tecnologia40) params.append('tecnologia40', tecnologia40);
+
+    for (const key in filters) {
+      if (filters.hasOwnProperty(key) && filters[key]) {
+        params.append(key, filters[key]);
+      }
+    }
+    if (params.toString()) {
+      url += `?${params.toString()}`;
+    }
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+          if (campo) { // Group data by 'campo' if specified
+            const groupedData = data.reduce((acc, item) => {
+              const key = item[campo];
+              acc[key] = (acc[key] || 0) + 1;
+              return acc;
+            }, {});
+
+            const totalCount = data.length;
+            const consolidated = [];
+
+            for (const key in groupedData) {
+              if (groupedData.hasOwnProperty(key)) {
+                const count = groupedData[key];
+                const percentage = (count / totalCount) * 100;
+                consolidated.push({
+                  group_column: key,
+                  count: count,
+                  percentage: percentage
+                });
+              }
+            }
+
+            const parentElement = document.getElementById(elemento);
+            if (parentElement) {
+              const groupedDataWrapper = parentElement.querySelector('.grouped_data_wrapper');
+              if (groupedDataWrapper) {
+                groupedDataWrapper.innerHTML = ''; // Clear previous content
+
+                consolidated.forEach(item => {
+                  const html = `
+                    <div class="d-flex align-items-center mb-2">
+                      <div class="progress flex-grow-1 me-2" style="height: 15px;">
+                        <div class="progress-bar bg-info" role="progressbar" style="width: ${item.percentage}%;" aria-valuenow="${item.percentage}" aria-valuemin="0" aria-valuemax="${100}"></div>
+                      </div>
+                      <span class="text-muted" data-group-column="${item.group_column}">${item.group_column.substring(0,5)}... (${item.count})</span>
+                    </div>
+                  `;
+                  groupedDataWrapper.insertAdjacentHTML('beforeend', html);
+                });
+              }
+            }
+          }
+        
+      })
+      .catch(error => {
+        console.error('Error al cargar datos:', error);
+      });
+  }
+
+  function loadBundleData(municipio, sector, tecnologia40, entity, bundle, elemento, filters, campo_acumulativo = null) {
+    let url = `/dump-entity-bundle/${entity}/${bundle}/json`;
+    const params = new URLSearchParams();
+    if (municipio) params.append('municipio', municipio);
+    if (sector) params.append('sector', sector);
+    if (tecnologia40) params.append('tecnologia40', tecnologia40);
+
+    for (const key in filters) {
+      if (filters.hasOwnProperty(key) && filters[key]) {
+        params.append(key, filters[key]);
+      }
+    }
+    if (params.toString()) {
+      url += `?${params.toString()}`;
+    }
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        const countElement = document.getElementById(elemento);
+        if (countElement) {
+          if (campo_acumulativo && data.length > 0) {
+            const sum = data.reduce((acc, item) => parseInt(acc) + (parseInt(item[campo_acumulativo]) || 0), 0);
+            countElement.textContent = sum;
+          } else {
+            countElement.textContent = data.length;
+          }
+        }
+      })
+      .catch(error => {
+        console.error('Error al cargar datos:', error);
       });
   }
 

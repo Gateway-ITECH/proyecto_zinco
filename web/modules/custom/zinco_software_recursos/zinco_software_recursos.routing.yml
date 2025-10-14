@@ -1,0 +1,7 @@
+entity.zinco_software_recursos.settings:
+  path: 'admin/structure/zinco-software-recursos'
+  defaults:
+    _form: '\Drupal\zinco_software_recursos\Form\ZincoSoftwareRecursosSettingsForm'
+    _title: 'Zinco software recursos'
+  requirements:
+    _permission: 'administer zinco_software_recursos'
