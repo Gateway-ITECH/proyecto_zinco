@@ -16,5 +16,8 @@ zinco-dashboard-front:
   version: 1.x
   js:
     js/zinco-dashboard-front.js: {}
+  css:
+    theme:
+      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css: { type: external, minified: true }
   dependencies:
     - core/drupal

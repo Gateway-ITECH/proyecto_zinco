@@ -6,6 +6,8 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\zinco_front\Service\DumpDataService;
+use Drupal\zinco_etl\Service\PdfGeneratorService;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -36,6 +38,13 @@ class ZincoController extends ControllerBase {
   protected $configFactory;
 
   /**
+   * The PDF generator service.
+   *
+   * @var \Drupal\zinco_etl\PdfGeneratorService
+   */
+  protected $pdfGeneratorService;
+
+  /**
    * Constructs a new ZincoController object.
    *
    * @param \Drupal\Core\Form\FormBuilderInterface $form_builder
@@ -44,11 +53,14 @@ class ZincoController extends ControllerBase {
    *   The dump data service.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory.
+   * @param \Drupal\zinco_etl\PdfGeneratorService $pdf_generator_service
+   *   The PDF generator service.
    */
-  public function __construct(FormBuilderInterface $form_builder, DumpDataService $dumpDataService, ConfigFactoryInterface $config_factory) {
+  public function __construct(FormBuilderInterface $form_builder, DumpDataService $dumpDataService, ConfigFactoryInterface $config_factory, PdfGeneratorService $pdf_generator_service) {
     $this->formBuilder = $form_builder;
     $this->dumpDataService = $dumpDataService;
     $this->configFactory = $config_factory;
+    $this->pdfGeneratorService = $pdf_generator_service;
   }
 
   /**
@@ -58,7 +70,8 @@ class ZincoController extends ControllerBase {
     return new static(
       $container->get('form_builder'),
       $container->get('zinco_front.dump_data_service'),
-      $container->get('config.factory')
+      $container->get('config.factory'),
+      $container->get('zinco_etl.pdf_generator')
     );
   }
 
@@ -485,18 +498,45 @@ class ZincoController extends ControllerBase {
     $filters_data = $config->get('filters_data') ?: [];
 
     if (isset($filters_data[$id])) {
-      unset($filters_data[$id]);
-      // Re-index the array to ensure sequential keys.
-      $filters_data = array_values($filters_data);
-      $config->set('filters_data', $filters_data)->save();
-      $this->messenger()->addStatus($this->t('Filter entry has been deleted.'));
-    }
-    else {
-      $this->messenger()->addError($this->t('Filter entry not found.'));
-    }
-
-    return $this->redirect('zinco_front.dashboard_config');
-  }
+          unset($filters_data[$id]);
+          // Re-index the array to ensure sequential keys.
+          $filters_data = array_values($filters_data);
+          $config->set('filters_data', $filters_data)->save();
+          $this->messenger()->addStatus($this->t('Filter entry has been deleted.'));
+        }
+        else {
+          $this->messenger()->addError($this->t('Filter entry not found.'));
+        }
+    
+        return $this->redirect('zinco_front.dashboard_config');
+      }
+    
+      
+    
+    /**
+       * Generates a PDF from a specified database table.
+       *
+       * @param string $tableName
+       *   The name of the database table to generate the PDF from.
+       *
+       * @return \Symfony\Component\HttpFoundation\Response
+       *   A Symfony response object containing the PDF.
+       */
+      public function generateTablePdf(string $tableName) {
+        $pdf_content = $this->pdfGeneratorService->generatePdfFromDatabaseTable($tableName, 'Reporte de ' . $tableName, $tableName . '.pdf');
+    
+        if ($pdf_content) {
+          $response = new Response($pdf_content);
+          $response->headers->set('Content-Type', 'application/pdf');
+          $response->headers->set('Content-Disposition', 'attachment;filename="' . $tableName . '.pdf"');
+          return $response;
+        }
+        else {
+          $this->messenger()->addError($this->t('Failed to generate PDF for table @table.', ['@table' => $tableName]));
+          return $this->redirect('<front>');
+        }
+      }
+     
 
 }
 

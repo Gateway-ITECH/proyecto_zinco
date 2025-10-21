@@ -13,7 +13,7 @@
     <p class="text-muted mb-0">Exploración visual de la producción científica, tecnológica e innovadora de Córdoba.</p>
   </div>
   <div class="zinco-dashboard-actions">
-    <button class="btn btn-outline-secondary me-2"><span class="icon-filter-slash me-2"></span> Limpiar Filtros</button>
+    <button class="btn btn-outline-secondary me-2" id="clear-filters"><i class="fas fa-trash me-2"></i> Limpiar Filtros</button>
     <button class="btn btn-primary"><span class="icon-download me-2"></span> Exportar</button>
   </div>
 </div>
@@ -74,7 +74,7 @@
               <div class="card shadow-sm">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h6 class="card-title text-muted text-uppercase mb-0">Investigadores Reconocidos</h6>
+                    <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_investigadores">Investigadores Reconocidos</a></h6>
                     <!-- Icono para Investigadores Reconocidos -->
                   </div>
                   <h3 class="card-text mb-1" id="actores_investigadores_reconocidos_value">-</h3>
@@ -85,7 +85,7 @@
               <div class="card shadow-sm">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h6 class="card-title text-muted text-uppercase mb-0">Centros de Investigación Activos</h6>
+                    <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_centros_investigacion">Centros de Investigación Activos</a></h6>
                     <!-- Icono para Centros de Investigación Activos -->
                   </div>
                   <h3 class="card-text mb-1" id="actores_centros_investigacion_value">-</h3>
@@ -101,7 +101,7 @@
               <div class="card shadow-sm">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h6 class="card-title text-muted text-uppercase mb-0">Centros de desarrollo tecnológico</h6>
+                    <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_centros_desarrollo_tecnologico">Centros de desarrollo tecnológico</a></h6>
                     <!-- Icono para Centros de desarrollo tecnológico -->
                   </div>
                   <h3 class="card-text mb-1" id="actores_centros_desarrollo_tecnologico_value">-</h3>
@@ -113,7 +113,7 @@
               <div class="card shadow-sm">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h6 class="card-title text-muted text-uppercase mb-0">Centros de innovación</h6>
+                    <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_centros_innovacion">Centros de innovación</a></h6>
                     <!-- Icono para Centros de innovación -->
                   </div>
                   <h3 class="card-text mb-1" id="actores_centros_innovacion_value">-</h3>
@@ -241,7 +241,7 @@
                   <div class="card shadow-sm">
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h6 class="card-title text-muted text-uppercase mb-0">Número de Universidades</h6>
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Número de Universidades</a></h6>
                         <!-- Icono para Número de Universidades -->
                       </div>
                       <h3 class="card-text mb-1" id="formacion_universidades_value">-</h3> {# Placeholder for actual number #}
@@ -252,7 +252,7 @@
                   <div class="card shadow-sm">
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h6 class="card-title text-muted text-uppercase mb-0">Número de Programas Ofertados</h6>
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_programas_academicos">Número de Programas Ofertados</a></h6>
                         <!-- Icono para Número de Programas Ofertados -->
                       </div>
                       <h3 class="card-text mb-1" id="formacion_programas_academicos_value">-</h3> {# Placeholder for actual number #}
@@ -547,7 +547,7 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0">Registros de Software</h6>
+                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_software_registrados">Registros de Software</a></h6>
                 <!-- Icono para Registros de Software -->
               </div>
               <h3 class="card-text mb-1" id="registros_software_value">-</h3> {# Placeholder for actual number #}
@@ -602,7 +602,7 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0">Producción Total</h6>
+                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_produccion_cientifica">Producción Total</a></h6>
                 <span class="icon-clipboard-check text-muted"></span>
               </div>
               <h3 class="card-text mb-1" id="produccion_total_value">-</h3>
@@ -613,7 +613,7 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0">Centros de Investigación</h6>
+                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_centros_investigacion">Centros de Investigación</a></h6>
                 <span class="icon-award text-muted"></span>
               </div>
               <h3 class="card-text mb-1" id="generacion_conocimiento_centros_investigacion_value">-</h3>
@@ -624,7 +624,7 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0">CDT</h6>
+                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_centros_cdt">CDT</a></h6>
                 <span class="icon-code text-muted"></span>
               </div>
               <h3 class="card-text mb-1" id="generacion_conocimiento_centros_cdt_value"></h3>
@@ -635,7 +635,7 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0">Centros de innovación</h6>
+                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_centros_innovacion">Centros de innovación</a></h6>
                 <span class="icon-graduation-cap text-muted"></span>
               </div>
               <h3 class="card-text mb-1" id="generacion_conocimiento_centros_innovacion_value">-</h3>
@@ -698,7 +698,7 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0">Software Activos</h6>
+                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_software_registrados">Software Activos</a></h6>
                 <!-- Icono para Software Activos -->
               </div>
               <h3 class="card-text mb-1" id="software_activos_value">-</h3> {# Placeholder for actual number #}
@@ -805,7 +805,7 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0">Emp. Altamente Innovadoras</h6>
+                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_empresas_altamente_innovadoras">Emp. Altamente Innovadoras</a></h6>
                 <!-- Icono para Empresas Altamente Innovadoras -->
               </div>
               <h3 class="card-text mb-1" id="empresas_altamente_innovadoras_value">-</h3> {# Placeholder for actual number #}
@@ -816,7 +816,7 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0">Unidades Empresariales de I+D+i</h6>
+                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_empresas_unidades_idi">Unidades Empresariales de I+D+i</a></h6>
                 <!-- Icono para Unidades Empresariales de I+D+i -->
               </div>
               <h3 class="card-text mb-1" id="empresas_unidades_idi_value">-</h3> {# Placeholder for actual number #}
@@ -925,7 +925,7 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0">Artículos de Investigación</h6>
+                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_articulos_investigacion">Artículos de Investigación</a></h6>
                 <!-- Icono para Artículos de Investigación -->
               </div>
               <h3 class="card-text mb-1" id="articulos_investigacion_value">-</h3> {# Placeholder for actual number #}
@@ -936,7 +936,7 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0">Patentes</h6>
+                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_patentes">Patentes</a></h6>
                 <!-- Icono para Patentes -->
               </div>
               <h3 class="card-text mb-1" id="patentes_value">-</h3> {# Placeholder for actual number #}
@@ -947,7 +947,7 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0">Productos Tecnológicos</h6>
+                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_productos_tecnologicos">Productos Tecnológicos</a></h6>
                 <!-- Icono para Productos Tecnológicos -->
               </div>
               <h3 class="card-text mb-1" id="productos_tecnologicos_value">-</h3> {# Placeholder for actual number #}
@@ -958,7 +958,7 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0">Consultorías</h6>
+                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_productos_tecnologicos">Consultorías</a></h6>
                 <!-- Icono para Consultorías -->
               </div>
               <h3 class="card-text mb-1" id="consultorias_value">-</h3> {# Placeholder for actual number #}
@@ -970,10 +970,10 @@
     <div class="zinco-dashboard-charts mb-4">
       <div class="row">
         <div class="col-md-6">
-          <div class="card shadow-sm chart-card-height">
+          <div class="card shadow-sm chart-card-height" id="tipos_consultorias_grouped_data">
             <div class="card-body">
-              <h5 class="card-title">Nuevo Conocimiento</h5>
-              <div class="mt-3">
+              <h5 class="card-title">Tipos de consultorías</h5>
+              <div class="mt-3 grouped_data_wrapper">
                 <div class="d-flex align-items-center mb-2">
                   <div class="progress flex-grow-1 me-2" style="height: 15px;">
                     <div class="progress-bar bg-info" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>

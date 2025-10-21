@@ -63,6 +63,27 @@
 
         });
       }
+
+      // Event listener for clearing filters
+      const clearFiltersButton = document.getElementById('clear-filters');
+      if (clearFiltersButton) {
+        clearFiltersButton.addEventListener('click', function() {
+          document.getElementById('edit-municipio').value = '';
+          document.getElementById('edit-sector').value = '';
+          document.getElementById('edit-tecnologias-40').value = '';
+          // Optionally trigger a change event if needed for other listeners
+          document.getElementById('edit-municipio').dispatchEvent(new Event('change'));
+          document.getElementById('edit-sector').dispatchEvent(new Event('change'));
+          document.getElementById('edit-tecnologias-40').dispatchEvent(new Event('change'));
+          // Call callData to refresh the dashboard with cleared filters
+          callData('', '', '');
+        });
+      }
+      //
+
+
+
+
     }
 
   };
@@ -290,6 +311,11 @@
       //parametros card consultorias
       const card_consultorias_tabla = 'data_view_consultorias';
       const card_consultorias_elemento = ['consultorias_value'];
+
+      //parametros card tipos de consultorias
+      const card_tipos_consultorias_tablas = 'data_view_consultorias';
+      const card_tipos_consultorias_campo = 'NME_TIPOLOGIA_PD';
+      const card_tipos_consultorias_elemento = 'tipos_consultorias_grouped_data';
     
 
 
@@ -354,6 +380,7 @@
       loadData(municipio, sector, tecnologias40, card_patentes_tabla, card_patentes_elemento);
       loadData(municipio, sector, tecnologias40, card_productos_tecnologicos_tabla, card_productos_tecnologicos_elemento);
       loadData(municipio, sector, tecnologias40, card_consultorias_tabla, card_consultorias_elemento);
+      loadMultipleGroupedData(municipio, sector, tecnologias40, card_tipos_consultorias_tablas, card_tipos_consultorias_campo, card_tipos_consultorias_elemento);
   };
 
 

@@ -158,3 +158,12 @@ zinco_front.dump_tabla_campo_acumulativo:
     formato: NULL
   requirements:
     _permission: 'access content'
+
+zinco_front.generate_table_pdf:
+  path: '/generate-pdf/{tableName}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::generateTablePdf'
+    _title: 'Generate Table PDF'
+  requirements:
+    _permission: 'access content'
+    tableName: '\w+'
