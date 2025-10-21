@@ -316,6 +316,11 @@
       const card_tipos_consultorias_tablas = 'data_view_consultorias';
       const card_tipos_consultorias_campo = 'NME_TIPOLOGIA_PD';
       const card_tipos_consultorias_elemento = 'tipos_consultorias_grouped_data';
+
+      //parametros card tipos de consultorias
+      const card_productos_tecnologicos_grouped_tablas = 'data_view_productos_tecnologicos';
+      const card_productos_tecnologicos_grouped_campo = 'NME_TIPOLOGIA_PD';
+      const card_productos_tecnologicos_grouped_elemento = 'productos_tecnologicos_grouped_data';
     
 
 
@@ -381,6 +386,7 @@
       loadData(municipio, sector, tecnologias40, card_productos_tecnologicos_tabla, card_productos_tecnologicos_elemento);
       loadData(municipio, sector, tecnologias40, card_consultorias_tabla, card_consultorias_elemento);
       loadMultipleGroupedData(municipio, sector, tecnologias40, card_tipos_consultorias_tablas, card_tipos_consultorias_campo, card_tipos_consultorias_elemento);
+      loadMultipleGroupedData(municipio, sector, tecnologias40, card_productos_tecnologicos_grouped_tablas, card_productos_tecnologicos_grouped_campo, card_productos_tecnologicos_grouped_elemento);
   };
 
 
