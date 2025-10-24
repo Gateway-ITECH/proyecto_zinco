@@ -10,6 +10,9 @@ use Drupal\zinco_etl\Service\PdfGeneratorService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Drupal\Core\File\FileSystemInterface;
+use Drupal\Core\File\FileUrlGeneratorInterface;
 
 /**
  * Provides a ZincoController.
@@ -45,6 +48,20 @@ class ZincoController extends ControllerBase {
   protected $pdfGeneratorService;
 
   /**
+   * The file URL generator service.
+   *
+   * @var \Drupal\Core\File\FileUrlGeneratorInterface
+   */
+  protected $fileUrlGenerator;
+
+  /**
+   * The file system service.
+   *
+   * @var \Drupal\Core\File\FileSystemInterface
+   */
+  protected $fileSystem;
+
+  /**
    * Constructs a new ZincoController object.
    *
    * @param \Drupal\Core\Form\FormBuilderInterface $form_builder
@@ -55,12 +72,16 @@ class ZincoController extends ControllerBase {
    *   The config factory.
    * @param \Drupal\zinco_etl\PdfGeneratorService $pdf_generator_service
    *   The PDF generator service.
+   * @param \Drupal\Core\File\FileSystemInterface $file_system
+   *   The file system service.
    */
-  public function __construct(FormBuilderInterface $form_builder, DumpDataService $dumpDataService, ConfigFactoryInterface $config_factory, PdfGeneratorService $pdf_generator_service) {
+  public function __construct(FormBuilderInterface $form_builder, DumpDataService $dumpDataService, ConfigFactoryInterface $config_factory, PdfGeneratorService $pdf_generator_service, FileSystemInterface $file_system, FileUrlGeneratorInterface $file_url_generator) {
     $this->formBuilder = $form_builder;
     $this->dumpDataService = $dumpDataService;
     $this->configFactory = $config_factory;
     $this->pdfGeneratorService = $pdf_generator_service;
+    $this->fileSystem = $file_system;
+    $this->fileUrlGenerator = $file_url_generator;
   }
 
   /**
@@ -71,7 +92,9 @@ class ZincoController extends ControllerBase {
       $container->get('form_builder'),
       $container->get('zinco_front.dump_data_service'),
       $container->get('config.factory'),
-      $container->get('zinco_etl.pdf_generator')
+      $container->get('zinco_etl.pdf_generator'),
+      $container->get('file_system'),
+      $container->get('file_url_generator')
     );
   }
 
@@ -498,22 +521,63 @@ class ZincoController extends ControllerBase {
     $filters_data = $config->get('filters_data') ?: [];
 
     if (isset($filters_data[$id])) {
-          unset($filters_data[$id]);
-          // Re-index the array to ensure sequential keys.
-          $filters_data = array_values($filters_data);
-          $config->set('filters_data', $filters_data)->save();
-          $this->messenger()->addStatus($this->t('Filter entry has been deleted.'));
-        }
-        else {
-          $this->messenger()->addError($this->t('Filter entry not found.'));
-        }
-    
-        return $this->redirect('zinco_front.dashboard_config');
-      }
-    
-      
-    
-    /**
+      unset($filters_data[$id]);
+      // Re-index the array to ensure sequential keys.
+      $filters_data = array_values($filters_data);
+      $config->set('filters_data', $filters_data)->save();
+      $this->messenger()->addStatus($this->t('Filter entry has been deleted.'));
+    }
+    else {
+      $this->messenger()->addError($this->t('Filter entry not found.'));
+    }
+
+    return $this->redirect('zinco_front.dashboard_config');
+  }
+
+  /**
+   * Generates a PDF from JSON data and returns its URL.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The request object.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *   A JSON response containing the URL of the generated PDF or an error message.
+   */
+  public function generatePdfEndpoint(Request $request) {
+    $content = $request->getContent();
+    $data = json_decode($content, TRUE);
+
+    if (json_last_error() !== JSON_ERROR_NONE) {
+      return new JsonResponse(['error' => 'Invalid JSON data: ' . json_last_error_msg()], 400);
+    }
+
+    // Convert the JSON data back to a string for the service.
+    $jsonDataString = json_encode($data);
+
+    $filename = 'zinco_report_' . time() . '.pdf';
+    $pdf_content = $this->pdfGeneratorService->generatePdfFromJson($jsonDataString, $filename);
+
+    if ($pdf_content === FALSE) {
+      return new JsonResponse(['error' => 'Failed to generate PDF.'], 500);
+    }
+
+    // Define the public directory for storing PDFs.
+    $directory = 'public://zinco_pdfs';
+    $this->fileSystem->prepareDirectory($directory, FileSystemInterface::CREATE_DIRECTORY);
+
+    $file_uri = $directory . '/' . $filename;
+    $file_path = $this->fileSystem->realpath($file_uri);
+
+    if ($this->fileSystem->saveData($pdf_content, $file_uri, FileSystemInterface::EXISTS_REPLACE)) {
+      $file_url = $this->fileUrlGenerator->generateAbsoluteString($file_uri);
+      return new JsonResponse(['url' => $file_url]);
+    }
+    else {
+      return new JsonResponse(['error' => 'Failed to save PDF file.'], 500);
+    }
+  }
+
+  /**
        * Generates a PDF from a specified database table.
        *
        * @param string $tableName
@@ -536,8 +600,7 @@ class ZincoController extends ControllerBase {
           return $this->redirect('<front>');
         }
       }
-     
 
 }
-
+ 
  

@@ -27,6 +27,7 @@
       let tecnologias40 = tecnologias40Select ? tecnologias40Select.value : '';
       
       callData(municipio, sector, tecnologias40);
+      console.log(getActoresDataAsJson());
 
       if (municipioSelect) {
         municipioSelect.addEventListener('change', function() {
@@ -387,6 +388,8 @@
       loadData(municipio, sector, tecnologias40, card_consultorias_tabla, card_consultorias_elemento);
       loadMultipleGroupedData(municipio, sector, tecnologias40, card_tipos_consultorias_tablas, card_tipos_consultorias_campo, card_tipos_consultorias_elemento);
       loadMultipleGroupedData(municipio, sector, tecnologias40, card_productos_tecnologicos_grouped_tablas, card_productos_tecnologicos_grouped_campo, card_productos_tecnologicos_grouped_elemento);
+
+      
   };
 
 
@@ -620,6 +623,56 @@
       .catch(error => {
         console.error('Error al cargar datos:', error);
       });
+  }
+
+  /**
+   * Extracts data from the "Actores" tab in the HTML and returns it as a JSON object.
+   * Assumes a structure where data is within elements with specific IDs or classes.
+   *
+   * @returns {object} The extracted data as a JSON object.
+   */
+  function getActoresDataAsJson() {
+    const actoresData = {};
+
+    // Helper to get text content of an element by ID and convert to number.
+    const getNumericValue = (id) => {
+      const element = document.getElementById(id);
+      console.log(element);
+      return element ? parseInt(element.textContent.trim(), 10) : 0;
+    };
+
+    // Extract simple key-value pairs.
+    actoresData.grupos_de_investigacion_minciencias = getNumericValue('actores_grupos_de_investigacion_value');
+    actoresData.investigadores_reconocidos = getNumericValue('investigadores_reconocidos_value');
+    actoresData.centros_investigacion_activos = getNumericValue('centros_investigacion_activos_value');
+    actoresData.centros_desarrollo_tecnologico = getNumericValue('centros_desarrollo_tecnologico_value');
+    actoresData.centros_innovacion = getNumericValue('centros_innovacion_value');
+
+    // Helper to extract data from tables with 'nombre' and 'valor' columns.
+    const extractTableData = (tableId) => {
+      const table = document.getElementById(tableId);
+      const data = [];
+      if (table) {
+        const rows = table.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+          const cols = row.querySelectorAll('td');
+          if (cols.length >= 2) {
+            data.push({
+              nombre: cols[0].textContent.trim(),
+              valor: parseInt(cols[1].textContent.trim(), 10)
+            });
+          }
+        });
+      }
+      return data;
+    };
+
+    // Extract data from arrays of objects (tables).
+    actoresData.actores_por_sector_economico = extractTableData('actores_por_sector_economico_table');
+    actoresData.actores_por_municipio = extractTableData('actores_por_municipio_table');
+    actoresData.actores_por_tecnologia = extractTableData('actores_por_tecnologia_table');
+
+    return actoresData;
   }
 
 })(Drupal);

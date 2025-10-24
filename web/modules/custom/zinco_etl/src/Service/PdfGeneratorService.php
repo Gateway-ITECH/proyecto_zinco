@@ -169,4 +169,94 @@ class PdfGeneratorService {
         }
     }
 
+
+
+    
+
+  /**
+   * Generates an HTML page from JSON data.
+   *
+   * @param string $jsonData
+   *   The JSON string containing the data.
+   *
+   * @return string
+   *   The generated HTML content.
+   */
+  public function generateHtmlFromJson(string $jsonData): string {
+    $data = json_decode($jsonData, TRUE);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+      $this->logger->error('Error decoding JSON data: @message', ['@message' => json_last_error_msg()]);
+      return '<p>Error al procesar los datos JSON.</p>';
+    }
+
+    $html = '<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Reporte de Datos</title>
+    <style>
+        body { font-family: DejaVu Sans, sans-serif; margin: 20px; }
+        h1 { color: #333; text-align: center; }
+        h2 { color: #555; border-bottom: 2px solid #eee; padding-bottom: 5px; margin-top: 30px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; color: #333; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+    </style>
+</head>
+<body>
+    <h1>Reporte de Datos Zinco</h1>';
+
+    foreach ($data as $sectionTitle => $sectionData) {
+      $html .= '<h2>' . ucfirst(str_replace('_', ' ', $sectionTitle)) . '</h2>';
+      $html .= '<table>';
+
+      foreach ($sectionData as $key => $value) {
+        if (is_array($value)) {
+          // Handle arrays of objects (e.g., actores_por_sector_economico)
+          if (!empty($value) && is_array($value[0]) && isset($value[0]['nombre']) && isset($value[0]['valor'])) {
+            $html .= '<thead><tr><th>' . ucfirst(str_replace('_', ' ', $key)) . '</th><th>Valor</th></tr></thead><tbody>';
+            foreach ($value as $item) {
+              $html .= '<tr><td>' . $item['nombre'] . '</td><td>' . $item['valor'] . '</td></tr>';
+            }
+            $html .= '</tbody>';
+          }
+          // Handle other arrays if necessary, or skip them.
+        }
+        else {
+          // Handle simple key-value pairs
+          $html .= '<tr><th>' . ucfirst(str_replace('_', ' ', $key)) . '</th><td>' . $value . '</td></tr>';
+        }
+      }
+      $html .= '</table>';
+    }
+
+    $html .= '</body>
+</html>';
+
+    return $html;
+  }
+
+
+  
+
+  /**
+   * Generates a PDF directly from JSON data.
+   *
+   * @param string $jsonData
+   *   The JSON string containing the data.
+   * @param string $filename
+   *   The desired filename for the PDF.
+   *
+   * @return string|false
+   *   The binary content of the PDF file, or FALSE on failure.
+   */
+  public function generatePdfFromJson(string $jsonData, string $filename = 'reporte.pdf') {
+    $html = $this->generateHtmlFromJson($jsonData);
+    if ($html === '<p>Error al procesar los datos JSON.</p>') {
+      return FALSE;
+    }
+    return $this->generatePdfFromHtml($html, $filename);
+  }
+
 }

@@ -167,3 +167,12 @@ zinco_front.generate_table_pdf:
   requirements:
     _permission: 'access content'
     tableName: '\w+'
+
+zinco_front.generate_pdf_from_json:
+  path: '/generate-pdf-from-json'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::generatePdfEndpoint'
+    _title: 'Generate PDF from JSON'
+  requirements:
+    _permission: 'access content'
