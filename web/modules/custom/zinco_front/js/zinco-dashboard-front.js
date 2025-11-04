@@ -28,7 +28,6 @@
         let tecnologias40 = tecnologias40Select ? tecnologias40Select.value : '';
         
         callData(municipio, sector, tecnologias40);
-        console.log(getActoresDataAsJson());
         
         if (municipioSelect) {
           municipioSelect.addEventListener('change', function() {
@@ -82,6 +81,46 @@
           });
         }
       });
+
+      //
+      // Event listener for the export button
+      const exportButton = document.getElementById('export-pdf-button');
+      if (exportButton) {
+        exportButton.addEventListener('click', function() {
+        const jsonData = localStorage.getItem('jsonData');
+        if (jsonData) {
+          fetch('/generate-pdf-from-json', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: jsonData,
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            if (data.url) {
+              const url = data.url;
+              window.open(url, '_blank');
+              alert('PDF generado y abierto en una nueva pestaña.');
+            } else {
+              throw new Error('URL del PDF no encontrada en la respuesta.');
+            }
+          })
+          .catch(error => {
+            console.error('Error al generar el PDF:', error);
+            alert('Hubo un error al generar el PDF.');
+          });
+        } else {
+          alert('No hay datos de actores para exportar. Por favor, cargue los datos primero.');
+        }
+      });
+    } // Closing brace for if (exportButton)
+        
 
 
 
@@ -394,7 +433,9 @@
       Promise.all(dataLoadPromises)
         .then(() => {
           console.log('All dashboard data loaded successfully!');
-          console.log(getActoresDataAsJson());
+          const jsonData = getDataAsJson();
+          console.log(jsonData);
+          localStorage.setItem('jsonData', JSON.stringify(jsonData));
         })
         .catch(error => {
           console.error('Error loading some dashboard data:', error);
@@ -666,9 +707,7 @@
    *
    * @returns {object} The extracted data as a JSON object.
    */
-  function getActoresDataAsJson() {
-    
-
+  function getDataAsJson() {
     // Helper to get text content of an element by ID and convert to number.
     const getNumericValue = (id) => {
       const element = document.getElementById(id);
@@ -701,6 +740,15 @@
       return data;
     };
 
+    // Get filter values directly from the DOM
+    const municipioSelect = document.getElementById('edit-municipio');
+    const sectorSelect = document.getElementById('edit-sector');
+    const tecnologias40Select = document.getElementById('edit-tecnologias-40');
+
+    const municipio = municipioSelect ? municipioSelect.value : '';
+    const sector = sectorSelect ? sectorSelect.value : '';
+    const tecnologias40 = tecnologias40Select ? tecnologias40Select.value : '';
+
     const actoresData = {};
 
     // Extract simple key-value pairs.
@@ -708,11 +756,11 @@
     actoresData.investigadores_reconocidos = getNumericValue('actores_investigadores_reconocidos_value');
     actoresData.centros_investigacion_activos = getNumericValue('actores_centros_investigacion_value');
     actoresData.centros_desarrollo_tecnologico = getNumericValue('actores_centros_desarrollo_tecnologico_value');
-    actoresData.centros_innovacion = getNumericValue('actores_centros_innovacion_value');    
+    actoresData.centros_innovacion = getNumericValue('actores_centros_innovacion_value');
 
     // Extract data from arrays of objects (tables).
     actoresData.actores_por_sector_economico = extractTableData('actores_sector_economico_grouped_data');
-    actoresData.actores_por_municipio = extractTableData('actores_sector_economico_grouped_data');
+    actoresData.actores_por_municipio = extractTableData('actores_municipio_grouped_data');
     actoresData.actores_por_tecnologia = extractTableData('actores_tecnologias40_grouped_data');
 
     const formacionData = {};
@@ -735,11 +783,13 @@
     proyectosData.proyectos_por_sectores = extractTableData('proyectos_sectores_grouped_data');
 
     const proteccionIntelectualData = {};
-    proteccionIntelectualData.registros_software = getNumericValue('proteccion_intelectual_registros_software_value');
+    proteccionIntelectualData.registros_software = getNumericValue('registros_software_value');
 
     const generacionConocimientoData = {};
-    generacionConocimientoData.produccion_total = getNumericValue('generacion_conocimiento_produccion_total_value');
+    generacionConocimientoData.produccion_total = getNumericValue('produccion_total_value');
+    generacionConocimientoData.centros_investigacion = getNumericValue('generacion_conocimiento_centros_investigacion_value');
     generacionConocimientoData.centros_cdt = getNumericValue('generacion_conocimiento_centros_cdt_value');
+    generacionConocimientoData.centros_innovacion = getNumericValue('generacion_conocimiento_centros_innovacion_value');
     generacionConocimientoData.grupos_investigacion_categorias = extractTableData('generacion_conocimiento_grupos_investigacion_categorias_grouped_data');
 
     const softwareData = {};
@@ -759,12 +809,12 @@
     empresasData.empresas_por_tecnologias = extractTableData('empresas_tecnologias_grouped_data');
 
     const produccionCientificaData = {};
-    produccionCientificaData.articulos_investigacion = getNumericValue('produccion_cientifica_articulos_investigacion_value');
-    produccionCientificaData.patentes = getNumericValue('produccion_cientifica_patentes_value');
-    produccionCientificaData.productos_tecnologicos = getNumericValue('produccion_cientifica_productos_tecnologicos_value');
-    produccionCientificaData.consultorias = getNumericValue('produccion_cientifica_consultorias_value');
-    produccionCientificaData.tipos_consultorias = extractTableData('produccion_cientifica_tipos_consultorias_grouped_data');
-    produccionCientificaData.productos_tecnologicos_grouped = extractTableData('produccion_cientifica_productos_tecnologicos_grouped_data');
+    produccionCientificaData.articulos_investigacion = getNumericValue('articulos_investigacion_value');
+    produccionCientificaData.patentes = getNumericValue('patentes_value');
+    produccionCientificaData.productos_tecnologicos = getNumericValue('productos_tecnologicos_value');
+    produccionCientificaData.consultorias = getNumericValue('consultorias_value');
+    produccionCientificaData.tipos_consultorias = extractTableData('tipos_consultorias_grouped_data');
+    produccionCientificaData.productos_tecnologicos_por_categorias = extractTableData('productos_tecnologicos_grouped_data');
 
     return {
       actoresData,
@@ -776,6 +826,11 @@
       softwareData,
       empresasData,
       produccionCientificaData,
+      filtrosSeleccionados: {
+        municipio: municipio,
+        sector: sector,
+        tecnologias40: tecnologias40,
+      },
     };
   }
 

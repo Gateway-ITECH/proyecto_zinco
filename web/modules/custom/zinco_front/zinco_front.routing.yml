@@ -176,3 +176,10 @@ zinco_front.generate_pdf_from_json:
     _title: 'Generate PDF from JSON'
   requirements:
     _permission: 'access content'
+
+zinco_front.actores_list:
+  path: '/actores/list'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ActoresController::listarActores'
+  requirements:
+    _permission: 'access content'

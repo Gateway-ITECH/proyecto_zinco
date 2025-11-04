@@ -222,6 +222,7 @@ class ZincoActors extends ContentEntityBase implements ZincoActorsInterface {
       ])
       ->setDisplayConfigurable('view', TRUE);
 
+
     $fields['imagen_perfil'] = BaseFieldDefinition::create('image')
       ->setLabel(t('Imagen de perfil'))
       ->setSetting('file_extensions', 'png jpg jpeg gif')
@@ -317,6 +318,35 @@ class ZincoActors extends ContentEntityBase implements ZincoActorsInterface {
     $fields['changed'] = BaseFieldDefinition::create('changed')
       ->setLabel(t('Changed'))
       ->setDescription(t('The time that the zincoactors was last edited.'));
+
+
+    // $fields['color_de_etiqueta'] = BaseFieldDefinition::create('list_string')
+    //   ->setLabel(t('Color de etiqueta'))
+    //   ->setRequired(FALSE)
+    //   ->setDefaultValue('text-bg-secondary')
+    //   ->setSettings([
+    //     'allowed_values' => [
+    //       'text-bg-primary' => 'Primary',
+    //       'text-bg-secondary' => 'Secondary',
+    //       'text-bg-success' => 'Success',
+    //       'text-bg-danger' => 'Danger',
+    //       'text-bg-warning' => 'Warning',
+    //       'text-bg-info' => 'Info',
+    //       'text-bg-light' => 'Light',
+    //       'text-bg-dark' => 'Dark',
+    //     ],
+    //   ])
+    //   ->setDisplayOptions('form', [
+    //     'type' => 'options_select',
+    //     'weight' => 25,
+    //   ])
+    //   ->setDisplayConfigurable('form', TRUE)
+    //   ->setDisplayOptions('view', [
+    //     'label' => 'above',
+    //     'type' => 'list_default',
+    //     'weight' => 25,
+    //   ])
+    //   ->setDisplayConfigurable('view', TRUE);
 
     return $fields;
   }

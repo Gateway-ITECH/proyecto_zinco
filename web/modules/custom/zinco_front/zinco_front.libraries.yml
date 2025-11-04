@@ -22,3 +22,16 @@ zinco-dashboard-front:
   dependencies:
     - core/drupal
     - core/once
+
+
+zinco-actores-list:
+  version: 1.x
+  css:
+    theme:
+      css/zinco-actores-list.css: {}
+      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css: { type: external, minified: true }
+  js:
+    js/zinco-actores-list.js: {}
+  dependencies:
+    - core/drupal
+    - core/once

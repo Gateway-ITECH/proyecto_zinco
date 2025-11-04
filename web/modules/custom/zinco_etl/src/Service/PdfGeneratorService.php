@@ -205,7 +205,26 @@ class PdfGeneratorService {
     </style>
 </head>
 <body>
-    <h1>Reporte de Datos Zinco</h1>';
+    <h1>Reporte de Datos Zinco</h1>
+    <p>Fecha y Hora de Generación: ' . (new \DateTime())->format('Y-m-d H:i:s') . '</p>';
+
+    // Add selected filters table if available.
+    if (isset($data['filtrosSeleccionados'])) {
+      $html .= '<h2>Filtros Seleccionados</h2>';
+      $html .= '<table class="filters-table">';
+      $html .= '<thead><tr><th>Filtro</th><th>Valor</th></tr></thead><tbody>';
+      foreach ($data['filtrosSeleccionados'] as $filterName => $filterValue) {
+        if (!empty($filterValue)) {
+          $html .= '<tr><td>' . ucfirst(str_replace('_', ' ', $filterName)) . '</td><td>' . $filterValue . '</td></tr>';
+        }
+        else{
+          $html .= '<tr><td>' . ucfirst(str_replace('_', ' ', $filterName)) . '</td><td>Ninguno</td></tr>';
+        }
+      }
+      $html .= '</tbody></table>';
+      // Remove filtrosSeleccionados from the main data to avoid reprocessing.
+      unset($data['filtrosSeleccionados']);
+    }
 
     foreach ($data as $sectionTitle => $sectionData) {
       $html .= '<h2>' . ucfirst(str_replace('_', ' ', $sectionTitle)) . '</h2>';

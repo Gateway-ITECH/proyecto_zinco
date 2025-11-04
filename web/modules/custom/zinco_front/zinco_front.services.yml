@@ -5,3 +5,6 @@ services:
   zinco_front.controller:
     class: Drupal\zinco_front\Controller\ZincoController
     arguments: ['@form_builder', '@zinco_front.dump_data_service', '@config.factory', '@zinco_etl.pdf_generator']
+  zinco_front.actores_controller:
+    class: Drupal\zinco_front\Controller\ActoresController
+    arguments: []

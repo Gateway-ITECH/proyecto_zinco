@@ -83,6 +83,14 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'perfil-agente-financiador',
     ],
+    'zinco_actores_list' => [
+      'variables' => [
+        'actors' => NULL,
+        'title' => NULL,
+        'pager' => NULL,
+      ],
+      'template' => 'zinco-actores-list',
+    ],
   ];
 }
 
