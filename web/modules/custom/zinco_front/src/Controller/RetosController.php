@@ -60,10 +60,52 @@ class RetosController extends ControllerBase {
     $filters_param = $this->requestStack->getCurrentRequest()->query->get('filters');
     $search_term = $this->requestStack->getCurrentRequest()->query->get('search_term');
 
+    // Get all terms from 'estados_de_retos_de_innovacion' taxonomy.
+    $estado_terms = [];
+    try {
+      $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
+      $query = $term_storage->getQuery()
+        ->condition('vid', 'estados_de_retos_de_innovacion')
+        ->accessCheck(FALSE);
+      $tids = $query->execute();
+      $terms = $term_storage->loadMultiple($tids);
+
+      foreach ($terms as $term) {
+        $estado_terms[] = [
+          'id' => $term->id(),
+          'label' => $term->label(),
+        ];
+      }
+    } catch (\Exception $e) {
+      $this->messenger()->addError($this->t('Error loading estado terms: @message', ['@message' => $e->getMessage()]));
+    }
+
+    // Get all terms from 'area_enfoque' taxonomy.
+    $area_enfoque_terms = [];
+    try {
+      $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
+      $query = $term_storage->getQuery()
+        ->condition('vid', 'tecnologias_clave')
+        ->accessCheck(FALSE);
+      $tids = $query->execute();
+      $terms = $term_storage->loadMultiple($tids);
+
+      foreach ($terms as $term) {
+        $area_enfoque_terms[] = [
+          'id' => $term->id(),
+          'label' => $term->label(),
+        ];
+      }
+    } catch (\Exception $e) {
+      $this->messenger()->addError($this->t('Error loading area_enfoque terms: @message', ['@message' => $e->getMessage()]));
+    }
+
+
+    
+
     try {
       $reto_storage = $this->entityTypeManager->getStorage('zinco_retos_innovacion');
       $query = $reto_storage->getQuery();
-
       if (!empty($filters_param)) {
         $bundle_ids = explode(',', $filters_param);
         // Assuming 'area_enfoque' is the field to filter by.
@@ -93,12 +135,21 @@ class RetosController extends ControllerBase {
         $reto_data['fecha_inicio'] = $reto->hasField('fecha_inicio') && !$reto->get('fecha_inicio')->isEmpty() ? $reto->get('fecha_inicio')->value : '';
         $reto_data['fecha_fin'] = $reto->hasField('fecha_fin') && !$reto->get('fecha_fin')->isEmpty() ? $reto->get('fecha_fin')->value : '';
 
+        // Calculate days remaining until fecha_fin.
+        if (!empty($reto_data['fecha_fin'])) {
+          $current_date = new \DateTime();
+          $end_date = new \DateTime($reto_data['fecha_fin']);
+          $interval = $current_date->diff($end_date);
+          $reto_data['days_remaining'] = $interval->days;
+        } else {
+          $reto_data['days_remaining'] = 0;
+        }
         // Get the label of the 'estado_reto_innovacion' taxonomy term.
         if ($reto->hasField('estado_reto_innovacion') && !$reto->get('estado_reto_innovacion')->isEmpty()) {
           $estado_tid = $reto->get('estado_reto_innovacion')->target_id;
           $estado_term = $this->entityTypeManager->getStorage('taxonomy_term')->load($estado_tid);
           $reto_data['estado_reto_innovacion'] = $estado_term ? $estado_term->label() : '';
-          //$reto_data['estado_color'] = $estado_colors[$estado_term->get('field_machine_name')->value] ?? 'text-bg-secondary';
+          $reto_data['estado_color'] = 'text-bg-secondary';
         } else {
           $reto_data['estado_reto_innovacion'] = '';
           $reto_data['estado_color'] = 'text-bg-secondary';
@@ -114,14 +165,18 @@ class RetosController extends ControllerBase {
 
         // Get the label of the 'organizador_reto' entity.
         if ($reto->hasField('organizador_reto') && !$reto->get('organizador_reto')->isEmpty()) {
-          $organizador_id = $reto->get('organizador_reto')->target_id;
-          $organizador_entity = $this->entityTypeManager->getStorage('zinco_actors_zincoactors')->load($organizador_id);
-          $reto_data['organizador_reto'] = $organizador_entity ? $organizador_entity->label() : '';
+          $organizador_names = [];
+          foreach ($reto->get('organizador_reto')->referencedEntities() as $organizador_entity) {
+            if ($organizador_entity) {
+              $organizador_names[] = $organizador_entity->label();
+            }
+          }
+          $reto_data['organizador_reto'] = implode(', ', $organizador_names);
         } else {
           $reto_data['organizador_reto'] = '';
         }
 
-        $reto_data['visibilidad_reto'] = $reto->hasField('visibilidad_reto') && !$reto->get('visibilidad_reto')->isEmpty() ? ($reto->get('visibilidad_reto')->value ? 'Público' : 'Privado') : 'Privado';
+        //$reto_data['visibilidad_reto'] = $reto->hasField('visibilidad_reto') && !$reto->get('visibilidad_reto')->isEmpty() ? ($reto->get('visibilidad_reto')->value ? 'Público' : 'Privado') : 'Privado';
 
         // Generate profile link.
         $reto_data['profile_link'] = '/zinco_retos_innovacion/' . $reto->id();
@@ -136,6 +191,8 @@ class RetosController extends ControllerBase {
     return [
       '#theme' => 'zinco_retos_list',
       '#retos' => $retos,
+      '#estado_terms' => $estado_terms, // Pass the estado terms to the Twig template.
+      '#area_enfoque_terms' => $area_enfoque_terms, // Pass the area_enfoque terms to the Twig template.
       '#cache' => [
         'tags' => $this->entityTypeManager->getDefinition('zinco_retos_innovacion')->getListCacheTags(),
         'contexts' => ['url.query_args'],

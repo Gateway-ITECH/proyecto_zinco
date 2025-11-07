@@ -96,6 +96,8 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
         'retos' => NULL,
         'title' => NULL,
         'pager' => NULL,
+        'estado_terms' => NULL,
+        'area_enfoque_terms' => NULL,
       ],
       'template' => 'zinco-retos-list',
     ],
