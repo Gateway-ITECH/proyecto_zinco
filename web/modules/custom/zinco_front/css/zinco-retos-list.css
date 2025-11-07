@@ -1,0 +1,36 @@
+/* Add custom styles for zinco retos list here. */
+.zinco-retos-list .card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease-in-out;
+}
+
+.zinco-retos-list .card:hover {
+  transform: translateY(-5px);
+}
+
+.zinco-retos-list .card-title a {
+  color: #0056b3;
+  text-decoration: none;
+}
+
+.zinco-retos-list .card-title a:hover {
+  text-decoration: underline;
+}
+
+.zinco-retos-list .badge {
+  font-size: 0.85em;
+  padding: 0.4em 0.6em;
+  border-radius: 0.25rem;
+}
+
+.zinco-retos-list .btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.zinco-retos-list .btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}

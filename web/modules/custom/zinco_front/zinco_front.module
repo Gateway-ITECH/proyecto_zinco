@@ -91,6 +91,14 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'zinco-actores-list',
     ],
+    'zinco_retos_list' => [
+      'variables' => [
+        'retos' => NULL,
+        'title' => NULL,
+        'pager' => NULL,
+      ],
+      'template' => 'zinco-retos-list',
+    ],
   ];
 }
 

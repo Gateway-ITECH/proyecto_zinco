@@ -35,3 +35,15 @@ zinco-actores-list:
   dependencies:
     - core/drupal
     - core/once
+
+zinco-retos-list:
+  version: 1.x
+  css:
+    theme:
+      css/zinco-retos-list.css: {}
+      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css: { type: external, minified: true }
+  js:
+    js/zinco-retos-list.js: {}
+  dependencies:
+    - core/drupal
+    - core/once

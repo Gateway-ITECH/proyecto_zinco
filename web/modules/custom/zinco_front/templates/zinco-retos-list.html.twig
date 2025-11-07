@@ -1,0 +1,64 @@
+{#
+/**
+ * @file zinco-retos-list.html.twig
+ * Default theme implementation to display a list of Zinco Retos Innovacion entities.
+ *
+ * Available variables:
+ * - retos: An array of reto data, each with:
+ *   - id: The reto ID.
+ *   - label: The reto title.
+ *   - description: The reto description.
+ *   - fecha_inicio: The reto start date.
+ *   - fecha_fin: The reto end date.
+ *   - estado_reto_innovacion: The reto status label.
+ *   - estado_color: CSS class for the status badge color.
+ *   - area_enfoque: An array of area de enfoque labels.
+ *   - organizador_reto: The label of the organizing entity.
+ *   - visibilidad_reto: 'Público' or 'Privado'.
+ *   - profile_link: URL to the reto profile page.
+ * - pager: The pager for the list.
+ *
+ * @ingroup themeable
+ */
+#}
+<div class="zinco-retos-list">
+  <h2>Listado de Retos de Innovación</h2>
+  <div class="row">
+    {% if retos %}
+      {% for reto in retos %}
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title"><a href="{{ reto.profile_link }}">{{ reto.label }}</a></h5>
+              <p class="card-text">{{ reto.description|length > 100 ? reto.description|slice(0, 100) ~ '...' : reto.description }}</p>
+              <p class="card-text"><strong>Estado:</strong> <span class="badge {{ reto.estado_color }}">{{ reto.estado_reto_innovacion }}</span></p>
+              <p class="card-text"><strong>Inicio:</strong> {{ reto.fecha_inicio }}</p>
+              <p class="card-text"><strong>Fin:</strong> {{ reto.fecha_fin }}</p>
+              <p class="card-text"><strong>Áreas de Enfoque:</strong>
+                {% if reto.area_enfoque %}
+                  {% for area in reto.area_enfoque %}
+                    <span class="badge text-bg-secondary">{{ area }}</span>
+                  {% endfor %}
+                {% else %}
+                  N/A
+                {% endif %}
+              </p>
+              <p class="card-text"><strong>Organizador:</strong> {{ reto.organizador_reto }}</p>
+              <p class="card-text"><strong>Visibilidad:</strong> {{ reto.visibilidad_reto }}</p>
+              <a href="{{ reto.profile_link }}" class="btn btn-primary">Ver Detalle</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="col-12">
+        <p>No se encontraron retos de innovación.</p>
+      </div>
+    {% endif %}
+  </div>
+  {% if pager %}
+    <nav aria-label="Page navigation">
+      {{ pager }}
+    </nav>
+  {% endif %}
+</div>
