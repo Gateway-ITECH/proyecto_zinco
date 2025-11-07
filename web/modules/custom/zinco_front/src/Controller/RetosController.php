@@ -58,7 +58,26 @@ class RetosController extends ControllerBase {
   public function listarRetos() {
     $retos = [];
     $filters_param = $this->requestStack->getCurrentRequest()->query->get('filters');
+    var_dump($filters_param);
     $search_term = $this->requestStack->getCurrentRequest()->query->get('search_term');
+    $estado_ids = [];
+    if (!empty($filters_param)) {
+      $estados_params = explode(',', $filters_param);
+      foreach ($estados_params as $filter) {
+        if (preg_match('/^estado-(\d+)$/', $filter, $matches)) {
+          $estado_ids[] = (int) $matches[1];
+        }
+      }
+    }
+    $areas_enfoque_ids = [];
+    if (!empty($filters_param)) {
+      $areas_enfoque_params = explode(',', $filters_param);
+      foreach ($areas_enfoque_params as $filter) {
+        if (preg_match('/^categoria-(\d+)$/', $filter, $matches)) {
+          $areas_enfoque_ids[] = (int) $matches[1];
+        }
+      }
+    }
 
     // Get all terms from 'estados_de_retos_de_innovacion' taxonomy.
     $estado_terms = [];
@@ -109,7 +128,13 @@ class RetosController extends ControllerBase {
       if (!empty($filters_param)) {
         $bundle_ids = explode(',', $filters_param);
         // Assuming 'area_enfoque' is the field to filter by.
-        $query->condition('area_enfoque', $bundle_ids, 'IN');
+        
+        if (!empty($areas_enfoque_ids)) {
+          $query->condition('area_enfoque', $areas_enfoque_ids, 'IN');
+        }
+        if (!empty($estado_ids)) {
+          $query->condition('estado_reto_innovacion', $estado_ids, 'IN');
+        }
       }
       if (!empty($search_term)) {
         $query->condition('label', $search_term, 'CONTAINS');
