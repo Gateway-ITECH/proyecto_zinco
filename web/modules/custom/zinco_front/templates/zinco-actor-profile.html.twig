@@ -8,6 +8,13 @@
  */
 #}
 <div class="actor-profile-wrapper">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/actores/list">Actores</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ actor.label }}</li>
+    </ol>
+  </nav>
+
   {% if actor.bundle_id == 'empresa_explotadora_de_conocimie' or actor.bundle_id == 'empresa_generadora_de_conocimien' %}
     <div class="card mb-3">
       <div class="row g-0">
@@ -20,7 +27,7 @@
             <h4 class="card-title">{{ actor.label }}</h4>
             <p class="card-text">
               <small class="text-muted">
-                <span class="icon-location-dot me-1 ms-3"></span>{{ actor.field_municipio }}
+               <span class="fas fa-globe me-1 ms-3"></span>{{ actor.field_municipio }}
               </small>
             </p>
           </div>
@@ -61,7 +68,36 @@
             </h2>
             <div id="collapseInnovationActivity" class="accordion-collapse collapse show" aria-labelledby="headingInnovationActivity" data-bs-parent="#accordionInnovationActivity">
               <div class="accordion-body">
-                <p>Contenido de Actividad de Innovación para Empresas</p>
+                <ul class="nav nav-tabs" id="innovationTabs" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="projects-idi-tab" data-bs-toggle="tab" data-bs-target="#projects-idi" type="button" role="tab" aria-controls="projects-idi" aria-selected="true">Proyectos I+D+i</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="incentives-received-tab" data-bs-toggle="tab" data-bs-target="#incentives-received" type="button" role="tab" aria-controls="incentives-received" aria-selected="false">Incentivos Recibidos</button>
+                  </li>
+                </ul>
+                <div class="tab-content pt-3" id="innovationTabContent">
+                  <div class="tab-pane fade show active" id="projects-idi" role="tabpanel" aria-labelledby="projects-idi-tab">
+                    {% for proyecto in actor.proyectos_idi %}
+                      <div class="card mb-2">
+                        <div class="card-body">
+                          <p class="mb-0">{{ proyecto.label }}</p>
+                          <p class="text-muted mb-0"><small>Tipo: {{ proyecto.tipo }} | Estado: {{ proyecto.estado }}</small></p>
+                        </div>
+                      </div>
+                    {% endfor %}
+                    
+                  </div>
+                  <div class="tab-pane fade" id="incentives-received" role="tabpanel" aria-labelledby="incentives-received-tab">
+                    {% for incentivo in actor.incentivos_recibidos %}
+                      <div class="card mb-2">
+                        <div class="card-body">
+                          <p class="mb-0">{{ incentivo }}</p>
+                        </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -77,7 +113,14 @@
             </h2>
             <div id="collapseInnovationChallenges" class="accordion-collapse collapse show" aria-labelledby="headingInnovationChallenges" data-bs-parent="#accordionInnovationChallenges">
               <div class="accordion-body">
-                <p>Contenido de Retos de Innovación Publicados para Empresas</p>
+                {% for reto in actor.retos_innovacion %}
+                      <div class="card mb-2">
+                        <div class="card-body">
+                          <p class="mb-0">{{ reto.label }}</p>
+                          <p class="text-muted mb-0"><small>Tipo: {{ reto.tipo }} | Estado: {{ reto.estado }}</small></p>
+                        </div>
+                      </div>
+                    {% endfor %}
               </div>
             </div>
           </div>
@@ -87,27 +130,574 @@
       <div class="col-md-4">
         <div class="card mb-3">
           <div class="card-body">
-            <h5 class="card-title">Líneas de Negocio e Innovación</h5>
+            <h5 class="card-title mb-4">Líneas de Negocio e Innovación</h5>
             {% if actor.lineas_negocio is not empty %}
                 {% for linea in actor.lineas_negocio %}
                     <p class="card-text">{{ linea }}</p>
                 {% endfor %}
+            {% else %}
+                <p class="card-text">No hay líneas de negocio disponibles.</p>
             {% endif %}
           </div>
         </div>
 
-
-        <div class="card mb-3">
-          <div class="card-body">
-            <h5 class="card-title">Contacto</h5>
-            <p class="card-text mt-3"><span class="icon-globe me-2"></span><strong>Sitio Web</strong></p>
-            <p class="card-text"><a href="{{ actor.field_website }}" target="_blank">{{ actor.field_website }}</a></p>
+        {% if actor.datos_contacto is not empty %}
+          <div class="card mb-3">
+            <div class="card-body">
+              <h5 class="card-title">Contacto</h5>
+              
+              {% if actor.datos_contacto.direccion_empresa is not empty %}
+                <p class="card-text mt-3"><span class="fas fa-map-marker-alt me-2"></span><strong>Dirección</strong></p>
+                <p class="card-text">{{ actor.datos_contacto.direccion_empresa }}</p>
+              {% endif %}
+              {% if actor.datos_contacto.telefono is not empty %}
+                <p class="card-text mt-3"><span class="fas fa-phone me-2"></span><strong>Teléfono</strong></p>
+                <p class="card-text">{{ actor.datos_contacto.telefono }}</p>
+              {% endif %}
+              {% if actor.datos_contacto.email is not empty %}
+                <p class="card-text mt-3"><span class="fas fa-envelope me-2"></span><strong>Email</strong></p>
+                <p class="card-text">{{ actor.datos_contacto.email }}</p>
+              {% endif %}
+              {% if actor.datos_contacto.sitio_web is not empty %}
+                <p class="card-text mt-3"><span class="fas fa-globe me-2"></span><strong>Sitio Web</strong></p>
+                <p class="card-text"><a href="{{ actor.datos_contacto.sitio_web }}" target="_blank">{{ actor.datos_contacto.sitio_web }}</a></p>
+              {% endif %}
+            </div>
           </div>
-        </div>
+        {% endif %}
 
 
       </div>
     </div>
+
+  {% elseif actor.bundle_id == 'institucion_de_educacion_superio' %}
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-3 d-flex align-items-center justify-content-center">
+          <img src="{{ actor.imagen_perfil ? actor.imagen_perfil : 'https://placehold.co/100x100?text=Empresa' }}" class="img-fluid rounded-start p-3" alt="Company Logo">
+        </div>
+        <div class="col-md-9">
+          <div class="card-body">
+            <p class="card-text text-muted mb-0">{{ actor.field_tipo_actor }}</p>
+            <h4 class="card-title">{{ actor.label }}</h4>
+            <p class="card-text">
+              <small class="text-muted">
+               <span class="fas fa-globe me-1 ms-3"></span>{{ actor.field_municipio }}
+              </small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Información General</h5>
+             <div class="row">
+              <div class="col-md-6 mt-1">
+                <p class="card-text text-muted mb-0">Razón Social</p>
+                <p class="card-text">{{ actor.label }}</p>
+              </div>
+              <div class="col-md-6 mt-1">
+                <p class="card-text text-muted mb-0">NIT</p>
+                <p class="card-text">{{ actor.nit_empresa }}</p>
+              </div>
+              <div class="col-md-6 mt-1">
+                <p class="card-text text-muted mb-0">Carácter académico</p>
+                <p class="card-text">{{ actor.field_caracter_academico }}</p>
+              </div>
+              <div class="col-md-6 mt-1">
+                <p class="card-text text-muted mb-0">Estado de acreditación</p>
+                <p class="card-text">{{ actor.field_estado_acreditacion }}</p>
+              </div>
+               <div class="col-md-6 mt-1">
+                <p class="card-text text-muted mb-0">Siglas</p>
+                <p class="card-text">{{ actor.field_siglas_ies }}</p>
+              </div>
+              <div class="col-md-6 mt-1">
+                <p class="card-text text-muted mb-0">Tipo de institución</p>
+                <p class="card-text">{{ actor.field_tipo_de_ies }}</p>
+              </div>
+              <div class="col-md-12 mt-1">
+                <p class="card-text text-muted mb-0">Descripción de la Empresa</p>
+                <p class="card-text">{{ actor.description | raw }}</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
+        {# Placeholder for Innovation Activity Accordion #}
+        <div class="accordion mb-3" id="accordionInnovationActivity">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingInnovationActivity">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInnovationActivity" aria-expanded="true" aria-controls="collapseInnovationActivity">
+                Actividad de Innovación
+              </button>
+            </h2>
+            <div id="collapseInnovationActivity" class="accordion-collapse collapse show" aria-labelledby="headingInnovationActivity" data-bs-parent="#accordionInnovationActivity">
+              <div class="accordion-body">
+                <ul class="nav nav-tabs" id="innovationTabs" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="projects-idi-tab" data-bs-toggle="tab" data-bs-target="#projects-idi" type="button" role="tab" aria-controls="projects-idi" aria-selected="true">Proyectos I+D+i</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="incentives-received-tab" data-bs-toggle="tab" data-bs-target="#incentives-received" type="button" role="tab" aria-controls="incentives-received" aria-selected="false">Incentivos Recibidos</button>
+                  </li>
+                </ul>
+                <div class="tab-content pt-3" id="innovationTabContent">
+                  <div class="tab-pane fade show active" id="projects-idi" role="tabpanel" aria-labelledby="projects-idi-tab">
+                    {% for proyecto in actor.proyectos_idi %}
+                      <div class="card mb-2">
+                        <div class="card-body">
+                          <p class="mb-0">{{ proyecto.label }}</p>
+                          <p class="text-muted mb-0"><small>Tipo: {{ proyecto.tipo }} | Estado: {{ proyecto.estado }}</small></p>
+                        </div>
+                      </div>
+                    {% endfor %}
+                    
+                  </div>
+                  <div class="tab-pane fade" id="incentives-received" role="tabpanel" aria-labelledby="incentives-received-tab">
+                    {% for incentivo in actor.incentivos_recibidos %}
+                      <div class="card mb-2">
+                        <div class="card-body">
+                          <p class="mb-0">{{ incentivo }}</p>
+                        </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {# Placeholder for Innovation Challenges Accordion #}
+        <div class="accordion mb-3" id="accordionInnovationChallenges">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingInnovationChallenges">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInnovationChallenges" aria-expanded="true" aria-controls="collapseInnovationChallenges">
+                Retos de Innovación Publicados
+              </button>
+            </h2>
+            <div id="collapseInnovationChallenges" class="accordion-collapse collapse show" aria-labelledby="headingInnovationChallenges" data-bs-parent="#accordionInnovationChallenges">
+              <div class="accordion-body">
+                {% for reto in actor.retos_innovacion %}
+                      <div class="card mb-2">
+                        <div class="card-body">
+                          <p class="mb-0">{{ reto.label }}</p>
+                          <p class="text-muted mb-0"><small>Tipo: {{ reto.tipo }} | Estado: {{ reto.estado }}</small></p>
+                        </div>
+                      </div>
+                    {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-4">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title mb-4">Programas ofertados</h5>
+            {% if actor.field_programas_academicos is not empty %}
+                {% for item in actor.field_programas_academicos %}
+                    <p class="card-text">{{ item }}</p>
+                {% endfor %}
+            {% else %}
+                <p class="card-text">No hay información de programas ofertados.</p>
+            {% endif %}
+          </div>
+        </div>
+
+        {% if actor.datos_contacto is not empty %}
+          <div class="card mb-3">
+            <div class="card-body">
+              <h5 class="card-title">Contacto</h5>
+              
+              {% if actor.datos_contacto.direccion_empresa is not empty %}
+                <p class="card-text mt-3"><span class="fas fa-map-marker-alt me-2"></span><strong>Dirección</strong></p>
+                <p class="card-text">{{ actor.datos_contacto.direccion_empresa }}</p>
+              {% endif %}
+              {% if actor.datos_contacto.telefono is not empty %}
+                <p class="card-text mt-3"><span class="fas fa-phone me-2"></span><strong>Teléfono</strong></p>
+                <p class="card-text">{{ actor.datos_contacto.telefono }}</p>
+              {% endif %}
+              {% if actor.datos_contacto.email is not empty %}
+                <p class="card-text mt-3"><span class="fas fa-envelope me-2"></span><strong>Email</strong></p>
+                <p class="card-text">{{ actor.datos_contacto.email }}</p>
+              {% endif %}
+              {% if actor.datos_contacto.sitio_web is not empty %}
+                <p class="card-text mt-3"><span class="fas fa-globe me-2"></span><strong>Sitio Web</strong></p>
+                <p class="card-text"><a href="{{ actor.datos_contacto.sitio_web }}" target="_blank">{{ actor.datos_contacto.sitio_web }}</a></p>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+
+
+      </div>
+    </div>
+  {% elseif actor.bundle_id == 'investigador' %}
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-3 d-flex align-items-center justify-content-center">
+          <img src="{{ actor.imagen_perfil ? actor.imagen_perfil : 'https://placehold.co/100x100?text=Empresa' }}" class="img-fluid rounded-start p-3" alt="Company Logo">
+        </div>
+        <div class="col-md-9">
+          <div class="card-body">
+            <p class="card-text text-muted mb-0">{{ actor.field_tipo_actor }}</p>
+            <h4 class="card-title">{{ actor.label }}</h4>
+            <p class="card-text">
+              <small class="text-muted">
+               <span class="fas fa-globe me-1 ms-3"></span>{{ actor.field_municipio }}
+              </small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Información General</h5>
+             <div class="row">
+              <div class="col-md-6 mt-1">
+                <p class="card-text text-muted mb-0">Nombre completo</p>
+                <p class="card-text">{{ actor.label }}</p>
+              </div>
+              <div class="col-md-6 mt-1">
+                <p class="card-text text-muted mb-0">Afiliación actual</p>
+                <p class="card-text">{{ actor.field_afiliacion_actual }}</p>
+              </div>
+              <div class="col-md-6 mt-1">
+                <p class="card-text text-muted mb-0">Nacionalidad</p>
+                <p class="card-text">{{ actor.field_nacionalidad }}</p>
+              </div>
+              <div class="col-md-6 mt-1">
+                <p class="card-text text-muted mb-0">Fecha de nacimiento</p>
+                <p class="card-text">{{ actor.field_fecha_de_nacimiento }}</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
+        {# Placeholder for Innovation Activity Accordion #}
+        <div class="accordion mb-3" id="accordionInnovationActivity">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingInnovationActivity">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInnovationActivity" aria-expanded="true" aria-controls="collapseInnovationActivity">
+                Actividad de Innovación
+              </button>
+            </h2>
+            <div id="collapseInnovationActivity" class="accordion-collapse collapse show" aria-labelledby="headingInnovationActivity" data-bs-parent="#accordionInnovationActivity">
+              <div class="accordion-body">
+                <ul class="nav nav-tabs" id="innovationTabs" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="projects-idi-tab" data-bs-toggle="tab" data-bs-target="#projects-idi" type="button" role="tab" aria-controls="projects-idi" aria-selected="true">Proyectos I+D+i</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="grupos-investigacion-tab" data-bs-toggle="tab" data-bs-target="#grupos-investigacion" type="button" role="tab" aria-controls="grupos-investigacion" aria-selected="false">Grupos de investigación</button>
+                  </li>
+                </ul>
+                <div class="tab-content pt-3" id="innovationTabContent">
+                  <div class="tab-pane fade show active" id="projects-idi" role="tabpanel" aria-labelledby="projects-idi-tab">
+                    {% for proyecto in actor.proyectos_idi %}
+                      <div class="card mb-2">
+                        <div class="card-body">
+                          <p class="mb-0">{{ proyecto.label }}</p>
+                          <p class="text-muted mb-0"><small>Tipo: {{ proyecto.tipo }} | Estado: {{ proyecto.estado }}</small></p>
+                        </div>
+                      </div>
+                    {% endfor %}
+                    
+                  </div>
+                  <div class="tab-pane fade" id="grupos-investigacion" role="tabpanel" aria-labelledby="grupos-investigacion-tab">
+                    {% for item in actor.grupos_investigacion %}
+                      <div class="card mb-2">
+                        <div class="card-body">
+                          <p class="mb-0">{{ item.label }}</p>
+                        </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {# Placeholder for Innovation Challenges Accordion #}
+        <div class="accordion mb-3" id="accordionInnovationChallenges">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingInnovationChallenges">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInnovationChallenges" aria-expanded="true" aria-controls="collapseInnovationChallenges">
+                Retos de Innovación Publicados
+              </button>
+            </h2>
+            <div id="collapseInnovationChallenges" class="accordion-collapse collapse show" aria-labelledby="headingInnovationChallenges" data-bs-parent="#accordionInnovationChallenges">
+              <div class="accordion-body">
+                {% for reto in actor.retos_innovacion %}
+                      <div class="card mb-2">
+                        <div class="card-body">
+                          <p class="mb-0">{{ reto.label }}</p>
+                          <p class="text-muted mb-0"><small>Tipo: {{ reto.tipo }} | Estado: {{ reto.estado }}</small></p>
+                        </div>
+                      </div>
+                    {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-4">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title mb-4">Estudios realizados</h5>
+            {% if actor.field_formacion_academica is not empty %}
+                {% for item in actor.field_formacion_academica %}
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <p class="card-text">{{ item.titulo }} - {{ item.institucion }}</p>
+                    <p class="text-muted mb-0"><small>Tipo: {{ item.tipo_formacion }} | Fecha inicio: {{ item.fecha_inicio }} | Fecha fin: {{ item.fecha_fin }}</small>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="card-text">No hay información de formación académica.</p>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title mb-4">Trayectoria profesional</h5>
+            {% if actor.field_trayectoria_profesional is not empty %}
+                {% for item in actor.field_trayectoria_profesional %}
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <p class="card-text">{{ item.cargo }} - {{ item.empresa }}</p>
+                    <p class="text-muted mb-0"><small>Fecha inicio: {{ item.fecha_inicio }} | Fecha fin: {{ item.fecha_fin }}</small>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="card-text">No hay información de trayectoria profesional.</p>
+            {% endif %}
+          </div>
+        </div>
+
+        {% if actor.datos_contacto is not empty %}
+          <div class="card mb-3">
+            <div class="card-body">
+              <h5 class="card-title">Contacto</h5>
+              
+              {% if actor.datos_contacto.direccion_empresa is not empty %}
+                <p class="card-text mt-3"><span class="fas fa-map-marker-alt me-2"></span><strong>Dirección</strong></p>
+                <p class="card-text">{{ actor.datos_contacto.direccion_empresa }}</p>
+              {% endif %}
+              {% if actor.datos_contacto.telefono is not empty %}
+                <p class="card-text mt-3"><span class="fas fa-phone me-2"></span><strong>Teléfono</strong></p>
+                <p class="card-text">{{ actor.datos_contacto.telefono }}</p>
+              {% endif %}
+              {% if actor.datos_contacto.email is not empty %}
+                <p class="card-text mt-3"><span class="fas fa-envelope me-2"></span><strong>Email</strong></p>
+                <p class="card-text">{{ actor.datos_contacto.email }}</p>
+              {% endif %}
+              {% if actor.datos_contacto.sitio_web is not empty %}
+                <p class="card-text mt-3"><span class="fas fa-globe me-2"></span><strong>Sitio Web</strong></p>
+                <p class="card-text"><a href="{{ actor.datos_contacto.sitio_web }}" target="_blank">{{ actor.datos_contacto.sitio_web }}</a></p>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+
+
+      </div>
+    </div>
+  {% elseif actor.bundle_id == 'entidad_gobierno' %}
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-4 d-flex align-items-center justify-content-center">
+          <img src="{{ actor.imagen_perfil ? actor.imagen_perfil : 'https://placehold.co/150' }}" class="img-fluid rounded-start p-3" alt="Government Entity Photo">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{ actor.label }}</h5>
+            <p class="card-text">{{ actor.field_nivel_gobierno }}</p>
+            <p class="card-text"><small class="text-muted"><span class="fas fa-envelope me-1"></span>{{ actor.datos_contacto.email }} <span class="fas fa-phone me-1 ms-3"></span>{{ actor.datos_contacto.telefono }} <span class="fas fa-globe me-1 ms-3"></span><a href="{{ actor.datos_contacto.sitio_web }}" target="_blank">{{ actor.datos_contacto.sitio_web }}</a></small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Información Básica</h5>
+        <div class="row">
+          <div class="col-md-6">
+            <p class="card-text"><strong>Misión</strong></p>
+            <p class="card-text">{{ actor.field_mision | raw }}</p>
+          </div>
+          <div class="col-md-6">
+            <p class="card-text"><strong>Representante Legal</strong></p>
+            <p class="card-text">{{ actor.field_representante_legal }}</p>
+            <p class="card-text">{{ actor.field_cargo_representante_legal }}</p>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <p class="card-text"><strong>Sede Principal</strong></p>
+            <p class="card-text">{{ actor.field_sede_principal }}</p>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-12">
+            <p class="card-text"><strong>Función en el Ecosistema CTI</strong></p>
+            <p class="card-text">{{ actor.field_funcion_ecosistema_cti | raw }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion mb-3" id="accordionPolicies">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingPolicies">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePolicies" aria-expanded="true" aria-controls="collapsePolicies">
+            Políticas y Marcos Regulatorios
+          </button>
+        </h2>
+        <div id="collapsePolicies" class="accordion-collapse collapse show" aria-labelledby="headingPolicies" data-bs-parent="#accordionPolicies">
+          <div class="accordion-body">
+            <p class="mb-3"><strong>Políticas y Estrategias</strong></p>
+            {% for item in actor.field_politicas_y_estrategias %}
+                <div class="card mb-2">
+                  <div class="card-body">
+                    <p class="mb-0">{{ item }}</p>
+                  </div>
+                </div>
+            {% endfor %}
+
+            <p class="mb-3 mt-3"><strong>Marcos Regulatorios</strong></p>
+            {% for item in actor.field_marcos_regulatorios %}
+                <div class="card mb-2">
+                  <div class="card-body">
+                    <p class="mb-0">{{ item }}</p>
+                  </div>
+                </div>
+            {% endfor %}
+
+            <p class="mb-3 mt-3"><strong>Normativa o Políticas Internas Relevantes</strong></p>
+            {% for item in actor.field_normativas %}
+                <div class="card mb-2">
+                  <div class="card-body">
+                    <p class="mb-0">{{ item }}</p>
+                  </div>
+                </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion mb-3" id="accordionPrograms">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingPrograms">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePrograms" aria-expanded="true" aria-controls="collapsePrograms">
+            Programas, Convocatorias y Financiamiento
+          </button>
+        </h2>
+        <div id="collapsePrograms" class="accordion-collapse collapse show" aria-labelledby="headingPrograms" data-bs-parent="#accordionPrograms">
+          <div class="accordion-body">
+            <p class="mb-3 mt-3"><strong>Programas Principales</strong></p>
+             {% for item in actor.programas_principales %}
+                <div class="card mb-2">
+                  <div class="card-body">
+                    <p class="mb-0">{{ item }}</p>
+                  </div>
+                </div>
+            {% endfor %}
+
+            <p class="mb-3 mt-3"><strong>Convocatorias Abiertas</strong></p>
+            {% for item in actor.convocatorias_abiertas %}
+                <div class="card mb-2">
+                  <div class="card-body">
+                    <p class="mb-0">{{ item }}</p>
+                  </div>
+                </div>
+            {% endfor %}
+
+            <p class="mb-3 mt-3"><strong>Mecanismos de Financiamiento</strong></p>
+            {% for item in actor.field_mecanismos_financiamiento %}
+                <div class="card mb-2">
+                  <div class="card-body">
+                    <p class="mb-0">{{ item }}</p>
+                  </div>
+                </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% elseif actor.bundle_id == 'instancias_de_orientacion_politi' %}
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-4 d-flex align-items-center justify-content-center">
+          <img src="{{ actor.imagen_perfil ? actor.imagen_perfil : 'https://placehold.co/150' }}" class="img-fluid rounded-start p-3" alt="Government Entity Photo">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{ actor.label }}</h5>
+            <p class="card-text">{{ actor.field_nivel_gobierno }}</p>
+            <p class="card-text"><small class="text-muted"><span class="fas fa-envelope me-1"></span>{{ actor.datos_contacto.email }} <span class="fas fa-phone me-1 ms-3"></span>{{ actor.datos_contacto.telefono }} <span class="fas fa-globe me-1 ms-3"></span><a href="{{ actor.datos_contacto.sitio_web }}" target="_blank">{{ actor.datos_contacto.sitio_web }}</a></small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Información Básica</h5>
+        <div class="row">
+          <div class="col-md-6">
+            <p class="card-text"><strong>Descripcion</strong></p>
+            <p class="card-text">{{ actor.description | raw }}</p>
+          </div>
+          <div class="col-md-6">
+            <p class="card-text"><strong>Entidad líder</strong></p>
+            <p class="card-text">{{ actor.field_entidad_lider }}</p>
+          </div>
+        </div>        
+      </div>
+    </div>
+
+    <div class="accordion mb-3" id="accordionMembers">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingMembers">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#accordionMembers" aria-expanded="true" aria-controls="collapseMembers">
+            Miembros
+          </button>
+        </h2>
+        <div id="collapseMembers" class="accordion-collapse collapse show" aria-labelledby="headingMembers" data-bs-parent="#accordionMembers">
+          <div class="accordion-body">
+            {% for item in actor.field_miembros_iep %}
+                <div class="card mb-2">
+                  <div class="card-body">
+                    <a href="{{ item.url  }}">{{ item.label }}</p>
+                  </div>
+                </div>
+            {% endfor %}         
+          </div>
+        </div>
+      </div>
+    </div>
+
   {% else %}
     <div class="actor-profile-header">
       <h1 class="actor-profile-title">{{ actor.label }}</h1>

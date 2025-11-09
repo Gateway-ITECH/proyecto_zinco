@@ -55,6 +55,18 @@
   border-radius: 5px;
 }
 
+p{
+    color: #333;
+}
+.card-text{
+    color: #333;
+}
+
+.card-title {
+    color: #333;
+    font-weight: bold;
+}
+
 /* Specific styles for company profile */
 .card-body .card-text strong {
   font-weight: 600;
@@ -109,15 +121,3 @@
   color: #28a745; /* Example color for icons */
 }
 
-.actor-profile-wrapper .card {
-  border: 1px solid #1a3a5f; /* Slightly lighter dark blue border */
-  border-radius: 12px;
-  background: #112240; /* Darker blue background for cards */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.actor-profile-wrapper .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-}

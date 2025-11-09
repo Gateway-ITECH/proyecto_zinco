@@ -188,7 +188,6 @@ zinco_front.actor_profile:
   path: '/actores/{actor_id}'
   defaults:
     _controller: '\Drupal\zinco_front\Controller\ActoresController::verPerfilActor'
-    _title: 'Perfil del Actor'
   requirements:
     _permission: 'access content'
     actor_id: '\d+'
