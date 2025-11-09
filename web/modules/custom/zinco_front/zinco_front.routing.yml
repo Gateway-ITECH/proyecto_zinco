@@ -184,9 +184,26 @@ zinco_front.actores_list:
   requirements:
     _permission: 'access content'
 
+zinco_front.actor_profile:
+  path: '/actores/{actor_id}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ActoresController::verPerfilActor'
+    _title: 'Perfil del Actor'
+  requirements:
+    _permission: 'access content'
+    actor_id: '\d+'
+
 zinco_front.retos_list:
   path: '/retos/list'
   defaults:
     _controller: '\Drupal\zinco_front\Controller\RetosController::listarRetos'
+  requirements:
+    _permission: 'access content'
+
+zinco_front.landing_page:
+  path: '/landing'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::landingPage'
+    _title: ''
   requirements:
     _permission: 'access content'

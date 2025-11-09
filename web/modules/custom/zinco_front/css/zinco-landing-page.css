@@ -1,0 +1,268 @@
+.hero-section {
+  text-align: center;
+  padding: 100px 0;
+  background-color: #0A192F; /* Dark blue background */
+  /* background-image: url('../images/network-pattern.svg'); */
+  background-size: cover;
+  background-position: center;
+  color: #E0E0E0; /* Light gray text */
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-button {
+  display: inline-block;
+  background-color: #39FF14; /* Green color */
+  color: #0A192F; /* Dark blue text */
+  padding: 15px 30px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(57, 255, 20, 0.6); /* Green glow */
+}
+
+.hero-button:hover {
+  background-color: #2FFF00; /* Slightly brighter green on hover */
+  box-shadow: 0 0 25px rgba(57, 255, 20, 0.8); /* More intense glow on hover */
+  transform: translateY(-2px);
+}
+
+
+.zinco-numbers-section {
+  padding: 60px 0;
+  background-color: #0A192F; /* Dark blue background */
+  color: #E0E0E0; /* Light gray text */
+}
+
+.zinco-numbers-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #E0E0E0;
+  margin-bottom: 40px;
+}
+
+.zinco-number-card.card {
+  border: 1px solid #1a3a5f; /* Slightly lighter dark blue border */
+  border-radius: 12px;
+  background: #112240; /* Darker blue background for cards */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.zinco-number-card.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.zinco-number-icon img {
+  width: 60px; /* Adjust icon size as needed */
+  height: 60px;
+  filter: invert(70%) sepia(100%) saturate(500%) hue-rotate(120deg) brightness(100%) contrast(100%); /* Greenish tint for icons */
+}
+
+.zinco-number-description.card-text {
+  font-size: 1.1rem;
+  color: #B0B0B0; /* Slightly darker light gray for description */
+  margin-bottom: 10px;
+}
+
+.zinco-number-value {
+  font-size: 3rem; /* Large font size for numbers */
+  font-weight: 700;
+  color: #39FF14; /* Green color for numbers */
+}
+.zinco-benefits-section {
+  background-color: #0a192f; /* Dark blue background */
+  color: #ffffff;
+}
+
+.zinco-benefits-title {
+  color: #ffffff;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.zinco-benefit-card.card {
+  border: 1px solid #1a3a5f; /* Slightly lighter dark blue border */
+  border-radius: 12px;
+  background: #112240; /* Darker blue background for cards */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.zinco-benefit-card.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.zinco-benefit-icon {
+  color: #00bcd4; /* Teal color for icons */
+  font-size: 300%; /* 300% increased size */
+  margin-bottom: 1rem;
+}
+
+.zinco-benefit-title {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+.zinco-benefit-description {
+  color: #cccccc;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.zinco-button-link {
+  background-color: #00bcd4; /* Teal button background */
+  border-color: #00bcd4;
+  color: #ffffff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.3rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.zinco-button-link:hover {
+  background-color: #00aabf; /* Darker teal on hover */
+  border-color: #00aabf;
+  color: #ffffff;
+}
+.zinco-tools-section {
+  background-color: #0a192f; /* Dark blue background */
+  color: #ffffff;
+}
+
+.zinco-tools-title {
+  color: #ffffff;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.zinco-tool-card.card {
+  border: 1px solid #1a3a5f; /* Slightly lighter dark blue border */
+  border-radius: 12px;
+  background: #112240; /* Darker blue background for cards */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.zinco-tool-card.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.zinco-tool-icon {
+  color: #00bcd4; /* Teal color for icons */
+  font-size: 300%; /* 300% increased size */
+  margin-bottom: 1rem;
+}
+
+.zinco-tool-title {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+.zinco-tool-description {
+  color: #cccccc;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+.zinco-cta-section {
+  background-color: #0a192f; /* Dark blue background */
+  color: #ffffff;
+  text-align: center;
+  padding: 80px 0;
+}
+
+.zinco-cta-title {
+  color: #ffffff;
+  font-size: 2.8rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.zinco-cta-description {
+  color: #cccccc;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 700px;
+  margin: 0 auto 40px auto;
+}
+
+.zinco-cta-button {
+  background-color: #39FF14; /* Green color */
+  border-color: #39FF14;
+  color: #0A192F; /* Dark blue text */
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(57, 255, 20, 0.6); /* Green glow */
+}
+
+.zinco-cta-button:hover {
+  background-color: #2FFF00; /* Slightly brighter green on hover */
+  border-color: #2FFF00;
+  box-shadow: 0 0 25px rgba(57, 255, 20, 0.8); /* More intense glow on hover */
+  transform: translateY(-2px);
+}
+.zinco-cta-section {
+  background-color: #0a192f; /* Dark blue background */
+  color: #ffffff;
+  text-align: center;
+  padding: 80px 0;
+}
+
+.zinco-cta-title {
+  color: #ffffff;
+  font-size: 2.8rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.zinco-cta-description {
+  color: #cccccc;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 700px;
+  margin: 0 auto 40px auto;
+}
+
+.zinco-cta-button {
+  background-color: #39FF14; /* Green color */
+  border-color: #39FF14;
+  color: #0A192F; /* Dark blue text */
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.8); /* Green glow */
+}
+
+.zinco-cta-button:hover {
+  background-color: #2FFF00; /* Slightly brighter green on hover */
+  border-color: #2FFF00;
+  box-shadow: 0 0 25px rgba(57, 255, 20, 0.8); /* More intense glow on hover */
+  transform: translateY(-2px);
+}

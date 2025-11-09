@@ -1,0 +1,153 @@
+{#
+/**
+ * @file
+ * Default theme implementation for a single actor profile.
+ *
+ * Available variables:
+ * - actor: A renderable array of actor data.
+ */
+#}
+<div class="actor-profile-wrapper">
+  {% if actor.bundle_id == 'empresa_explotadora_de_conocimie' or actor.bundle_id == 'empresa_generadora_de_conocimien' %}
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-3 d-flex align-items-center justify-content-center">
+          <img src="{{ actor.imagen_perfil ? actor.imagen_perfil : 'https://placehold.co/100x100?text=Empresa' }}" class="img-fluid rounded-start p-3" alt="Company Logo">
+        </div>
+        <div class="col-md-9">
+          <div class="card-body">
+            <p class="card-text text-muted mb-0">{{ actor.field_tipo_actor }}</p>
+            <h4 class="card-title">{{ actor.label }}</h4>
+            <p class="card-text">
+              <small class="text-muted">
+                <span class="icon-location-dot me-1 ms-3"></span>{{ actor.field_municipio }}
+              </small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Información General</h5>
+             <div class="row">
+              <div class="col-md-6">
+                <p class="card-text text-muted mb-0">Razón Social</p>
+                <p class="card-text">{{ actor.label }}</p>
+              </div>
+              <div class="col-md-6">
+                <p class="card-text text-muted mb-0">NIT</p>
+                <p class="card-text">{{ actor.nit_empresa }}</p>
+              </div>
+              <div class="col-md-12">
+                <p class="card-text text-muted mb-0">Descripción de la Empresa</p>
+                <p class="card-text">{{ actor.description | raw }}</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
+        {# Placeholder for Innovation Activity Accordion #}
+        <div class="accordion mb-3" id="accordionInnovationActivity">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingInnovationActivity">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInnovationActivity" aria-expanded="true" aria-controls="collapseInnovationActivity">
+                Actividad de Innovación
+              </button>
+            </h2>
+            <div id="collapseInnovationActivity" class="accordion-collapse collapse show" aria-labelledby="headingInnovationActivity" data-bs-parent="#accordionInnovationActivity">
+              <div class="accordion-body">
+                <p>Contenido de Actividad de Innovación para Empresas</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {# Placeholder for Innovation Challenges Accordion #}
+        <div class="accordion mb-3" id="accordionInnovationChallenges">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingInnovationChallenges">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInnovationChallenges" aria-expanded="true" aria-controls="collapseInnovationChallenges">
+                Retos de Innovación Publicados
+              </button>
+            </h2>
+            <div id="collapseInnovationChallenges" class="accordion-collapse collapse show" aria-labelledby="headingInnovationChallenges" data-bs-parent="#accordionInnovationChallenges">
+              <div class="accordion-body">
+                <p>Contenido de Retos de Innovación Publicados para Empresas</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-4">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Líneas de Negocio e Innovación</h5>
+            {% if actor.lineas_negocio is not empty %}
+                {% for linea in actor.lineas_negocio %}
+                    <p class="card-text">{{ linea }}</p>
+                {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+
+
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Contacto</h5>
+            <p class="card-text mt-3"><span class="icon-globe me-2"></span><strong>Sitio Web</strong></p>
+            <p class="card-text"><a href="{{ actor.field_website }}" target="_blank">{{ actor.field_website }}</a></p>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  {% else %}
+    <div class="actor-profile-header">
+      <h1 class="actor-profile-title">{{ actor.label }}</h1>
+      <div class="actor-profile-type">
+        <span class="badge bg-secondary">{{ actor.field_tipo_actor }}</span>
+      </div>
+    </div>
+
+    <div class="actor-profile-body">
+      {% if actor.description %}
+        <div class="actor-profile-section">
+          <h3>Descripción</h3>
+          <p>{{ actor.description }}</p>
+        </div>
+      {% endif %}
+
+      {% if actor.field_municipio %}
+        <div class="actor-profile-section">
+          <h3>Municipio</h3>
+          <p>{{ actor.field_municipio }}</p>
+        </div>
+      {% endif %}
+
+      {% if actor.field_fomento %}
+        <div class="actor-profile-section">
+          <h3>Fomento</h3>
+          <p>{{ actor.field_fomento }}</p>
+        </div>
+      {% endif %}
+
+      {% if actor.field_website %}
+        <div class="actor-profile-section">
+          <h3>Sitio Web</h3>
+          <p><a href="{{ actor.field_website }}" target="_blank">{{ actor.field_website }}</a></p>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="actor-profile-footer">
+      <a href="/actores/list" class="btn btn-primary">Volver a la lista de actores</a>
+    </div>
+  {% endif %}
+</div>

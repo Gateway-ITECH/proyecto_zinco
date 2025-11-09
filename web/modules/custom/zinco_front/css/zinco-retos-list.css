@@ -1,8 +1,9 @@
 /* Add custom styles for zinco retos list here. */
 .zinco-retos-list .card {
-  border: 1px solid #e0e0e0;
+  border: 0.3px solid #e0e0e0;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background: #112240;
   transition: transform 0.2s ease-in-out;
 }
 
@@ -11,7 +12,7 @@
 }
 
 .zinco-retos-list .card-title a {
-  color: #0056b3;
+  color: #fff;
   text-decoration: none;
 }
 

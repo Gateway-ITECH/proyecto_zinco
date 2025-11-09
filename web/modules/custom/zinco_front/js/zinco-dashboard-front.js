@@ -106,7 +106,7 @@
             if (data.url) {
               const url = data.url;
               window.open(url, '_blank');
-              alert('PDF generado y abierto en una nueva pestaña.');
+              //alert('PDF generado y abierto en una nueva pestaña.');
             } else {
               throw new Error('URL del PDF no encontrada en la respuesta.');
             }

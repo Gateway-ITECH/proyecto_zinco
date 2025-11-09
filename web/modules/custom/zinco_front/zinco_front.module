@@ -101,6 +101,18 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'zinco-retos-list',
     ],
+    'zinco_landing_page' => [
+      'variables' => [
+        'title' => NULL,
+      ],
+      'template' => 'zinco-landing-page',
+    ],
+    'zinco_actor_profile' => [
+      'variables' => [
+        'actor' => NULL,
+      ],
+      'template' => 'zinco-actor-profile',
+    ],
   ];
 }
 

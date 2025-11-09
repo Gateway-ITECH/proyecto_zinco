@@ -601,6 +601,23 @@ class ZincoController extends ControllerBase {
         }
       }
 
+      /**
+       * Returns a landing page.
+       *
+       * @return array
+       *   A renderable array.
+       */
+      public function landingPage() {
+        return [
+          '#theme' => 'zinco_landing_page',
+          '#attached' => [
+            'library' => [
+              'zinco_front/zinco-landing-page',
+            ],
+          ],
+        ];
+      }
+
 }
- 
- 
+
+  

@@ -58,7 +58,6 @@ class RetosController extends ControllerBase {
   public function listarRetos() {
     $retos = [];
     $filters_param = $this->requestStack->getCurrentRequest()->query->get('filters');
-    var_dump($filters_param);
     $search_term = $this->requestStack->getCurrentRequest()->query->get('search_term');
     $estado_ids = [];
     if (!empty($filters_param)) {

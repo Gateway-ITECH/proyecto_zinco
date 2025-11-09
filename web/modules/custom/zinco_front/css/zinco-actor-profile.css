@@ -1,0 +1,123 @@
+/* Basic styling for the actor profile page */
+.actor-profile-wrapper {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.actor-profile-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.actor-profile-title {
+  font-size: 2.5em;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.actor-profile-type .badge {
+  font-size: 1em;
+  padding: 8px 15px;
+  border-radius: 20px;
+}
+
+.actor-profile-body .actor-profile-section {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #fff;
+  border-left: 4px solid #007bff;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.actor-profile-body .actor-profile-section h3 {
+  color: #007bff;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.3em;
+}
+
+.actor-profile-body .actor-profile-section p {
+  line-height: 1.6;
+  color: #555;
+}
+
+.actor-profile-footer {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.actor-profile-footer .btn {
+  padding: 10px 25px;
+  font-size: 1.1em;
+  border-radius: 5px;
+}
+
+/* Specific styles for company profile */
+.card-body .card-text strong {
+  font-weight: 600;
+}
+
+.card-body .card-text .icon-industry,
+.card-body .card-text .icon-users,
+.card-body .card-text .icon-location-dot {
+  margin-right: 5px;
+  color: #007bff; /* Example color */
+}
+
+.accordion-button {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.accordion-button:not(.collapsed) {
+  color: #0056b3;
+  background-color: #e7f1ff;
+}
+
+.nav-tabs .nav-link.active {
+  font-weight: bold;
+  color: #007bff;
+  border-color: #007bff #007bff #fff;
+}
+
+.badge.bg-success-subtle {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.badge.bg-warning-subtle {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.badge.bg-secondary-subtle {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+.list-unstyled .icon-seedling,
+.list-unstyled .icon-flask,
+.list-unstyled .icon-leaf,
+.list-unstyled .icon-robot,
+.card-body .icon-building,
+.card-body .icon-phone,
+.card-body .icon-envelope,
+.card-body .icon-globe {
+  color: #28a745; /* Example color for icons */
+}
+
+.actor-profile-wrapper .card {
+  border: 1px solid #1a3a5f; /* Slightly lighter dark blue border */
+  border-radius: 12px;
+  background: #112240; /* Darker blue background for cards */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.actor-profile-wrapper .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
