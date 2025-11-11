@@ -91,6 +91,7 @@ class ZincoRetosEvaluacion extends ContentEntityBase implements ZincoRetosEvalua
     $fields['label'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Label'))
       ->setRequired(TRUE)
+      ->setDefaultValue('Nueva evaluación')
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',

@@ -1,0 +1,28 @@
+{#
+/**
+ * @file
+ * Default theme implementation for a list of Zinco Actor bundles.
+ *
+ * Available variables:
+ * - bundles: An array of actor bundle data, each with:
+ *   - id: The machine name of the bundle.
+ *   - label: The human-readable label of the bundle.
+ */
+#}
+{% if bundles %}
+  <p>{{ 'Selecciona el tipo de actor para continuar con el registro'|t }}</p>
+  <div class="row">
+    {% for bundle in bundles %}
+      <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title mb-5" style="color: #333; min-height: 50px">{{ bundle.label }}</h5>
+            <a href="/actores/add/{{ bundle.id }}" class="btn btn-primary">{{ 'Seleccionar'|t }}</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>{{ 'No actor bundles found.'|t }}</p>
+{% endif %}

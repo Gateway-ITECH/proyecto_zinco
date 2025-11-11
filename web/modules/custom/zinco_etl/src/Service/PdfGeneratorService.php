@@ -202,6 +202,19 @@ class PdfGeneratorService {
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; color: #333; }
         tr:nth-child(even) { background-color: #f9f9f9; }
+        footer {
+        /* Configuración esencial para Dompdf */
+        position: fixed; 
+        bottom: 0px; 
+        width: 100%;
+        
+        /* Estilos de apariencia */
+        text-align: center;
+        border-top: 1px solid #ccc;
+        padding: 5px 0;
+        font-size: 10px;
+        background-color: #f9f9f9;
+    }
     </style>
 </head>
 <body>
@@ -250,7 +263,8 @@ class PdfGeneratorService {
       $html .= '</table>';
     }
 
-    $html .= '</body>
+    $html .= '<footer><p>Reporte generado por Plataforma Zinco desarrollada en el marco del proyecto de Fortalecimiento del sistema territorial de ciencias tecnología e innovación soportado en transformación digital e industria 4.0 en el departamento de Córdoba - BPIN 2021000100455' . date('Y-m-d H:i:s') . '</p></footer>
+</body>
 </html>';
 
     return $html;

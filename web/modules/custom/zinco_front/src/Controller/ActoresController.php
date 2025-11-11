@@ -4,7 +4,9 @@ namespace Drupal\zinco_front\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
+use Drupal\Core\Entity\EntityFormBuilderInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\File\FileSystemInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -37,11 +39,25 @@ class ActoresController extends ControllerBase {
   protected $fileSystem;
 
   /**
-   * The file URL generator.
+   *   The file URL generator.
    *
    * @var \Drupal\Core\File\FileUrlGeneratorInterface
    */
   protected $fileUrlGenerator;
+
+  /**
+   * The entity form builder.
+   *
+   * @var \Drupal\Core\Entity\EntityFormBuilderInterface
+   */
+  protected $entityFormBuilder;
+
+  /**
+   * The entity type bundle info.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeBundleInfoInterface
+   */
+  protected $entityTypeBundleInfo;
 
   /**
    * Constructs a new ActoresController object.
@@ -54,12 +70,18 @@ class ActoresController extends ControllerBase {
    *   The file system service.
    * @param \Drupal\Core\File\FileUrlGeneratorInterface $file_url_generator
    *   The file URL generator service.
+   * @param \Drupal\Core\Entity\EntityFormBuilderInterface $entity_form_builder
+   *   The entity form builder.
+   * @param \Drupal\Core\Entity\EntityTypeBundleInfoInterface $entity_type_bundle_info
+   *   The entity type bundle info.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $request_stack, FileSystemInterface $file_system, FileUrlGeneratorInterface $file_url_generator) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $request_stack, FileSystemInterface $file_system, FileUrlGeneratorInterface $file_url_generator, EntityFormBuilderInterface $entity_form_builder, EntityTypeBundleInfoInterface $entity_type_bundle_info) {
     $this->entityTypeManager = $entity_type_manager;
     $this->requestStack = $request_stack;
     $this->fileSystem = $file_system;
     $this->fileUrlGenerator = $file_url_generator;
+    $this->entityFormBuilder = $entity_form_builder;
+    $this->entityTypeBundleInfo = $entity_type_bundle_info;
   }
 
   /**
@@ -70,7 +92,9 @@ class ActoresController extends ControllerBase {
       $container->get('entity_type.manager'),
       $container->get('request_stack'),
       $container->get('file_system'),
-      $container->get('file_url_generator')
+      $container->get('file_url_generator'),
+      $container->get('entity.form_builder'),
+      $container->get('entity_type.bundle.info')
     );
   }
 
@@ -536,5 +560,64 @@ class ActoresController extends ControllerBase {
       return $this->redirect('zinco_front.actores_list');
     }
   }
+
+  /**
+   * Returns a list of actor bundles.
+   *
+   * @return array
+   *   A renderable array.
+   */
+  public function listActorBundles() {
+    $bundle_storage = $this->entityTypeManager->getStorage('zinco_actors_zincoactors_type');
+    $bundles = $bundle_storage->loadMultiple();
+
+    $bundle_data = [];
+    foreach ($bundles as $bundle_id => $bundle_entity) {
+      $bundle_data[] = [
+        'id' => $bundle_id,
+        'label' => $bundle_entity->label(),
+      ];
+     
+    
+    }
+
+    return [
+      '#theme' => 'zinco_actor_bundles_list',
+      '#bundles' => $bundle_data,
+      '#cache' => [
+        'tags' => $this->entityTypeManager->getDefinition('zinco_actors_zincoactors_type')->getListCacheTags(),
+      ],
+    ];
+  }
+
+
+  /**
+       * Generates an actor creation form for a specific bundle.
+       *
+       * @param string $bundle
+       *   The machine name of the actor bundle.
+       *
+       * @return array
+       *   A renderable array containing the actor creation form.
+       */
+      public function addActorFormByBundle(string $bundle) {
+        $bundle_info = $this->entityTypeBundleInfo->getBundleInfo('zinco_actors_zincoactors');
+        if (!isset($bundle_info[$bundle])) {
+          $this->messenger()->addError($this->t('Invalid actor bundle: @bundle', ['@bundle' => $bundle]));
+          return $this->redirect('zinco_front.actor_bundles_list');
+        }
+    
+        $actor = $this->entityTypeManager->getStorage('zinco_actors_zincoactors')->create(['bundle' => $bundle]);
+        $form = $this->entityFormBuilder->getForm($actor, 'default');
+    
+        return [
+          '#theme' => 'zinco_actor_form_by_bundle',
+          '#actor_form' => $form,
+          '#bundle_label' => $bundle_info[$bundle]['label'],
+          '#cache' => [
+            'tags' => $this->entityTypeManager->getDefinition('zinco_actors_zincoactors')->getListCacheTags(),
+          ],
+        ];
+      }
 
 }

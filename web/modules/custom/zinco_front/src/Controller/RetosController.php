@@ -4,6 +4,7 @@ namespace Drupal\zinco_front\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Form\FormBuilderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -26,6 +27,13 @@ class RetosController extends ControllerBase {
   */
  protected $requestStack;
 
+ /**
+  * The form builder.
+  *
+  * @var \Drupal\Core\Form\FormBuilderInterface
+  */
+ protected $formBuilder;
+
   /**
    * Constructs a new RetosController object.
    *
@@ -34,9 +42,10 @@ class RetosController extends ControllerBase {
    * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
    *   The request stack.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $request_stack) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $request_stack, FormBuilderInterface $form_builder) {
     $this->entityTypeManager = $entity_type_manager;
     $this->requestStack = $request_stack;
+    $this->formBuilder = $form_builder;
   }
 
   /**
@@ -45,7 +54,8 @@ class RetosController extends ControllerBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('entity_type.manager'),
-      $container->get('request_stack')
+      $container->get('request_stack'),
+      $container->get('form_builder')
     );
   }
 
@@ -203,8 +213,9 @@ class RetosController extends ControllerBase {
         //$reto_data['visibilidad_reto'] = $reto->hasField('visibilidad_reto') && !$reto->get('visibilidad_reto')->isEmpty() ? ($reto->get('visibilidad_reto')->value ? 'Público' : 'Privado') : 'Privado';
 
         // Generate profile link.
-        $reto_data['profile_link'] = '/zinco_retos_innovacion/' . $reto->id();
+        $reto_data['profile_link'] = '/retos/' . $reto->id();
 
+        
         return $reto_data;
       }, $retos);
     }
@@ -232,5 +243,198 @@ class RetosController extends ControllerBase {
       ],
     ];
   }
+
+  /**
+   * Returns a reto detail page.
+   *
+   * @param int $reto_id
+   *   The ID of the reto to display.
+   *
+   * @return array
+   *   A renderable array.
+   */
+  public function verDetalleReto($reto_id) {
+    try {
+      $reto_storage = $this->entityTypeManager->getStorage('zinco_retos_innovacion');
+      $reto = $reto_storage->load($reto_id);
+
+      if (!$reto) {
+        throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+      }
+
+      $reto_data = [];
+      $reto_data['id'] = $reto->id();
+      $reto_data['label'] = $reto->label();
+      $reto_data['description'] = $reto->hasField('description') && !$reto->get('description')->isEmpty() ? $reto->get('description')->value : '';
+      $reto_data['fecha_inicio'] = $reto->hasField('fecha_inicio') && !$reto->get('fecha_inicio')->isEmpty() ? $reto->get('fecha_inicio')->value : '';
+      $reto_data['fecha_fin'] = $reto->hasField('fecha_fin') && !$reto->get('fecha_fin')->isEmpty() ? $reto->get('fecha_fin')->value : '';
+
+      // Calculate days remaining until fecha_fin.
+      if (!empty($reto_data['fecha_fin'])) {
+        $current_date = new \DateTime();
+        $end_date = new \DateTime($reto_data['fecha_fin']);
+        $interval = $current_date->diff($end_date);
+        $reto_data['days_remaining'] = $interval->days;
+      } else {
+        $reto_data['days_remaining'] = 0;
+      }
+
+      // Get the label of the 'estado_reto_innovacion' taxonomy term.
+      if ($reto->hasField('estado_reto_innovacion') && !$reto->get('estado_reto_innovacion')->isEmpty()) {
+        $estado_tid = $reto->get('estado_reto_innovacion')->target_id;
+        $estado_term = $this->entityTypeManager->getStorage('taxonomy_term')->load($estado_tid);
+        $reto_data['estado_reto_innovacion'] = $estado_term ? $estado_term->label() : '';
+        $reto_data['estado_icono'] = $estado_term && $estado_term->hasField('field_icono') && !$estado_term->get('field_icono')->isEmpty() ? $estado_term->get('field_icono')->value : '';
+      } else {
+        $reto_data['estado_reto_innovacion'] = '';
+        $reto_data['estado_icono'] = '';
+      }
+
+      // Get the labels of the 'area_enfoque' taxonomy terms.
+      $reto_data['area_enfoque'] = [];
+      if ($reto->hasField('area_enfoque') && !$reto->get('area_enfoque')->isEmpty()) {
+        foreach ($reto->get('area_enfoque')->referencedEntities() as $term) {
+          $reto_data['area_enfoque'][] = $term->label();
+        }
+      }
+
+      // Get the label of the 'organizador_reto' entity.
+      if ($reto->hasField('organizador_reto') && !$reto->get('organizador_reto')->isEmpty()) {
+        $organizador_names = [];
+        foreach ($reto->get('organizador_reto')->referencedEntities() as $organizador_entity) {
+          if ($organizador_entity) {
+            $organizador_names[] = $organizador_entity->label();
+          }
+        }
+        $reto_data['organizador_reto'] = implode(', ', $organizador_names);
+      } else {
+        $reto_data['organizador_reto'] = '';
+      }
+
+      //agregar campo descripcion_corta
+      $reto_data['descripcion_corta'] = $reto->hasField('field_descripcion_corta') && !$reto->get('field_descripcion_corta')->isEmpty() ? $reto->get('field_descripcion_corta')->value : '';
+
+      //agregar campo requisitos_restricciones
+      $reto_data['requisitos_restricciones'] = $reto->hasField('field_requisitos_restricciones') && !$reto->get('field_requisitos_restricciones')->isEmpty() ? $reto->get('field_requisitos_restricciones')->value : '';
+
+      //agregar campo criterios_reto tipo paragraph con varios campos de texto
+      $reto_data['criterios_reto'] = [];
+      if ($reto->hasField('field_criterios_reto') && !$reto->get('field_criterios_reto')->isEmpty()) {
+        foreach ($reto->get('field_criterios_reto') as $item) {
+          $paragraph = $item->entity;
+          if ($paragraph) {
+            $reto_data['criterios_reto'][] = [
+              'field_descripcion_criterio' => $paragraph->get('field_descripcion_criterio')->value,
+              'field_nombre_criterio' => $paragraph->get('field_nombre_criterio')->value,
+              'field_peso_criterio' => $paragraph->get('field_peso_criterio')->value
+            ];
+          }
+        }
+      }
+
+      //agregar campo recompensas_reto
+      $reto_data['recompensas_reto'] = $reto->hasField('recompensas_reto') && !$reto->get('recompensas_reto')->isEmpty() ? $reto->get('recompensas_reto')->value : '';
+
+
+      // Obtener las entidades de tipo zinco_retos_soluciones relacionadas con el reto actual.
+      $reto_data['soluciones'] = [];
+      $soluciones_query = $this->entityTypeManager->getStorage('zinco_retos_soluciones')->getQuery()
+        ->condition('field_reto_asociado', $reto->id())
+        ->condition('status', 1)
+        ->sort('created', 'DESC')
+        ->range(0, 9) // Limitar a las 10 soluciones más recientes.
+        ->accessCheck(FALSE)
+        ->execute();
+
+      if (!empty($soluciones_query)) {
+        $soluciones = $this->entityTypeManager->getStorage('zinco_retos_soluciones')->loadMultiple($soluciones_query);
+        foreach ($soluciones as $solucion) {
+          $reto_data['soluciones'][] = [
+            'id' => $solucion->id(),
+            'label' => $solucion->label(),
+            'description' => $solucion->get('description')->value,
+            'author' => $solucion->getOwner()->getDisplayName(),
+            // Add other fields as needed.
+          ];
+        }
+      }
+      
+
+      return [
+        '#theme' => 'zinco_reto_detail',
+        '#reto' => $reto_data,
+        '#cache' => [
+          'tags' => $this->entityTypeManager->getDefinition('zinco_retos_innovacion')->getListCacheTags(),
+          'contexts' => ['url'],
+        ],
+        '#attached' => [
+          'library' => [
+            'zinco_front/zinco-reto-detail',
+          ],
+        ],
+      ];
+    }
+    catch (\Exception $e) {
+      $this->messenger()->addError($this->t('Error loading reto: @message', ['@message' => $e->getMessage()]));
+      return [];
+    }
+  }
+
+
+  /**
+   * Displays the reto solution submission form.
+   *
+   * @param int $reto_id
+   *   The ID of the reto to submit a solution for.
+   *
+   * @return array
+   *   A renderable array containing the form.
+   */
+  public function submitRetoSolutionForm($reto_id) {
+    $entity = $this->entityTypeManager()->getStorage('zinco_retos_soluciones')->create([
+      'reto_id' => $reto_id,
+    ]);
+    //asignar id del reto al campo field_reto_asociado
+    $entity->set('field_reto_asociado', $reto_id);
+
+    // Load the 'No revisado' term from 'estados_de_postulacion_a_retos' vocabulary.
+    $term_storage = $this->entityTypeManager()->getStorage('taxonomy_term');
+    $terms = $term_storage->loadByProperties([
+      'vid' => 'estados_de_postulacion_a_retos',
+      'name' => 'No revisado',
+    ]);
+    $no_revisado_term = reset($terms);
+
+    if ($no_revisado_term) {
+      $entity->set('field_estado_postulacion_idea', $no_revisado_term->id());
+    }
+
+    $form = $this->entityFormBuilder()->getForm($entity, 'frontend_add');
+    $form['field_reto_asociado']['#access'] = FALSE;
+    $form['field_retroalimentacion']['#access'] = FALSE;
+    $form['field_revisores_postulacion']['#access'] = FALSE;
+    $form['field_estado_postulacion_idea']['#access'] = FALSE;
+    $form['contextual_alert'] = [
+        '#type' => 'markup',
+        '#markup' => $this->t('<div class="alert alert-info">En caso que no encuentre el nombre del autor puede registrarlo <a href="/actores/bundles">aquí</a></div>'),
+        // Asignar un peso negativo lo coloca al principio del formulario.
+        // Los elementos del formulario principal suelen tener pesos cercanos a 0 o positivos.
+        '#weight' => 2, 
+    ];
+    //$form['#submit'][] = [$this, 'retosPropuestasSubmitHandler'];
+    
+    return [
+      '#theme' => 'zinco_reto_solution_form',
+      '#form' => $form,
+      '#reto_id' => $reto_id,
+      '#cache' => [
+        'contexts' => ['url.query_args'],
+      ],
+    ];
+  }
+
+  // public function retosPropuestasSubmitHandler(array &$form, FormStateInterface $form_state) {
+  //   $form_state->setRedirect('zinco_front.landing_page');
+  // }
 
 }

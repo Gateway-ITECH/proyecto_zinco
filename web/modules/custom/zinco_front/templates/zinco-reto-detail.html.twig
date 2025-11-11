@@ -1,0 +1,94 @@
+{#
+/**
+ * @file zinco-reto-detail.html.twig
+ * Default theme implementation to display a single reto.
+ *
+ * Available variables:
+ * - reto: A renderable array of the reto data.
+ */
+#}
+<div class="reto-detail-page">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/retos/list">Retos</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ reto.label }}</li>
+          </ol>
+        </nav>
+        <h1 class="reto-title">{{ reto.label }}</h1>
+        <p class="reto-subtitle">{{ reto.descripcion_corta }}</p>
+
+        <div class="reto-section">
+          <h3>Descripción Detallada</h3>
+          <p>{{ reto.description | raw }}</p>
+        </div>
+
+        <div class="reto-section">
+          <h3>Requisitos y Restricciones</h3>
+          <p>{{ reto.requisitos_restricciones | raw }}</p>
+        </div>
+
+        <div class="reto-section">
+          <h3>Criterios de Evaluación</h3>
+          <ul>
+            {% for item in reto.criterios_reto %}
+                 <li><strong>{{ item.field_nombre_criterio }} ({{ item.field_peso_criterio }}%):</strong> {{ item.field_descripcion_criterio }}.</li>
+            {% endfor %}  
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">¿Listo para innovar?</h5>
+            <p class="card-text">Tu siguiente gran idea podría dar forma al futuro.</p>
+            <a href="/retos/{{ reto.id }}/solution/add" class="btn btn-primary btn-block"><i class="fas fa-lightbulb"></i> Envía tu propuesta</a>
+          </div>
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">Detalles del reto</h5>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><i class="fas fa-user"></i> <strong>Organizadores</strong><br>{{ reto.organizador_reto }}</li>
+              <li class="list-group-item"><i class="fas fa-trophy"></i> <strong>Premios</strong><br> {{ reto.recompensas_reto | raw }}</li>
+              <li class="list-group-item"><i class="fas fa-calendar-alt"></i> <strong>Fecha límite</strong><br> {{ reto.fecha_fin }}</li>
+            </ul>
+          </div>
+        </div>
+
+        {% if reto.estado_reto_innovacion %}
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">Fase Actual</h5>
+            <span class="badge bg-primary"><i class="{{ reto.estado_icono }}"></i> {{ reto.estado_reto_innovacion }}</span>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <h2 class="mb-4">Propuestas recibidas</h2>
+        <div class="card-deck">
+          {% if reto.soluciones %}
+            {% for solucion in reto.soluciones %}
+              <div class="card mb-3">
+                <div class="card-body">
+                  <h5 class="card-title">{{ solucion.label }}</h5>
+                  <p class="card-text">{{ solucion.description }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <p>No se han recibido propuestas para este reto aún.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

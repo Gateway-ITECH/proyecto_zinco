@@ -73,3 +73,16 @@ zinco-actor-profile:
     - core/drupal
     - core/once
     - bootstrap_barrio/global-styling
+
+zinco-reto-detail:
+  version: 1.x
+  css:
+    theme:
+      css/zinco-reto-detail.css: {}
+      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css: { type: external, minified: true }
+  js:
+    js/zinco-reto-detail.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
+    - bootstrap_barrio/global-styling

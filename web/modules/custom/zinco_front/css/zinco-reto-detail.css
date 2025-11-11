@@ -1,0 +1,177 @@
+/*
+ * @file
+ * zinco-reto-detail.css
+ */
+
+.reto-detail-page {
+  padding: 20px 0;
+}
+
+.reto-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.reto-subtitle {
+  font-size: 1.1rem;
+  color: #6c757d;
+  margin-bottom: 1.5rem;
+}
+
+.reto-section {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.reto-section h3 {
+  color: #007bff;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.reto-section ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.reto-section ul li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.card {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.card-title {
+  color: #212529;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.list-group-item {
+  border: none;
+  padding-left: 0;
+}
+
+.list-group-item i {
+  margin-right: 10px;
+  color: #007bff;
+}
+
+/* Timeline styling for "Fase Actual" */
+.timeline {
+  position: relative;
+  padding-left: 25px;
+}
+
+.timeline:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 8px;
+  height: 100%;
+  width: 2px;
+  background-color: #e9ecef;
+}
+
+.timeline .list-group-item {
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 15px;
+}
+
+.timeline .list-group-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline .list-group-item i {
+  position: absolute;
+  left: 0;
+  top: 5px;
+  font-size: 1.2em;
+  background-color: #fff; /* To cover the line */
+  padding-right: 5px;
+}
+
+.timeline .list-group-item.active i {
+  color: #28a745; /* Green for active phase */
+}
+
+.timeline .list-group-item i {
+  font-size: 1.2em;
+  margin-right: 10px;
+}
+
+.timeline .list-group-item small {
+  display: block;
+  color: #6c757d;
+  font-size: 0.85em;
+}
+
+/* Submitted Proposals section */
+.card-deck {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.card-deck .card {
+  flex: 1 0 30%; /* Approx 3 cards per row */
+  margin: 0 15px 15px 0;
+  max-width: calc(33.333% - 15px);
+}
+
+.card-deck .card:nth-child(3n) {
+  margin-right: 0;
+}
+
+.card-deck .card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-deck .card-text {
+  flex-grow: 1;
+  margin-bottom: 15px;
+}
+
+.card-deck .d-flex img {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+}
+
+.card-deck .d-flex {
+  font-size: 0.9em;
+  color: #6c757d;
+}
+
+.card-deck .d-flex i {
+  color: #007bff;
+  margin-right: 5px;
+}
+
+.card-text{
+  color: #333;
+}

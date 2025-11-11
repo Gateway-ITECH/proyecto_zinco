@@ -44,6 +44,7 @@ use Drupal\zinco_retos_soluciones\ZincoRetosSolucionesListBuilder;
       'edit' => ZincoRetosSolucionesForm::class,
       'delete' => ContentEntityDeleteForm::class,
       'delete-multiple-confirm' => DeleteMultipleForm::class,
+      'frontend_add' => ZincoRetosSolucionesForm::class
     ],
     'route_provider' => [
       'html' => AdminHtmlRouteProvider::class,
@@ -91,7 +92,7 @@ class ZincoRetosSoluciones extends ContentEntityBase implements ZincoRetosSoluci
     $fields['label'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Título'))
       ->setRequired(TRUE)
-      ->setDefaultValue('Nueva evaluación de solución a reto')
+      ->setDefaultValue('Nueva solución')
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',
@@ -184,4 +185,51 @@ class ZincoRetosSoluciones extends ContentEntityBase implements ZincoRetosSoluci
     return $fields;
   }
 
+  /**
+   * {@inheritdoc}
+   *
+   * Sobrescribimos este método para establecer una URL de redirección específica
+   * para la operación 'frontend_add'.
+   */
+  protected function getRedirectUrl() {
+    
+    // 1. Verifica si la operación actual es 'frontend_add'.
+    var_dump($this->operation);
+    if ($this->operation === 'frontend_add') {
+      
+      // 2. Devuelve la URL a la que deseas redirigir.
+      // Puedes usar fromRoute() para rutas definidas en routing.yml.
+      //return Url::fromRoute('mymodule.success_page');
+      
+      // O a la página principal de la entidad después de la creación:
+      // return Url::fromRoute('entity.zinco_retos_soluciones.collection');
+      
+      // O a una URL absoluta:
+      return Url::fromUri('https://tusitio.com/gracias');
+    }
+
+    // 3. Para cualquier otra operación (default, edit, delete), 
+    // se utiliza la lógica de redirección base de la entidad (generalmente a la vista de la entidad).
+    return parent::getRedirectUrl();
+  }
+
+
+  public function customFrontendRedirect(array &$form, FormStateInterface $form_state) {
+    // 1. Opcional: Verifica que la entidad se haya guardado correctamente, 
+    // aunque este handler generalmente solo se ejecuta en caso de éxito.
+    $entity = $this->entity; 
+    
+    // 2. Verifica la operación para asegurar la especificidad.
+    if ($this->operation === 'frontend_add') {
+        // 3. Forzar la redirección a una ruta específica.
+        // Esto sobrescribe cualquier redirección que el handler principal haya intentado establecer.
+        $form_state->setRedirect('mymodule.success_page'); 
+        
+        // Si necesitas redirigir al ID de la entidad recién creada:
+        // $form_state->setRedirect('entity.zinco_retos_soluciones.canonical', ['zinco_retos_soluciones' => $entity->id()]);
+    }
 }
+
+}
+
+

@@ -45,6 +45,7 @@ use Drupal\zinco_actors\ZincoActorsListBuilder;
       'edit' => ZincoActorsForm::class,
       'delete' => ContentEntityDeleteForm::class,
       'delete-multiple-confirm' => DeleteMultipleForm::class,
+      'default' => ZincoActorsForm::class,
     ],
     'route_provider' => [
       'html' => AdminHtmlRouteProvider::class,

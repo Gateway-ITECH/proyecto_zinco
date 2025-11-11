@@ -113,6 +113,32 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'zinco-actor-profile',
     ],
+    'zinco_reto_detail' => [
+      'variables' => [
+        'reto' => NULL,
+      ],
+      'template' => 'zinco-reto-detail',
+    ],
+    'zinco_reto_solution_form' => [
+      'variables' => [
+        'form' => NULL,
+        'reto_id' => NULL
+      ],
+      'template' => 'zinco-reto-solution-form',
+    ],
+    'zinco_actor_bundles_list' => [
+      'variables' => [
+        'bundles' => NULL,
+      ],
+      'template' => 'zinco-actor-bundles-list',
+    ],
+    'zinco_actor_form_by_bundle' => [
+      'variables' => [
+        'actor_form' => NULL,
+        'bundle_label' => NULL,
+      ],
+      'template' => 'zinco-actor-form-by-bundle',
+    ],
   ];
 }
 
@@ -124,4 +150,28 @@ function zinco_front_user_update(UserInterface $account) {
   var_dump($account->getCacheTags());
   \Drupal::service('cache_tags.invalidator')->invalidateTags($account->getCacheTags());
 }
+/**
+ * Implements hook_form_alter().
+ */
+function zinco_front_form_alter($form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  $form_object = $form_state->getFormObject();
+
+    // 1. Verifica que estamos en la operación 'frontend_add' de tu entidad.
+    if (get_class($form_object) === 'Drupal\zinco_retos_soluciones\Form\ZincoRetosSolucionesForm' && 
+        $form_object->getOperation() === 'frontend_add') 
+    {
+        // 2. Agrega el nuevo método al final del array de submit handlers.
+        // La sintaxis '::customFrontendRedirect' indica que es un método del objeto formulario.
+
+    }
+}
+
+
+  
+
+
+
+
+
+
 

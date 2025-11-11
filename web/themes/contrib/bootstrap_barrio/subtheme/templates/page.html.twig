@@ -70,7 +70,8 @@
 {# see https://www.drupal.org/project/drupal/issues/953034#comment-14192130 #}
 {% set sidebar_first_exists = page.sidebar_first|render|striptags('<img><video><audio><drupal-render-placeholder>')|trim is not empty %}
 {% set sidebar_second_exists = page.sidebar_second|render|striptags('<img><video><audio><drupal-render-placeholder>')|trim is not empty %}
-
+<script src="https://elfsightcdn.com/platform.js" async></script>
+<div class="elfsight-app-5a19dab6-6bdf-4af0-8bed-57ec55a23c0e" data-elfsight-app-lazy></div>
 <div id="page-wrapper">
   <div id="page">
     <header id="header" class="header" role="banner" aria-label="{{ 'Site header'|t}}">
