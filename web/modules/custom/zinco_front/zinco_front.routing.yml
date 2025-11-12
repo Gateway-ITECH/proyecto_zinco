@@ -224,6 +224,32 @@ zinco_front.reto_solution_form:
      _permission: 'access content'
      reto_id: '\d+'
 
+zinco_front.reto_evaluar_list:
+  path: '/retos/evaluar'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\RetosController::listadoRetosEvaluar'
+    _title: ''
+  requirements:
+    _permission: 'access retos evaluacion'
+
+zinco_front.solution_detail:
+  path: '/retos/evaluar/{solution_id}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\RetosController::solutionDetail'
+    _title: 'Detalle de la Solución'
+  requirements:
+    _permission: 'access retos evaluacion'
+    solution_id: '\d+'
+
+zinco_front.reto_calificar:
+  path: '/retos/calificar/{solution_id}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\RetosController::calificarReto'
+    _title: ''
+  requirements:
+    _permission: 'access retos evaluacion'
+    solution_id: '\d+'
+
 zinco_front.actor_bundles_list:
   path: '/actores/bundles'
   defaults:
@@ -240,3 +266,4 @@ zinco_front.actor_add_by_bundle:
   requirements:
     _permission: 'access content'
     bundle: '\w+'
+

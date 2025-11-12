@@ -86,3 +86,42 @@ zinco-reto-detail:
     - core/drupal
     - core/once
     - bootstrap_barrio/global-styling
+
+zinco-reto-solution-detail:
+  version: 1.x
+  css:
+    theme:
+      css/zinco-reto-detail.css: {} # Reusing reto detail CSS for similar design
+      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css: { type: external, minified: true }
+  js:
+    js/zinco-reto-detail.js: {} # Reusing reto detail JS for similar functionality
+  dependencies:
+    - core/drupal
+    - core/once
+    - bootstrap_barrio/global-styling
+
+zinco-retos-evaluar-list:
+  version: 1.x
+  css:
+    theme:
+      css/zinco-retos-evaluar-list.css: {}
+      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css: { type: external, minified: true }
+  js:
+    js/zinco-retos-evaluar-list.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
+    - bootstrap_barrio/global-styling
+
+zinco-reto-calificar:
+  version: 1.x
+  css:
+    theme:
+      css/zinco-reto-calificar.css: {}
+      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css: { type: external, minified: true }
+  js:
+    js/zinco-reto-calificar.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
+    - bootstrap_barrio/global-styling

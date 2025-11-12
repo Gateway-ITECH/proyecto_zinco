@@ -1,0 +1,26 @@
+/* Styles for the reto solution evaluation form. */
+.zinco-reto-calificar-page {
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.zinco-reto-calificar-page h1 {
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.zinco-reto-calificar-page .solution-id {
+  font-size: 1.1em;
+  color: #ffffff;
+  margin-bottom: 15px;
+}
+
+.zinco-reto-calificar-page .reto-solution-evaluation-form {
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.zinco-reto-calificar-page label {
+  color: #fff;
+}

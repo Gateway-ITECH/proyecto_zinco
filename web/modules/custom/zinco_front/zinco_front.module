@@ -139,6 +139,27 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'zinco-actor-form-by-bundle',
     ],
+    'zinco_retos_evaluar_list' => [
+      'variables' => [
+        'soluciones' => NULL,
+      ],
+      'template' => 'zinco-retos-evaluar-list',
+    ],
+    'zinco_reto_solution_detail' => [
+      'variables' => [
+        'solution' => NULL,
+        'reto' => NULL
+      ],
+      'template' => 'zinco-reto-solution-detail',
+    ],
+
+     'zinco_reto_calificar' => [
+      'variables' => [
+        'solution_id' => NULL,
+        'form' => NULL,
+      ],
+      'template' => 'zinco-reto-calificar',
+    ],
   ];
 }
 

@@ -1,0 +1,4 @@
+access retos evaluacion:
+  title: 'Access retos evaluacion'
+  description: 'Allow users to access the retos evaluation list page.'
+  restrict access: true

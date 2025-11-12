@@ -44,6 +44,7 @@ use Drupal\zinco_retos_evaluacion\ZincoRetosEvaluacionListBuilder;
       'edit' => ZincoRetosEvaluacionForm::class,
       'delete' => ContentEntityDeleteForm::class,
       'delete-multiple-confirm' => DeleteMultipleForm::class,
+      'frontend_add' => ZincoRetosEvaluacionForm::class
     ],
     'route_provider' => [
       'html' => AdminHtmlRouteProvider::class,

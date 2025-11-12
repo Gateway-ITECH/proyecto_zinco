@@ -1,0 +1,41 @@
+{#
+/**
+ * @file
+ * Default theme implementation for a list of retos to evaluate.
+ *
+ * Available variables:
+ * - soluciones: An array of solutions to evaluate, each with the following keys:
+ *   - id: The ID of the solution.
+ *   - label: The label/title of the solution.
+ *   - description: The description of the solution.
+ *   - authors: A comma-separated string of authors of the solution.
+ *   - reto_asociado: The name of the associated reto.
+ *   - evaluate_link: The link to evaluate the solution.
+ */
+#}
+<div class="zinco-retos-evaluar-list">
+  <h2 class="mb-4">{{ 'Soluciones a Evaluar'|t }}</h2>
+  {% if soluciones %}
+    <div class="row">
+      {% for solucion in soluciones %}
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{ solucion.label }}</h5>
+              <p class="card-text">{{ solucion.description|length > 100 ? solucion.description|slice(0, 100) ~ '...' : solucion.description }}</p>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>{{ 'Solución de'|t }}:</strong> {{ solucion.authors }}</li>
+                <li class="list-group-item"><strong>{{ 'Reto Asociado'|t }}:</strong> <a href="/retos/{{ solucion.reto_asociado_id }}" target="_blank">{{ solucion.reto_asociado }}</a></li>
+              </ul>
+              <div class="mt-3">
+                <a href="{{ solucion.evaluate_link }}" class="btn btn-primary">{{ 'Evaluar Solución'|t }}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>{{ 'No hay soluciones disponibles para evaluar en este momento.'|t }}</p>
+  {% endif %}
+</div>

@@ -182,6 +182,7 @@ class ZincoRetosSoluciones extends ContentEntityBase implements ZincoRetosSoluci
       ->setLabel(t('Changed'))
       ->setDescription(t('The time that the zinco retos soluciones was last edited.'));
 
+
     return $fields;
   }
 

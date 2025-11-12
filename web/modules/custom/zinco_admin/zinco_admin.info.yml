@@ -1,0 +1,5 @@
+name: 'Zinco Admin'
+type: module
+description: 'Provides administrative functionalities for Zinco.'
+core_version_requirement: ^9 || ^10
+package: 'Custom'
