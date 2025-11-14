@@ -1,0 +1,5 @@
+zinco_admin.admin_styles:
+  version: 1.x
+  css:
+    theme:
+      css/zinco_admin.admin_styles.css: {}

@@ -1,6 +1,6 @@
 # Ignorar archivos y directorios de Drupal comunes
 
-/web/sites/default/default.services.yml
+
 
 # Directorios generados
 
@@ -14,7 +14,7 @@
 /web/sites/*/files/1*
 /web/sites/*/files/.h*
 /web/sites/*/files/cov*
-
+/web/sites/*/files/zinco_pdfs/
 
 
 /web/sites/*/private/
@@ -23,6 +23,7 @@
 /web/modules/contrib/
 /web/profiles/contrib/
 /web/libraries/
+
 
 # Archivos de configuración locales
 
@@ -89,3 +90,4 @@ yarn.lock
 /web/themes/custom/*/build/
 
 # Archivos de Drupal específicos para el sitio
+/web/sites/default/settings.php

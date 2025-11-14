@@ -4,3 +4,19 @@
  * @file
  * Primary module hooks for Zinco Admin module.
  */
+
+/**
+ * Implements hook_theme().
+ */
+function zinco_admin_theme() {
+  return [
+    'zinco_admin_dashboard' => [
+      'variables' => ['title' => NULL],
+      'template' => 'zinco-admin-dashboard',
+      'base hook' => 'page',
+    ],
+  ];
+}
+
+
+ //

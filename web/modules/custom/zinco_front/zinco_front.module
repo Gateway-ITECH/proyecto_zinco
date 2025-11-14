@@ -104,6 +104,9 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
     'zinco_landing_page' => [
       'variables' => [
         'title' => NULL,
+        'actores_registrados' => NULL,
+        'colaboraciones_facilitadas' => NULL,
+        'proyectos_activos' => NULL,
       ],
       'template' => 'zinco-landing-page',
     ],

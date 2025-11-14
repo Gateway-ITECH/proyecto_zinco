@@ -2,3 +2,7 @@ access zinco admin settings:
   title: 'Access Zinco Admin settings'
   description: 'Allow users to access the Zinco Admin configuration page.'
   restrict access: TRUE
+access zinco admin dashboard:
+  title: 'Access Zinco Admin Dashboard'
+  description: 'Allow users to access the Zinco Admin dashboard page.'
+  restrict access: TRUE

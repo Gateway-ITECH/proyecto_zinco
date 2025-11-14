@@ -1,0 +1,8 @@
+zinco_admin.admin_menu_link:
+  title: 'Zinco Admin'
+  description: 'Administer Zinco specific settings and view dashboard.'
+  parent: system.admin
+  route_name: zinco_admin.dashboard
+  weight: 99
+  requirements:
+    _permission: 'access zinco admin dashboard'

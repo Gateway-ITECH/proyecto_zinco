@@ -5,3 +5,29 @@ zinco_admin.settings_form:
     _title: 'Zinco Admin Settings'
   requirements:
     _permission: 'access administration pages'
+
+zinco_admin.dashboard:
+  path: '/admin/zinco/dashboard'
+  defaults:
+    _controller: '\Drupal\zinco_admin\Controller\AdminController::dashboard'
+    _title: 'Zinco Admin Dashboard'
+  requirements:
+    _permission: 'access zinco admin dashboard'
+  options:
+    _admin_route: TRUE
+
+zinco_admin.dashboard.tab:
+  path: '/admin/zinco/dashboard'
+  defaults:
+    _controller: '\Drupal\zinco_admin\Controller\AdminController::dashboard'
+    _title: 'Dashboard'
+  requirements:
+    _permission: 'access zinco admin dashboard'
+  options:
+    _admin_route: TRUE
+    parameters:
+      node:
+        type: 'entity:node'
+    _parent: 'system.admin_config'
+    _tab_parent: 'zinco_admin.settings_form'
+    _tab_route: 'zinco_admin.dashboard'

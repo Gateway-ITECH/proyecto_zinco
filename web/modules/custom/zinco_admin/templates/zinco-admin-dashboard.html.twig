@@ -1,0 +1,113 @@
+{#
+/**
+ * @file
+ * Zinco Admin dashboard template.
+ *
+ * Available variables:
+ * - title: The title of the dashboard.
+ */
+#}
+<div class="zinco-admin-dashboard">
+  <h2 class="visually-hidden">{{ title }}</h2>
+  <div class="layout-row clearfix">
+    <div class="layout-column layout-column--half">
+      <div class="panel">
+        <h3 class="panel__title">{{ 'Innovación Abierta (Open Innovation) 💡'|t }}</h3>
+        <div class="panel__content">
+          <dl class="admin-list--panel admin-list">
+            <div class="admin-item">
+              <dt class="admin-item__title"><a href="/admin/content/zinco-retos-innovacion" class="admin-item__link">{{ 'Open Innovation: Retos'|t }}</a></dt>
+              <dd class="admin-item__description">{{ 'Manage open innovation challenges.'|t }}</dd>
+            </div>
+            <div class="admin-item">
+              <dt class="admin-item__title"><a href="/admin/content/zinco-retos-soluciones" class="admin-item__link">{{ 'Postulaciones a Retos'|t }}</a></dt>
+              <dd class="admin-item__description">{{ 'Manage challenge applications.'|t }}</dd>
+            </div>
+            <div class="admin-item">
+              <dt class="admin-item__title"><a href="/admin/content/zinco-retos-evaluacion" class="admin-item__link">{{ 'Evaluaciones de Retos'|t }}</a></dt>
+              <dd class="admin-item__description">{{ 'Manage challenge evaluations.'|t }}</dd>
+            </div>
+            <div class="admin-item">
+              <dt class="admin-item__title"><a href="#" class="admin-item__link">{{ 'Call for Papers'|t }}</a></dt>
+              <dd class="admin-item__description">{{ 'Manage Call for Papers in the context of innovation challenges.'|t }}</dd>
+            </div>
+            <div class="admin-item">
+              <dt class="admin-item__title"><a href="/admin/reports/dblog?type%5B%5D=zinco_retos_soluciones" class="admin-item__link">{{ 'Registro de Sucesos de Retos'|t }}</a></dt>
+              <dd class="admin-item__description">{{ 'View and manage challenge event logs.'|t }}</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+      <div class="panel">
+        <h3 class="panel__title">{{ 'Actores CTI (Ciencia, Tecnología e Innovación) 🧑‍🔬'|t }}</h3>
+        <div class="panel__content">
+          <dl class="admin-list--panel admin-list">
+            <div class="admin-item">
+              <dt class="admin-item__title"><a href="/admin/content/zincoactors" class="admin-item__link">{{ 'Gestión de Actores'|t }}</a></dt>
+              <dd class="admin-item__description">{{ 'Manage CTI actors.'|t }}</dd>
+            </div>
+            <div class="admin-item">
+              <dt class="admin-item__title"><a href="/admin/config/zinco-etl/gruplac-scraper" class="admin-item__link">{{ 'Importar/Exportar Datos de Actores'|t }}</a></dt>
+              <dd class="admin-item__description">{{ 'Import and export CTI actor data.'|t }}</dd>
+            </div>
+            <div class="admin-item">
+              <dt class="admin-item__title"><a href="/admin/config/zinco-front/dashboard" class="admin-item__link">{{ 'Configuraciones de Dashboard de Actores'|t }}</a></dt>
+              <dd class="admin-item__description">{{ 'Configure settings for the CTI actors dashboard.'|t }}</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="layout-column layout-column--half">
+      <div class="panel">
+        <h3 class="panel__title">{{ 'Caja de Herramientas 🛠️'|t }}</h3>
+        <div class="panel__content">
+          <dl class="admin-list--panel admin-list">
+            <div class="admin-item">
+              <dt class="admin-item__title"><a href="/admin/content?title=&type=caja_de_herramientas&status=All" class="admin-item__link">{{ 'Gestión de Elementos de Caja de Herramientas'|t }}</a></dt>
+              <dd class="admin-item__description">{{ 'Manage toolbox elements.'|t }}</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+      <div class="panel">
+        <h3 class="panel__title">{{ 'Contenidos Dinámicos 📰'|t }}</h3>
+        <div class="panel__content">
+          <dl class="admin-list--panel admin-list">
+            <div class="admin-item">
+              <dt class="admin-item__title"><a href="#" class="admin-item__link">{{ 'Gestión de Convocatorias'|t }}</a></dt>
+              <dd class="admin-item__description">{{ 'Manage calls for proposals.'|t }}</dd>
+            </div>
+            <div class="admin-item">
+              <dt class="admin-item__title"><a href="/admin/content?title=&type=convocatoria&status=All" class="admin-item__link">{{ 'Gestión de Cursos'|t }}</a></dt>
+              <dd class="admin-item__description">{{ 'Manage courses.'|t }}</dd>
+            </div>
+            <div class="admin-item">
+              <dt class="admin-item__title"><a href="/admin/content?title=&type=evento&status=All" class="admin-item__link">{{ 'Gestión de Eventos'|t }}</a></dt>
+              <dd class="admin-item__description">{{ 'Manage events.'|t }}</dd>
+            </div>
+            <div class="admin-item">
+              <dt class="admin-item__title"><a href="/admin/content?title=&type=necesidad&status=All" class="admin-item__link">{{ 'Gestión de Necesidades'|t }}</a></dt>
+              <dd class="admin-item__description">{{ 'Manage needs.'|t }}</dd>
+            </div>
+            <div class="admin-item">
+              <dt class="admin-item__title"><a href="/admin/content?title=&type=noticia&status=All" class="admin-item__link">{{ 'Gestión de Noticias'|t }}</a></dt>
+              <dd class="admin-item__description">{{ 'Manage news.'|t }}</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+      <div class="panel">
+        <h3 class="panel__title">{{ 'Página de Inicio (Landing Page) 🌐'|t }}</h3>
+        <div class="panel__content">
+          <dl class="admin-list--panel admin-list">
+            <div class="admin-item">
+              <dt class="admin-item__title"><a href="#" class="admin-item__link">{{ 'Configuración de Landing Page'|t }}</a></dt>
+              <dd class="admin-item__description">{{ 'Configure landing page settings.'|t }}</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -608,14 +608,30 @@ class ZincoController extends ControllerBase {
        *   A renderable array.
        */
       public function landingPage() {
+        //obtener entidad tipo nodo con id 3
+        $entity = \Drupal::entityTypeManager()->getStorage('node')->load(3);
+        //obtener campo field_actores_registrados
+        $field_actores_registrados = $entity->get('field_actores_registrados')->value;  
+        //obtener campo field_colaboraciones_facilitadas
+        $field_colaboraciones_facilitadas = $entity->get('field_colaboraciones_facilitadas')->value;
+        //obtener campo field_proyectos_activos
+        $field_proyectos_activos = $entity->get('field_proyectos_activos')->value;
+
+
         return [
-          '#theme' => 'zinco_landing_page',
-          '#attached' => [
-            'library' => [
-              'zinco_front/zinco-landing-page',
-            ],
-          ],
-        ];
+                  '#theme' => 'zinco_landing_page',
+                  '#actores_registrados' => $field_actores_registrados,
+                  '#colaboraciones_facilitadas' => $field_colaboraciones_facilitadas,
+                  '#proyectos_activos' => $field_proyectos_activos,
+                  '#cache' => [
+                    'tags' => ['node_list'],
+                  ],
+                  '#attached' => [
+                    'library' => [
+                      'zinco_front/zinco-landing-page',
+                    ],
+                  ],
+                ];
       }
 
 }
