@@ -608,7 +608,7 @@ class ActoresController extends ControllerBase {
         }
     
         $actor = $this->entityTypeManager->getStorage('zinco_actors_zincoactors')->create(['bundle' => $bundle]);
-        $form = $this->entityFormBuilder->getForm($actor, 'default');
+        $form = $this->entityFormBuilder->getForm($actor, 'frontend');
     
         return [
           '#theme' => 'zinco_actor_form_by_bundle',

@@ -155,6 +155,38 @@
       const card_centros_innovacion_tabla = 'data_view_centros_innovacion';
       const card_centros_innovacion_elemento = ['actores_centros_innovacion_value', 'generacion_conocimiento_centros_innovacion_value'];
 
+      //parametros card centros de ciencia
+      const card_centros_ciencia_tabla = 'data_view_centros_ciencia';
+      const card_centros_ciencia_elemento = ['actores_centros_ciencia_value'];
+
+      //parametros card centros institutos
+      const card_centros_institutos_tabla = 'data_view_centros_institutos';
+      const card_centros_institutos_elemento = ['actores_centros_institutos_value'];
+
+      //parametros card empresas altamente innovadoras
+      const card_empresas_altamente_innovadoras_tabla = 'data_view_empresas_altamente_innovadoras';
+      const card_empresas_altamente_innovadoras_elemento = ['actores_empresas_altamente_innovadoras_value'];
+
+      //parametros card empresas altamente innovadoras
+      const card_empresas_incubadoras_tabla = 'data_view_empresas_incubadoras';
+      const card_empresas_incubadoras_elemento = ['actores_empresas_incubadoras_value'];
+
+      //parametros card unidades empresariales de I+D+i
+      const card_empresas_unidades_idi_tabla = 'data_view_empresas_unidades_idi';
+      const card_empresas_unidades_idi_elemento = ['empresas_unidades_idi_value'];
+
+      //parametros card organizaciones intermedias otris
+      const card_organizaciones_intermedias_otri_tabla = 'data_view_organizaciones_intermedias_otri';
+      const card_organizaciones_intermedias_otri_elemento = ['actores_organizaciones_intermedias_otri_value'];
+
+      //parametros card agentes gobierno entidades gobierno
+      const card_entidades_gobierno_tabla = 'data_entidades_gobierno';
+      const card_entidades_gobierno_elemento = ['actores_entidades_gobierno_value'];
+
+      //parametros card agentes gobierno instancias orientacion politica
+      const card_instancias_gobierno_tabla = 'data_instancias_gobierno';
+      const card_instancias_gobierno_elemento = ['actores_instancias_gobierno_value'];
+
       //parametros card de actores por sector
       const card_actores_sector_tablas = 'data_empresas_tic-data_investigadores-data_view_centros_investigacion-data_view_centros_desarrollo_tecnologico-data_grupos_investigacion-data_view_centros_innovacion';
       const card_actores_sector_campo = 'sector';
@@ -184,13 +216,18 @@
 
       //parametros card de numero de programas academicos por sector
       const card_formacion_programas_academicos_sectores_tablas = 'data_programas_academicos';
-      const card_formacion_programas_academicos_sectores_campo = 'sector';
+      const card_formacion_programas_academicos_sectores_campo = 'nivel_formacion';
       const card_formacion_programas_academicos_sectores_elemento = 'formacion_programas_academicos_sectores_grouped_data';
 
       //parametros card de numero de programas academicos por municipio
       const card_formacion_programas_academicos_municipios_tablas = 'data_programas_academicos';
       const card_formacion_programas_academicos_municipios_campo = 'municipio';
       const card_formacion_programas_academicos_municipios_elemento = 'formacion_programas_academicos_municipios_grouped_data';
+
+      //parametros card de numero de programas academicos por eacin
+      const card_formacion_programas_academicos_eacin_tablas = 'data_programas_academicos';
+      const card_formacion_programas_academicos_eacin_campo = 'relacion_sector_40';
+      const card_formacion_programas_academicos_eacin_elemento = 'formacion_programas_academicos_eacin_grouped_data';
 
        /*
       * pestaña de retos
@@ -305,13 +342,11 @@
       * pestaña de empresas
       */
 
-      //parametros card empresas altamente innovadoras
-      const card_empresas_altamente_innovadoras_tabla = 'data_view_empresas_altamente_innovadoras';
-      const card_empresas_altamente_innovadoras_elemento = ['empresas_altamente_innovadoras_value'];
+      // //parametros card empresas altamente innovadoras
+      // const card_empresas_altamente_innovadoras_tabla = 'data_view_empresas_altamente_innovadoras';
+      // const card_empresas_altamente_innovadoras_elemento = ['empresas_altamente_innovadoras_value'];
 
-      //parametros card unidades empresariales de I+D+i
-      const card_empresas_unidades_idi_tabla = 'data_view_empresas_unidades_idi';
-      const card_empresas_unidades_idi_elemento = ['empresas_unidades_idi_value'];
+      
 
       //parametros card startups
       const card_empresas_startups_entidad = 'zinco_reconocimientos';
@@ -374,6 +409,14 @@
         loadData(municipio, sector, tecnologias40, card_centros_investigacion_tabla, card_centros_investigacion_elemento),
         loadData(municipio, sector, tecnologias40, card_centros_desarrollo_tecnologico_tabla, card_centros_desarrollo_tecnologico_elemento),
         loadData(municipio, sector, tecnologias40, card_centros_innovacion_tabla, card_centros_innovacion_elemento),
+        loadData(municipio, sector, tecnologias40, card_centros_ciencia_tabla, card_centros_ciencia_elemento),
+        loadData(municipio, sector, tecnologias40, card_centros_institutos_tabla, card_centros_institutos_elemento),
+        loadData(municipio, sector, tecnologias40, card_empresas_altamente_innovadoras_tabla, card_empresas_altamente_innovadoras_elemento),
+        loadData(municipio, sector, tecnologias40, card_empresas_incubadoras_tabla, card_empresas_incubadoras_elemento),
+        loadData(municipio, sector, tecnologias40, card_empresas_unidades_idi_tabla, card_empresas_unidades_idi_elemento),
+        loadData(municipio, sector, tecnologias40, card_organizaciones_intermedias_otri_tabla, card_organizaciones_intermedias_otri_elemento),
+        loadData(municipio, sector, tecnologias40, card_entidades_gobierno_tabla, card_entidades_gobierno_elemento),
+        loadData(municipio, sector, tecnologias40, card_instancias_gobierno_tabla, card_instancias_gobierno_elemento),
         loadMultipleGroupedData(municipio, sector, tecnologias40, card_actores_sector_tablas, card_actores_sector_campo, card_actores_sector_elemento),
         loadMultipleGroupedData(municipio, sector, tecnologias40, card_actores_municipio_tablas, card_actores_municipio_campo, card_actores_municipio_elemento),
         loadMultipleGroupedData(municipio, sector, tecnologias40, card_actores_tecnologias40_tablas, card_actores_tecnologias40_campo, card_actores_tecnologias40_elemento),
@@ -383,6 +426,7 @@
         loadData(municipio, sector, tecnologias40, card_programas_ofertados_tabla, card_programas_ofertados_elemento),
         loadMultipleGroupedData(municipio, sector, tecnologias40, card_formacion_programas_academicos_sectores_tablas, card_formacion_programas_academicos_sectores_campo, card_formacion_programas_academicos_sectores_elemento),
         loadMultipleGroupedData(municipio, sector, tecnologias40, card_formacion_programas_academicos_municipios_tablas, card_formacion_programas_academicos_municipios_campo, card_formacion_programas_academicos_municipios_elemento),
+        loadMultipleGroupedData(municipio, sector, tecnologias40, card_formacion_programas_academicos_eacin_tablas, card_formacion_programas_academicos_eacin_campo, card_formacion_programas_academicos_eacin_elemento),
 
         // pestaña de retos
         loadEntityData(municipio, sector, tecnologias40, card_retos_entidad, card_retos_elemento, card_retos_filters),
@@ -414,8 +458,8 @@
         loadEntityGroupedData(municipio, sector, tecnologias40, card_software_fuentes_financiacion_entidad, card_software_fuentes_financiacion_elemento, card_software_fuentes_financiacion_campo),
 
         // pestaña de empresas
-        loadData(municipio, sector, tecnologias40, card_empresas_altamente_innovadoras_tabla, card_empresas_altamente_innovadoras_elemento),
-        loadData(municipio, sector, tecnologias40, card_empresas_unidades_idi_tabla, card_empresas_unidades_idi_elemento),
+        
+        
         loadEntityData(municipio, sector, tecnologias40, card_empresas_startups_entidad, card_empresas_startups_elemento, card_empresas_startups_filters),
         loadEntityData(municipio, sector, tecnologias40, card_empresas_spinoffs_entidad, card_empresas_spinoffs_elemento, card_empresas_spinoffs_filters),
         loadMultipleGroupedData(municipio, sector, tecnologias40, card_empresas_sectores_tablas, card_empresas_sectores_campo, card_empresas_sectores_elemento),

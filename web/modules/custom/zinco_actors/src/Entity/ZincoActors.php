@@ -17,6 +17,7 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\user\EntityOwnerTrait;
 use Drupal\views\EntityViewsData;
 use Drupal\zinco_actors\Form\ZincoActorsForm;
+use Drupal\zinco_actors\Form\ZincoActorsFormFrontend;
 use Drupal\zinco_actors\ZincoActorsInterface;
 use Drupal\zinco_actors\ZincoActorsListBuilder;
 
@@ -46,6 +47,7 @@ use Drupal\zinco_actors\ZincoActorsListBuilder;
       'delete' => ContentEntityDeleteForm::class,
       'delete-multiple-confirm' => DeleteMultipleForm::class,
       'default' => ZincoActorsForm::class,
+      'frontend' => ZincoActorsFormFrontend::class,
     ],
     'route_provider' => [
       'html' => AdminHtmlRouteProvider::class,

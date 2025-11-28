@@ -703,8 +703,7 @@ class RetosController extends ControllerBase {
        //crear entidad vacia de tipo zinco_retos_evaluaciones
        $entity = $this->entityTypeManager()->getStorage('zinco_retos_evaluacion')->create([
          'field_solucion_evaluada' => $solution_id,
-         'field_evaluador' => $user_id,
-         'field_fecha_de_evaluacion' => $formatted_datetime,
+         'field_evaluador' => $user_id
        ]);
 
        //cargar form de entity

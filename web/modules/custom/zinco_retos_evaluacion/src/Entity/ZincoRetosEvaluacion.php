@@ -17,6 +17,7 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\user\EntityOwnerTrait;
 use Drupal\views\EntityViewsData;
 use Drupal\zinco_retos_evaluacion\Form\ZincoRetosEvaluacionForm;
+use Drupal\zinco_retos_evaluacion\Form\ZincoRetosEvaluacionFormFrontend;
 use Drupal\zinco_retos_evaluacion\ZincoRetosEvaluacionInterface;
 use Drupal\zinco_retos_evaluacion\ZincoRetosEvaluacionListBuilder;
 
@@ -44,7 +45,7 @@ use Drupal\zinco_retos_evaluacion\ZincoRetosEvaluacionListBuilder;
       'edit' => ZincoRetosEvaluacionForm::class,
       'delete' => ContentEntityDeleteForm::class,
       'delete-multiple-confirm' => DeleteMultipleForm::class,
-      'frontend_add' => ZincoRetosEvaluacionForm::class
+      'frontend_add' => ZincoRetosEvaluacionFormFrontend::class
     ],
     'route_provider' => [
       'html' => AdminHtmlRouteProvider::class,
