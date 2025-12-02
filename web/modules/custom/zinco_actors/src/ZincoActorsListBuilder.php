@@ -32,7 +32,7 @@ final class ZincoActorsListBuilder extends EntityListBuilder {
   public function buildRow(EntityInterface $entity): array {
     /** @var \Drupal\zinco_actors\ZincoActorsInterface $entity */
     $row['id'] = $entity->id();
-    $row['label'] = $entity->toLink();
+    $row['label'] = $entity->label() ? $entity->toLink() : 'NA';
     $row['status'] = $entity->get('status')->value ? $this->t('Enabled') : $this->t('Disabled');
     $row['bundle'] = $entity->bundle();
     $username_options = [
