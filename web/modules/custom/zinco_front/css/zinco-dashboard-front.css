@@ -1,8 +1,8 @@
 /* Add your custom CSS for zinco-actores-list here */
 .tab-pane .card {
-  border: 1px solid #e0e0e0;
+  border: 1px solid #56eb56;
   border-radius: 8px;
-  background: #112240;
+  background: #56eb56;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 .tab-pane .card-title {
