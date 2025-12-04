@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - zinco_actors_categories
+id: zinco_actors_categories_delete_action
+label: 'Delete zinco actors categoriess'
+type: zinco_actors_categories
+plugin: entity:delete_action:zinco_actors_categories
+configuration: {  }

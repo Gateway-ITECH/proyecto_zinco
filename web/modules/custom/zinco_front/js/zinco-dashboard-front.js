@@ -551,7 +551,7 @@
                         <div class="progress flex-grow-1 me-2" style="height: 15px;">
                           <div class="progress-bar bg-success" role="progressbar" style="width: ${item.percentage}%;" aria-valuenow="${item.percentage}" aria-valuemin="0" aria-valuemax="${100}"></div>
                         </div>
-                        <span class="text-muted" data-group-column="${item.group_column}">${item.group_column.substring(0,5)}... (${item.count})</span>
+                        <span class="" data-group-column="${item.group_column}">${item.group_column.substring(0,5)}... (${item.count})</span>
                       </div>
                     `;
                 groupedDataWrapper.insertAdjacentHTML('beforeend', html);
@@ -587,7 +587,7 @@
                   <div class="progress flex-grow-1 me-2" style="height: 15px;">
                     <div class="progress-bar bg-info" role="progressbar" style="width: ${item.percentage}%;" aria-valuenow="${item.percentage}" aria-valuemin="0" aria-valuemax="${100}"></div>
                   </div>
-                  <span class="text-muted" data-group-column="${item.group_column}">${item.group_column.substring(0,5)}... (${item.count})</span>
+                  <span class="" data-group-column="${item.group_column}">${item.group_column.substring(0,5)}... (${item.count})</span>
                 </div>
               `;
               groupedDataWrapper.insertAdjacentHTML('beforeend', html);
@@ -693,7 +693,7 @@
                       <div class="progress flex-grow-1 me-2" style="height: 15px;">
                         <div class="progress-bar bg-success" role="progressbar" style="width: ${item.percentage}%;" aria-valuenow="${item.percentage}" aria-valuemin="0" aria-valuemax="${100}"></div>
                       </div>
-                      <span class="text-muted" data-group-column="${item.group_column}">${item.group_column.substring(0,5)}... (${item.count})</span>
+                      <span class="" data-group-column="${item.group_column}">${item.group_column.substring(0,5)}... (${item.count})</span>
                     </div>
                   `;
                   groupedDataWrapper.insertAdjacentHTML('beforeend', html);
@@ -767,7 +767,7 @@
         if (groupedDataWrapper) {
           const dataItems = groupedDataWrapper.querySelectorAll('.d-flex.align-items-center.mb-2');
           dataItems.forEach(item => {
-            const spanElement = item.querySelector('span.text-muted');
+            const spanElement = item.querySelector('span');
             if (spanElement) {
               const nombre = spanElement.getAttribute('data-group-column');
               const textContent = spanElement.textContent.trim();

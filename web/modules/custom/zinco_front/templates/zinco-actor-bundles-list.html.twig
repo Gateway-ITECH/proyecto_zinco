@@ -10,7 +10,11 @@
  */
 #}
 {% if bundles %}
+  <h1>{{ category_name }}</h1>
   <p>{{ 'Selecciona el tipo de actor para continuar con el registro'|t }}</p>
+  <div class="mb-4">
+    <a href="/actores/categorias" class="btn btn-secondary"><i class="fas fa-arrow-left me-2"></i>{{ 'Volver a Categorías'|t }}</a>
+  </div>
   <div class="row">
     {% for bundle in bundles %}
       <div class="col-sm-6 col-md-4 col-lg-3 mb-4">

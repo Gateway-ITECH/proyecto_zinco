@@ -1,0 +1,5 @@
+zinco_actors_categories.add_form:
+  title: 'Add zinco actors categories'
+  route_name: entity.zinco_actors_categories.add_form
+  appears_on:
+    - entity.zinco_actors_categories.collection

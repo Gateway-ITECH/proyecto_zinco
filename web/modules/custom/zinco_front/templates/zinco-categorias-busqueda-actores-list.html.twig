@@ -1,0 +1,31 @@
+{#
+/**
+ * @file
+ * Default theme implementation for a list of Zinco Actor Categories.
+ *
+ * Available variables:
+ * - terms: An array of actor category data, each with:
+ *   - id: The machine name of the term.
+ *   - label: The human-readable label of the term.
+ *   - description: The description of the term.
+ */
+#}
+{% if terms %}
+  <p>{{ 'Selecciona una categoría de actor para continuar'|t }}</p>
+  <div class="row">
+    {% for term in terms %}
+      <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title mb-3" style="color: #333; min-height: 50px">{{ term.label }}</h5>
+            <p class="card-text">{{ term.description }}</p>
+            {# Assuming a route to display actors by category or a category detail page #}
+            <a href="/actores/list/{{ term.id }}" class="btn btn-primary">{{ 'Seleccionar'|t }}</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>{{ 'No se encontraron categorías de actores.'|t }}</p>
+{% endif %}

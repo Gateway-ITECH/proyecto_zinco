@@ -1,0 +1,5 @@
+entity.zinco_actors_categories.collection:
+  title: 'Zinco actors categoriess'
+  description: 'List of zinco actors categoriess.'
+  route_name: entity.zinco_actors_categories.collection
+  parent: system.admin_content

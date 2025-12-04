@@ -88,6 +88,9 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
         'actors' => NULL,
         'title' => NULL,
         'pager' => NULL,
+        'category_tid' => NULL,
+        'category_name' => NULL,
+        'bundles' => NULL,
       ],
       'template' => 'zinco-actores-list',
     ],
@@ -130,6 +133,7 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
     'zinco_actor_bundles_list' => [
       'variables' => [
         'bundles' => NULL,
+        'category_name' => NULL
       ],
       'template' => 'zinco-actor-bundles-list',
     ],
@@ -160,6 +164,18 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
         'form' => NULL,
       ],
       'template' => 'zinco-reto-calificar',
+    ],
+     'zinco_categorias_actores_list' => [
+      'variables' => [
+        'terms' => NULL,
+      ],
+      'template' => 'zinco-categorias-actores-list',
+    ],
+    'zinco_categorias_busquedas_actores_list' => [
+      'variables' => [
+        'terms' => NULL,
+      ],
+      'template' => 'zinco-categorias-busqueda-actores-list',
     ],
   ];
 }

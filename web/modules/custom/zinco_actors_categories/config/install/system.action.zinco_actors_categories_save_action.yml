@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - zinco_actors_categories
+id: zinco_actors_categories_save_action
+label: 'Save zinco actors categoriess'
+type: zinco_actors_categories
+plugin: entity:save_action:zinco_actors_categories
+configuration: {  }

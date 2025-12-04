@@ -1,0 +1,3 @@
+administer zinco_actors_categories:
+  title: 'Administer zinco actors categoriess'
+  restrict access: true

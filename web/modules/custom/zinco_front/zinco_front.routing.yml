@@ -178,11 +178,13 @@ zinco_front.generate_pdf_from_json:
     _permission: 'access content'
 
 zinco_front.actores_list:
-  path: '/actores/list'
+  path: '/actores/list/{category_tid}'
   defaults:
     _controller: '\Drupal\zinco_front\Controller\ActoresController::listarActores'
+    category_tid: NULL
   requirements:
     _permission: 'access content'
+    category_tid: '\d+'
 
 zinco_front.actor_profile:
   path: '/actores/{actor_id}'
@@ -251,12 +253,13 @@ zinco_front.reto_calificar:
     solution_id: '\d+'
 
 zinco_front.actor_bundles_list:
-  path: '/actores/bundles'
+  path: '/actores/bundles/{category_tid}'
   defaults:
     _controller: '\Drupal\zinco_front\Controller\ActoresController::listActorBundles'
-    _title: 'Nuevo actor'
+    category_tid: NULL
   requirements:
     _permission: 'access content'
+    category_tid: '\d+'
 
 zinco_front.actor_add_by_bundle:
   path: '/actores/add/{bundle}'
@@ -266,4 +269,20 @@ zinco_front.actor_add_by_bundle:
   requirements:
     _permission: 'access content'
     bundle: '\w+'
+
+zinco_front.actor_categories_list:
+  path: '/actores/categorias'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ActoresController::listarCategoriasActores'
+    _title: 'Categorías de Actores'
+  requirements:
+    _permission: 'access content'
+
+zinco_front.actor_busqueda_categories_list:
+  path: '/actores/busqueda/categorias'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ActoresController::listarCategoriasBusquedaActores'
+    _title: 'Categorías de Actores'
+  requirements:
+    _permission: 'access content'
 

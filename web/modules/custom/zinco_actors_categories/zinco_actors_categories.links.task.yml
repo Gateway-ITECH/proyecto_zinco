@@ -1,0 +1,18 @@
+entity.zinco_actors_categories.view:
+  title: 'View'
+  route_name: entity.zinco_actors_categories.canonical
+  base_route: entity.zinco_actors_categories.canonical
+entity.zinco_actors_categories.edit_form:
+  title: 'Edit'
+  route_name: entity.zinco_actors_categories.edit_form
+  base_route: entity.zinco_actors_categories.canonical
+entity.zinco_actors_categories.delete_form:
+  title: 'Delete'
+  route_name: entity.zinco_actors_categories.delete_form
+  base_route: entity.zinco_actors_categories.canonical
+  weight: 10
+entity.zinco_actors_categories.collection:
+  title: 'Zinco actors categoriess'
+  route_name: entity.zinco_actors_categories.collection
+  base_route: system.admin_content
+  weight: 10

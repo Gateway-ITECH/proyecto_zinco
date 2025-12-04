@@ -1,0 +1,85 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @file
+ * Provides a zinco actors categories entity type.
+ */
+
+use Drupal\Core\Render\Element;
+use Drupal\user\UserInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function zinco_actors_categories_theme(): array {
+  return [
+    'zinco_actors_categories' => ['render element' => 'elements'],
+  ];
+}
+
+/**
+ * Prepares variables for zinco actors categories templates.
+ *
+ * Default template: zinco-actors-categories.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An associative array containing the zinco actors categories information and any
+ *     fields attached to the entity.
+ *   - attributes: HTML attributes for the containing element.
+ */
+function template_preprocess_zinco_actors_categories(array &$variables): void {
+  $variables['view_mode'] = $variables['elements']['#view_mode'];
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+}
+
+/**
+ * Implements hook_user_cancel().
+ */
+function zinco_actors_categories_user_cancel($edit, UserInterface $account, $method): void {
+  switch ($method) {
+    case 'user_cancel_block_unpublish':
+      // Unpublish zinco actors categoriess.
+      $storage = \Drupal::entityTypeManager()->getStorage('zinco_actors_categories');
+      $zinco_actors_categories_ids = $storage->getQuery()
+        ->condition('uid', $account->id())
+        ->condition('status', 1)
+        ->accessCheck(FALSE)
+        ->execute();
+      foreach ($storage->loadMultiple($zinco_actors_categories_ids) as $zinco_actors_categories) {
+        $zinco_actors_categories->set('status', FALSE)->save();
+      }
+      break;
+
+    case 'user_cancel_reassign':
+      // Anonymize zinco actors categoriess.
+      $storage = \Drupal::entityTypeManager()->getStorage('zinco_actors_categories');
+      $zinco_actors_categories_ids = $storage->getQuery()
+        ->condition('uid', $account->id())
+        ->accessCheck(FALSE)
+        ->execute();
+      foreach ($storage->loadMultiple($zinco_actors_categories_ids) as $zinco_actors_categories) {
+        $zinco_actors_categories->setOwnerId(0)->save();
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_predelete() for user entities.
+ */
+function zinco_actors_categories_user_predelete(UserInterface $account): void {
+  // Delete zinco actors categoriess that belong to this account.
+  $storage = \Drupal::entityTypeManager()->getStorage('zinco_actors_categories');
+  $zinco_actors_categories_ids = $storage->getQuery()
+    ->condition('uid', $account->id())
+    ->accessCheck(FALSE)
+    ->execute();
+  $storage->delete(
+    $storage->loadMultiple($zinco_actors_categories_ids)
+  );
+}

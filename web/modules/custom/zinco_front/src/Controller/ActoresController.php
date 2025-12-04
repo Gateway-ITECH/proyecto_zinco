@@ -104,14 +104,60 @@ class ActoresController extends ControllerBase {
    * @return array
    *   A renderable array.
    */
-  public function listarActores() {
+  public function listarActores($category_tid = NULL) {
     $actors = [];
     $filters_param = $this->requestStack->getCurrentRequest()->query->get('filters');
     $search_term = $this->requestStack->getCurrentRequest()->query->get('search_term');
+    $cache_tags = $this->entityTypeManager->getDefinition('zinco_actors_zincoactors')->getListCacheTags();
+    $category_name = '';
+
     try {
       $actor_storage = $this->entityTypeManager->getStorage('zinco_actors_zincoactors');
       $query = $actor_storage->getQuery();
 
+      $bundle_ids_to_filter = [];
+      $bundles = [];
+      
+
+      // If a category TID is provided, filter bundles by it.
+      if ($category_tid) {
+        $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
+        $term = $term_storage->load($category_tid);
+        $category_name = $term ? $term->label() : '';
+
+        if (!$term || $term->bundle() !== 'categorias_de_actores') {
+          $this->messenger()->addError($this->t('Invalid actor category provided.'));
+          return $this->redirect('zinco_front.actor_categories_list');
+        }
+        $cache_tags = array_merge($cache_tags, $term->getCacheTags());
+
+        $zinco_actors_categories_storage = $this->entityTypeManager->getStorage('zinco_actors_categories');
+        $category_query = $zinco_actors_categories_storage->getQuery()
+          ->condition('field_actor_category', $category_tid)
+          ->accessCheck(FALSE);
+        $category_entity_ids = $category_query->execute();
+        $category_entities = $zinco_actors_categories_storage->loadMultiple($category_entity_ids);
+
+        foreach ($category_entities as $category_entity) {
+          //obtener info del bundle
+          $bundle_entity = $this->entityTypeManager->getStorage('zinco_actors_zincoactors_type')->load($category_entity->get('field_actor_bundle')->value);
+          
+          $bundle = [
+            'id' => $category_entity->get('field_actor_bundle')->value,
+            'label' => $bundle_entity->label(),
+          ];
+          $bundles[] = $bundle;
+          $bundle_ids_to_filter[] = $category_entity->get('field_actor_bundle')->value;
+        }
+        $cache_tags = array_merge($cache_tags, $this->entityTypeManager->getDefinition('zinco_actors_categories')->getListCacheTags());
+
+        if (empty($bundle_ids_to_filter)) {
+          $this->messenger()->addWarning($this->t('No actor bundles found for the selected category.'));
+          return $this->redirect('zinco_front.actor_categories_list');
+        }
+        $query->condition('bundle', $bundle_ids_to_filter, 'IN');
+      }
+      
       if (!empty($filters_param)) {
         $bundle_ids = explode(',', $filters_param);
         $query->condition('bundle', $bundle_ids, 'IN');
@@ -127,15 +173,7 @@ class ActoresController extends ControllerBase {
       $actors = $actor_storage->loadMultiple($actor_ids);
 
       $bundle_colors = [
-        'empresa_explotadora_de_conocimie' => 'text-bg-primary',
-        'empresa_generadora_de_conocimien' => 'text-bg-success',
-        'entidad_gobierno' => 'text-bg-info',
-        'instancias_de_orientacion_politi' => 'text-bg-warning',
-        'institucion_de_educacion_superio' => 'text-bg-danger',
-        'investigador' => 'text-bg-secondary',
-        'otri' => 'text-bg-secondary',
-        'parque_tecnologico' => 'text-bg-secondary',
-        'default' => 'text-bg-secondary',
+       
       ];
 
       // Convert loaded entities to renderable arrays and add ID.
@@ -145,7 +183,8 @@ class ActoresController extends ControllerBase {
 
         $bundle_id = $actor->bundle();
         $bundle_entity = $this->entityTypeManager->getStorage('zinco_actors_zincoactors_type')->load($bundle_id);
-        $actor_data['field_tipo_actor'] = $bundle_entity ? $bundle_entity->label() : $bundle_id;
+        $bundle_label = $bundle_entity ? $bundle_entity->label() : $bundle_id;
+        $actor_data['field_tipo_actor'] = (strlen($bundle_label) > 10) ? substr($bundle_label, 0, 10) . '...' : $bundle_label;
         $actor_data['bundle_color'] = $bundle_colors[$bundle_id] ?? 'text-bg-secondary';
 
         // Get the label of the 'municipio' taxonomy term.
@@ -179,9 +218,12 @@ class ActoresController extends ControllerBase {
     return [
       '#theme' => 'zinco_actores_list',
       '#actors' => $actors,
+      '#category_tid' => $category_tid,
+      '#category_name' => $category_name,
+      '#bundles' => $bundles,
       '#cache' => [
-        'tags' => $this->entityTypeManager->getDefinition('zinco_actors_zincoactors')->getListCacheTags(),
-        'contexts' => ['url.query_args'],
+        'tags' => $cache_tags,
+        'contexts' => ['url.query_args', 'url.path'],
       ],
       '#pager' => [
         '#type' => 'pager',
@@ -567,57 +609,185 @@ class ActoresController extends ControllerBase {
    * @return array
    *   A renderable array.
    */
-  public function listActorBundles() {
-    $bundle_storage = $this->entityTypeManager->getStorage('zinco_actors_zincoactors_type');
-    $bundles = $bundle_storage->loadMultiple();
-
+  public function listActorBundles($category_tid = NULL) {
     $bundle_data = [];
-    foreach ($bundles as $bundle_id => $bundle_entity) {
-      $bundle_data[] = [
-        'id' => $bundle_id,
-        'label' => $bundle_entity->label(),
-      ];
-     
-    
+    $cache_tags = [];
+    $nombre_categoria = '';
+
+    // If a category TID is provided, filter bundles by it.
+    if ($category_tid) {
+      $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
+      $term = $term_storage->load($category_tid);
+
+      //obtener label del termino
+      if ($term) {
+        $nombre_categoria = $term->label();
+      }
+
+      if (!$term || $term->bundle() !== 'categorias_de_actores') {
+        $this->messenger()->addError($this->t('Invalid actor category provided.'));
+        return $this->redirect('zinco_front.actor_categories_list');
+      }
+
+      $zinco_actors_categories_storage = $this->entityTypeManager->getStorage('zinco_actors_categories');
+      $query = $zinco_actors_categories_storage->getQuery()
+        ->condition('field_actor_category', $category_tid)
+        ->accessCheck(FALSE);
+      $category_entity_ids = $query->execute();
+      $category_entities = $zinco_actors_categories_storage->loadMultiple($category_entity_ids);
+
+      $allowed_bundle_ids = [];
+      foreach ($category_entities as $category_entity) {
+        $allowed_bundle_ids[] = $category_entity->get('field_actor_bundle')->value;
+      }
+
+      if (empty($allowed_bundle_ids)) {
+        $this->messenger()->addWarning($this->t('No actor bundles found for the selected category.'));
+        return $this->redirect('zinco_front.actor_categories_list');
+      }
+
+      $bundle_storage = $this->entityTypeManager->getStorage('zinco_actors_zincoactors_type');
+      $bundles = $bundle_storage->loadMultiple($allowed_bundle_ids);
+
+      foreach ($bundles as $bundle_id => $bundle_entity) {
+        $bundle_data[] = [
+          'id' => $bundle_id,
+          'label' => $bundle_entity->label(),
+        ];
+      }
+      $cache_tags = $this->entityTypeManager->getDefinition('zinco_actors_categories')->getListCacheTags();
+      $cache_tags = array_merge($cache_tags, $this->entityTypeManager->getDefinition('zinco_actors_zincoactors_type')->getListCacheTags());
+      $cache_tags = array_merge($cache_tags, $term->getCacheTags());
+    } else {
+      // Original logic to load all bundles if no category is specified.
+      $bundle_storage = $this->entityTypeManager->getStorage('zinco_actors_zincoactors_type');
+      $bundles = $bundle_storage->loadMultiple();
+
+      foreach ($bundles as $bundle_id => $bundle_entity) {
+        $bundle_data[] = [
+          'id' => $bundle_id,
+          'label' => $bundle_entity->label(),
+        ];
+      }
+      $cache_tags = $this->entityTypeManager->getDefinition('zinco_actors_zincoactors_type')->getListCacheTags();
     }
 
     return [
       '#theme' => 'zinco_actor_bundles_list',
       '#bundles' => $bundle_data,
+      '#category_name' => $nombre_categoria,
       '#cache' => [
-        'tags' => $this->entityTypeManager->getDefinition('zinco_actors_zincoactors_type')->getListCacheTags(),
+        'tags' => $cache_tags,
+        'contexts' => ['url.path'],
       ],
     ];
   }
 
 
   /**
-       * Generates an actor creation form for a specific bundle.
-       *
-       * @param string $bundle
-       *   The machine name of the actor bundle.
-       *
-       * @return array
-       *   A renderable array containing the actor creation form.
-       */
-      public function addActorFormByBundle(string $bundle) {
-        $bundle_info = $this->entityTypeBundleInfo->getBundleInfo('zinco_actors_zincoactors');
-        if (!isset($bundle_info[$bundle])) {
-          $this->messenger()->addError($this->t('Invalid actor bundle: @bundle', ['@bundle' => $bundle]));
-          return $this->redirect('zinco_front.actor_bundles_list');
-        }
-    
-        $actor = $this->entityTypeManager->getStorage('zinco_actors_zincoactors')->create(['bundle' => $bundle]);
-        $form = $this->entityFormBuilder->getForm($actor, 'frontend');
-    
-        return [
-          '#theme' => 'zinco_actor_form_by_bundle',
-          '#actor_form' => $form,
-          '#bundle_label' => $bundle_info[$bundle]['label'],
-          '#cache' => [
-            'tags' => $this->entityTypeManager->getDefinition('zinco_actors_zincoactors')->getListCacheTags(),
-          ],
-        ];
-      }
+   * Returns a list of actor categories.
+   *
+   * @return array
+   *   A renderable array.
+   */
+  public function listarCategoriasActores() {
+    $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
+    $query = $term_storage->getQuery()
+      ->condition('vid', 'categorias_de_actores')
+      ->accessCheck(FALSE);
+    $tids = $query->execute();
+    $terms = $term_storage->loadMultiple($tids);
+
+    $term_data = [];
+    foreach ($terms as $term_id => $term_entity) {
+      $term_data[] = [
+        'id' => $term_id,
+        'label' => $term_entity->label(),
+        'description' => $term_entity->hasField('description') && !$term_entity->get('description')->isEmpty() ? $term_entity->get('description')->value : '',
+      ];
+    }
+
+    return [
+      '#theme' => 'zinco_categorias_actores_list',
+      '#terms' => $term_data,
+      '#cache' => [
+        'tags' => $this->entityTypeManager->getDefinition('taxonomy_term')->getListCacheTags(),
+      ],
+      '#attached' => [
+        'library' => [
+          'zinco_front/zinco-categorias-actores-list',
+        ],
+      ],
+    ];
+  }
+
+  /**
+   * Returns a list of actor categories.
+   *
+   * @return array
+   *   A renderable array.
+   */
+  public function listarCategoriasBusquedaActores() {
+    $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
+    $query = $term_storage->getQuery()
+      ->condition('vid', 'categorias_de_actores')
+      ->accessCheck(FALSE);
+    $tids = $query->execute();
+    $terms = $term_storage->loadMultiple($tids);
+
+    $term_data = [];
+    foreach ($terms as $term_id => $term_entity) {
+      $term_data[] = [
+        'id' => $term_id,
+        'label' => $term_entity->label(),
+        'description' => $term_entity->hasField('description') && !$term_entity->get('description')->isEmpty() ? $term_entity->get('description')->value : '',
+      ];
+    }
+
+    return [
+      '#theme' => 'zinco_categorias_busquedas_actores_list',
+      '#terms' => $term_data,
+      '#cache' => [
+        'tags' => $this->entityTypeManager->getDefinition('taxonomy_term')->getListCacheTags(),
+      ],
+      '#attached' => [
+        'library' => [
+          'zinco_front/zinco-categorias-busquedas-actores-list',
+        ],
+      ],
+    ];
+  }
+
+  /**
+   * Generates an actor creation form for a specific bundle.
+   *
+   * @param string $bundle
+   *   The machine name of the actor bundle.
+   *
+   * @return array
+   *   A renderable array containing the actor creation form.
+   */
+  public function addActorFormByBundle(string $bundle) {
+    $bundle_info = $this->entityTypeBundleInfo->getBundleInfo('zinco_actors_zincoactors');
+    if (!isset($bundle_info[$bundle])) {
+      $this->messenger()->addError($this->t('Invalid actor bundle: @bundle', ['@bundle' => $bundle]));
+      return $this->redirect('zinco_front.actor_bundles_list');
+    }
+
+    $actor = $this->entityTypeManager->getStorage('zinco_actors_zincoactors')->create(['bundle' => $bundle]);
+    $form = $this->entityFormBuilder->getForm($actor, 'frontend');
+
+    return [
+      '#theme' => 'zinco_actor_form_by_bundle',
+      '#actor_form' => $form,
+      '#bundle_label' => $bundle_info[$bundle]['label'],
+      '#cache' => [
+        'tags' => $this->entityTypeManager->getDefinition('zinco_actors_zincoactors')->getListCacheTags(),
+      ],
+    ];
+  }
 
 }
+
+
+  
