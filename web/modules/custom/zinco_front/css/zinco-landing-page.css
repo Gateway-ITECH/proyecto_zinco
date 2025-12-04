@@ -270,3 +270,61 @@
   box-shadow: 0 0 25px rgba(57, 255, 20, 0.8); /* More intense glow on hover */
   transform: translateY(-2px);
 }
+
+#quienes-somos,
+#nuestros-objetivos {
+  padding: 60px 60px;
+  background-color: #f8f9fa; /* Light background for sections */
+  color: #333;
+}
+
+#quienes-somos h2,
+#nuestros-objetivos h2 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: #454545; /* Dark text for titles */
+}
+
+#quienes-somos p,
+#nuestros-objetivos li {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 15px;
+  color: #555;
+  padding-left: 10px; /* Indent for readability */
+}
+
+
+
+#nuestros-objetivos ul {
+  list-style: none; /* Remove default list style */
+  padding-left: 0;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#nuestros-objetivos ul li {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+#nuestros-objetivos ul li i {
+  color: rgb(66, 160, 0); /* Green icon color */
+  margin-right: 25px;
+  padding-top: 5px; /* Align icon with text */
+}
+
+#nuestros-objetivos ul li h3 {
+  color: #454545; /* Darker color for headings */
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+#nuestros-objetivos ul li p {
+  margin-bottom: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
