@@ -612,17 +612,137 @@ class ZincoController extends ControllerBase {
         $entity = \Drupal::entityTypeManager()->getStorage('node')->load(3);
         //obtener campo field_actores_registrados
         $field_actores_registrados = $entity->get('field_actores_registrados')->value;  
+        //obtener campo field_actores_registrados_icon
+        $field_actores_registrados_icon = $entity->get('field_actores_registrados_icon')->value;
+        //obtener campo field_actores_registrados_label
+        $field_actores_registrados_label = $entity->get('field_actores_registrados_label')->value;
+        //obtener campo field_beneficios_centro_descripc
+        $field_beneficios_centro_descripcion = $entity->get('field_beneficios_centro_descripc')->value;
+        //obtener campo field_beneficios_centro_icon
+        $field_beneficios_centro_icon = $entity->get('field_beneficios_centro_icon')->value;
+        //obtener campo field_beneficios_centro_titulo
+        $field_beneficios_centro_titulo = $entity->get('field_beneficios_centro_titulo')->value;
+        //obtener campo field_beneficios_derecha_descrip
+        $field_beneficios_derecha_descripcion = $entity->get('field_beneficios_derecha_descrip')->value;  
+        //obtener campo field_beneficios_derecha_icon
+        $field_beneficios_derecha_icon = $entity->get('field_beneficios_derecha_icon')->value;
+        //obtener campo field_beneficios_derecha_titulo
+        $field_beneficios_derecha_titulo = $entity->get('field_beneficios_derecha_titulo')->value;
+        //obtener campo field_beneficios_izq_descripcion
+        $field_beneficios_izq_descripcion = $entity->get('field_beneficios_izq_descripcion')->value;
+        //obtener campo field_beneficios_izq_icono
+        $field_beneficios_izq_icono = $entity->get('field_beneficios_izq_icono')->value;
+        //obtener campo field_beneficios_izq_titulo
+        $field_beneficios_izq_titulo = $entity->get('field_beneficios_izq_titulo')->value;
+        //obtener campo field_beneficios_title
+        $field_beneficios_title = $entity->get('field_beneficios_title')->value;
         //obtener campo field_colaboraciones_facilitadas
         $field_colaboraciones_facilitadas = $entity->get('field_colaboraciones_facilitadas')->value;
+        //obtener campo field_colaboraciones_icon
+        $field_colaboraciones_icon = $entity->get('field_colaboraciones_icon')->value;
+        //obtener campo field_colaboraciones_title
+        $field_colaboraciones_title = $entity->get('field_colaboraciones_title')->value;
+        //obtener campo field_cta_descripcion
+        $field_cta_descripcion = $entity->get('field_cta_descripcion')->value;
+        //obtener campo field_cta_enlace_button
+        $field_cta_enlace_button = $entity->get('field_cta_enlace_button')->value;
+        //obtener campo field_cta_titulo
+        $field_cta_titulo = $entity->get('field_cta_titulo')->value;
+        //obtener campo field_cta_label_button
+        $field_cta_label_button = $entity->get('field_cta_label_button')->value;
+        //obtener campo field_hero_section_button_label
+        $field_hero_section_button_label = $entity->get('field_hero_section_button_label')->value;
+        //obtener campo field_hero_section_description
+        $field_hero_section_description = $entity->get('field_hero_section_description')->value;
+        //obtener campo field_hero_section_title  
+        $field_hero_section_title = $entity->get('field_hero_section_title')->value;
+        //obtener campo field_hero_section_link
+        $field_hero_section_link = $entity->get('field_hero_section_link')->value;
+        //obtener campo field_herramientas_centro_descri
+        $field_herramientas_centro_descripcion = $entity->get('field_herramientas_centro_descri')->value;
+        //obtener campo field_herramientas_centro_icon
+        $field_herramientas_centro_icon = $entity->get('field_herramientas_centro_icon')->value;
+        //obtener campo field_herramientas_centro_titulo
+        $field_herramientas_centro_titulo = $entity->get('field_herramientas_centro_titulo')->value;
+        //obtener campo field_herramientas_derecha_descr
+        $field_herramientas_derecha_descripcion = $entity->get('field_herramientas_derecha_descr')->value;
+        //obtener campo field_herramientas_derecha_icon
+        $field_herramientas_derecha_icon = $entity->get('field_herramientas_derecha_icon')->value;
+        //obtener campo field_herramientas_derecha_titul
+        $field_herramientas_derecha_titulo = $entity->get('field_herramientas_derecha_titul')->value;
+        //obtener campo field_herramientas_izq_descripci
+        $field_herramientas_izq_descripcion = $entity->get('field_herramientas_izq_descripci')->value;
+        //obtener campo field_herramientas_izq_icon
+        $field_herramientas_izq_icon = $entity->get('field_herramientas_izq_icon')->value;
+        //obtener campo field_herramientas_izq_titulo
+        $field_herramientas_izq_titulo = $entity->get('field_herramientas_izq_titulo')->value;
+        //obtener campo field_herramientas_titulo
+        $field_herramientas_titulo = $entity->get('field_herramientas_titulo')->value;
         //obtener campo field_proyectos_activos
         $field_proyectos_activos = $entity->get('field_proyectos_activos')->value;
+        //obtener campo field_proyectos_icon
+        $field_proyectos_activos_icon = $entity->get('field_proyectos_activos_icon')->value;
+        //obtener campo field_proyectos_activos_label
+        $field_proyectos_activos_label = $entity->get('field_proyectos_activos_label')->value;
+        //obtener campo field_data_clave_titulo
+        $field_data_clave_titulo = $entity->get('field_data_clave_titulo')->value;
+        //obtener campo field_logos_cooperantes el cual es de tipo imagen y obtener la url de la imagen
+        $field_logos_cooperantes = $entity->get('field_logos_cooperantes')->entity->getFileUri();
+        //validar si existe alguna imagen
+        $field_logos_cooperantes_url = '';
+        if ($field_logos_cooperantes) {
+          $field_logos_cooperantes_url = \Drupal::service('file_url_generator')->generateAbsoluteString($field_logos_cooperantes);  
+        }
+
+
+        
+        //agrupar los campos en un array para pasarlos a la plantilla 
+        $fields = [
+          'field_actores_registrados' => $field_actores_registrados,
+          'field_actores_registrados_icon' => $field_actores_registrados_icon,
+          'field_actores_registrados_label' => $field_actores_registrados_label,
+          'field_beneficios_centro_descripcion' => $field_beneficios_centro_descripcion,
+          'field_beneficios_centro_icon' => $field_beneficios_centro_icon,
+          'field_beneficios_centro_titulo' => $field_beneficios_centro_titulo,
+          'field_beneficios_derecha_descripcion' => $field_beneficios_derecha_descripcion,
+          'field_beneficios_derecha_icon' => $field_beneficios_derecha_icon,
+          'field_beneficios_derecha_titulo' => $field_beneficios_derecha_titulo,
+          'field_beneficios_izq_descripcion' => $field_beneficios_izq_descripcion,
+          'field_beneficios_izq_icono' => $field_beneficios_izq_icono,
+          'field_beneficios_izq_titulo' => $field_beneficios_izq_titulo,
+          'field_beneficios_title' => $field_beneficios_title,  
+          'field_colaboraciones_facilitadas' => $field_colaboraciones_facilitadas,
+          'field_colaboraciones_icon' => $field_colaboraciones_icon,
+          'field_colaboraciones_title' => $field_colaboraciones_title,
+          'field_cta_descripcion' => $field_cta_descripcion,
+          'field_cta_enlace_button' => $field_cta_enlace_button,
+          'field_cta_titulo' => $field_cta_titulo,
+          'field_cta_label_button' => $field_cta_label_button,
+          'field_hero_section_button_label' => $field_hero_section_button_label,
+          'field_hero_section_description' => $field_hero_section_description,
+          'field_hero_section_title' => $field_hero_section_title,
+          'field_hero_section_link' => $field_hero_section_link,
+          'field_herramientas_centro_descripcion' => $field_herramientas_centro_descripcion,
+          'field_herramientas_centro_icon' => $field_herramientas_centro_icon,
+          'field_herramientas_centro_titulo' => $field_herramientas_centro_titulo,
+          'field_herramientas_derecha_descripcion' => $field_herramientas_derecha_descripcion,
+          'field_herramientas_derecha_icon' => $field_herramientas_derecha_icon,
+          'field_herramientas_derecha_titulo' => $field_herramientas_derecha_titulo,
+          'field_herramientas_izq_descripcion' => $field_herramientas_izq_descripcion,
+          'field_herramientas_izq_icon' => $field_herramientas_izq_icon,
+          'field_herramientas_izq_titulo' => $field_herramientas_izq_titulo,
+          'field_herramientas_titulo' => $field_herramientas_titulo,
+          'field_proyectos_activos' => $field_proyectos_activos,
+          'field_proyectos_activos_icon' => $field_proyectos_activos_icon,
+          'field_proyectos_activos_label' => $field_proyectos_activos_label,
+          'field_data_clave_titulo' => $field_data_clave_titulo,
+          'field_logos_cooperantes_url' => $field_logos_cooperantes_url,
+        ];
 
 
         return [
                   '#theme' => 'zinco_landing_page',
-                  '#actores_registrados' => $field_actores_registrados,
-                  '#colaboraciones_facilitadas' => $field_colaboraciones_facilitadas,
-                  '#proyectos_activos' => $field_proyectos_activos,
+                  '#fields' => $fields,
                   '#cache' => [
                     'tags' => ['node_list'],
                   ],

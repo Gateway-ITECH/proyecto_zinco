@@ -14,15 +14,15 @@
 <div class="zinco-landing-page">
   <div class="row w-100 m-0">
     <div class="col-12 hero-section">
-      <h1 class="hero-title">Sé el Motor de la Innovación. Conéctate al Ecosistema CTI que está Transformando la Región.</h1>
-      <p class="hero-subtitle">Únete a la plataforma inteligente que centraliza la información de los actores, amplifica tu visibilidad y genera oportunidades de colaboración en Ciencia, Tecnología e Innovación.</p>
-      <a href="/actores/bundles" class="hero-button">Quiero Unirme al Ecosistema</a>
+      <h1 class="hero-title">{{ fields.field_hero_section_title ? fields.field_hero_section_title : 'No hay data' }}</h1>
+      <p class="hero-subtitle">{{ fields.field_hero_section_description ? fields.field_hero_section_description : 'No hay data' }}</p>
+      <a href="{{ fields.field_hero_section_link ? fields.field_hero_section_link : '#' }}" class="hero-button">{{ fields.field_hero_section_button_label ? fields.field_hero_section_button_label : 'No hay data' }}</a>
     </div>
   </div>
   <section class="zinco-numbers-section">
     <div class="row w-100 m-0">
       <div class="col-12">
-        <h2 class="zinco-numbers-title text-center my-4">El Ecosistema en Números: Datos que Impulsan Decisiones</h2>
+        <h2 class="zinco-numbers-title text-center my-4">{{ fields.field_data_clave_titulo ? fields.field_data_clave_titulo : 'No hay data' }}</h2>
       </div>
     </div>
     <div class="row w-100 m-0 justify-content-center">
@@ -30,10 +30,10 @@
         <div class="card h-100 text-center zinco-number-card">
           <div class="card-body d-flex flex-column align-items-center justify-content-center">
             <div class="zinco-number-icon mb-3">
-              <i class="fas fa-users fa-3x"></i>
+              <i class="{{ fields.field_actores_registrados_icon ? fields.field_actores_registrados_icon : 'fas fa-users fa-3x' }}"></i>
             </div>
-            <p class="card-text zinco-number-description">Actores Registrados</p>
-            <span class="zinco-number-value display-4 fw-bold">{{ actores_registrados }}+</span>
+            <p class="card-text zinco-number-description">{{ fields.field_actores_registrados_label ? fields.field_actores_registrados_label : 'No hay data' }}</p>
+            <span class="zinco-number-value display-4 fw-bold">{{ fields.field_actores_registrados ? fields.field_actores_registrados : 999  }}+</span>
           </div>
         </div>
       </div>
@@ -41,10 +41,10 @@
         <div class="card h-100 text-center zinco-number-card">
           <div class="card-body d-flex flex-column align-items-center justify-content-center">
             <div class="zinco-number-icon mb-3">
-              <i class="fas fa-rocket fa-3x"></i>
+              <i class="{{ fields.field_proyectos_activos_icon ? fields.field_proyectos_activos_icon : 'fas fa-users fa-3x' }}"></i>
             </div>
-            <p class="card-text zinco-number-description">Proyectos Activos</p>
-            <span class="zinco-number-value display-4 fw-bold">{{ proyectos_activos }}+</span>
+            <p class="card-text zinco-number-description">{{ fields.field_proyectos_activos_label ? fields.field_proyectos_activos_label : 'No hay data' }}</p>
+            <span class="zinco-number-value display-4 fw-bold">{{ fields.field_proyectos_activos ? fields.field_proyectos_activos : 999  }}+</span>
           </div>
         </div>
       </div>
@@ -52,10 +52,10 @@
         <div class="card h-100 text-center zinco-number-card">
           <div class="card-body d-flex flex-column align-items-center justify-content-center">
             <div class="zinco-number-icon mb-3">
-              <i class="fas fa-project-diagram fa-3x"></i>
+              <i class="{{ fields.field_colaboraciones_icon ? fields.field_colaboraciones_icon : 'fas fa-users fa-3x' }}"></i>
             </div>
-            <p class="card-text zinco-number-description">Colaboraciones Facilitadas</p>
-            <span class="zinco-number-value display-4 fw-bold">{{ colaboraciones_facilitadas }}+</span>
+            <p class="card-text zinco-number-description">{{ fields.field_colaboraciones_title ? fields.field_colaboraciones_title : 'No hay data' }}</p>
+            <span class="zinco-number-value display-4 fw-bold">{{ fields.field_colaboraciones_facilitadas ? fields.field_colaboraciones_facilitadas : 999  }}+</span>
           </div>
         </div>
       </div>
@@ -63,16 +63,16 @@
   </section>
   <section class="zinco-benefits-section py-5">
     <div class="container">
-      <h2 class="text-center mb-5 zinco-benefits-title">Encuentra Tu Lugar: Beneficios Clave de Ser Miembro</h2>
+      <h2 class="text-center mb-5 zinco-benefits-title">{{ fields.field_beneficios_title ? fields.field_beneficios_title : 'No hay data' }}</h2>
       <div class="row justify-content-center">
         <div class="col-12 col-md-6 col-lg-4 mb-4">
           <div class="card h-100 zinco-benefit-card">
             <div class="card-body">
               <div class="zinco-benefit-icon mb-3">
-                <i class="fas fa-flask fa-zinco-300"></i>
+                <i class="{{ fields.field_beneficios_izq_icono ? fields.field_beneficios_izq_icono : 'fas fa-users fa-3x' }}"></i>
               </div>
-              <h3 class="card-title zinco-benefit-title">Para la Investigación</h3>
-              <p class="card-text zinco-benefit-description">Accede a una red de aliados industriales, encuentra oportunidades de financiación y aumenta la visibilidad de tus investigaciones y publicaciones científicas.</p>
+              <h3 class="card-title zinco-benefit-title">{{ fields.field_beneficios_izq_titulo ? fields.field_beneficios_izq_titulo : 'No hay data' }}</h3>
+              <p class="card-text zinco-benefit-description">{{ fields.field_beneficios_izq_descripcion ? fields.field_beneficios_izq_descripcion : 'No hay data' }}</p>
             </div>
           </div>
         </div>
@@ -80,10 +80,10 @@
           <div class="card h-100 zinco-benefit-card">
             <div class="card-body">
               <div class="zinco-benefit-icon mb-3">
-                <i class="fas fa-briefcase fa-zinco-300"></i>
+                <i class="{{ fields.field_beneficios_centro_icon ? fields.field_beneficios_centro_icon : 'fas fa-users fa-3x' }}"></i>
               </div>
-              <h3 class="card-title zinco-benefit-title">Para Empresas</h3>
-              <p class="card-text zinco-benefit-description">Descubre soluciones tecnológicas, conéctate con expertos para resolver desafíos y encuentra aliados estratégicos para acelerar tu innovación.</p>
+              <h3 class="card-title zinco-benefit-title">{{ fields.field_beneficios_centro_titulo ? fields.field_beneficios_centro_titulo : 'No hay data' }}</h3>
+              <p class="card-text zinco-benefit-description">{{ fields.field_beneficios_centro_descripcion ? fields.field_beneficios_centro_descripcion : 'No hay data' }}</p>
             </div>
           </div>
         </div>
@@ -91,10 +91,10 @@
           <div class="card h-100 zinco-benefit-card">
             <div class="card-body">
               <div class="zinco-benefit-icon mb-3">
-                <i class="fas fa-building fa-zinco-300"></i>
+                <i class="{{ fields.field_beneficios_derecha_icon ? fields.field_beneficios_derecha_icon : 'fas fa-users fa-3x' }}"></i>
               </div>
-              <h3 class="card-title zinco-benefit-title">Para el Gobierno y la Sociedad</h3>
-              <p class="card-text zinco-benefit-description">Promueve el desarrollo regional, accede a datos confiables para políticas públicas y fomenta la participación ciudadana en ciencia y tecnología.</p>
+              <h3 class="card-title zinco-benefit-title">{{ fields.field_beneficios_derecha_titulo ? fields.field_beneficios_derecha_titulo : 'No hay data' }}</h3>
+              <p class="card-text zinco-benefit-description">{{ fields.field_beneficios_derecha_descripcion ? fields.field_beneficios_derecha_descripcion : 'No hay data' }}</p>
             </div>
           </div>
         </div>
@@ -104,16 +104,16 @@
   </section>
   <section class="zinco-tools-section py-5">
     <div class="container">
-      <h2 class="text-center mb-5 zinco-tools-title">Herramientas de Alto Valor para la Colaboración Continua</h2>
+      <h2 class="text-center mb-5 zinco-tools-title">{{ fields.field_herramientas_titulo ? fields.field_herramientas_titulo : 'No hay data' }}</h2>
       <div class="row justify-content-center">
         <div class="col-12 col-md-6 col-lg-4 mb-4">
           <div class="card h-100 zinco-tool-card">
             <div class="card-body">
               <div class="zinco-tool-icon mb-3">
-                <i class="fas fa-users-cog fa-zinco-300"></i> {# Icon for Dynamic Actor Directory #}
+                <i class="{{ fields.field_herramientas_izq_icon ? fields.field_herramientas_izq_icon : 'fas fa-users fa-3x' }}"></i> {# Icon for Dynamic Actor Directory #}
               </div>
-              <h3 class="card-title zinco-tool-title">Directorio Dinámico de Actores</h3>
-              <p class="card-text zinco-tool-description">Encuentra y conéctate fácilmente con investigadores, empresas e instituciones a través de un directorio inteligente y actualizado.</p>
+              <h3 class="card-title zinco-tool-title">{{ fields.field_herramientas_izq_titulo ? fields.field_herramientas_izq_titulo : 'No hay data' }}</h3>
+              <p class="card-text zinco-tool-description">{{ fields.field_herramientas_izq_descripcion ? fields.field_herramientas_izq_descripcion : 'No hay data' }}</p>
             </div>
           </div>
         </div>
@@ -121,10 +121,10 @@
           <div class="card h-100 zinco-tool-card">
             <div class="card-body">
               <div class="zinco-tool-icon mb-3">
-                <i class="fas fa-lightbulb fa-zinco-300"></i> {# Icon for Opportunity Manager #}
+                <i class="{{ fields.field_herramientas_centro_icon ? fields.field_herramientas_centro_icon : 'fas fa-users fa-3x' }}"></i> {# Icon for Opportunity Manager #}
               </div>
-              <h3 class="card-title zinco-tool-title">Gestor de Oportunidades</h3>
-              <p class="card-text zinco-tool-description">Publica tus necesidades y ofertas, desde desafíos tecnológicos específicos hasta propuestas de colaboración, y encuentra la combinación perfecta.</p>
+              <h3 class="card-title zinco-tool-title">{{ fields.field_herramientas_centro_titulo ? fields.field_herramientas_centro_titulo : 'No hay data' }}</h3>
+              <p class="card-text zinco-tool-description">{{ fields.field_herramientas_centro_descripcion ? fields.field_herramientas_centro_descripcion : 'No hay data' }}</p>
             </div>
           </div>
         </div>
@@ -132,10 +132,10 @@
           <div class="card h-100 zinco-tool-card">
             <div class="card-body">
               <div class="zinco-tool-icon mb-3">
-                <i class="fas fa-project-diagram fa-zinco-300"></i> {# Icon for CTI Capability Visualizer #}
+                <i class="{{ fields.field_herramientas_derecha_icon ? fields.field_herramientas_derecha_icon : 'fas fa-users fa-3x' }}"></i> {# Icon for CTI Capability Visualizer #}
               </div>
-              <h3 class="card-title zinco-tool-title">Visualizador de Capacidades CTI</h3>
-              <p class="card-text zinco-tool-description">Explora dashboards interactivos que muestran las fortalezas de la región, identificando áreas estratégicas y posibles colaboradores.</p>
+              <h3 class="card-title zinco-tool-title">{{ fields.field_herramientas_derecha_titulo ? fields.field_herramientas_derecha_titulo : 'No hay data' }}</h3>
+              <p class="card-text zinco-tool-description">{{ fields.field_herramientas_derecha_descripcion ? fields.field_herramientas_derecha_descripcion : 'No hay data' }}</p>
             </div>
           </div>
         </div>
@@ -146,11 +146,17 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-12 col-lg-8 text-center">
-          <h2 class="mb-4 zinco-cta-title">La Ciencia y la Tecnología No Esperan. Tu Lugar es Aquí.</h2>
-          <p class="mb-5 zinco-cta-description">Únete a una comunidad vibrante que está dando forma al futuro. Regístrate ahora para desbloquear todo tu potencial y comenzar a colaborar en el próximo gran avance.</p>
-          <a href="/actores/bundles" class="btn btn-success zinco-cta-button">Sí, Quiero Unirme al Ecosistema</a>
+          <h2 class="mb-4 zinco-cta-title">{{ fields.field_cta_titulo ? fields.field_cta_titulo : 'No hay data' }}</h2>
+          <p class="mb-5 zinco-cta-description">{{ fields.field_cta_descripcion ? fields.field_cta_descripcion : 'No hay data' }}</p>
+          <a href="{{ fields.field_cta_enlace_button ? fields.field_cta_enlace_button : '#' }}" class="hero-button zinco-cta-button">{{ fields.field_cta_label_button ? fields.field_cta_label_button : 'No hay data' }}</a>
         </div>
       </div>
     </div>
   </section>
+  <p></p>
+  {% if fields.field_logos_cooperantes_url %}
+    <div class="text-center mb-4">
+      <img src="{{ fields.field_logos_cooperantes_url }}" class="img-fluid" alt="Logos Cooperantes">
+    </div>
+  {% endif %}
 </div>
