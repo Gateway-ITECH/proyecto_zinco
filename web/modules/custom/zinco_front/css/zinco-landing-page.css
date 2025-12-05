@@ -1,11 +1,13 @@
 .hero-section {
   text-align: center;
   padding: 100px 0;
-  background-color: #fff; /* Dark blue background */
+  background-color: #fff;
+  /* Dark blue background */
   /* background-image: url('../images/network-pattern.svg'); */
   background-size: cover;
   background-position: center;
-  color: #454545; /* Light gray text */
+  color: #454545;
+  /* Light gray text */
 }
 
 .hero-title {
@@ -24,27 +26,34 @@
 
 .hero-button {
   display: inline-block;
-  background-color: rgb(66, 160, 0); /* Green color */
-  color: #fff; /* Dark blue text */
+  background-color: rgb(127, 197, 77);
+  /* Green color */
+  color: #fff;
+  /* Dark blue text */
   padding: 15px 30px;
   border-radius: 8px;
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 0 15px rgba(57, 255, 20, 0.6); /* Green glow */
+  box-shadow: 0 0 15px rgba(57, 255, 20, 0.6);
+  /* Green glow */
 }
 
 .hero-button:hover {
-  background-color: #2FFF00; /* Slightly brighter green on hover */
-  box-shadow: 0 0 25px rgba(57, 255, 20, 0.8); /* More intense glow on hover */
+  background-color: #2FFF00;
+  /* Slightly brighter green on hover */
+  box-shadow: 0 0 25px rgba(57, 255, 20, 0.8);
+  /* More intense glow on hover */
   transform: translateY(-2px);
 }
 
 
 .zinco-numbers-section {
   padding: 60px 0;
-  background-color: #fff; /* Dark blue background */
-  color: #454545; /* Light gray text */
+  background-color: #fff;
+  /* Dark blue background */
+  color: #454545;
+  /* Light gray text */
 }
 
 .zinco-numbers-title {
@@ -55,9 +64,11 @@
 }
 
 .zinco-number-card.card {
-  border: 1px solid rgb(66, 160, 0); /* Slightly lighter dark blue border */
+  border: 1px solid rgb(187, 242, 148);
+  /* Slightly lighter dark blue border */
   border-radius: 12px;
-  background: rgb(66, 160, 0); /* Darker blue background for cards */
+  background: rgb(127, 197, 77);
+  /* Darker blue background for cards */
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -68,28 +79,36 @@
 }
 
 .zinco-number-icon img {
-  width: 60px; /* Adjust icon size as needed */
+  width: 60px;
+  /* Adjust icon size as needed */
   height: 60px;
-  filter: invert(70%) sepia(100%) saturate(500%) hue-rotate(120deg) brightness(100%) contrast(100%); /* Greenish tint for icons */
+  filter: invert(70%) sepia(100%) saturate(500%) hue-rotate(120deg) brightness(100%) contrast(100%);
+  /* Greenish tint for icons */
 }
 
 .zinco-number-icon i {
-  color: #fff; /* Teal color for icons */
+  color: #fff;
+  /* Teal color for icons */
 }
 
 .zinco-number-description.card-text {
   font-size: 1.1rem;
-  color: #fff; /* Slightly darker light gray for description */
+  color: #fff;
+  /* Slightly darker light gray for description */
   margin-bottom: 10px;
 }
 
 .zinco-number-value {
-  font-size: 3rem; /* Large font size for numbers */
+  font-size: 3rem;
+  /* Large font size for numbers */
   font-weight: 700;
-  color: #fff; /* Green color for numbers */
+  color: #fff;
+  /* Green color for numbers */
 }
+
 .zinco-benefits-section {
-  background-color: #fff; /* Dark blue background */
+  background-color: #fff;
+  /* Dark blue background */
   color: #454545;
 }
 
@@ -100,9 +119,11 @@
 }
 
 .zinco-benefit-card.card {
-  border: 1px solid rgb(66, 160, 0); /* Slightly lighter dark blue border */
+  border: 1px solid rgb(127, 197, 77);
+  /* Slightly lighter dark blue border */
   border-radius: 12px;
-  background: rgb(66, 160, 0); /* Darker blue background for cards */
+  background: rgb(127, 197, 77);
+  /* Darker blue background for cards */
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   padding: 1.5rem;
@@ -115,8 +136,10 @@
 }
 
 .zinco-benefit-icon {
-  color: #fff; /* Teal color for icons */
-  font-size: 300%; /* 300% increased size */
+  color: #fff;
+  /* Teal color for icons */
+  font-size: 300%;
+  /* 300% increased size */
   margin-bottom: 1rem;
 }
 
@@ -134,8 +157,9 @@
 }
 
 .zinco-button-link {
-  background-color: rgb(66, 160, 0); /* Teal button background */
-  border-color: rgb(66, 160, 0);
+  background-color: rgb(127, 197, 77);
+  /* Teal button background */
+  border-color: rgb(127, 197, 77);
   color: #ffffff;
   padding: 0.75rem 1.5rem;
   border-radius: 0.3rem;
@@ -144,12 +168,15 @@
 }
 
 .zinco-button-link:hover {
-  background-color: rgb(66, 160, 0); /* Darker teal on hover */
-  border-color: rgb(66, 160, 0);
+  background-color: rgb(127, 197, 77);
+  /* Darker teal on hover */
+  border-color: rgb(127, 197, 77);
   color: #ffffff;
 }
+
 .zinco-tools-section {
-  background-color: #fff; /* Dark blue background */
+  background-color: #fff;
+  /* Dark blue background */
   color: #ffffff;
 }
 
@@ -160,9 +187,11 @@
 }
 
 .zinco-tool-card.card {
-  border: 1px solid rgb(66, 160, 0); /* Slightly lighter dark blue border */
+  border: 1px solid rgb(127, 197, 77);
+  /* Slightly lighter dark blue border */
   border-radius: 12px;
-  background: rgb(66, 160, 0); /* Darker blue background for cards */
+  background: rgb(127, 197, 77);
+  /* Darker blue background for cards */
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   padding: 1.5rem;
@@ -175,8 +204,10 @@
 }
 
 .zinco-tool-icon {
-  color: #fff; /* Teal color for icons */
-  font-size: 300%; /* 300% increased size */
+  color: #fff;
+  /* Teal color for icons */
+  font-size: 300%;
+  /* 300% increased size */
   margin-bottom: 1rem;
 }
 
@@ -192,8 +223,10 @@
   font-size: 1rem;
   line-height: 1.5;
 }
+
 .zinco-cta-section {
-  background-color: #454545; /* Dark blue background */
+  background-color: #454545;
+  /* Dark blue background */
   color: #ffffff;
   text-align: center;
   padding: 80px 0;
@@ -215,24 +248,31 @@
 }
 
 .zinco-cta-button {
-  background-color: rgb(66, 160, 0); /* Green color */
-  border-color: rgb(66, 160, 0);
-  color: #fff; /* Dark blue text */
+  background-color: rgb(127, 197, 77);
+  /* Green color */
+  border-color: rgb(127, 197, 77);
+  color: #fff;
+  /* Dark blue text */
   padding: 15px 30px;
   border-radius: 8px;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 0 15px rgba(57, 255, 20, 0.6); /* Green glow */
+  box-shadow: 0 0 15px rgba(57, 255, 20, 0.6);
+  /* Green glow */
 }
 
 .zinco-cta-button:hover {
-  background-color: rgb(66, 160, 0); /* Slightly brighter green on hover */
-  border-color: rgb(66, 160, 0);
-  box-shadow: 0 0 25px rgba(57, 255, 20, 0.8); /* More intense glow on hover */
+  background-color: rgb(127, 197, 77);
+  /* Slightly brighter green on hover */
+  border-color: rgb(127, 197, 77);
+  box-shadow: 0 0 25px rgba(57, 255, 20, 0.8);
+  /* More intense glow on hover */
   transform: translateY(-2px);
 }
+
 .zinco-cta-section {
-  background-color: #fff; /* Dark blue background */
+  background-color: #fff;
+  /* Dark blue background */
   color: #454545;
   text-align: center;
   padding: 80px 0;
@@ -254,27 +294,33 @@
 }
 
 .zinco-cta-button {
-  background-color: rgb(66, 160, 0); /* Green color */
-  border-color: rgb(66, 160, 0);
-  color: #fff; /* Dark blue text */
+  background-color: rgb(127, 197, 77);
+  /* Green color */
+  border-color: rgb(127, 197, 77);
+  color: #fff;
+  /* Dark blue text */
   padding: 15px 30px;
   border-radius: 8px;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 0 10px rgba(57, 255, 20, 0.8); /* Green glow */
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.8);
+  /* Green glow */
 }
 
 .zinco-cta-button:hover {
-  background-color: rgb(66, 160, 0); /* Slightly brighter green on hover */
-  border-color: rgb(66, 160, 0);
-  box-shadow: 0 0 25px rgba(57, 255, 20, 0.8); /* More intense glow on hover */
+  background-color: rgb(127, 197, 77);
+  /* Slightly brighter green on hover */
+  border-color: rgb(127, 197, 77);
+  box-shadow: 0 0 25px rgba(57, 255, 20, 0.8);
+  /* More intense glow on hover */
   transform: translateY(-2px);
 }
 
 #quienes-somos,
 #nuestros-objetivos {
   padding: 60px 60px;
-  background-color: #f8f9fa; /* Light background for sections */
+  background-color: #f8f9fa;
+  /* Light background for sections */
   color: #333;
 }
 
@@ -283,7 +329,8 @@
   font-size: 2.8rem;
   font-weight: 700;
   margin-bottom: 40px;
-  color: #454545; /* Dark text for titles */
+  color: #454545;
+  /* Dark text for titles */
 }
 
 #quienes-somos p,
@@ -292,13 +339,15 @@
   line-height: 1.8;
   margin-bottom: 15px;
   color: #555;
-  padding-left: 10px; /* Indent for readability */
+  padding-left: 10px;
+  /* Indent for readability */
 }
 
 
 
 #nuestros-objetivos ul {
-  list-style: none; /* Remove default list style */
+  list-style: none;
+  /* Remove default list style */
   padding-left: 0;
   max-width: 800px;
   margin: 0 auto;
@@ -311,13 +360,16 @@
 }
 
 #nuestros-objetivos ul li i {
-  color: rgb(66, 160, 0); /* Green icon color */
+  color: rgb(127, 197, 77);
+  /* Green icon color */
   margin-right: 25px;
-  padding-top: 5px; /* Align icon with text */
+  padding-top: 5px;
+  /* Align icon with text */
 }
 
 #nuestros-objetivos ul li h3 {
-  color: #454545; /* Darker color for headings */
+  color: #454545;
+  /* Darker color for headings */
   font-size: 1.25rem;
   font-weight: bold;
   margin-bottom: 5px;

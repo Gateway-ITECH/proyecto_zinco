@@ -5,12 +5,94 @@
  */
 
 .chart-card-height {
-  min-height: 450px; /* Adjust this value as needed to match the height of the other card */
+  min-height: 450px;
+  /* Adjust this value as needed to match the height of the other card */
 }
-html, body {
-  font-family: 'Space Grotesk', sans-serif; /* Apply Space Grotesk font */
-  
+
+html,
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  /* Apply Space Grotesk font */
+
+}
+
+.grupos-investigacion {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  margin: 2rem 0;
+  border: 1px solid #f1f5f9;
+}
+
+.grupos-investigacion table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 0;
+}
+
+.grupos-investigacion thead th {
+  background-color: #f8fafc;
+  color: #64748b;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.grupos-investigacion tbody tr {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.grupos-investigacion tbody tr:last-child {
+  border-bottom: none;
+}
+
+.grupos-investigacion tbody tr:hover {
+  background-color: #f8fafc;
+  transform: scale(1.005);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  z-index: 10;
+  position: relative;
+}
+
+.grupos-investigacion tbody td {
+  padding: 1.5rem;
+  color: #334155 !important;
+  font-size: 0.95rem;
+  vertical-align: middle;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.grupos-investigacion tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Styling for the 'Ver detalle' link if it exists in the table */
+.grupos-investigacion tbody td a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.25rem;
+  background-color: #f0f9ff;
+  color: #0284c7;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.grupos-investigacion tbody td a:hover {
+  background-color: #0284c7;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
 }
 
 /*
-
