@@ -62,7 +62,7 @@
               <div class="card shadow-sm">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h6 class="card-title text-muted text-uppercase mb-0"><a href="/data/grupos-investigacion">Grupos de Investigación</a></h6>
+                    <h6 class="card-title text-muted text-uppercase mb-0"><a href="{{ path('view.listas_de_data.page_grupos_investigacion') }}" class="detalle-dump-data-link">Grupos de Investigación</a></h6>
                     <!-- Icono para Grupos de Investigación -->
                   </div>
                   <h3 class="card-text mb-1" id="actores_grupos_de_investigacion_value">-</h3>
@@ -74,7 +74,7 @@
               <div class="card shadow-sm">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_investigadores">Investigadores Reconocidos</a></h6>
+                    <h6 class="card-title text-muted text-uppercase mb-0"><a href="{{ path('view.dashboard_investigadores.page_investigadores') }}" class="detalle-dump-data-link">Investigadores Reconocidos</a></h6>
                     <!-- Icono para Investigadores Reconocidos -->
                   </div>
                   <h3 class="card-text mb-1" id="actores_investigadores_reconocidos_value">-</h3>
@@ -85,7 +85,7 @@
               <div class="card shadow-sm">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_centros_investigacion">Centros de Investigación Activos</a></h6>
+                    <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_organizaciones_intermedias.page_centros_investigacion', {'arg_0': 'Córdoba'}) }}">Centros de Investigación Activos</a></h6>
                     <!-- Icono para Centros de Investigación Activos -->
                   </div>
                   <h3 class="card-text mb-1" id="actores_centros_investigacion_value">-</h3>
@@ -96,7 +96,7 @@
               <div class="card shadow-sm">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_centros_desarrollo_tecnologico">Centros de desarrollo tecnológico</a></h6>
+                    <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_organizaciones_intermedias.page_centros_desarrollo_tecnologico', {'arg_0': 'Córdoba'}) }}">Centros de desarrollo tecnológico</a></h6>
                     <!-- Icono para Centros de desarrollo tecnológico -->
                   </div>
                   <h3 class="card-text mb-1" id="actores_centros_desarrollo_tecnologico_value">-</h3>
@@ -108,7 +108,7 @@
               <div class="card shadow-sm">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_centros_innovacion">Centros de innovación</a></h6>
+                    <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_organizaciones_intermedias.page_centros_innovacion', {'arg_0': 'Córdoba'}) }}">Centros de innovación</a></h6>
                     <!-- Icono para Centros de innovación -->
                   </div>
                   <h3 class="card-text mb-1" id="actores_centros_innovacion_value">-</h3>
@@ -119,7 +119,7 @@
              <div class="card shadow-sm">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_centros_ciencia">Centros de ciencia</a></h6>
+                    <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_organizaciones_intermedias.page_centros_ciencia', {'arg_0': 'Córdoba'}) }}">Centros de ciencia</a></h6>
                     <!-- Icono para Centros de innovación -->
                   </div>
                   <h3 class="card-text mb-1" id="actores_centros_ciencia_value">-</h3>
@@ -130,7 +130,7 @@
               <div class="card shadow-sm">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_centros_institutos">Institutos de Investigación</a></h6>
+                    <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_organizaciones_intermedias.page_institutos_investigacion', {'arg_0': 'Córdoba'}) }}">Institutos de Investigación</a></h6>
                     <!-- Icono para Centros de desarrollo tecnológico -->
                   </div>
                   <h3 class="card-text mb-1" id="actores_centros_institutos_value">-</h3>
@@ -153,7 +153,7 @@
               <div class="card shadow-sm">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_empresas_altamente_innovadoras">Empresas altamente innovadoras</a></h6>
+                    <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_organizaciones_intermedias.page_empresas_altamente_innovadoras', {'arg_0': 'Córdoba'}) }}">Empresas altamente innovadoras</a></h6>
                     <!-- Icono para Centros de desarrollo tecnológico -->
                   </div>
                   <h3 class="card-text mb-1" id="actores_empresas_altamente_innovadoras_value">-</h3>
@@ -165,7 +165,7 @@
               <div class="card shadow-sm">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_empresas_incubadoras">Incubadoras de empresas</a></h6>
+                    <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_organizaciones_intermedias.page_incubadoras_empresas', {'arg_0': 'Córdoba'}) }}">Incubadoras de empresas</a></h6>
                     <!-- Icono para Centros de desarrollo tecnológico -->
                   </div>
                   <h3 class="card-text mb-1" id="actores_empresas_incubadoras_value">-</h3>
@@ -177,7 +177,7 @@
               <div class="card shadow-sm">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_empresas_unidades_idi">Unidades Empresariales de I+D+i</a></h6>
+                    <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_organizaciones_intermedias.page_unidades_idi', {'arg_0': 'Córdoba'}) }}">Unidades Empresariales de I+D+i</a></h6>
                     <!-- Icono para Unidades Empresariales de I+D+i -->
                   </div>
                   <h3 class="card-text mb-1" id="empresas_unidades_idi_value">-</h3> {# Placeholder for actual number #}
@@ -194,7 +194,7 @@
               <div class="card shadow-sm">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_organizaciones_intermedias_otri">OTRIs</a></h6>
+                    <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_organizaciones_intermedias.page_otris', {'arg_0': 'Córdoba'}) }}">Oficinas de transferencia de resultados de investigación</a></h6>
                     <!-- Icono para Centros de desarrollo tecnológico -->
                   </div>
                   <h3 class="card-text mb-1" id="actores_organizaciones_intermedias_otri_value">-</h3>
@@ -218,7 +218,7 @@
               <div class="card shadow-sm">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_entidades_gobierno">Entidades gobierno</a></h6>
+                    <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_entidades_gobierno.page_entidades_gobierno') }}">Entidades gobierno</a></h6>
                     <!-- Icono para Centros de desarrollo tecnológico -->
                   </div>
                   <h3 class="card-text mb-1" id="actores_entidades_gobierno_value">-</h3>
@@ -230,7 +230,7 @@
               <div class="card shadow-sm">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instancias_gobierno">Instancias orientación política</a></h6>
+                    <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_instancias_orientacion_politica.page_instancias_orientacion_politica') }}">Instancias orientación política</a></h6>
                     <!-- Icono para Centros de desarrollo tecnológico -->
                   </div>
                   <h3 class="card-text mb-1" id="actores_instancias_gobierno_value">-</h3>

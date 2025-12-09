@@ -35,6 +35,11 @@
             sector = sectorSelect ? sectorSelect.value : '';
             tecnologias40 = tecnologias40Select ? tecnologias40Select.value : '';
 
+            const detalleDumpDataLinks = document.querySelectorAll('.detalle-dump-data-link');
+            detalleDumpDataLinks.forEach(link => {
+              link.href += `?municipio=${municipio}&sector=${sector}&tecnologia40=${tecnologias40}`;
+            });
+
             console.log('Municipio seleccionado:', this.value);
 
             callData(municipio, sector, tecnologias40);
@@ -47,6 +52,11 @@
             sector = sectorSelect ? sectorSelect.value : '';
             tecnologias40 = tecnologias40Select ? tecnologias40Select.value : '';
 
+            const detalleDumpDataLinks = document.querySelectorAll('.detalle-dump-data-link');
+            detalleDumpDataLinks.forEach(link => {
+              link.href += `?municipio=${municipio}&sector=${sector}&tecnologia40=${tecnologias40}`;
+            });
+
             console.log('Sector seleccionado:', this.value);
             callData(municipio, sector, tecnologias40);
 
@@ -58,6 +68,12 @@
             municipio = municipioSelect ? municipioSelect.value : '';
             sector = sectorSelect ? sectorSelect.value : '';
             tecnologias40 = tecnologias40Select ? tecnologias40Select.value : '';
+
+            //para todos los elementos que tengan la clase detalle-dump-data-link, agregar el valor de tecnologias40 al href
+            const detalleDumpDataLinks = document.querySelectorAll('.detalle-dump-data-link');
+            detalleDumpDataLinks.forEach(link => {
+              link.href += `?municipio=${municipio}&sector=${sector}&tecnologia40=${tecnologias40}`;
+            });
 
             console.log('Tecnologías 4.0 seleccionadas:', this.value);
             callData(municipio, sector, tecnologias40);
@@ -138,7 +154,7 @@
     const grupos_investigacion_elemento = ['actores_grupos_de_investigacion_value'];
 
     //parametros card investigadores reconocidos
-    const card_investigadores_tabla = 'data_investigadores';
+    const card_investigadores_tabla = 'data_view_investigadores';
     const card_investigadores_elemento = ['actores_investigadores_reconocidos_value'];
 
     //parametros card centros de investigacion
@@ -417,29 +433,29 @@
       loadData(municipio, sector, tecnologias40, card_organizaciones_intermedias_otri_tabla, card_organizaciones_intermedias_otri_elemento),
       loadData(municipio, sector, tecnologias40, card_entidades_gobierno_tabla, card_entidades_gobierno_elemento),
       loadData(municipio, sector, tecnologias40, card_instancias_gobierno_tabla, card_instancias_gobierno_elemento),
-      loadMultipleGroupedData(municipio, sector, tecnologias40, card_actores_sector_tablas, card_actores_sector_campo, card_actores_sector_elemento),
-      loadMultipleGroupedData(municipio, sector, tecnologias40, card_actores_municipio_tablas, card_actores_municipio_campo, card_actores_municipio_elemento),
-      loadMultipleGroupedData(municipio, sector, tecnologias40, card_actores_tecnologias40_tablas, card_actores_tecnologias40_campo, card_actores_tecnologias40_elemento),
+      //loadMultipleGroupedData(municipio, sector, tecnologias40, card_actores_sector_tablas, card_actores_sector_campo, card_actores_sector_elemento),
+      //loadMultipleGroupedData(municipio, sector, tecnologias40, card_actores_municipio_tablas, card_actores_municipio_campo, card_actores_municipio_elemento),
+      //loadMultipleGroupedData(municipio, sector, tecnologias40, card_actores_tecnologias40_tablas, card_actores_tecnologias40_campo, card_actores_tecnologias40_elemento),
 
       // pestaña de formacion
       loadData(municipio, sector, tecnologias40, card_universidades_tabla, card_universidades_elemento),
       loadData(municipio, sector, tecnologias40, card_programas_ofertados_tabla, card_programas_ofertados_elemento),
-      loadMultipleGroupedData(municipio, sector, tecnologias40, card_formacion_programas_academicos_sectores_tablas, card_formacion_programas_academicos_sectores_campo, card_formacion_programas_academicos_sectores_elemento),
-      loadMultipleGroupedData(municipio, sector, tecnologias40, card_formacion_programas_academicos_municipios_tablas, card_formacion_programas_academicos_municipios_campo, card_formacion_programas_academicos_municipios_elemento),
-      loadMultipleGroupedData(municipio, sector, tecnologias40, card_formacion_programas_academicos_eacin_tablas, card_formacion_programas_academicos_eacin_campo, card_formacion_programas_academicos_eacin_elemento),
+      //loadMultipleGroupedData(municipio, sector, tecnologias40, card_formacion_programas_academicos_sectores_tablas, card_formacion_programas_academicos_sectores_campo, card_formacion_programas_academicos_sectores_elemento),
+      //loadMultipleGroupedData(municipio, sector, tecnologias40, card_formacion_programas_academicos_municipios_tablas, card_formacion_programas_academicos_municipios_campo, card_formacion_programas_academicos_municipios_elemento),
+      //loadMultipleGroupedData(municipio, sector, tecnologias40, card_formacion_programas_academicos_eacin_tablas, card_formacion_programas_academicos_eacin_campo, card_formacion_programas_academicos_eacin_elemento),
 
       // pestaña de retos
-      loadEntityData(municipio, sector, tecnologias40, card_retos_entidad, card_retos_elemento, card_retos_filters),
-      loadEntityData(municipio, sector, tecnologias40, card_retos_en_evaluacion_entidad, card_retos_en_evaluacion_elemento, card_retos_en_evaluacion_filters),
-      loadEntityData(municipio, sector, tecnologias40, card_retos_finalizados_entidad, card_retos_finalizados_elemento, card_retos_finalizados_filters),
-      loadEntityGroupedData(municipio, sector, tecnologias40, card_retos_sectores_entidad, card_retos_sectores_elemento, card_retos_sectores_campo),
-      loadEntityGroupedData(municipio, sector, tecnologias40, card_retos_tecnologias_entidad, card_retos_tecnologias_elemento, card_retos_tecnologias_campo),
+      //loadEntityData(municipio, sector, tecnologias40, card_retos_entidad, card_retos_elemento, card_retos_filters),
+      //loadEntityData(municipio, sector, tecnologias40, card_retos_en_evaluacion_entidad, card_retos_en_evaluacion_elemento, card_retos_en_evaluacion_filters),
+      //loadEntityData(municipio, sector, tecnologias40, card_retos_finalizados_entidad, card_retos_finalizados_elemento, card_retos_finalizados_filters),
+      //loadEntityGroupedData(municipio, sector, tecnologias40, card_retos_sectores_entidad, card_retos_sectores_elemento, card_retos_sectores_campo),
+      //loadEntityGroupedData(municipio, sector, tecnologias40, card_retos_tecnologias_entidad, card_retos_tecnologias_elemento, card_retos_tecnologias_campo),
 
       // pestaña de proyectos
-      loadEntityData(municipio, sector, tecnologias40, card_proyectos_propuestos_entidad, card_proyectos_propuestos_elemento, card_proyectos_propuestos_filters),
-      loadEntityData(municipio, sector, tecnologias40, card_proyectos_ejecucion_entidad, card_proyectos_ejecucion_elemento, card_proyectos_ejecucion_filters),
-      loadEntityData(municipio, sector, tecnologias40, card_proyectos_finalizados_entidad, card_proyectos_finalizados_elemento, card_proyectos_finalizados_filters),
-      loadEntityGroupedData(municipio, sector, tecnologias40, card_proyectos_sectores_entidad, card_proyectos_sectores_elemento, card_proyectos_sectores_campo),
+      //loadEntityData(municipio, sector, tecnologias40, card_proyectos_propuestos_entidad, card_proyectos_propuestos_elemento, card_proyectos_propuestos_filters),
+      //loadEntityData(municipio, sector, tecnologias40, card_proyectos_ejecucion_entidad, card_proyectos_ejecucion_elemento, card_proyectos_ejecucion_filters),
+      //loadEntityData(municipio, sector, tecnologias40, card_proyectos_finalizados_entidad, card_proyectos_finalizados_elemento, card_proyectos_finalizados_filters),
+      //loadEntityGroupedData(municipio, sector, tecnologias40, card_proyectos_sectores_entidad, card_proyectos_sectores_elemento, card_proyectos_sectores_campo),
 
       // pestaña de proteccion intelectual
       loadData(municipio, sector, tecnologias40, card_registros_software_tabla, card_registros_software_elemento),
@@ -447,31 +463,31 @@
       // pestaña de generacion de conocimiento
       loadData(municipio, sector, tecnologias40, card_produccion_total_tabla, card_produccion_total_elemento),
       loadData(municipio, sector, tecnologias40, card_centros_cdt_tabla, card_centros_cdt_elemento),
-      loadMultipleGroupedData(municipio, sector, tecnologias40, card_grupos_investigacion_categorias_tablas, card_grupos_investigacion_categorias_campo, card_grupos_investgacion_categorias_elemento),
+      //loadMultipleGroupedData(municipio, sector, tecnologias40, card_grupos_investigacion_categorias_tablas, card_grupos_investigacion_categorias_campo, card_grupos_investgacion_categorias_elemento),
 
       // pestaña de software
       loadAccumulativeData(municipio, sector, tecnologias40, card_software_activos_tabla, card_software_activos_campo_acumulativo, card_software_activos_elemento),
-      loadEntityData(municipio, sector, tecnologias40, card_software_desarrollo_entidad, card_software_desarrollo_elemento, card_software_desarrollo_filters),
-      loadEntityData(municipio, sector, tecnologias40, card_software_finalizado_entidad, card_software_finalizado_elemento, card_software_finalizado_filters),
-      loadEntityData(municipio, sector, tecnologias40, card_software_recursos_captados_entidad, card_software_recursos_captados_elemento, card_software_recursos_captados_filters, 'monto_obtenido'),
-      loadEntityData(municipio, sector, tecnologias40, card_software_eventos_entidad, card_software_eventos_elemento, card_software_eventos_filters),
-      loadEntityGroupedData(municipio, sector, tecnologias40, card_software_fuentes_financiacion_entidad, card_software_fuentes_financiacion_elemento, card_software_fuentes_financiacion_campo),
+      //loadEntityData(municipio, sector, tecnologias40, card_software_desarrollo_entidad, card_software_desarrollo_elemento, card_software_desarrollo_filters),
+      //loadEntityData(municipio, sector, tecnologias40, card_software_finalizado_entidad, card_software_finalizado_elemento, card_software_finalizado_filters),
+      //loadEntityData(municipio, sector, tecnologias40, card_software_recursos_captados_entidad, card_software_recursos_captados_elemento, card_software_recursos_captados_filters, 'monto_obtenido'),
+      //loadEntityData(municipio, sector, tecnologias40, card_software_eventos_entidad, card_software_eventos_elemento, card_software_eventos_filters),
+      //loadEntityGroupedData(municipio, sector, tecnologias40, card_software_fuentes_financiacion_entidad, card_software_fuentes_financiacion_elemento, card_software_fuentes_financiacion_campo),
 
       // pestaña de empresas
 
 
-      loadEntityData(municipio, sector, tecnologias40, card_empresas_startups_entidad, card_empresas_startups_elemento, card_empresas_startups_filters),
-      loadEntityData(municipio, sector, tecnologias40, card_empresas_spinoffs_entidad, card_empresas_spinoffs_elemento, card_empresas_spinoffs_filters),
-      loadMultipleGroupedData(municipio, sector, tecnologias40, card_empresas_sectores_tablas, card_empresas_sectores_campo, card_empresas_sectores_elemento),
-      loadMultipleGroupedData(municipio, sector, tecnologias40, card_empresas_tecnologias_tablas, card_empresas_tenologias_campo, card_empresas_tecnologias_elemento),
+      //loadEntityData(municipio, sector, tecnologias40, card_empresas_startups_entidad, card_empresas_startups_elemento, card_empresas_startups_filters),
+      //loadEntityData(municipio, sector, tecnologias40, card_empresas_spinoffs_entidad, card_empresas_spinoffs_elemento, card_empresas_spinoffs_filters),
+      //loadMultipleGroupedData(municipio, sector, tecnologias40, card_empresas_sectores_tablas, card_empresas_sectores_campo, card_empresas_sectores_elemento),
+      //loadMultipleGroupedData(municipio, sector, tecnologias40, card_empresas_tecnologias_tablas, card_empresas_tenologias_campo, card_empresas_tecnologias_elemento),
 
       // pestaña de produccion cientifica
       loadData(municipio, sector, tecnologias40, card_articulos_investigacion_tabla, card_articulos_investigacion_elemento),
       loadData(municipio, sector, tecnologias40, card_patentes_tabla, card_patentes_elemento),
       loadData(municipio, sector, tecnologias40, card_productos_tecnologicos_tabla, card_productos_tecnologicos_elemento),
       loadData(municipio, sector, tecnologias40, card_consultorias_tabla, card_consultorias_elemento),
-      loadMultipleGroupedData(municipio, sector, tecnologias40, card_tipos_consultorias_tablas, card_tipos_consultorias_campo, card_tipos_consultorias_elemento),
-      loadMultipleGroupedData(municipio, sector, tecnologias40, card_productos_tecnologicos_grouped_tablas, card_productos_tecnologicos_grouped_campo, card_productos_tecnologicos_grouped_elemento),
+      //loadMultipleGroupedData(municipio, sector, tecnologias40, card_tipos_consultorias_tablas, card_tipos_consultorias_campo, card_tipos_consultorias_elemento),
+      //loadMultipleGroupedData(municipio, sector, tecnologias40, card_productos_tecnologicos_grouped_tablas, card_productos_tecnologicos_grouped_campo, card_productos_tecnologicos_grouped_elemento),
     ];
 
     Promise.all(dataLoadPromises)
@@ -498,13 +514,14 @@
           for (const elementoId of elementos) {
             const countElement = document.getElementById(elementoId);
             if (countElement) {
+              console.log(data.length);
               countElement.textContent = data.length;
             }
           }
           resolve(data.length); // Resolve the promise with the data length
         })
         .catch(error => {
-          console.error('Error al cargar grupos de investigación:', error);
+          console.error('Error al cargar ' + tabla, error);
           reject(error); // Reject the promise on error
         });
     });

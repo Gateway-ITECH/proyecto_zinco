@@ -16,23 +16,24 @@ body {
 
 }
 
-.grupos-investigacion {
+.detalle-dump-data {
   background: #ffffff;
-  border-radius: 16px;
+  border-radius: 8px;
   box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   margin: 2rem 0;
   border: 1px solid #f1f5f9;
 }
 
-.grupos-investigacion table {
+.detalle-dump-data table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
   margin: 0;
+  padding-bottom: 10px;
 }
 
-.grupos-investigacion thead th {
+.detalle-dump-data thead th {
   background-color: #f8fafc;
   color: #64748b;
   font-weight: 700;
@@ -44,16 +45,16 @@ body {
   white-space: nowrap;
 }
 
-.grupos-investigacion tbody tr {
+.detalle-dump-data tbody tr {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   border-bottom: 1px solid #f1f5f9;
 }
 
-.grupos-investigacion tbody tr:last-child {
+.detalle-dump-data tbody tr:last-child {
   border-bottom: none;
 }
 
-.grupos-investigacion tbody tr:hover {
+.detalle-dump-data tbody tr:hover {
   background-color: #f8fafc;
   transform: scale(1.005);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
@@ -61,7 +62,7 @@ body {
   position: relative;
 }
 
-.grupos-investigacion tbody td {
+.detalle-dump-data tbody td {
   padding: 1.5rem;
   color: #334155 !important;
   font-size: 0.95rem;
@@ -69,12 +70,12 @@ body {
   border-bottom: 1px solid #f1f5f9;
 }
 
-.grupos-investigacion tbody tr:last-child td {
+.detalle-dump-data tbody tr:last-child td {
   border-bottom: none;
 }
 
 /* Styling for the 'Ver detalle' link if it exists in the table */
-.grupos-investigacion tbody td a {
+.detalle-dump-data tbody td a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -88,11 +89,123 @@ body {
   transition: all 0.2s ease;
 }
 
-.grupos-investigacion tbody td a:hover {
+.detalle-dump-data tbody td a:hover {
   background-color: #0284c7;
   color: #ffffff;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
 }
 
-/*
+.detalle-dump-data .views-exposed-form {
+  display: none;
+}
+
+.detalle-dump-data .view-header p {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.detalle-dump-data .data-dump-actions {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.detalle-dump-data-single .data-dump-actions-single {
+  margin-bottom: 10px;
+}
+
+/* Detalle Dump Data Single Styles */
+.detalle-dump-data-single {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+  padding: 2.5rem;
+  margin: 2rem auto;
+  border: 1px solid #f1f5f9;
+  max-width: 100%;
+}
+
+.detalle-dump-data-single .views-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.detalle-dump-data-single .views-field {
+  background-color: #f8fafc;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.detalle-dump-data-single .views-field:hover {
+  background-color: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  transform: translateY(-4px);
+}
+
+.detalle-dump-data-single .views-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #64748b;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.detalle-dump-data-single .field-content {
+  font-size: 1.125rem;
+  color: #1e293b;
+  font-weight: 600;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+/* Special styling for ID field */
+.detalle-dump-data-single .views-field-id {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+}
+
+.detalle-dump-data-single .views-field-id .views-label {
+  margin-bottom: 0;
+  margin-right: 1rem;
+}
+
+.detalle-dump-data-single .views-field-id .field-content {
+  font-family: 'Space Grotesk', monospace;
+  color: #0284c7;
+  background: #e0f2fe;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .detalle-dump-data-single {
+    padding: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  .detalle-dump-data-single .views-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .detalle-dump-data-single .views-field-id {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
