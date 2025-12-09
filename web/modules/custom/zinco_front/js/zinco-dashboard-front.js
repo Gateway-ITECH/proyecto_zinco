@@ -312,7 +312,7 @@
     const card_produccion_total_elemento = ['produccion_total_value'];
 
     //parametros card centros cdt
-    const card_centros_cdt_tabla = 'data_view_centros_cdt';
+    const card_centros_cdt_tabla = 'data_view_centros_desarrollo_tecnologico';
     const card_centros_cdt_elemento = ['generacion_conocimiento_centros_cdt_value'];
 
     //parametros card grupos investigacion por categoria
