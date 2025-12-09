@@ -47,9 +47,6 @@
   <li class="nav-item" role="presentation">
     <button class="nav-link" id="empresas-tab" data-bs-toggle="tab" data-bs-target="#empresas" type="button" role="tab" aria-controls="empresas" aria-selected="false">Empresas</button>
   </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link" id="produccion-cientifica-tecnologica-tab" data-bs-toggle="tab" data-bs-target="#produccion-cientifica-tecnologica" type="button" role="tab" aria-controls="produccion-cientifica-tecnologica" aria-selected="false">Producción Científica y Tecnológica</button>
-  </li>
 </ul>
 
 <div class="tab-content" id="zincoDashboardTabContent">
@@ -332,7 +329,7 @@
                         <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Número de Universidades</a></h6>
                         <!-- Icono para Número de Universidades -->
                       </div>
-                      <h3 class="card-text mb-1" id="formacion_universidades_value">-</h3> {# Placeholder for actual number #}
+                      <h3 class="card-text mb-1" id="zinco_formacion_universidades_value">-</h3> {# Placeholder for actual number #}
                     </div>
                   </div>
                 </div>
@@ -747,16 +744,16 @@
 
   <div class="tab-pane fade" id="generacion-conocimiento" role="tabpanel" aria-labelledby="generacion-conocimiento-tab">
     <!-- Content for Generación de conocimiento tab -->
-     <div class="zinco-dashboard-cards mb-4">
+     <div class="zinco-dashboard-additional-cards mb-4">
       <div class="row">
         <div class="col-md-3">
           <div class="card shadow-sm">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_produccion_cientifica">Producción Total</a></h6>
-                <span class="icon-clipboard-check text-muted"></span>
+                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_articulos_investigacion">Artículos de Investigación</a></h6>
+                <!-- Icono para Artículos de Investigación -->
               </div>
-              <h3 class="card-text mb-1" id="produccion_total_value">-</h3>
+              <h3 class="card-text mb-1" id="articulos_investigacion_value">-</h3> {# Placeholder for actual number #}
             </div>
           </div>
         </div>
@@ -764,10 +761,10 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_centros_investigacion">Centros de Investigación</a></h6>
-                <span class="icon-award text-muted"></span>
+                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_patentes">Patentes</a></h6>
+                <!-- Icono para Patentes -->
               </div>
-              <h3 class="card-text mb-1" id="generacion_conocimiento_centros_investigacion_value">-</h3>
+              <h3 class="card-text mb-1" id="patentes_value">-</h3> {# Placeholder for actual number #}
             </div>
           </div>
         </div>
@@ -775,10 +772,10 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_centros_cdt">CDT</a></h6>
-                <span class="icon-code text-muted"></span>
+                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_productos_tecnologicos">Productos Tecnológicos</a></h6>
+                <!-- Icono para Productos Tecnológicos -->
               </div>
-              <h3 class="card-text mb-1" id="generacion_conocimiento_centros_cdt_value"></h3>
+              <h3 class="card-text mb-1" id="productos_tecnologicos_value">-</h3> {# Placeholder for actual number #}
             </div>
           </div>
         </div>
@@ -786,10 +783,10 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_centros_innovacion">Centros de innovación</a></h6>
-                <span class="icon-graduation-cap text-muted"></span>
+                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_productos_tecnologicos">Consultorías</a></h6>
+                <!-- Icono para Consultorías -->
               </div>
-              <h3 class="card-text mb-1" id="generacion_conocimiento_centros_innovacion_value">-</h3>
+              <h3 class="card-text mb-1" id="consultorias_value">-</h3> {# Placeholder for actual number #}
             </div>
           </div>
         </div>
@@ -797,40 +794,55 @@
     </div>
     <div class="zinco-dashboard-charts mb-4">
       <div class="row">
-        <div class="col-md-12">
-          <div class="card shadow-sm chart-card-height card_grouped_data" id="generacion_conocimiento_grupos_investigacion_categorias_grouped_data">
+        <div class="col-md-6">
+          <div class="card shadow-sm chart-card-height card_grouped_data" id="tipos_consultorias_grouped_data">
             <div class="card-body">
-              <h5 class="card-title">Número de grupos en categorías A1, A, B, C, D</h5>
+              <h5 class="card-title">Tipos de consultorías</h5>
               <div class="mt-3 grouped_data_wrapper">
                 <div class="d-flex align-items-center mb-2">
                   <div class="progress flex-grow-1 me-2" style="height: 15px;">
-                    <div class="progress-bar bg-info" role="progressbar" style="width: 5%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
-                  <span class="text-muted">A1 (5)</span>
+                  <span class="text-muted">Artículos de Investigación (XX)</span>
                 </div>
                 <div class="d-flex align-items-center mb-2">
                   <div class="progress flex-grow-1 me-2" style="height: 15px;">
-                    <div class="progress-bar bg-primary" role="progressbar" style="width: 10%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
-                  <span class="text-muted">A (15)</span>
+                  <span class="text-muted">Patentes de Invención (YY)</span>
                 </div>
                 <div class="d-flex align-items-center mb-2">
                   <div class="progress flex-grow-1 me-2" style="height: 15px;">
                     <div class="progress-bar bg-success" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
-                  <span class="text-muted">B (24)</span>
+                  <span class="text-muted">Patentes de Modelo de Utilidad (ZZ)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card shadow-sm chart-card-height card_grouped_data" id="productos_tecnologicos_grouped_data">
+            <div class="card-body">
+              <h5 class="card-title">Desarrollo Tecnológico e Innovación</h5>
+              <div class="mt-3 grouped_data_wrapper">
+                <div class="d-flex align-items-center mb-2">
+                  <div class="progress flex-grow-1 me-2" style="height: 15px;">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <span class="text-muted">Diseños Industriales (AA)</span>
                 </div>
                 <div class="d-flex align-items-center mb-2">
                   <div class="progress flex-grow-1 me-2" style="height: 15px;">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 35%;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
-                  <span class="text-muted">C (60)</span>
+                  <span class="text-muted">Softwares (BB)</span>
                 </div>
                 <div class="d-flex align-items-center mb-2">
                   <div class="progress flex-grow-1 me-2" style="height: 15px;">
-                    <div class="progress-bar bg-danger" role="progressbar" style="width: 45%;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
-                  <span class="text-muted">D (100)</span>
+                  <span class="text-muted">Innovaciones en Procesos y Servicios (CC)</span>
                 </div>
               </div>
             </div>
@@ -1062,112 +1074,7 @@
     </div>
   </div>
   <div class="tab-pane fade" id="produccion-cientifica-tecnologica" role="tabpanel" aria-labelledby="produccion-cientifica-tecnologica-tab">
-    <div class="zinco-dashboard-additional-cards mb-4">
-      <div class="row">
-        <div class="col-md-3">
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_articulos_investigacion">Artículos de Investigación</a></h6>
-                <!-- Icono para Artículos de Investigación -->
-              </div>
-              <h3 class="card-text mb-1" id="articulos_investigacion_value">-</h3> {# Placeholder for actual number #}
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_patentes">Patentes</a></h6>
-                <!-- Icono para Patentes -->
-              </div>
-              <h3 class="card-text mb-1" id="patentes_value">-</h3> {# Placeholder for actual number #}
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_productos_tecnologicos">Productos Tecnológicos</a></h6>
-                <!-- Icono para Productos Tecnológicos -->
-              </div>
-              <h3 class="card-text mb-1" id="productos_tecnologicos_value">-</h3> {# Placeholder for actual number #}
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_productos_tecnologicos">Consultorías</a></h6>
-                <!-- Icono para Consultorías -->
-              </div>
-              <h3 class="card-text mb-1" id="consultorias_value">-</h3> {# Placeholder for actual number #}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="zinco-dashboard-charts mb-4">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="card shadow-sm chart-card-height card_grouped_data" id="tipos_consultorias_grouped_data">
-            <div class="card-body">
-              <h5 class="card-title">Tipos de consultorías</h5>
-              <div class="mt-3 grouped_data_wrapper">
-                <div class="d-flex align-items-center mb-2">
-                  <div class="progress flex-grow-1 me-2" style="height: 15px;">
-                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <span class="text-muted">Artículos de Investigación (XX)</span>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                  <div class="progress flex-grow-1 me-2" style="height: 15px;">
-                    <div class="progress-bar bg-primary" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <span class="text-muted">Patentes de Invención (YY)</span>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                  <div class="progress flex-grow-1 me-2" style="height: 15px;">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <span class="text-muted">Patentes de Modelo de Utilidad (ZZ)</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="card shadow-sm chart-card-height card_grouped_data" id="productos_tecnologicos_grouped_data">
-            <div class="card-body">
-              <h5 class="card-title">Desarrollo Tecnológico e Innovación</h5>
-              <div class="mt-3 grouped_data_wrapper">
-                <div class="d-flex align-items-center mb-2">
-                  <div class="progress flex-grow-1 me-2" style="height: 15px;">
-                    <div class="progress-bar bg-info" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <span class="text-muted">Diseños Industriales (AA)</span>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                  <div class="progress flex-grow-1 me-2" style="height: 15px;">
-                    <div class="progress-bar bg-primary" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <span class="text-muted">Softwares (BB)</span>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                  <div class="progress flex-grow-1 me-2" style="height: 15px;">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <span class="text-muted">Innovaciones en Procesos y Servicios (CC)</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    
     
         </div>
     

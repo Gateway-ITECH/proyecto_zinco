@@ -490,7 +490,12 @@
       loadMultipleGroupedData(municipio, sector, tecnologias40, card_productos_tecnologicos_grouped_tablas, card_productos_tecnologicos_grouped_campo, card_productos_tecnologicos_grouped_elemento),
     ];
 
-    Promise.all(dataLoadPromises)
+
+    // const dataLoadPromises2 = [
+    //   loadData(municipio, sector, tecnologias40, card_universidades_tabla, card_universidades_elemento),
+    // ];
+
+    Promise.all(dataLoadPromises2)
       .then(() => {
         console.log('All dashboard data loaded successfully!');
         const jsonData = getDataAsJson();
@@ -513,11 +518,14 @@
         .then(data => {
           for (const elementoId of elementos) {
             const countElement = document.getElementById(elementoId);
+            console.log(countElement);
             if (countElement) {
               console.log(data.length);
               countElement.textContent = data.length;
             }
+            console.log(countElement.textContent);
           }
+
           resolve(data.length); // Resolve the promise with the data length
         })
         .catch(error => {
