@@ -3,7 +3,7 @@
   border: 0.3px solid #e0e0e0;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  background: #112240;
+  background-color: #fff !important;
   transition: transform 0.2s ease-in-out;
 }
 
@@ -12,7 +12,7 @@
 }
 
 .zinco-retos-list .card-title a {
-  color: #fff;
+  color: rgb(127, 197, 77);
   text-decoration: none;
 }
 
@@ -26,12 +26,6 @@
   border-radius: 0.25rem;
 }
 
-.zinco-retos-list .btn-primary {
-  background-color: #007bff;
-  border-color: #007bff;
-}
-
-.zinco-retos-list .btn-primary:hover {
-  background-color: #0056b3;
-  border-color: #0056b3;
+#retos_filters .card {
+  background-color: #fff !important;
 }

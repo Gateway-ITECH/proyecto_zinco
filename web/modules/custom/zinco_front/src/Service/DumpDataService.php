@@ -212,7 +212,7 @@ class DumpDataService {
             $row['label'] = $entity->get('label')->value;
             $row['estado_proyecto'] = !empty($entity->field_estado_proyecto->target_id) ? Term::load($entity->field_estado_proyecto->target_id)->getName() : '';
             $row['sector'] = !empty($entity->field_sector_economico_proyecto->target_id) ? Term::load($entity->field_sector_economico_proyecto->target_id)->getName() : '';  
-            $row['tecnologia40'] = !empty($entity->field_tecnologia_principal_proye->target_id) ? Term::load($entity->field_tecnologia_principal_proye->target_id)->getName() : '';
+            $row['tecnologia40'] = !empty($entity->field_tecnologia_principal_proye->target_id) ? Term::load($entity->field_tecnologia_principal_proye->target_id)->label() : '';
             $row['municipio'] = !empty($entity->field_municipio_proyecto->target_id) ? Term::load($entity->field_municipio_proyecto->target_id)->getName() : '';
             break;
           case 'zinco_proyectos_software':

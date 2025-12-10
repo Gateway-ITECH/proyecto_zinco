@@ -492,10 +492,12 @@
 
 
     // const dataLoadPromises2 = [
-    //   loadData(municipio, sector, tecnologias40, card_universidades_tabla, card_universidades_elemento),
+    //   loadEntityData(municipio, sector, tecnologias40, card_proyectos_ejecucion_entidad, card_proyectos_ejecucion_elemento, card_proyectos_ejecucion_filters),
+    //   loadEntityData(municipio, sector, tecnologias40, card_proyectos_propuestos_entidad, card_proyectos_propuestos_elemento, card_proyectos_propuestos_filters),
+
     // ];
 
-    Promise.all(dataLoadPromises2)
+    Promise.all(dataLoadPromises)
       .then(() => {
         console.log('All dashboard data loaded successfully!');
         const jsonData = getDataAsJson();

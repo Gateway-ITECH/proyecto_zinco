@@ -209,3 +209,264 @@ body {
     gap: 0.5rem;
   }
 }
+
+
+/* Estilos para la lista de herramientas (Grid Moderno) */
+.caja-herramientas-list {
+  padding: 1rem 0;
+}
+
+.caja-herramientas-list .views-view-grid .views-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+.caja-herramientas-list .views-col {
+  width: auto !important;
+  /* Override inline styles from Views */
+  display: flex;
+  flex-direction: column;
+  /* Stack children vertically */
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  height: 100%;
+  /* Ensure full height for equal cards */
+}
+
+.caja-herramientas-list .views-col:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  border-color: #e2e8f0;
+  background: #f8fafc;
+}
+
+.caja-herramientas-list .views-field {
+  padding: 1rem 1.5rem;
+  width: 100%;
+  text-align: center;
+}
+
+/* Title field */
+.caja-herramientas-list .views-field-title {
+  padding-top: 2rem;
+  padding-bottom: 0.5rem;
+}
+
+.caja-herramientas-list .views-field-title .field-content {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.3;
+}
+
+/* Description field */
+.caja-herramientas-list .views-field-field-descripcion-detallada {
+  flex-grow: 1;
+  /* Allow description to take available space */
+  color: #64748b;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Link field (Ver herramienta) */
+.caja-herramientas-list .views-field-view-node {
+  margin-top: auto;
+  /* Push to bottom */
+  padding-bottom: 2rem;
+}
+
+.caja-herramientas-list .views-field-view-node a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background-color: #f0f9ff;
+  color: #0284c7;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.caja-herramientas-list .views-field-view-node a:hover {
+  background-color: #0284c7;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .caja-herramientas-list .views-view-grid .views-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .caja-herramientas-list .views-view-grid .views-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Estilos para la lista de Convocatorias */
+.convocatorias {
+  padding: 2rem 0;
+}
+
+.convocatorias .views-view-grid .views-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* 3 columns for convocatorias looks better usually */
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.convocatorias .views-col {
+  width: auto !important;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  height: 100%;
+  position: relative;
+}
+
+.convocatorias .views-col:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1);
+  border-color: #cbd5e1;
+}
+
+/* Top border accent */
+.convocatorias .views-col::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #0ea5e9, #2563eb);
+}
+
+.convocatorias .views-field {
+  padding: 0.75rem 1.5rem;
+  width: 100%;
+}
+
+/* Title */
+.convocatorias .views-field-title {
+  padding-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.convocatorias .views-field-title a {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  text-decoration: none;
+  line-height: 1.3;
+  display: block;
+}
+
+.convocatorias .views-field-title a:hover {
+  color: #0284c7;
+}
+
+/* Dates */
+.convocatorias .views-field-field-fecha-de-apertura,
+.convocatorias .views-field-field-fecha-de-cierre {
+  display: flex;
+  align-items: baseline;
+  font-size: 0.875rem;
+  color: #64748b;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.convocatorias .views-label {
+  font-weight: 600;
+  margin-right: 0.5rem;
+  color: #475569;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  min-width: 60px;
+}
+
+.convocatorias .field-content time {
+  color: #334155;
+  font-weight: 500;
+}
+
+/* Target Audience */
+.convocatorias .views-field-field-publico-objetivo {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+
+.convocatorias .views-field-field-publico-objetivo .views-label {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.convocatorias .views-field-field-publico-objetivo .field-content {
+  font-size: 0.95rem;
+  color: #475569;
+  line-height: 1.5;
+}
+
+/* Button */
+.convocatorias .views-field-view-node {
+  margin-top: auto;
+  padding: 1.5rem;
+  background-color: #f8fafc;
+  border-top: 1px solid #f1f5f9;
+  text-align: center;
+}
+
+.convocatorias .views-field-view-node a {
+  display: inline-block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: #ffffff;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.convocatorias .views-field-view-node a:hover {
+  background-color: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .convocatorias .views-view-grid .views-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .convocatorias .views-view-grid .views-row {
+    grid-template-columns: 1fr;
+  }
+}

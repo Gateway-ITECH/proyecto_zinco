@@ -82,10 +82,10 @@
                 {# <img src="{{ reto.icon }}" alt="Icon" class="me-2" style="width: 24px; height: 24px;"> #}
                 {% if reto.area_enfoque %}
                   {% for area in reto.area_enfoque %}
-                    <span class="badge text-bg-primary me-2">{{ area }}</span>
+                    <span class="badge text-bg-secondary me-2">{{ area }}</span>
                   {% endfor %}
                 {% endif %}
-                <span class="badge {{ reto.estado_color }}">{{ reto.estado_reto_innovacion }}</span>
+                <span class="badge text-bg-secondary">{{ reto.estado_reto_innovacion }}</span>
               </div>
               <h5 class="card-title"><a href="{{ reto.profile_link }}">{{ reto.label }}</a></h5>
 

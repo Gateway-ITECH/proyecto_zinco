@@ -1,6 +1,5 @@
 /* Add your custom CSS for zinco-actores-list here */
 .tab-pane .card {
-  border: 1px solid rgb(127, 197, 77);
   border-radius: 8px;
   background: rgb(127, 197, 77);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -25,7 +24,7 @@
 
 .card_grouped_data .card-body {
   color: #000000;
-  border: 1px solid rgb(191, 192, 190);
+  border: 1px solid rgb(244, 244, 244);
   border-radius: 8px;
-  background: rgb(191, 192, 190);
+  background: rgb(244, 244, 244);
 }
