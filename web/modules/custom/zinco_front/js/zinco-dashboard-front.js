@@ -219,6 +219,139 @@
     const card_actores_tecnologias40_elemento = 'actores_tecnologias40_grouped_data';
 
     /*
+    * pestaña de actores zinco
+    */
+    const card_actores_zinco_empresas_altamente_innovadoras_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_empresas_altamente_innovadoras_bundle = 'empresa_explotadora_de_conocimie';
+    const card_actores_zinco_empresas_altamente_innovadoras_elemento = 'zinco_actores_empresas_altamente_innovadoras_value';
+    const card_actores_zinco_empresas_altamente_innovadoras_filters = {};
+
+    const card_actores_zinco_startups_base_tecnologica_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_startups_base_tecnologica_bundle = 'startups_de_base_tecnologica';
+    const card_actores_zinco_startups_base_tecnologica_elemento = 'zinco_actores_startups_base_tecnologica_value';
+    const card_actores_zinco_startups_base_tecnologica_filters = {};
+
+    const card_actores_zinco_unidades_empresariales_idi_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_unidades_empresariales_idi_bundle = 'unidades_empresariales_de_i_d_i';
+    const card_actores_zinco_unidades_empresariales_idi_elemento = 'zinco_actores_unidades_empresariales_idi_value';
+    const card_actores_zinco_unidades_empresariales_idi_filters = {};
+
+    const card_actores_zinco_empresas_spin_off_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_empresas_spin_off_bundle = 'empresas_spin_off';
+    const card_actores_zinco_empresas_spin_off_elemento = 'zinco_actores_empresas_spin_off_value';
+    const card_actores_zinco_empresas_spin_off_filters = {};
+
+    const card_actores_zinco_emprendimientos_dinamicos_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_emprendimientos_dinamicos_bundle = 'emprendimientos_dinamicos';
+    const card_actores_zinco_emprendimientos_dinamicos_elemento = 'zinco_actores_emprendimientos_dinamicos_value';
+    const card_actores_zinco_emprendimientos_dinamicos_filters = {};
+
+    const card_actores_zinco_fondos_corporate_venture_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_fondos_corporate_venture_bundle = 'fondos_de_corporate_venture';
+    const card_actores_zinco_fondos_corporate_venture_elemento = 'zinco_actores_fondos_corporate_venture_value';
+    const card_actores_zinco_fondos_corporate_venture_filters = {};
+
+    const card_actores_zinco_fondos_venture_capital_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_fondos_venture_capital_bundle = 'fondos_de_venture_capital';
+    const card_actores_zinco_fondos_venture_capital_elemento = 'zinco_actores_fondos_venture_capital_value';
+    const card_actores_zinco_fondos_venture_capital_filters = {};
+
+    const card_actores_zinco_instituciones_microfinancieras_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_instituciones_microfinancieras_bundle = 'instituciones_microfinancieras';
+    const card_actores_zinco_instituciones_microfinancieras_elemento = 'zinco_actores_instituciones_microfinancieras_value';
+    const card_actores_zinco_instituciones_microfinancieras_filters = {};
+
+    const card_actores_zinco_inversionistas_y_redes_de_inversionistas_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_inversionistas_y_redes_de_inversionistas_bundle = 'inversionistas_y_redes_de_invers';
+    const card_actores_zinco_inversionistas_y_redes_de_inversionistas_elemento = 'zinco_actores_inversionistas_y_redes_de_inversionistas_value';
+    const card_actores_zinco_inversionistas_y_redes_de_inversionistas_filters = {};
+
+    const card_actores_zinco_plataformas_crowdfunding_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_plataformas_crowdfunding_bundle = 'plataformas_de_crowdfunding';
+    const card_actores_zinco_plataformas_crowdfunding_elemento = 'zinco_actores_plataformas_crowdfunding_value';
+    const card_actores_zinco_plataformas_crowdfunding_filters = {};
+
+    const card_actores_zinco_empresas_generadoras_de_conocimiento_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_empresas_generadoras_de_conocimiento_bundle = 'empresa_generadora_de_conocimien';
+    const card_actores_zinco_empresas_generadoras_de_conocimiento_elemento = 'zinco_actores_empresas_generadoras_de_conocimiento_value';
+    const card_actores_zinco_empresas_generadoras_de_conocimiento_filters = {};
+
+    const card_actores_zinco_instituciones_educacion_superior_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_instituciones_educacion_superior_bundle = 'institucion_de_educacion_superio';
+    const card_actores_zinco_instituciones_educacion_superior_elemento = 'zinco_actores_instituciones_educacion_superior_value';
+    const card_actores_zinco_instituciones_educacion_superior_filters = {};
+
+    const card_actores_zinco_investigadores_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_investigadores_bundle = 'investigador';
+    const card_actores_zinco_investigadores_elemento = 'zinco_actores_investigadores_value';
+    const card_actores_zinco_investigadores_filters = {};
+
+    const card_actores_zinco_grupos_investigacion_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_grupos_investigacion_bundle = 'grupos_de_investigacion';
+    const card_actores_zinco_grupos_investigacion_elemento = 'zinco_actores_grupos_investigacion_value';
+    const card_actores_zinco_grupos_investigacion_filters = {};
+
+    const card_actores_zinco_centros_investigacion_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_centros_investigacion_bundle = 'centros_e_institutos_de_investig';
+    const card_actores_zinco_centros_investigacion_elemento = 'zinco_actores_centros_investigacion_value';
+    const card_actores_zinco_centros_investigacion_filters = {};
+
+    const card_actores_zinco_centros_desarrollo_tecnologico_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_centros_desarrollo_tecnologico_bundle = 'centros_de_desarrollo_tecnologic';
+    const card_actores_zinco_centros_desarrollo_tecnologico_elemento = 'zinco_actores_centros_desarrollo_tecnologico_value';
+    const card_actores_zinco_centros_desarrollo_tecnologico_filters = {};
+
+    const card_actores_zinco_entidad_publica_fomento_innovacion_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_entidad_publica_fomento_innovacion_bundle = 'entidad_gobierno';
+    const card_actores_zinco_entidad_publica_fomento_innovacion_elemento = 'zinco_actores_entidad_publica_fomento_innovacion_value';
+    const card_actores_zinco_entidad_publica_fomento_innovacion_filters = {};
+
+    const card_actores_zinco_instancias_orientacion_politica_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_instancias_orientacion_politica_bundle = 'instancias_de_orientacion_politi';
+    const card_actores_zinco_instancias_orientacion_politica_elemento = 'zinco_actores_instancias_orientacion_politica_value';
+    const card_actores_zinco_instancias_orientacion_politica_filters = {};
+
+    const card_actores_zinco_oficinas_transferencia_tecnologica_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_oficinas_transferencia_tecnologica_bundle = 'otri';
+    const card_actores_zinco_oficinas_transferencia_tecnologica_elemento = 'zinco_actores_oficinas_transferencia_tecnologica_value';
+    const card_actores_zinco_oficinas_transferencia_tecnologica_filters = {};
+
+    const card_actores_zinco_parque_tecnologico_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_parque_tecnologico_bundle = 'parque_tecnologico';
+    const card_actores_zinco_parque_tecnologico_elemento = 'zinco_actores_parque_tecnologico_value';
+    const card_actores_zinco_parque_tecnologico_filters = {};
+
+    const card_actores_zinco_catis_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_catis_bundle = 'cati';
+    const card_actores_zinco_catis_elemento = 'zinco_actores_catis_value';
+    const card_actores_zinco_catis_filters = {};
+
+    const card_actores_zinco_centros_innovacion_productividad_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_centros_innovacion_productividad_bundle = 'centros_de_innovacion_y_producti';
+    const card_actores_zinco_centros_innovacion_productividad_elemento = 'zinco_actores_centros_innovacion_productividad_value';
+    const card_actores_zinco_centros_innovacion_productividad_filters = {};
+
+    const card_actores_zinco_incubadoras_empresas_base_tecnologica_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_incubadoras_empresas_base_tecnologica_bundle = 'incubadora';
+    const card_actores_zinco_incubadoras_empresas_base_tecnologica_elemento = 'zinco_actores_incubadoras_empresas_base_tecnologica_value';
+    const card_actores_zinco_incubadoras_empresas_base_tecnologica_filters = {};
+
+    const card_actores_zinco_centros_emprendimiento_ies_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_centros_emprendimiento_ies_bundle = 'centros_de_emprendimiento_ies';
+    const card_actores_zinco_centros_emprendimiento_ies_elemento = 'zinco_actores_centros_emprendimiento_ies_value';
+    const card_actores_zinco_centros_emprendimiento_ies_filters = {};
+
+    const card_actores_zinco_redes_mentores_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_redes_mentores_bundle = 'redes_de_mentores';
+    const card_actores_zinco_redes_mentores_elemento = 'zinco_actores_redes_mentores_value';
+    const card_actores_zinco_redes_mentores_filters = {};
+
+    const card_actores_zinco_aceleradoras_entidad = 'zinco_actors_zincoactors';
+    const card_actores_zinco_aceleradoras_bundle = 'aceleradora';
+    const card_actores_zinco_aceleradoras_elemento = 'zinco_actores_aceleradoras_value';
+    const card_actores_zinco_aceleradoras_filters = {};
+
+    /*
     * pestaña de formacion
     */
 
@@ -437,6 +570,34 @@
       loadMultipleGroupedData(municipio, sector, tecnologias40, card_actores_municipio_tablas, card_actores_municipio_campo, card_actores_municipio_elemento),
       loadMultipleGroupedData(municipio, sector, tecnologias40, card_actores_tecnologias40_tablas, card_actores_tecnologias40_campo, card_actores_tecnologias40_elemento),
 
+      //pestaña de actores de zinco
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_empresas_altamente_innovadoras_entidad, card_actores_zinco_empresas_altamente_innovadoras_bundle, card_actores_zinco_empresas_altamente_innovadoras_elemento, card_actores_zinco_empresas_altamente_innovadoras_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_startups_base_tecnologica_entidad, card_actores_zinco_startups_base_tecnologica_bundle, card_actores_zinco_startups_base_tecnologica_elemento, card_actores_zinco_startups_base_tecnologica_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_unidades_empresariales_idi_entidad, card_actores_zinco_unidades_empresariales_idi_bundle, card_actores_zinco_unidades_empresariales_idi_elemento, card_actores_zinco_unidades_empresariales_idi_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_empresas_spin_off_entidad, card_actores_zinco_empresas_spin_off_bundle, card_actores_zinco_empresas_spin_off_elemento, card_actores_zinco_empresas_spin_off_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_emprendimientos_dinamicos_entidad, card_actores_zinco_emprendimientos_dinamicos_bundle, card_actores_zinco_emprendimientos_dinamicos_elemento, card_actores_zinco_emprendimientos_dinamicos_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_fondos_corporate_venture_entidad, card_actores_zinco_fondos_corporate_venture_bundle, card_actores_zinco_fondos_corporate_venture_elemento, card_actores_zinco_fondos_corporate_venture_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_fondos_venture_capital_entidad, card_actores_zinco_fondos_venture_capital_bundle, card_actores_zinco_fondos_venture_capital_elemento, card_actores_zinco_fondos_venture_capital_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_instituciones_microfinancieras_entidad, card_actores_zinco_instituciones_microfinancieras_bundle, card_actores_zinco_instituciones_microfinancieras_elemento, card_actores_zinco_instituciones_microfinancieras_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_inversionistas_y_redes_de_inversionistas_entidad, card_actores_zinco_inversionistas_y_redes_de_inversionistas_bundle, card_actores_zinco_inversionistas_y_redes_de_inversionistas_elemento, card_actores_zinco_inversionistas_y_redes_de_inversionistas_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_plataformas_crowdfunding_entidad, card_actores_zinco_plataformas_crowdfunding_bundle, card_actores_zinco_plataformas_crowdfunding_elemento, card_actores_zinco_plataformas_crowdfunding_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_empresas_generadoras_de_conocimiento_entidad, card_actores_zinco_empresas_generadoras_de_conocimiento_bundle, card_actores_zinco_empresas_generadoras_de_conocimiento_elemento, card_actores_zinco_empresas_generadoras_de_conocimiento_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_instituciones_educacion_superior_entidad, card_actores_zinco_instituciones_educacion_superior_bundle, card_actores_zinco_instituciones_educacion_superior_elemento, card_actores_zinco_instituciones_educacion_superior_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_investigadores_entidad, card_actores_zinco_investigadores_bundle, card_actores_zinco_investigadores_elemento, card_actores_zinco_investigadores_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_grupos_investigacion_entidad, card_actores_zinco_grupos_investigacion_bundle, card_actores_zinco_grupos_investigacion_elemento, card_actores_zinco_grupos_investigacion_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_centros_investigacion_entidad, card_actores_zinco_centros_investigacion_bundle, card_actores_zinco_centros_investigacion_elemento, card_actores_zinco_centros_investigacion_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_centros_desarrollo_tecnologico_entidad, card_actores_zinco_centros_desarrollo_tecnologico_bundle, card_actores_zinco_centros_desarrollo_tecnologico_elemento, card_actores_zinco_centros_desarrollo_tecnologico_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_entidad_publica_fomento_innovacion_entidad, card_actores_zinco_entidad_publica_fomento_innovacion_bundle, card_actores_zinco_entidad_publica_fomento_innovacion_elemento, card_actores_zinco_entidad_publica_fomento_innovacion_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_instancias_orientacion_politica_entidad, card_actores_zinco_instancias_orientacion_politica_bundle, card_actores_zinco_instancias_orientacion_politica_elemento, card_actores_zinco_instancias_orientacion_politica_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_oficinas_transferencia_tecnologica_entidad, card_actores_zinco_oficinas_transferencia_tecnologica_bundle, card_actores_zinco_oficinas_transferencia_tecnologica_elemento, card_actores_zinco_oficinas_transferencia_tecnologica_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_parque_tecnologico_entidad, card_actores_zinco_parque_tecnologico_bundle, card_actores_zinco_parque_tecnologico_elemento, card_actores_zinco_parque_tecnologico_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_catis_entidad, card_actores_zinco_catis_bundle, card_actores_zinco_catis_elemento, card_actores_zinco_catis_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_centros_innovacion_productividad_entidad, card_actores_zinco_centros_innovacion_productividad_bundle, card_actores_zinco_centros_innovacion_productividad_elemento, card_actores_zinco_centros_innovacion_productividad_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_incubadoras_empresas_base_tecnologica_entidad, card_actores_zinco_incubadoras_empresas_base_tecnologica_bundle, card_actores_zinco_incubadoras_empresas_base_tecnologica_elemento, card_actores_zinco_incubadoras_empresas_base_tecnologica_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_centros_emprendimiento_ies_entidad, card_actores_zinco_centros_emprendimiento_ies_bundle, card_actores_zinco_centros_emprendimiento_ies_elemento, card_actores_zinco_centros_emprendimiento_ies_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_redes_mentores_entidad, card_actores_zinco_redes_mentores_bundle, card_actores_zinco_redes_mentores_elemento, card_actores_zinco_redes_mentores_filters),
+      loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_aceleradoras_entidad, card_actores_zinco_aceleradoras_bundle, card_actores_zinco_aceleradoras_elemento, card_actores_zinco_aceleradoras_filters),
+
       // pestaña de formacion
       loadData(municipio, sector, tecnologias40, card_universidades_tabla, card_universidades_elemento),
       loadData(municipio, sector, tecnologias40, card_programas_ofertados_tabla, card_programas_ofertados_elemento),
@@ -492,8 +653,7 @@
 
 
     // const dataLoadPromises2 = [
-    //   loadEntityData(municipio, sector, tecnologias40, card_proyectos_ejecucion_entidad, card_proyectos_ejecucion_elemento, card_proyectos_ejecucion_filters),
-    //   loadEntityData(municipio, sector, tecnologias40, card_proyectos_propuestos_entidad, card_proyectos_propuestos_elemento, card_proyectos_propuestos_filters),
+    //   loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_unidades_empresariales_idi_entidad, card_actores_zinco_unidades_empresariales_idi_bundle, card_actores_zinco_unidades_empresariales_idi_elemento, card_actores_zinco_unidades_empresariales_idi_filters),
 
     // ];
 
@@ -758,6 +918,7 @@
       .then(response => response.json())
       .then(data => {
         const countElement = document.getElementById(elemento);
+        console.log(data.length);
         if (countElement) {
           if (campo_acumulativo && data.length > 0) {
             const sum = data.reduce((acc, item) => parseInt(acc) + (parseInt(item[campo_acumulativo]) || 0), 0);

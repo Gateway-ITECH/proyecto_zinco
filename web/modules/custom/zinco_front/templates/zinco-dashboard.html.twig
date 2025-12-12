@@ -24,8 +24,12 @@
 
 <ul class="nav nav-tabs mb-4" id="zincoDashboardTabs" role="tablist">
   <li class="nav-item" role="presentation">
-    <button class="nav-link active" id="actores-tab" data-bs-toggle="tab" data-bs-target="#actores" type="button" role="tab" aria-controls="actores" aria-selected="true">Actores</button>
+    <button class="nav-link active" id="actores-zinco-tab" data-bs-toggle="tab" data-bs-target="#actores-zinco" type="button" role="tab" aria-controls="actores-zinco" aria-selected="false">Actores Zinco</button>
   </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="actores-tab" data-bs-toggle="tab" data-bs-target="#actores" type="button" role="tab" aria-controls="actores" aria-selected="true">Actores reconocidos</button>
+  </li>
+  
   <li class="nav-item" role="presentation">
     <button class="nav-link" id="formacion-tab" data-bs-toggle="tab" data-bs-target="#formacion" type="button" role="tab" aria-controls="formacion" aria-selected="false">Formación</button>
   </li>
@@ -44,13 +48,10 @@
   <li class="nav-item" role="presentation">
     <button class="nav-link" id="software-tab" data-bs-toggle="tab" data-bs-target="#software" type="button" role="tab" aria-controls="software" aria-selected="false">Software</button>
   </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link" id="empresas-tab" data-bs-toggle="tab" data-bs-target="#empresas" type="button" role="tab" aria-controls="empresas" aria-selected="false">Empresas</button>
-  </li>
 </ul>
 
 <div class="tab-content" id="zincoDashboardTabContent">
-  <div class="tab-pane fade show active" id="actores" role="tabpanel" aria-labelledby="actores-tab">
+  <div class="tab-pane fade" id="actores" role="tabpanel" aria-labelledby="actores-tab">
    
     <h4>Generadores de conocimiento</h4>
     <div class="zinco-dashboard-additional-cards mb-4">
@@ -319,22 +320,324 @@
       </div>
   </div>
 
-  <div class="tab-pane fade show" id="actores-zinco" role="tabpanel" aria-labelledby="actores-zinco-tab">
+  <div class="tab-pane fade show active" id="actores-zinco" role="tabpanel" aria-labelledby="actores-zinco-tab">
+      <h4>Agentes explotadores de conocimiento</h4>
       <div class="zinco-dashboard-additional-cards mb-4">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4 mt-3">
                   <div class="card shadow-sm">
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Número de Universidades</a></h6>
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Empresas altamente innovadoras</a></h6>
                         <!-- Icono para Número de Universidades -->
                       </div>
-                      <h3 class="card-text mb-1" id="zinco_formacion_universidades_value">-</h3> {# Placeholder for actual number #}
+                      <h3 class="card-text mb-1" id="zinco_actores_empresas_altamente_innovadoras_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Startups</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_startups_base_tecnologica_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Unidades empresariales de I+D+I</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_unidades_empresariales_idi_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Empresas Spin-Off</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_empresas_spin_off_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Empresas de base tecnológica</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_emprendimientos_dinamicos_value">-</h3> {# Placeholder for actual number #}
                     </div>
                   </div>
                 </div>
             </div>
-      </div>      
+      </div>  
+      <h4>Agentes financiadores</h4>
+      <div class="zinco-dashboard-additional-cards mb-4">
+            <div class="row">
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Fondos de corporate venture</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_fondos_corporate_venture_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Fondos de venture capital</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_fondos_venture_capital_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Instituciones microfinancieras</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_instituciones_microfinancieras_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Inversionistas y redes de inversionistas</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_inversionistas_y_redes_de_inversionistas_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Plataformas de Crowdfunding</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_plataformas_crowdfunding_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+            </div>
+      </div> 
+      <h4>Agentes generadores de conocimiento</h4>
+      <div class="zinco-dashboard-additional-cards mb-4">
+            <div class="row">
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Empresa generadora de conocimiento</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_empresas_generadoras_de_conocimiento_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Instituciones de educación superior</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_instituciones_educacion_superior_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Investigadores</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_investigadores_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Grupos de investigación</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_grupos_investigacion_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Centros e institutos de investigación</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_centros_investigacion_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Centros de desarrollo tecnológico</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_centros_desarrollo_tecnologico_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+            </div>
+      </div> 
+      <h4>Agentes gobierno</h4>
+      <div class="zinco-dashboard-additional-cards mb-4">
+            <div class="row">
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Entidad pública de fomento a la innovación</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_entidad_publica_fomento_innovacion_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Instancias de orientación política hacia la innovación y el emprendimiento</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_instancias_orientacion_politica_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+            </div>
+      </div> 
+      <h4>Agentes intermediarios enfocados a la innovación</h4>
+      <div class="zinco-dashboard-additional-cards mb-4">
+            <div class="row">                
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Oficinas de transferencia tecnológica (OTRI's)</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_oficinas_transferencia_tecnologica_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Parque tecnológico</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_parque_tecnologico_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Centro de apoyo a la tecnología y la innovación (CATIs)</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_catis_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Centros de innovación y productividad</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_centros_innovacion_productividad_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+            </div>
+      </div> 
+      <h4>Agentes intermediarios enfocados al emprendimiento</h4>
+      <div class="zinco-dashboard-additional-cards mb-4">
+            <div class="row">
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Incubadoras de empresas de base tecnológica</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_incubadoras_empresas_base_tecnologica_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Centros de emprendimiento IES</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_centros_emprendimiento_ies_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Redes de mentores</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_redes_mentores_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_instituciones_academicas">Aceleradoras</a></h6>
+                        <!-- Icono para Número de Universidades -->
+                      </div>
+                      <h3 class="card-text mb-1" id="zinco_actores_aceleradoras_value">-</h3> {# Placeholder for actual number #}
+                    </div>
+                  </div>
+                </div>
+            </div>
+      </div>     
   </div>
 
   <div class="tab-pane fade" id="formacion" role="tabpanel" aria-labelledby="formacion-tab">
@@ -962,116 +1265,8 @@
               </div>
   </div>
   <div class="tab-pane fade" id="empresas" role="tabpanel" aria-labelledby="empresas-tab">
-    <div class="zinco-dashboard-additional-cards mb-4">
-      <div class="row">
-        <div class="col-md-3">
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0"><a href="/dump-data/data_view_empresas_altamente_innovadoras">Emp. Altamente Innovadoras</a></h6>
-                <!-- Icono para Empresas Altamente Innovadoras -->
-              </div>
-              <h3 class="card-text mb-1" id="empresas_altamente_innovadoras_value">-</h3> {# Placeholder for actual number #}
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          
-        </div>
-        <div class="col-md-3">
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0">Spin-off</h6>
-                <!-- Icono para Spin-off -->
-              </div>
-              <h3 class="card-text mb-1" id="empresas_startups_value">-</h3> {# Placeholder for actual number #}
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="card-title text-muted text-uppercase mb-0">Startups</h6>
-                <!-- Icono para Startups -->
-              </div>
-              <h3 class="card-text mb-1" id="empresas_spinoffs_value">-</h3> {# Placeholder for actual number #}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="zinco-dashboard-charts mb-4">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="card shadow-sm chart-card-height card_grouped_data" id="empresas_sectores_grouped_data">
-            <div class="card-body">
-              <h5 class="card-title">Número Total de Empresas por Sector</h5>
-              <div class="mt-3 grouped_data_wrapper">
-                <div class="d-flex align-items-center mb-2">
-                  <div class="progress flex-grow-1 me-2" style="height: 15px;">
-                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <span class="text-muted">TI (XX)</span>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                  <div class="progress flex-grow-1 me-2" style="height: 15px;">
-                    <div class="progress-bar bg-primary" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <span class="text-muted">TIC (YY)</span>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                  <div class="progress flex-grow-1 me-2" style="height: 15px;">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <span class="text-muted">TD (ZZ)</span>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                  <div class="progress flex-grow-1 me-2" style="height: 15px;">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 10%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <span class="text-muted">I4.0 (WW)</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="card shadow-sm chart-card-height card_grouped_data" id="empresas_tecnologias_grouped_data">
-            <div class="card-body">
-              <h5 class="card-title">Número de Empresas por Tecnologías</h5>
-              <div class="mt-3 grouped_data_wrapper">
-                <div class="d-flex align-items-center mb-2">
-                  <div class="progress flex-grow-1 me-2" style="height: 15px;">
-                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <span class="text-muted">TI (50%)</span>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                  <div class="progress flex-grow-1 me-2" style="height: 15px;">
-                    <div class="progress-bar bg-primary" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <span class="text-muted">TIC (30%)</span>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                  <div class="progress flex-grow-1 me-2" style="height: 15px;">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <span class="text-muted">TD (20%)</span>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                  <div class="progress flex-grow-1 me-2" style="height: 15px;">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 10%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <span class="text-muted">I4.0 (10%)</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
+ 
   </div>
   <div class="tab-pane fade" id="produccion-cientifica-tecnologica" role="tabpanel" aria-labelledby="produccion-cientifica-tecnologica-tab">
     

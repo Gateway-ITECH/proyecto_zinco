@@ -292,10 +292,9 @@ class DumpDataService {
     $storage = $this->entityTypeManager->getStorage($entity_type_id);
     $query = $storage->getQuery();
     $query->accessCheck(FALSE); // Disable access checks
-    $query->condition('type', $bundle); 
+    $query->condition('bundle', $bundle); 
     $ids = $query->execute();
     $entities = $storage->loadMultiple($ids);
-    return $entities;
 
     $result = [];
     foreach ($entities as $entity) {
@@ -309,7 +308,137 @@ class DumpDataService {
             $row['tecnologia40'] = !empty($entity->field_tecnologia_evento->target_id) ? Term::load($entity->field_tecnologia_evento->target_id)->getName() : '';
             $row['municipio'] = !empty($entity->field_municipio_evento->target_id) ? Term::load($entity->field_municipio_evento->target_id)->getName() : '';
             break;
-       
+          case 'empresa_explotadora_de_conocimie':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'startups_de_base_tecnologica':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+
+          case 'unidades_empresariales_de_i_d_i':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'empresas_spin_off':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'emprendimientos_dinamicos':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'fondos_de_corporate_venture':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'fondos_de_venture_capital':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'instituciones_microfinancieras':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'inversionistas_y_redes_de_invers':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'plataformas_de_crowdfunding':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'empresa_generadora_de_conocimien':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'institucion_de_educacion_superio':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'investigador':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'grupos_de_investigacion':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'centros_e_institutos_de_investig':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'centros_de_desarrollo_tecnologic':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'entidad_gobierno':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'instancias_de_orientacion_politi':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'otri':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'parque_tecnologico':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'cati':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'centros_de_innovacion_y_producti':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'incubadora':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'centros_de_emprendimiento_ies':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'redes_de_mentores':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;
+          case 'aceleradora':
+            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
+            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
+            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            break;       
         }
 
         $match = TRUE;

@@ -365,6 +365,9 @@
   margin-right: 25px;
   padding-top: 5px;
   /* Align icon with text */
+  width: 60px;
+  text-align: center;
+  flex-shrink: 0;
 }
 
 #nuestros-objetivos ul li h3 {
@@ -379,4 +382,8 @@
   margin-bottom: 0;
   font-size: 1rem;
   line-height: 1.6;
+}
+
+.quienes-somos-content p{
+  text-align: center;
 }
