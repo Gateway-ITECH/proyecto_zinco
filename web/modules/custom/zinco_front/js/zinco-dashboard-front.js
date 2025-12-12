@@ -209,7 +209,8 @@
     const card_actores_sector_elemento = 'actores_sector_economico_grouped_data';
 
     //parametros card de actores por municipio
-    const card_actores_municipio_tablas = 'data_empresas_tic-data_investigadores-data_view_centros_investigacion-data_view_centros_desarrollo_tecnologico-data_grupos_investigacion-data_view_centros_innovacion';
+    const card_actores_municipio_tablas = 'data_empresas_tic-data_view_investigadores-data_view_centros_investigacion-data_view_centros_desarrollo_tecnologico-data_grupos_investigacion-data_view_centros_innovacion';
+    //const card_actores_municipio_tablas = 'data_empresas_tic-data_investigadores';
     const card_actores_municipio_campo = 'municipio';
     const card_actores_municipio_elemento = 'actores_municipio_grouped_data';
 
@@ -738,7 +739,7 @@
                         <div class="progress flex-grow-1 me-2" style="height: 15px;">
                           <div class="progress-bar bg-secondary" role="progressbar" style="width: ${item.percentage}%;" aria-valuenow="${item.percentage}" aria-valuemin="0" aria-valuemax="${100}"></div>
                         </div>
-                        <span class="" data-group-column="${item.group_column}">${item.group_column.substring(0, 5)}... (${item.count})</span>
+                        <span title="${item.group_column}" class="" data-group-column="${item.group_column}">${item.group_column.substring(0, 5)}... (${item.count})</span>
                       </div>
                     `;
                 groupedDataWrapper.insertAdjacentHTML('beforeend', html);
@@ -774,7 +775,7 @@
                   <div class="progress flex-grow-1 me-2" style="height: 15px;">
                     <div class="progress-bar bg-info" role="progressbar" style="width: ${item.percentage}%;" aria-valuenow="${item.percentage}" aria-valuemin="0" aria-valuemax="${100}"></div>
                   </div>
-                  <span class="" data-group-column="${item.group_column}">${item.group_column.substring(0, 5)}... (${item.count})</span>
+                  <span title="${item.group_column}" class="" data-group-column="${item.group_column}">${item.group_column.substring(0, 5)}... (${item.count})</span>
                 </div>
               `;
               groupedDataWrapper.insertAdjacentHTML('beforeend', html);
@@ -880,7 +881,7 @@
                       <div class="progress flex-grow-1 me-2" style="height: 15px;">
                         <div class="progress-bar bg-secondary" role="progressbar" style="width: ${item.percentage}%;" aria-valuenow="${item.percentage}" aria-valuemin="0" aria-valuemax="${100}"></div>
                       </div>
-                      <span class="" data-group-column="${item.group_column}">${item.group_column.substring(0, 5)}... (${item.count})</span>
+                      <span title="${item.group_column}" class="" data-group-column="${item.group_column}">${item.group_column.substring(0, 5)}... (${item.count})</span>
                     </div>
                   `;
                   groupedDataWrapper.insertAdjacentHTML('beforeend', html);
