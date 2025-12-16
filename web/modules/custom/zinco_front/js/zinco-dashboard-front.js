@@ -658,7 +658,7 @@
 
     ];
 
-    Promise.all(dataLoadPromises2)
+    Promise.all(dataLoadPromises)
       .then(() => {
         console.log('All dashboard data loaded successfully!');
         const jsonData = getDataAsJson();
