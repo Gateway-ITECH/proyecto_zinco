@@ -205,7 +205,117 @@ function zinco_front_form_alter($form, \Drupal\Core\Form\FormStateInterface $for
 }
 
 
-//
+/**
+ * Implements hook_form_views_exposed_form_alter().
+ */
+function zinco_front_form_views_exposed_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  $view = $form_state->get('view');
+  if (
+    $view->id() == 'listas_de_data' ||
+    $view->id() == 'dashboard_investigadores' ||
+    $view->id() == 'dashboard_organizaciones_intermedias' ||
+    $view->id() == 'articulos_de_investigacion' ||
+    $view->id() == 'dashboard_investigadores' ||
+    $view->id() == 'dashboard_instancias_orientacion_politica' ||
+    $view->id() == 'dashboard_entidades_gobierno' ||
+    $view->id() == 'dashboard_instituciones_academicas'
+  ) {
+    if (isset($form['municipio'])) {
+      $form['municipio']['#type'] = 'select';
+      
+      $options = ['' => '- Todos -'];
+      $entity_type_manager = \Drupal::entityTypeManager();
+      $term_storage = $entity_type_manager->getStorage('taxonomy_term');
+      
+      // Load 'Córdoba' term from 'divipola'
+      $properties = [
+        'name' => 'Córdoba', 
+        'vid' => 'divipola'
+      ];
+      $terms = $term_storage->loadByProperties($properties);
+      
+      if ($terms) {
+        $parent_term = reset($terms);
+        $children = $term_storage->loadChildren($parent_term->id());
+        
+        foreach ($children as $child) {
+          $options[$child->label()] = $child->label();
+        }
+      }
+
+      $form['municipio']['#options'] = $options;
+      $form['municipio']['#size'] = 1;
+    }
+
+    if (isset($form['sector'])) {
+      $form['sector']['#type'] = 'select';
+      $options = ['' => '- Todos -'];
+      
+      $entity_type_manager = \Drupal::entityTypeManager();
+      $term_storage = $entity_type_manager->getStorage('taxonomy_term');
+      $terms = $term_storage->loadByProperties(['vid' => 'sectores_clave']);
+      
+      foreach ($terms as $term) {
+        $options[$term->label()] = $term->label();
+      }
+      
+      $form['sector']['#options'] = $options;
+      $form['sector']['#size'] = 1;
+    }
+
+    if (isset($form['tecnologia40'])) {
+      $form['tecnologia40']['#type'] = 'select';
+      $options = ['' => '- Todos -'];
+      
+      $entity_type_manager = \Drupal::entityTypeManager();
+      $term_storage = $entity_type_manager->getStorage('taxonomy_term');
+      $terms = $term_storage->loadByProperties(['vid' => 'tecnologias_clave']);
+      
+      foreach ($terms as $term) {
+        $options[$term->label()] = $term->label();
+      }
+      
+      $form['tecnologia40']['#options'] = $options;
+      $form['tecnologia40']['#size'] = 1;
+    }
+  }
+
+  if ($view->id() == 'listas_de_data') {
+    if (isset($form['categoria_minciencias'])) {
+      $form['categoria_minciencias']['#type'] = 'select';
+      $options = ['' => '- Todos -'];
+      
+      $entity_type_manager = \Drupal::entityTypeManager();
+      $term_storage = $entity_type_manager->getStorage('taxonomy_term');
+      $terms = $term_storage->loadByProperties(['vid' => 'categorias_grupos_de_investigaci']);
+      
+      foreach ($terms as $term) {
+        $options[$term->label()] = $term->label();
+      }
+      
+      $form['categoria_minciencias']['#options'] = $options;
+      $form['categoria_minciencias']['#size'] = 1;
+    }
+  }
+
+  if ($view->id() == 'dashboard_investigadores') {
+    if (isset($form['nme_clasificacion_pr'])) {
+      $form['nme_clasificacion_pr']['#type'] = 'select';
+      $options = ['' => '- Todos -'];
+      
+      $entity_type_manager = \Drupal::entityTypeManager();
+      $term_storage = $entity_type_manager->getStorage('taxonomy_term');
+      $terms = $term_storage->loadByProperties(['vid' => 'clasificacion_de_investigadores']);
+      
+      foreach ($terms as $term) {
+        $options[$term->label()] = $term->label();
+      }
+      
+      $form['nme_clasificacion_pr']['#options'] = $options;
+      $form['nme_clasificacion_pr']['#size'] = 1;
+    }
+  }
+}
 
 
   

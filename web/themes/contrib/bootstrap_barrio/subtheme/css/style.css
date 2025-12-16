@@ -97,7 +97,7 @@ body {
 }
 
 .detalle-dump-data .views-exposed-form {
-  display: none;
+  /*display: none;*/
 }
 
 .detalle-dump-data .view-header p {
@@ -468,5 +468,119 @@ body {
 @media (max-width: 640px) {
   .convocatorias .views-view-grid .views-row {
     grid-template-columns: 1fr;
+  }
+}
+
+
+/* Modern Styling for Exposed Filters Form */
+.views-exposed-form {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f1f5f9;
+}
+
+.views-exposed-form .form-item {
+  margin-bottom: 0 !important;
+  /* Override mb-3 from bootstrap wrapper if needed, or rely on flex gap */
+  flex-grow: 1;
+  min-width: 200px;
+  /* Ensure inputs don't get too squashed */
+}
+
+/* Adjust the flex container provided by the theme */
+.views-exposed-form .d-flex {
+  gap: 1.5rem;
+  align-items: flex-end;
+  /* Align inputs and button at the bottom */
+}
+
+/* Label styling */
+.views-exposed-form label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+/* Select/Input styling */
+.views-exposed-form .form-select,
+.views-exposed-form .form-control {
+  width: 100%;
+  padding: 0.625rem 1rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #1e293b;
+  background-color: #f8fafc;
+  background-clip: padding-box;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.views-exposed-form .form-select:focus,
+.views-exposed-form .form-control:focus {
+  border-color: #0284c7;
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+  background-color: #ffffff;
+}
+
+/* Submit button container/placement */
+.views-exposed-form .form-actions {
+  margin-top: auto;
+}
+
+/* Submit button styling */
+.views-exposed-form .form-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 2rem;
+  /* Match input vertical padding */
+  font-size: 0.95rem;
+  line-height: 1.5;
+  /* Match input line-height */
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #0f172a;
+  border: 1px solid #0f172a;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  height: auto;
+  /* Let padding define height to match inputs exactly */
+  min-height: 48px;
+  /* Force a minimum height if needed to match inputs visually */
+}
+
+.views-exposed-form .form-submit:hover {
+  background-color: #1e293b;
+  border-color: #1e293b;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .views-exposed-form .d-flex {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .views-exposed-form .form-item,
+  .views-exposed-form .form-actions {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .views-exposed-form .form-submit {
+    width: 100%;
   }
 }

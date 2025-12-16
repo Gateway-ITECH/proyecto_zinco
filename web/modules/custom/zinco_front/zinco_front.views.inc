@@ -526,5 +526,132 @@ function zinco_front_views_data() {
     $data['data_instancias_gobierno'][$field_name] = $field_data;
   }
 
+  // ----------------------------------------------------------------------
+  // Table: data_view_articulos_investigacion
+  // ----------------------------------------------------------------------
+  $data['data_view_articulos_investigacion'] = [
+    'table' => [
+      'group' => t('Articulos Investigacion'),
+      'provider' => 'zinco_front',
+      'base' => [
+        'field' => 'id',
+        'title' => t('Articulos Investigacion Data'),
+        'help' => t('Data from data_view_articulos_investigacion view.'),
+      ],
+    ],
+  ];
+
+  // Define fields for data_view_articulos_investigacion
+  $fields_articulos = [
+    'ID' => 'ID',
+    'ID_CONVOCATORIA' => 'ID Convocatoria',
+    'NME_CONVOCATORIA' => 'Nombre Convocatoria',
+    'ANO_CONVO' => 'Año Convocatoria',
+    'ID_PRODUCTO_PD' => 'ID Producto',
+    'NME_CLASE_PD' => 'Nombre Clase',
+    'NME_TIPO_MEDICION_PD' => 'Nombre Tipo Medicion',
+    'NME_TIPOLOGIA_PD' => 'Nombre Tipologia',
+    'ID_TIPO_PD_MED' => 'ID Tipo PD Med',
+    'NME_CATEGORIA_PD' => 'Nombre Categoria',
+    'FCREACION_PD' => 'Fecha Creacion',
+    'NME_PRODUCTO_PD' => 'Nombre Producto',
+    'COD_GRUPO_GR' => 'Cod Grupo',
+    'NME_GRUPO_GR' => 'Nombre Grupo',
+    'ID_PERSONA_PD' => 'ID Persona',
+    'municipio' => 'Municipio',
+    'sector' => 'Sector',
+    'tecnologia40' => 'Tecnologia 4.0',
+  ];
+
+  foreach ($fields_articulos as $field_name => $label) {
+    $lower_field_name = strtolower($field_name);
+    
+    $data['data_view_articulos_investigacion'][$lower_field_name] = [
+      'title' => t($label),
+      'help' => t($label . '.'),
+      'field' => [
+        'id' => 'standard',
+      ],
+      'filter' => [
+        'id' => 'string',
+      ],
+      'argument' => [
+        'id' => 'string',
+      ],
+      'sort' => [
+        'id' => 'standard',
+      ],
+    ];
+    
+    // ID handling
+    if ($lower_field_name == 'id') {
+       $data['data_view_articulos_investigacion'][$lower_field_name]['field']['id'] = 'numeric';
+       $data['data_view_articulos_investigacion'][$lower_field_name]['filter']['id'] = 'numeric';
+       $data['data_view_articulos_investigacion'][$lower_field_name]['argument']['id'] = 'numeric';
+    }
+
+    // Map to real field if uppercase
+    if ($field_name !== $lower_field_name) {
+      $data['data_view_articulos_investigacion'][$lower_field_name]['real field'] = $field_name;
+    }
+  }
+
+  // ----------------------------------------------------------------------
+  // Table: data_instituciones_academicas
+  // ----------------------------------------------------------------------
+  $data['data_instituciones_academicas'] = [
+    'table' => [
+      'group' => t('Instituciones Academicas'),
+      'provider' => 'zinco_front',
+      'base' => [
+        'field' => 'id',
+        'title' => t('Instituciones Academicas Data'),
+        'help' => t('Data from data_instituciones_academicas table.'),
+      ],
+    ],
+  ];
+
+  // Define fields for data_instituciones_academicas
+  $fields_instituciones = [
+    'id' => 'ID',
+    'nombre_institucion' => 'Nombre Institucion',
+    'caracter_institucion' => 'Caracter Institucion',
+    'caracter_academico' => 'Caracter Academico',
+    'departamento_domicilio' => 'Departamento Domicilio',
+    'num_programas_ofertados' => 'Num Programas Ofertados',
+    'num_programas_ctei' => 'Num Programas CTEI',
+    'sector' => 'Sector',
+    'tecnologia40' => 'Tecnologia 4.0',
+    'municipio' => 'Municipio',
+  ];
+
+  foreach ($fields_instituciones as $field_name => $label) {
+    $field_data = [
+      'title' => t($label),
+      'help' => t($label . '.'),
+      'field' => [
+        'id' => 'standard',
+      ],
+      'filter' => [
+        'id' => 'string',
+      ],
+      'argument' => [
+        'id' => 'string',
+      ],
+      'sort' => [
+        'id' => 'standard',
+      ],
+    ];
+
+    // Numeric fields
+    if (in_array($field_name, ['id', 'num_programas_ofertados', 'num_programas_ctei'])) {
+      $field_data['field']['id'] = 'numeric';
+      $field_data['filter']['id'] = 'numeric';
+      $field_data['argument']['id'] = 'numeric';
+    }
+
+    $data['data_instituciones_academicas'][$field_name] = $field_data;
+  }
+
   return $data;
 }
