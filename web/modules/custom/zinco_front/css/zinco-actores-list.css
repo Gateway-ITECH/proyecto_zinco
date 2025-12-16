@@ -2,35 +2,42 @@
 .zinco-actores-list .card {
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-  background: rgb(66, 160, 0);
+  background: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
+
 .zinco-actores-list .card-body {
-  color: #ffffff;
+  color: #000;
 }
+
 .zinco-actores-list .card-title {
   font-size: 1.25rem;
   font-weight: bold;
 }
+
 .zinco-actores-list .badge {
   font-size: 0.85em;
   padding: 0.4em 0.6em;
   border-radius: 0.25rem;
 }
+
 .zinco-actores-list .pagination-links {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
+
 .zinco-actores-list .pagination-links .pager__items {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
 }
+
 .zinco-actores-list .pagination-links .pager__item {
   margin: 0 5px;
 }
+
 .zinco-actores-list .pagination-links .pager__item a,
 .zinco-actores-list .pagination-links .pager__item.is-active a {
   display: block;
@@ -40,11 +47,13 @@
   border: 1px solid #dee2e6;
   border-radius: 4px;
 }
+
 .zinco-actores-list .pagination-links .pager__item.is-active a {
   background-color: #007bff;
-  color: #fff;
+  color: #000;
   border-color: #007bff;
 }
+
 .zinco-actores-list .pagination-links .pager__item a:hover:not(.is-active) {
   background-color: #e9ecef;
 }

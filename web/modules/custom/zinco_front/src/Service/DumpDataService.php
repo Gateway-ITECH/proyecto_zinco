@@ -390,9 +390,9 @@ class DumpDataService {
             $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
             break;
           case 'entidad_gobierno':
-            $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
-            $row['tecnologia40'] = !empty($entity->tecnologias_clave->target_id) ? Term::load($entity->tecnologias_clave->target_id)->getName() : '';
-            $row['municipio'] = !empty($entity->municipio->target_id) ? Term::load($entity->municipio->target_id)->getName() : '';
+            $row['sector'] = $this->safeGetTermName($entity->sector_economico_principal->target_id);
+            $row['tecnologia40'] = $this->safeGetTermName($entity->tecnologias_clave->target_id);
+            $row['municipio'] = $this->safeGetTermName($entity->municipio->target_id);
             break;
           case 'instancias_de_orientacion_politi':
             $row['sector'] = !empty($entity->sector_economico_principal->target_id) ? Term::load($entity->sector_economico_principal->target_id)->getName() : '';  
@@ -672,6 +672,23 @@ class DumpDataService {
   public function obtenerRetos(array $filters = []): array {
     $filters['bundle'] = 'reto';
     return $this->obtenerEntidad('zinco_retos_innovacion_type', $filters);
+  }
+
+  /**
+   * Safely gets the name of a taxonomy term.
+   *
+   * @param int|string|null $tid
+   *   The term ID.
+   *
+   * @return string
+   *   The term name or empty string if not found.
+   */
+  private function safeGetTermName($tid) {
+    if (empty($tid)) {
+      return '';
+    }
+    $term = Term::load($tid);
+    return $term ? $term->getName() : '';
   }
 
 }

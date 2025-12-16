@@ -653,5 +653,340 @@ function zinco_front_views_data() {
     $data['data_instituciones_academicas'][$field_name] = $field_data;
   }
 
+  // ----------------------------------------------------------------------
+  // Table: data_programas_academicos
+  // ----------------------------------------------------------------------
+  $data['data_programas_academicos'] = [
+    'table' => [
+      'group' => t('Programas Academicos'),
+      'provider' => 'zinco_front',
+      'base' => [
+        'field' => 'id',
+        'title' => t('Programas Academicos Data'),
+        'help' => t('Data from data_programas_academicos table.'),
+      ],
+    ],
+  ];
+
+  // Define fields for data_programas_academicos
+  $fields_programas = [
+    'id' => 'ID',
+    'institucion' => 'Institucion',
+    'nivel_academico' => 'Nivel Academico',
+    'nivel_formacion' => 'Nivel Formacion',
+    'programa' => 'Programa',
+    'municipio' => 'Municipio',
+    'sector' => 'Sector',
+    'tecnologia40' => 'Tecnologia 4.0',
+    'relacion_sector_40' => 'Relacion Sector 4.0',
+  ];
+
+  foreach ($fields_programas as $field_name => $label) {
+    $field_data = [
+      'title' => t($label),
+      'help' => t($label . '.'),
+      'field' => [
+        'id' => 'standard',
+      ],
+      'filter' => [
+        'id' => 'string',
+      ],
+      'argument' => [
+        'id' => 'string',
+      ],
+      'sort' => [
+        'id' => 'standard',
+      ],
+    ];
+
+    // Adjust specific numeric fields
+    if ($field_name == 'id') {
+      $field_data['field']['id'] = 'numeric';
+      $field_data['filter']['id'] = 'numeric';
+      $field_data['argument']['id'] = 'numeric';
+    }
+
+    $data['data_programas_academicos'][$field_name] = $field_data;
+  }
+
+  //
+
+  // ----------------------------------------------------------------------
+  // Table: data_view_patentes
+  // ----------------------------------------------------------------------
+  $data['data_view_patentes'] = [
+    'table' => [
+      'group' => t('Patentes'),
+      'provider' => 'zinco_front',
+      'base' => [
+        'field' => 'id',
+        'title' => t('Patentes Data'),
+        'help' => t('Data from data_view_patentes view.'),
+      ],
+    ],
+  ];
+
+  // Define fields for data_view_patentes
+  $fields_patentes = [
+    'ID' => 'ID',
+    'ID_CONVOCATORIA' => 'ID Convocatoria',
+    'NME_CONVOCATORIA' => 'Nombre Convocatoria',
+    'ANO_CONVO' => 'Año Convocatoria',
+    'ID_PRODUCTO_PD' => 'ID Producto',
+    'NME_CLASE_PD' => 'Nombre Clase',
+    'NME_TIPO_MEDICION_PD' => 'Nombre Tipo Medicion',
+    'NME_TIPOLOGIA_PD' => 'Nombre Tipologia',
+    'ID_TIPO_PD_MED' => 'ID Tipo PD Med',
+    'NME_CATEGORIA_PD' => 'Nombre Categoria',
+    'FCREACION_PD' => 'Fecha Creacion',
+    'NME_PRODUCTO_PD' => 'Nombre Producto',
+    'COD_GRUPO_GR' => 'Cod Grupo',
+    'NME_GRUPO_GR' => 'Nombre Grupo',
+    'ID_PERSONA_PD' => 'ID Persona',
+    'municipio' => 'Municipio',
+    'sector' => 'Sector',
+    'tecnologia40' => 'Tecnologia 4.0',
+  ];
+
+  foreach ($fields_patentes as $field_name => $label) {
+    $lower_field_name = strtolower($field_name);
+    
+    $data['data_view_patentes'][$lower_field_name] = [
+      'title' => t($label),
+      'help' => t($label . '.'),
+      'field' => [
+        'id' => 'standard',
+      ],
+      'filter' => [
+        'id' => 'string',
+      ],
+      'argument' => [
+        'id' => 'string',
+      ],
+      'sort' => [
+        'id' => 'standard',
+      ],
+    ];
+
+    // ID handling
+    if ($lower_field_name == 'id') {
+       $data['data_view_patentes'][$lower_field_name]['field']['id'] = 'numeric';
+       $data['data_view_patentes'][$lower_field_name]['filter']['id'] = 'numeric';
+       $data['data_view_patentes'][$lower_field_name]['argument']['id'] = 'numeric';
+    }
+
+    // Map to real field if uppercase
+    if ($field_name !== $lower_field_name) {
+      $data['data_view_patentes'][$lower_field_name]['real field'] = $field_name;
+    }
+  }
+
+  //
+
+  // ----------------------------------------------------------------------
+  // Table: data_view_productos_tecnologicos
+  // ----------------------------------------------------------------------
+  $data['data_view_productos_tecnologicos'] = [
+    'table' => [
+      'group' => t('Productos Tecnologicos'),
+      'provider' => 'zinco_front',
+      'base' => [
+        'field' => 'id',
+        'title' => t('Productos Tecnologicos Data'),
+        'help' => t('Data from data_view_productos_tecnologicos view.'),
+      ],
+    ],
+  ];
+
+  // Define fields for data_view_productos_tecnologicos
+  // Same structure as patentes view
+  $fields_prod_tecnologicos = [
+    'ID' => 'ID',
+    'ID_CONVOCATORIA' => 'ID Convocatoria',
+    'NME_CONVOCATORIA' => 'Nombre Convocatoria',
+    'ANO_CONVO' => 'Año Convocatoria',
+    'ID_PRODUCTO_PD' => 'ID Producto',
+    'NME_CLASE_PD' => 'Nombre Clase',
+    'NME_TIPO_MEDICION_PD' => 'Nombre Tipo Medicion',
+    'NME_TIPOLOGIA_PD' => 'Nombre Tipologia',
+    'ID_TIPO_PD_MED' => 'ID Tipo PD Med',
+    'NME_CATEGORIA_PD' => 'Nombre Categoria',
+    'FCREACION_PD' => 'Fecha Creacion',
+    'NME_PRODUCTO_PD' => 'Nombre Producto',
+    'COD_GRUPO_GR' => 'Cod Grupo',
+    'NME_GRUPO_GR' => 'Nombre Grupo',
+    'ID_PERSONA_PD' => 'ID Persona',
+    'municipio' => 'Municipio',
+    'sector' => 'Sector',
+    'tecnologia40' => 'Tecnologia 4.0',
+  ];
+
+  foreach ($fields_prod_tecnologicos as $field_name => $label) {
+    $lower_field_name = strtolower($field_name);
+    
+    $data['data_view_productos_tecnologicos'][$lower_field_name] = [
+      'title' => t($label),
+      'help' => t($label . '.'),
+      'field' => [
+        'id' => 'standard',
+      ],
+      'filter' => [
+        'id' => 'string',
+      ],
+      'argument' => [
+        'id' => 'string',
+      ],
+      'sort' => [
+        'id' => 'standard',
+      ],
+    ];
+
+    // ID handling
+    if ($lower_field_name == 'id') {
+       $data['data_view_productos_tecnologicos'][$lower_field_name]['field']['id'] = 'numeric';
+       $data['data_view_productos_tecnologicos'][$lower_field_name]['filter']['id'] = 'numeric';
+       $data['data_view_productos_tecnologicos'][$lower_field_name]['argument']['id'] = 'numeric';
+    }
+
+    // Map to real field if uppercase
+    if ($field_name !== $lower_field_name) {
+      $data['data_view_productos_tecnologicos'][$lower_field_name]['real field'] = $field_name;
+    }
+  }
+
+  //
+
+  // ----------------------------------------------------------------------
+  // Table: data_view_consultorias
+  // ----------------------------------------------------------------------
+  $data['data_view_consultorias'] = [
+    'table' => [
+      'group' => t('Consultorias'),
+      'provider' => 'zinco_front',
+      'base' => [
+        'field' => 'id',
+        'title' => t('Consultorias Data'),
+        'help' => t('Data from data_view_consultorias view.'),
+      ],
+    ],
+  ];
+
+  // Define fields for data_view_consultorias
+  // Same structure as patentes view
+  $fields_consultorias = [
+    'ID' => 'ID',
+    'ID_CONVOCATORIA' => 'ID Convocatoria',
+    'NME_CONVOCATORIA' => 'Nombre Convocatoria',
+    'ANO_CONVO' => 'Año Convocatoria',
+    'ID_PRODUCTO_PD' => 'ID Producto',
+    'NME_CLASE_PD' => 'Nombre Clase',
+    'NME_TIPO_MEDICION_PD' => 'Nombre Tipo Medicion',
+    'NME_TIPOLOGIA_PD' => 'Nombre Tipologia',
+    'ID_TIPO_PD_MED' => 'ID Tipo PD Med',
+    'NME_CATEGORIA_PD' => 'Nombre Categoria',
+    'FCREACION_PD' => 'Fecha Creacion',
+    'NME_PRODUCTO_PD' => 'Nombre Producto',
+    'COD_GRUPO_GR' => 'Cod Grupo',
+    'NME_GRUPO_GR' => 'Nombre Grupo',
+    'ID_PERSONA_PD' => 'ID Persona',
+    'municipio' => 'Municipio',
+    'sector' => 'Sector',
+    'tecnologia40' => 'Tecnologia 4.0',
+  ];
+
+  foreach ($fields_consultorias as $field_name => $label) {
+    $lower_field_name = strtolower($field_name);
+    
+    $data['data_view_consultorias'][$lower_field_name] = [
+      'title' => t($label),
+      'help' => t($label . '.'),
+      'field' => [
+        'id' => 'standard',
+      ],
+      'filter' => [
+        'id' => 'string',
+      ],
+      'argument' => [
+        'id' => 'string',
+      ],
+      'sort' => [
+        'id' => 'standard',
+      ],
+    ];
+
+    // ID handling
+    if ($lower_field_name == 'id') {
+       $data['data_view_consultorias'][$lower_field_name]['field']['id'] = 'numeric';
+       $data['data_view_consultorias'][$lower_field_name]['filter']['id'] = 'numeric';
+       $data['data_view_consultorias'][$lower_field_name]['argument']['id'] = 'numeric';
+    }
+
+    // Map to real field if uppercase
+    if ($field_name !== $lower_field_name) {
+      $data['data_view_consultorias'][$lower_field_name]['real field'] = $field_name;
+    }
+  }
+
+  // ----------------------------------------------------------------------
+  // Table: data_software_registrados
+  // ----------------------------------------------------------------------
+  $data['data_software_registrados'] = [
+    'table' => [
+      'group' => t('Software Registrados'),
+      'provider' => 'zinco_front',
+      'base' => [
+        'field' => 'id',
+        'title' => t('Software Registrados Data'),
+        'help' => t('Data from data_software_registrados table.'),
+      ],
+    ],
+  ];
+
+  // Define fields for data_software_registrados
+  $fields_software = [
+    'id' => 'ID',
+    'titulo_obra' => 'Titulo Obra',
+    'nacionalidad' => 'Nacionalidad',
+    'dpto' => 'Departamento',
+    'municipio' => 'Municipio',
+    'anio_registro' => 'Año Registro',
+    'descripcion_obra' => 'Descripcion Obra',
+    'solicitante' => 'Solicitante',
+    'telefono' => 'Telefono',
+    'sector' => 'Sector',
+    'tecnologia40' => 'Tecnologia 4.0',
+  ];
+
+  foreach ($fields_software as $field_name => $label) {
+    $field_data = [
+      'title' => t($label),
+      'help' => t($label . '.'),
+      'field' => [
+        'id' => 'standard',
+      ],
+      'filter' => [
+        'id' => 'string',
+      ],
+      'argument' => [
+        'id' => 'string',
+      ],
+      'sort' => [
+        'id' => 'standard',
+      ],
+    ];
+
+    // Adjust specific numeric fields
+    if ($field_name == 'id') {
+      $field_data['field']['id'] = 'numeric';
+      $field_data['filter']['id'] = 'numeric';
+      $field_data['argument']['id'] = 'numeric';
+    }
+
+    $data['data_software_registrados'][$field_name] = $field_data;
+  }
+
+  //
+
+
   return $data;
 }

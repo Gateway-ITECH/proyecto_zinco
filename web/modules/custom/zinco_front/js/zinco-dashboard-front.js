@@ -653,12 +653,12 @@
     ];
 
 
-    // const dataLoadPromises2 = [
-    //   loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_unidades_empresariales_idi_entidad, card_actores_zinco_unidades_empresariales_idi_bundle, card_actores_zinco_unidades_empresariales_idi_elemento, card_actores_zinco_unidades_empresariales_idi_filters),
+    const dataLoadPromises2 = [
+      // loadEntityGroupedData(municipio, sector, tecnologias40, card_software_fuentes_financiacion_entidad, card_software_fuentes_financiacion_elemento, card_software_fuentes_financiacion_campo),
 
-    // ];
+    ];
 
-    Promise.all(dataLoadPromises)
+    Promise.all(dataLoadPromises2)
       .then(() => {
         console.log('All dashboard data loaded successfully!');
         const jsonData = getDataAsJson();
@@ -847,6 +847,7 @@
       fetch(url)
         .then(response => response.json())
         .then(data => {
+          console.log(data);
           if (campo) { // Group data by 'campo' if specified
             const groupedData = data.reduce((acc, item) => {
               const key = item[campo];

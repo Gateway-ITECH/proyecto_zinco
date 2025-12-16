@@ -218,7 +218,11 @@ function zinco_front_form_views_exposed_form_alter(&$form, \Drupal\Core\Form\For
     $view->id() == 'dashboard_investigadores' ||
     $view->id() == 'dashboard_instancias_orientacion_politica' ||
     $view->id() == 'dashboard_entidades_gobierno' ||
-    $view->id() == 'dashboard_instituciones_academicas'
+    $view->id() == 'dashboard_instituciones_academicas' ||
+    $view->id() == 'dashboard_programas_academicos' ||
+    $view->id() == 'dashboard_patentes' ||
+    $view->id() == 'dashboard_productos_tecnologicos' ||
+    $view->id() == 'dashboard_registros_software'
   ) {
     if (isset($form['municipio'])) {
       $form['municipio']['#type'] = 'select';
