@@ -194,6 +194,17 @@ function zinco_front_user_update(UserInterface $account) {
 function zinco_front_form_alter($form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
   $form_object = $form_state->getFormObject();
 
+  if ($form_id == 'user_form') {
+    $current_user = \Drupal::currentUser();
+    $roles = $current_user->getRoles();
+    if (in_array('actor_registrado', $roles)) {
+      if (!$form_object->getEntity()->isNew()) {
+        \Drupal::request()->query->set('destination', '/dashboard');
+      }
+    }
+  }
+
+
     // 1. Verifica que estamos en la operación 'frontend_add' de tu entidad.
     if (get_class($form_object) === 'Drupal\zinco_retos_soluciones\Form\ZincoRetosSolucionesForm' && 
         $form_object->getOperation() === 'frontend_add') 
@@ -320,13 +331,4 @@ function zinco_front_form_views_exposed_form_alter(&$form, \Drupal\Core\Form\For
     }
   }
 }
-
-
-  
-
-
-
-
-
-
 

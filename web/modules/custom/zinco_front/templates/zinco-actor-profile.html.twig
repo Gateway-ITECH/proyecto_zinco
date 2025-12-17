@@ -127,7 +127,24 @@
         </div>
 
       </div>
+
+      
+          
+      
+
+      
       <div class="col-md-4">
+        {% if actor.acciones_rapidas %}
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title mb-4">Acciones rápidas</h5>
+            <p class="card-text"><a href="/retos/list">Mis retos de innovación</a></p>
+            <p class="card-text"><a href="/proyectos/list">Mis proyectos I+D+i</a></p>
+            <p class="card-text"><a href="/profile/edit">Editar mi perfil</a></p>
+          </div>
+        </div>
+        {% endif %}
+
         <div class="card mb-3">
           <div class="card-body">
             <h5 class="card-title mb-4">Líneas de Negocio e Innovación</h5>
@@ -140,6 +157,8 @@
             {% endif %}
           </div>
         </div>
+
+        
 
         {% if actor.datos_contacto is not empty %}
           <div class="card mb-3">

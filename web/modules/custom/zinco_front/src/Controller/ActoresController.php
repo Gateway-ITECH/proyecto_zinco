@@ -237,6 +237,21 @@ class ActoresController extends ControllerBase {
     ];
   }
 
+
+  /**
+   * Redirects the user to their associated actor profile.
+   */
+  public function perfil() {
+    $current_user = $this->entityTypeManager->getStorage('user')->load(\Drupal::currentUser()->id());
+    
+    if ($current_user->hasField('field_actor') && !$current_user->get('field_actor')->isEmpty()) {
+      $actor_id = $current_user->get('field_actor')->target_id;
+      return $this->redirect('zinco_front.actor_profile', ['actor_id' => $actor_id]);
+    }
+    
+    return $this->redirect('zinco_front.actor_categories_list');
+  }
+
   /**
    * Returns a single actor profile.
    *
@@ -250,6 +265,7 @@ class ActoresController extends ControllerBase {
     try {
       $actor_storage = $this->entityTypeManager->getStorage('zinco_actors_zincoactors');
       $actor = $actor_storage->load($actor_id);
+      $current_user = $this->entityTypeManager->getStorage('user')->load(\Drupal::currentUser()->id());
 
       if (!$actor) {
         $this->messenger()->addError($this->t('Actor with ID @id not found.', ['@id' => $actor_id]));
@@ -581,6 +597,15 @@ class ActoresController extends ControllerBase {
           }
         }
       }
+
+      //si el id de actor del usuario logueado es igual al id del actor que se esta viendo, agregar una bandera acciones_rapidas en true
+      $actor_data['acciones_rapidas'] = false;
+      if ($current_user->hasField('field_actor') && !$current_user->get('field_actor')->isEmpty()) {
+        if ($actor->id() == $current_user->get('field_actor')->target_id) {
+          $actor_data['acciones_rapidas'] = true;
+        }
+      }
+      
 
 
 

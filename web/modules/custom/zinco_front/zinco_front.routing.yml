@@ -286,3 +286,11 @@ zinco_front.actor_busqueda_categories_list:
   requirements:
     _permission: 'access content'
 
+
+zinco_front.perfil:
+  path: '/actores/mi-perfil'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ActoresController::perfil'
+    _title: 'Mi Perfil'
+  requirements:
+    _permission: 'access content'

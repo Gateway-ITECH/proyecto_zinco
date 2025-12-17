@@ -74,6 +74,9 @@
 <div class="elfsight-app-5a19dab6-6bdf-4af0-8bed-57ec55a23c0e" data-elfsight-app-lazy></div>
 <div id="page-wrapper">
   <div id="page">
+    
+    {{ page.top_header }}
+    
     <header id="header" class="header" role="banner" aria-label="{{ 'Site header'|t}}">
       {% block head %}
         {% if page.secondary_menu or page.top_header or page.top_header_form %}
@@ -82,7 +85,7 @@
           <div class="container">
           {% endif %}
               {{ page.secondary_menu }}
-              {{ page.top_header }}
+              
               {% if page.top_header_form %}
                 <div class="form-inline navbar-form ms-auto">
                   {{ page.top_header_form }}
