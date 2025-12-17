@@ -662,8 +662,14 @@ class ActoresController extends ControllerBase {
       $category_entities = $zinco_actors_categories_storage->loadMultiple($category_entity_ids);
 
       $allowed_bundle_ids = [];
+      $bundle_icons = [];
       foreach ($category_entities as $category_entity) {
-        $allowed_bundle_ids[] = $category_entity->get('field_actor_bundle')->value;
+        $bundle_id = $category_entity->get('field_actor_bundle')->value;
+        $allowed_bundle_ids[] = $bundle_id;
+        // Store icon for this bundle
+        if ($category_entity->hasField('description') && !$category_entity->get('description')->isEmpty()) {
+          $bundle_icons[$bundle_id] = strip_tags($category_entity->get('description')->value);
+        }
       }
 
       if (empty($allowed_bundle_ids)) {
@@ -678,6 +684,7 @@ class ActoresController extends ControllerBase {
         $bundle_data[] = [
           'id' => $bundle_id,
           'label' => $bundle_entity->label(),
+          'icon' => $bundle_icons[$bundle_id] ?? '',
         ];
       }
       $cache_tags = $this->entityTypeManager->getDefinition('zinco_actors_categories')->getListCacheTags();
@@ -692,10 +699,14 @@ class ActoresController extends ControllerBase {
         $bundle_data[] = [
           'id' => $bundle_id,
           'label' => $bundle_entity->label(),
+          'icon' => '',
         ];
       }
       $cache_tags = $this->entityTypeManager->getDefinition('zinco_actors_zincoactors_type')->getListCacheTags();
     }
+
+
+  
 
     return [
       '#theme' => 'zinco_actor_bundles_list',

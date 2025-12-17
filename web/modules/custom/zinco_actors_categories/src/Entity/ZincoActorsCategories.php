@@ -139,6 +139,22 @@ class ZincoActorsCategories extends ContentEntityBase implements ZincoActorsCate
       ])
       ->setDisplayConfigurable('view', TRUE);
 
+    $fields['icon'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Icono'))
+      ->setDescription(t('Icono de la categoría de actor (URL o clase CSS).'))
+      ->setSetting('max_length', 255)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'weight' => 5,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'string',
+        'weight' => 5,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+
     $fields['uid'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Author'))
       ->setSetting('target_type', 'user')
