@@ -1,0 +1,100 @@
+{#
+/**
+ * @file
+ * Template for the Active Calls block.
+ *
+ * Available variables:
+ * - calls: Array of call items with:
+ *   - id: Node ID
+ *   - title: Call title
+ *   - url: URL to the call node
+ *   - opening_date: Formatted opening date
+ *   - closing_date: Formatted closing date
+ *   - closing_day: Day number for closing
+ *   - closing_month: Month abbreviation for closing
+ *   - days_remaining: Number of days until closing
+ *   - urgency_label: Human-readable urgency label
+ *   - urgency_class: CSS class for urgency (urgent/warning/normal)
+ *   - type: Call type
+ *   - description: Call description excerpt
+ */
+#}
+
+{% if calls %}
+<section class="zinco-active-calls-wrapper">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="active-calls-header mb-4">
+          <h2 class="section-title">Convocatorias Vigentes</h2>
+          <p class="section-subtitle">Aprovecha estas oportunidades antes de que cierren</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row g-4">
+      {% for call in calls %}
+        <div class="col-12 col-md-6 col-lg-4">
+          <article class="call-card call-{{ call.urgency_class }}">
+            <a href="{{ call.url }}" class="call-card-link">
+              <div class="call-card-header">
+                <div class="call-status-badge">
+                  <i class="fas fa-check-circle"></i>
+                  <span>Vigente</span>
+                </div>
+                
+                <div class="call-closing-date">
+                  <span class="closing-day">{{ call.closing_day }}</span>
+                  <span class="closing-month">{{ call.closing_month }}</span>
+                </div>
+              </div>
+              
+              <div class="call-card-body">
+                {% if call.urgency_label %}
+                  <div class="call-urgency-label urgency-{{ call.urgency_class }}">
+                    <i class="far fa-clock"></i>
+                    <span>{{ call.urgency_label }}</span>
+                  </div>
+                {% endif %}
+                
+                <h3 class="call-card-title">{{ call.title }}</h3>
+                
+                {% if call.type %}
+                  <div class="call-card-type">
+                    <i class="fas fa-tag"></i>
+                    <span>{{ call.type }}</span>
+                  </div>
+                {% endif %}
+                
+                <div class="call-card-dates">
+                  <div class="date-item">
+                    <i class="fas fa-calendar-plus"></i>
+                    <span>Apertura: {{ call.opening_date }}</span>
+                  </div>
+                  <div class="date-item">
+                    <i class="fas fa-calendar-times"></i>
+                    <span>Cierre: {{ call.closing_date }}</span>
+                  </div>
+                </div>
+                
+                {% if call.description %}
+                  <p class="call-card-description">{{ call.description }}</p>
+                {% endif %}
+                
+                <span class="call-card-read-more">
+                  Ver convocatoria <i class="fas fa-arrow-right"></i>
+                </span>
+              </div>
+            </a>
+          </article>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% else %}
+  <div class="no-calls-message">
+    <i class="far fa-calendar-times"></i>
+    <p>No hay convocatorias vigentes en este momento.</p>
+  </div>
+{% endif %}

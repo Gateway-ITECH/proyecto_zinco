@@ -1,0 +1,101 @@
+{#
+/**
+ * @file
+ * Template for the News Carousel block.
+ *
+ * Available variables:
+ * - news_items: Array of news items with:
+ *   - id: Node ID
+ *   - title: News title
+ *   - url: URL to the news node
+ *   - date: Formatted date
+ *   - image_url: URL to the featured image
+ *   - image_alt: Alt text for the image
+ *   - excerpt: Content excerpt
+ * - carousel_id: Unique ID for this carousel instance
+ */
+#}
+
+{% if news_items %}
+<section class="zinco-news-carousel-wrapper">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div id="{{ carousel_id }}" class="carousel slide zinco-news-carousel" data-bs-ride="carousel">
+          
+          {# Carousel Indicators #}
+          <div class="carousel-indicators">
+            {% for item in news_items %}
+              {% if loop.index0 % 3 == 0 %}
+                <button type="button" data-bs-target="#{{ carousel_id }}" data-bs-slide-to="{{ loop.index0 // 3 }}" {% if loop.first %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ (loop.index0 // 3) + 1 }}"></button>
+              {% endif %}
+            {% endfor %}
+          </div>
+
+          {# Carousel Inner #}
+          <div class="carousel-inner">
+            {% for item in news_items %}
+              {% if loop.index0 % 3 == 0 %}
+                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                  <div class="row g-4">
+              {% endif %}
+              
+              <div class="col-12 col-md-6 col-lg-4">
+                <article class="news-card">
+                  <a href="{{ item.url }}" class="news-card-link">
+                    {% if item.image_url %}
+                      <div class="news-card-image">
+                        <img src="{{ item.image_url }}" alt="{{ item.image_alt }}" loading="lazy">
+                      </div>
+                    {% else %}
+                      <div class="news-card-image news-card-image-placeholder">
+                        <i class="fas fa-newspaper"></i>
+                      </div>
+                    {% endif %}
+                    
+                    <div class="news-card-body">
+                      <div class="news-card-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>{{ item.date }}</span>
+                      </div>
+                      
+                      <h3 class="news-card-title">{{ item.title }}</h3>
+                      
+                      {% if item.excerpt %}
+                        <p class="news-card-excerpt">{{ item.excerpt }}</p>
+                      {% endif %}
+                      
+                      <span class="news-card-read-more">
+                        Leer más <i class="fas fa-arrow-right"></i>
+                      </span>
+                    </div>
+                  </a>
+                </article>
+              </div>
+              
+              {% if loop.index % 3 == 0 or loop.last %}
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+
+          {# Carousel Controls #}
+          <button class="carousel-control-prev" type="button" data-bs-target="#{{ carousel_id }}" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true">
+              <i class="fas fa-chevron-left"></i>
+            </span>
+            <span class="visually-hidden">Anterior</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#{{ carousel_id }}" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true">
+              <i class="fas fa-chevron-right"></i>
+            </span>
+            <span class="visually-hidden">Siguiente</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}

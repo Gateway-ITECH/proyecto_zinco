@@ -14,19 +14,29 @@
 <div class="zinco-landing-page">
   <div class="row w-100 m-0">
     <div class="col-12 hero-section">
-      <h1 class="hero-title">{{ fields.field_hero_section_title ? fields.field_hero_section_title : 'No hay data' }}</h1>
-      <p class="hero-subtitle">{{ fields.field_hero_section_description ? fields.field_hero_section_description : 'No hay data' }}</p>
-      <a href="{{ fields.field_hero_section_link ? fields.field_hero_section_link : '#' }}" class="hero-button">{{ fields.field_hero_section_button_label ? fields.field_hero_section_button_label : 'No hay data' }}</a>
+      <h1 class="hero-title">
+        <span id="typed-title"></span>
+      </h1>
+      <p class="hero-subtitle" style="opacity: 0;">
+        <span id="typed-subtitle"></span>
+      </p>
+      <a href="{{ fields.field_hero_section_link ? fields.field_hero_section_link : '#' }}" class="hero-button" style="opacity: 0;" id="hero-button">{{ fields.field_hero_section_button_label ? fields.field_hero_section_button_label : 'No hay data' }}</a>
+      
+      {# Hidden data attributes for Typed.js #}
+      <div id="hero-data" style="display: none;"
+           data-title="{{ fields.field_hero_section_title ? fields.field_hero_section_title : 'No hay data' }}"
+           data-subtitle="{{ fields.field_hero_section_description ? fields.field_hero_section_description : 'No hay data' }}">
+      </div>
     </div>
   </div>
   <section id="quienes-somos" class="container my-5">
     <div class="row">
       <div class="col-12 ">
-        <h2 class="text-center">¿Quienes somos?</h2>
+        <h2 class="text-center" data-animate="fadeInDown">¿Quienes somos?</h2>
         <div class="quienes-somos-content">
-          <p>ZINCO (Zona de Innovación de Córdoba) es la plataforma oficial de articulación del Ecosistema de Ciencia, Tecnología e Innovación (CTeI) soportado en transformación digital e industrias 4.0 del departamento de Córdoba.</p>
-          <p>Concebida y desarrollada en el marco del proyecto “Fortalecimiento del Sistema Territorial de Ciencia, Tecnología e Innovación del Departamento de Córdoba, soportado en Transformación Digital e Industrias 4.0”, ZINCO se constituye en un instrumento estratégico para la coordinación, integración y dinamización de las capacidades científicas, tecnológicas y de innovación del territorio.</p>
-          <p>Nuestro propósito es fortalecer la interacción efectiva entre los actores del ecosistema, promoviendo procesos de generación, transferencia y apropiación del conocimiento, con un énfasis especial en los sectores de Tecnologías de la Información (TI), Tecnologías de la Información y las Comunicaciones (TIC) e Industrias 4.0 (I4.0).</p>
+          <p data-animate="fadeInUp" data-delay="100">ZINCO (Zona de Innovación de Córdoba) es la plataforma oficial de articulación del Ecosistema de Ciencia, Tecnología e Innovación (CTeI) soportado en transformación digital e industrias 4.0 del departamento de Córdoba.</p>
+          <p data-animate="fadeInUp" data-delay="200">Concebida y desarrollada en el marco del proyecto “Fortalecimiento del Sistema Territorial de Ciencia, Tecnología e Innovación del Departamento de Córdoba, soportado en Transformación Digital e Industrias 4.0”, ZINCO se constituye en un instrumento estratégico para la coordinación, integración y dinamización de las capacidades científicas, tecnológicas y de innovación del territorio.</p>
+          <p data-animate="fadeInUp" data-delay="300">Nuestro propósito es fortalecer la interacción efectiva entre los actores del ecosistema, promoviendo procesos de generación, transferencia y apropiación del conocimiento, con un énfasis especial en los sectores de Tecnologías de la Información (TI), Tecnologías de la Información y las Comunicaciones (TIC) e Industrias 4.0 (I4.0).</p>
         </div>
       </div>
     </div>
@@ -34,40 +44,40 @@
   <section class="zinco-numbers-section">
     <div class="row w-100 m-0">
       <div class="col-12">
-        <h2 class="zinco-numbers-title text-center my-4">{{ fields.field_data_clave_titulo ? fields.field_data_clave_titulo : 'No hay data' }}</h2>
+        <h2 class="zinco-numbers-title text-center my-4" data-animate="fadeInDown">{{ fields.field_data_clave_titulo ? fields.field_data_clave_titulo : 'No hay data' }}</h2>
       </div>
     </div>
     <div class="row w-100 m-0 justify-content-center">
       <div class="col-12 col-md-4 mb-4">
-        <div class="card h-100 text-center zinco-number-card">
+        <div class="card h-100 text-center zinco-number-card" data-animate="fadeInUp" data-delay="100">
           <div class="card-body d-flex flex-column align-items-center justify-content-center">
             <div class="zinco-number-icon mb-3">
               <i class="{{ fields.field_actores_registrados_icon ? fields.field_actores_registrados_icon : 'fas fa-users fa-3x' }}"></i>
             </div>
             <p class="card-text zinco-number-description">{{ fields.field_actores_registrados_label ? fields.field_actores_registrados_label : 'No hay data' }}</p>
-            <span class="zinco-number-value display-4 fw-bold">{{ fields.field_actores_registrados ? fields.field_actores_registrados : 999  }}+</span>
+            <span class="zinco-number-value display-4 fw-bold zinco-counter" data-count="{{ fields.field_actores_registrados ? fields.field_actores_registrados : 999 }}">0</span>
           </div>
         </div>
       </div>
       <div class="col-12 col-md-4 mb-4">
-        <div class="card h-100 text-center zinco-number-card">
+        <div class="card h-100 text-center zinco-number-card" data-animate="fadeInUp" data-delay="200">
           <div class="card-body d-flex flex-column align-items-center justify-content-center">
             <div class="zinco-number-icon mb-3">
               <i class="{{ fields.field_proyectos_activos_icon ? fields.field_proyectos_activos_icon : 'fas fa-users fa-3x' }}"></i>
             </div>
             <p class="card-text zinco-number-description">{{ fields.field_proyectos_activos_label ? fields.field_proyectos_activos_label : 'No hay data' }}</p>
-            <span class="zinco-number-value display-4 fw-bold">{{ fields.field_proyectos_activos ? fields.field_proyectos_activos : 999  }}+</span>
+            <span class="zinco-number-value display-4 fw-bold zinco-counter" data-count="{{ fields.field_proyectos_activos ? fields.field_proyectos_activos : 999 }}">0</span>
           </div>
         </div>
       </div>
       <div class="col-12 col-md-4 mb-4">
-        <div class="card h-100 text-center zinco-number-card">
+        <div class="card h-100 text-center zinco-number-card" data-animate="fadeInUp" data-delay="300">
           <div class="card-body d-flex flex-column align-items-center justify-content-center">
             <div class="zinco-number-icon mb-3">
               <i class="{{ fields.field_colaboraciones_icon ? fields.field_colaboraciones_icon : 'fas fa-users fa-3x' }}"></i>
             </div>
             <p class="card-text zinco-number-description">{{ fields.field_colaboraciones_title ? fields.field_colaboraciones_title : 'No hay data' }}</p>
-            <span class="zinco-number-value display-4 fw-bold">{{ fields.field_colaboraciones_facilitadas ? fields.field_colaboraciones_facilitadas : 999  }}+</span>
+            <span class="zinco-number-value display-4 fw-bold zinco-counter" data-count="{{ fields.field_colaboraciones_facilitadas ? fields.field_colaboraciones_facilitadas : 999 }}">0</span>+
           </div>
         </div>
       </div>
@@ -76,30 +86,30 @@
   <section id="nuestros-objetivos" class="container my-5">
     <div class="row">
       <div class="col-12 text-center">
-        <h2>Nuestros Objetivos Clave</h2>
+        <h2 data-animate="fadeInDown">Nuestros Objetivos Clave</h2>
         <ul class="list-unstyled text-start">
-          <li>
+          <li data-animate="fadeInUp" data-delay="100">
             <i class="fas fa-eye me-4 fa-3x"></i>
             <div>
               <h3>Visibilizar las capacidades territoriales:</h3>
               <p>Identificar, caracterizar y sistematizar a los actores estratégicos —gobierno, academia, sector productivo, intermediarios y financiadores— vinculados a los sectores TI, TIC e Industria 4.0 en el departamento.</p>
             </div>
           </li>
-          <li>
+          <li data-animate="fadeInUp" data-delay="200">
             <i class="fas fa-link me-4 fa-3x"></i>
             <div>
               <h3>Articular el ecosistema de CTeI:</h3>
               <p>Dinamizar las interacciones entre los actores, promoviendo mecanismos de gobernanza colaborativa que fortalezcan el sistema territorial de innovación y potencien su capacidad de respuesta ante desafíos regionales.</p>
             </div>
           </li>
-          <li>
+          <li data-animate="fadeInUp" data-delay="300">
             <i class="fas fa-database me-4 fa-3x"></i>
             <div>
               <h3>Gestionar y estructurar el conocimiento:</h3>
               <p>Consolidarse como un repositorio especializado para el mapeo, curaduría y articulación de la metadata asociada a productos de I+D+i orientados a la Transformación Digital y la Industria 4.0.</p>
             </div>
           </li>
-          <li>
+          <li data-animate="fadeInUp" data-delay="400">
             <i class="fas fa-chart-line me-4 fa-3x"></i>
             <div>
               <h3>Fortalecer la base científica, tecnológica y empresarial:</h3>
@@ -112,10 +122,10 @@
   </section>
   <section class="zinco-benefits-section py-5">
     <div class="container">
-      <h2 class="text-center mb-5 zinco-benefits-title">{{ fields.field_beneficios_title ? fields.field_beneficios_title : 'No hay data' }}</h2>
+      <h2 class="text-center mb-5 zinco-benefits-title" data-animate="fadeInDown">{{ fields.field_beneficios_title ? fields.field_beneficios_title : 'No hay data' }}</h2>
       <div class="row justify-content-center">
         <div class="col-12 col-md-6 col-lg-4 mb-4">
-          <div class="card h-100 zinco-benefit-card">
+          <div class="card h-100 zinco-benefit-card" data-animate="fadeInUp" data-delay="100">
             <div class="card-body">
               <div class="zinco-benefit-icon mb-3">
                 <i class="{{ fields.field_beneficios_izq_icono ? fields.field_beneficios_izq_icono : 'fas fa-users fa-3x' }}"></i>
@@ -126,7 +136,7 @@
           </div>
         </div>
         <div class="col-12 col-md-6 col-lg-4 mb-4">
-          <div class="card h-100 zinco-benefit-card">
+          <div class="card h-100 zinco-benefit-card" data-animate="fadeInUp" data-delay="200">
             <div class="card-body">
               <div class="zinco-benefit-icon mb-3">
                 <i class="{{ fields.field_beneficios_centro_icon ? fields.field_beneficios_centro_icon : 'fas fa-users fa-3x' }}"></i>
@@ -137,7 +147,7 @@
           </div>
         </div>
         <div class="col-12 col-md-6 col-lg-4 mb-4">
-          <div class="card h-100 zinco-benefit-card">
+          <div class="card h-100 zinco-benefit-card" data-animate="fadeInUp" data-delay="300">
             <div class="card-body">
               <div class="zinco-benefit-icon mb-3">
                 <i class="{{ fields.field_beneficios_derecha_icon ? fields.field_beneficios_derecha_icon : 'fas fa-users fa-3x' }}"></i>
@@ -153,10 +163,10 @@
   </section>
   <section class="zinco-tools-section py-5">
     <div class="container">
-      <h2 class="text-center mb-5 zinco-tools-title">{{ fields.field_herramientas_titulo ? fields.field_herramientas_titulo : 'No hay data' }}</h2>
+      <h2 class="text-center mb-5 zinco-tools-title" data-animate="fadeInDown">{{ fields.field_herramientas_titulo ? fields.field_herramientas_titulo : 'No hay data' }}</h2>
       <div class="row justify-content-center">
         <div class="col-12 col-md-6 col-lg-4 mb-4">
-          <div class="card h-100 zinco-tool-card">
+          <div class="card h-100 zinco-tool-card" data-animate="fadeInUp" data-delay="100">
             <div class="card-body">
               <div class="zinco-tool-icon mb-3">
                 <i class="{{ fields.field_herramientas_izq_icon ? fields.field_herramientas_izq_icon : 'fas fa-users fa-3x' }}"></i> {# Icon for Dynamic Actor Directory #}
@@ -167,7 +177,7 @@
           </div>
         </div>
         <div class="col-12 col-md-6 col-lg-4 mb-4">
-          <div class="card h-100 zinco-tool-card">
+          <div class="card h-100 zinco-tool-card" data-animate="fadeInUp" data-delay="200">
             <div class="card-body">
               <div class="zinco-tool-icon mb-3">
                 <i class="{{ fields.field_herramientas_centro_icon ? fields.field_herramientas_centro_icon : 'fas fa-users fa-3x' }}"></i> {# Icon for Opportunity Manager #}
@@ -178,7 +188,7 @@
           </div>
         </div>
         <div class="col-12 col-md-6 col-lg-4 mb-4">
-          <div class="card h-100 zinco-tool-card">
+          <div class="card h-100 zinco-tool-card" data-animate="fadeInUp" data-delay="300">
             <div class="card-body">
               <div class="zinco-tool-icon mb-3">
                 <i class="{{ fields.field_herramientas_derecha_icon ? fields.field_herramientas_derecha_icon : 'fas fa-users fa-3x' }}"></i> {# Icon for CTI Capability Visualizer #}
@@ -195,17 +205,12 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-12 col-lg-8 text-center">
-          <h2 class="mb-4 zinco-cta-title">{{ fields.field_cta_titulo ? fields.field_cta_titulo : 'No hay data' }}</h2>
-          <p class="mb-5 zinco-cta-description">{{ fields.field_cta_descripcion ? fields.field_cta_descripcion : 'No hay data' }}</p>
-          <a href="{{ fields.field_cta_enlace_button ? fields.field_cta_enlace_button : '#' }}" class="hero-button zinco-cta-button">{{ fields.field_cta_label_button ? fields.field_cta_label_button : 'No hay data' }}</a>
+          <h2 class="mb-4 zinco-cta-title" data-animate="zoomIn">{{ fields.field_cta_titulo ? fields.field_cta_titulo : 'No hay data' }}</h2>
+          <p class="mb-5 zinco-cta-description" data-animate="fadeInUp" data-delay="150">{{ fields.field_cta_descripcion ? fields.field_cta_descripcion : 'No hay data' }}</p>
+          <a href="{{ fields.field_cta_enlace_button ? fields.field_cta_enlace_button : '#' }}" class="hero-button zinco-cta-button" data-animate="pulse" data-delay="300">{{ fields.field_cta_label_button ? fields.field_cta_label_button : 'No hay data' }}</a>
         </div>
       </div>
     </div>
   </section>
   <p></p>
-  {% if fields.field_logos_cooperantes_url %}
-    <div class="text-center mb-4">
-      <img src="{{ fields.field_logos_cooperantes_url }}" class="img-fluid" alt="Logos Cooperantes">
-    </div>
-  {% endif %}
 </div>

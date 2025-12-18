@@ -384,6 +384,15 @@
   line-height: 1.6;
 }
 
-.quienes-somos-content p{
+.quienes-somos-content p {
   text-align: center;
+}
+
+#quienes-somos p,
+#quienes-somos h2,
+#zinco-numbers-section h2,
+#zinco-numbers-section .card,
+#nuestros-objetivos h2,
+#nuestros-objetivos li {
+  opacity: 0;
 }

@@ -55,7 +55,10 @@ zinco-landing-page:
     theme:
       css/zinco-landing-page.css: {}
       https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css: { type: external, minified: true }
+      https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css: { type: external, minified: true }
   js:
+    https://cdn.jsdelivr.net/npm/typed.js@2.0.16/dist/typed.umd.js: { type: external, minified: true }
+    https://cdn.jsdelivr.net/npm/countup.js@2.8.0/dist/countUp.umd.js: { type: external, minified: true }
     js/zinco-landing-page.js: {}
   dependencies:
     - core/drupal
@@ -134,6 +137,45 @@ zinco-categorias-actores-list:
       https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css: { type: external, minified: true }
   js:
     js/zinco-categorias-actores-list.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
+    - bootstrap_barrio/global-styling
+
+zinco-news-carousel:
+  version: 1.x
+  css:
+    theme:
+      css/zinco-news-carousel.css: {}
+      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css: { type: external, minified: true }
+  js:
+    js/zinco-news-carousel.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
+    - bootstrap_barrio/global-styling
+
+zinco-upcoming-events:
+  version: 1.x
+  css:
+    theme:
+      css/zinco-upcoming-events.css: {}
+      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css: { type: external, minified: true }
+  js:
+    js/zinco-upcoming-events.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
+    - bootstrap_barrio/global-styling
+
+zinco-active-calls:
+  version: 1.x
+  css:
+    theme:
+      css/zinco-active-calls.css: {}
+      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css: { type: external, minified: true }
+  js:
+    js/zinco-active-calls.js: {}
   dependencies:
     - core/drupal
     - core/once

@@ -177,6 +177,25 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'zinco-categorias-busqueda-actores-list',
     ],
+    'zinco_news_carousel' => [
+      'variables' => [
+        'news_items' => NULL,
+        'carousel_id' => NULL,
+      ],
+      'template' => 'zinco-news-carousel',
+    ],
+    'zinco_upcoming_events' => [
+      'variables' => [
+        'events' => NULL,
+      ],
+      'template' => 'zinco-upcoming-events',
+    ],
+    'zinco_active_calls' => [
+      'variables' => [
+        'calls' => NULL,
+      ],
+      'template' => 'zinco-active-calls',
+    ],
   ];
 }
 

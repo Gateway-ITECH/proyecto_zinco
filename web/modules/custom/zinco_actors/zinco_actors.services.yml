@@ -1,0 +1,10 @@
+services:
+  zinco_actors.batch_processor:
+    class: Drupal\zinco_actors\Service\BatchProcessor
+    arguments: ['@database', '@entity_type.manager', '@logger.factory']
+
+  zinco_actors.process_investigadores_commands:
+    class: Drupal\zinco_actors\Commands\ProcessInvestigadoresCommands
+    arguments: ['@zinco_actors.batch_processor']
+    tags:
+      - { name: drush.command }
