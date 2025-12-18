@@ -663,12 +663,17 @@ class ActoresController extends ControllerBase {
 
       $allowed_bundle_ids = [];
       $bundle_icons = [];
+      $bundle_descriptions = [];
       foreach ($category_entities as $category_entity) {
         $bundle_id = $category_entity->get('field_actor_bundle')->value;
         $allowed_bundle_ids[] = $bundle_id;
         // Store icon for this bundle
+        if ($category_entity->hasField('icon') && !$category_entity->get('icon')->isEmpty()) {
+          $bundle_icons[$bundle_id] = strip_tags($category_entity->get('icon')->value);
+        }
+        // Store description for this bundle
         if ($category_entity->hasField('description') && !$category_entity->get('description')->isEmpty()) {
-          $bundle_icons[$bundle_id] = strip_tags($category_entity->get('description')->value);
+          $bundle_descriptions[$bundle_id] = strip_tags($category_entity->get('description')->value);
         }
       }
 
@@ -685,6 +690,7 @@ class ActoresController extends ControllerBase {
           'id' => $bundle_id,
           'label' => $bundle_entity->label(),
           'icon' => $bundle_icons[$bundle_id] ?? '',
+          'description' => $bundle_descriptions[$bundle_id] ?? '',
         ];
       }
       $cache_tags = $this->entityTypeManager->getDefinition('zinco_actors_categories')->getListCacheTags();
