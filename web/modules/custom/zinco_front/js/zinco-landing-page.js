@@ -6,61 +6,8 @@
 (function (Drupal, once) {
     'use strict';
 
-    Drupal.behaviors.zincoLandingPageTyped = {
+    Drupal.behaviors.zincoLandingPageAnimations = {
         attach: function (context, settings) {
-            // Initialize Typed.js for hero section.
-            once('zinco-landing-typed', '.hero-section', context).forEach(function (heroSection) {
-                const heroData = document.getElementById('hero-data');
-
-                if (!heroData) {
-                    return;
-                }
-
-                const titleText = heroData.getAttribute('data-title');
-                const subtitleText = heroData.getAttribute('data-subtitle');
-                const subtitleElement = document.querySelector('.hero-subtitle');
-                const buttonElement = document.getElementById('hero-button');
-
-                // First, type the title.
-                const typedTitle = new Typed('#typed-title', {
-                    strings: [titleText],
-                    typeSpeed: 50,
-                    showCursor: true,
-                    cursorChar: '|',
-                    onComplete: function () {
-                        // Hide cursor after title is complete.
-                        setTimeout(function () {
-                            document.querySelector('#typed-title').parentElement.querySelector('.typed-cursor').style.display = 'none';
-
-                            // Show subtitle with fade in.
-                            subtitleElement.style.transition = 'opacity 0.5s';
-                            subtitleElement.style.opacity = '1';
-
-                            // Start typing subtitle after a brief delay.
-                            setTimeout(function () {
-                                const typedSubtitle = new Typed('#typed-subtitle', {
-                                    strings: [subtitleText],
-                                    typeSpeed: 20,
-                                    showCursor: true,
-                                    cursorChar: '|',
-                                    onComplete: function () {
-                                        // Hide cursor after subtitle is complete.
-                                        setTimeout(function () {
-                                            document.querySelector('#typed-subtitle').parentElement.querySelector('.typed-cursor').style.display = 'none';
-
-                                            // Show button with fade in.
-                                            buttonElement.style.transition = 'opacity 0.5s';
-                                            buttonElement.style.opacity = '1';
-                                        }, 500);
-                                    }
-                                });
-                            }, 300);
-                        }, 500);
-                    }
-                })
-                    ;
-            });
-
             // Scroll-triggered animations for elements with data-animate attribute.
             const animateOnScroll = function () {
                 const elements = document.querySelectorAll('[data-animate]');

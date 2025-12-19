@@ -14,19 +14,13 @@
 <div class="zinco-landing-page">
   <div class="row w-100 m-0">
     <div class="col-12 hero-section">
-      <h1 class="hero-title">
-        <span id="typed-title"></span>
+      <h1 class="hero-title animate__animated animate__fadeInDown">
+        {{ fields.field_hero_section_title ? fields.field_hero_section_title : 'No hay data' }}
       </h1>
-      <p class="hero-subtitle" style="opacity: 0;">
-        <span id="typed-subtitle"></span>
+      <p class="hero-subtitle animate__animated animate__fadeInUp" style="animation-delay: 0.5s;">
+        {{ fields.field_hero_section_description ? fields.field_hero_section_description : 'No hay data' }}
       </p>
-      <a href="{{ fields.field_hero_section_link ? fields.field_hero_section_link : '#' }}" class="hero-button" style="opacity: 0;" id="hero-button">{{ fields.field_hero_section_button_label ? fields.field_hero_section_button_label : 'No hay data' }}</a>
-      
-      {# Hidden data attributes for Typed.js #}
-      <div id="hero-data" style="display: none;"
-           data-title="{{ fields.field_hero_section_title ? fields.field_hero_section_title : 'No hay data' }}"
-           data-subtitle="{{ fields.field_hero_section_description ? fields.field_hero_section_description : 'No hay data' }}">
-      </div>
+      <a href="{{ fields.field_hero_section_link ? fields.field_hero_section_link : '#' }}" class="hero-button animate__animated animate__zoomIn" style="animation-delay: 1s;" id="hero-button">{{ fields.field_hero_section_button_label ? fields.field_hero_section_button_label : 'No hay data' }}</a>
     </div>
   </div>
   <section id="quienes-somos" class="container my-5">
