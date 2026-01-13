@@ -197,7 +197,7 @@ class ActoresController extends ControllerBase {
         }
 
         // Add description field.
-        $actor_data['description'] = $actor->hasField('field_descripcion') && !$actor->get('field_descripcion')->isEmpty() ? $actor->get('field_descripcion')->value : '';
+        $actor_data['description'] = $actor->hasField('description') && !$actor->get('description')->isEmpty() ? $actor->get('description')->value : '';
 
         // Add 'fomento' field (assuming field_fomento exists).
         $actor_data['field_fomento'] = $actor->hasField('field_fomento') && !$actor->get('field_fomento')->isEmpty() ? $actor->get('field_fomento')->value : '';
