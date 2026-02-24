@@ -6,13 +6,13 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\zinco_front\Service\DumpDataService;
+use Drupal\Core\File\FileUrlGeneratorInterface;
+use Drupal\Core\File\FileSystemInterface;
 use Drupal\zinco_etl\Service\PdfGeneratorService;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Drupal\Core\File\FileSystemInterface;
-use Drupal\Core\File\FileUrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Provides a ZincoController.
@@ -44,7 +44,7 @@ class ZincoController extends ControllerBase
   /**
    * The PDF generator service.
    *
-   * @var \Drupal\zinco_etl\PdfGeneratorService
+   * @var \Drupal\zinco_etl\Service\PdfGeneratorService
    */
   protected $pdfGeneratorService;
 
@@ -294,9 +294,9 @@ class ZincoController extends ControllerBase
       return new JsonResponse($data);
     }
 
-    // For 'count' format, return the number of grouped results.
+    // For 'count' format, return the number of grouped results in JSON.
     if ($formato === 'count') {
-      return count($data);
+      return new JsonResponse(['count' => count($data)]);
     }
 
     // Default to table rendering if no specific format is requested.
