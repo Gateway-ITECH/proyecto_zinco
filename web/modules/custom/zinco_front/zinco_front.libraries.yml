@@ -179,3 +179,14 @@ zinco-active-calls:
     - core/drupal
     - core/once
     - bootstrap_barrio/global-styling
+
+zinco-oportunidades:
+  version: 1.x
+  css:
+    theme:
+      css/zinco-oportunidades.css: {}
+      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css: { type: external, minified: true }
+  dependencies:
+    - core/drupal
+    - core/once
+    - bootstrap_barrio/global-styling

@@ -1,0 +1,76 @@
+/* Oportunidades Page Styles */
+
+.zinco-oportunidades-page {
+    background-color: #f8f9fa;
+}
+
+.zinco-oportunidades-page .section-title {
+    position: relative;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+    font-weight: 700;
+    color: #212529;
+}
+
+.zinco-oportunidades-page .section-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    height: 3px;
+    background-color: var(--bs-primary);
+    border-radius: 2px;
+}
+
+/* Reusing and adapting card styles */
+.zinco-oportunidades-page .news-card,
+.zinco-oportunidades-page .event-card,
+.zinco-oportunidades-page .call-card {
+    height: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.zinco-oportunidades-page article:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Spacing and divider */
+.zinco-oportunidades-page hr {
+    opacity: 0.1;
+    border-top: 1px solid #000;
+}
+
+/* Section Icons */
+.zinco-oportunidades-page h2 i {
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+/* Ensure images fit well */
+.zinco-oportunidades-page .news-card-image {
+    height: 200px;
+    overflow: hidden;
+}
+
+.zinco-oportunidades-page .news-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Placeholder for missing images */
+.zinco-oportunidades-page .news-card-image-placeholder {
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 3rem;
+}

@@ -294,3 +294,11 @@ zinco_front.perfil:
     _title: 'Mi Perfil'
   requirements:
     _permission: 'access content'
+
+zinco_front.oportunidades:
+  path: '/oportunidades'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::oportunidades'
+    _title: 'Oportunidades'
+  requirements:
+    _permission: 'access content'

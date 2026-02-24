@@ -196,6 +196,15 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'zinco-active-calls',
     ],
+    'zinco_oportunidades' => [
+      'variables' => [
+        'noticias' => [],
+        'eventos' => [],
+        'convocatorias' => [],
+        'cursos' => [],
+      ],
+      'template' => 'zinco-oportunidades',
+    ],
   ];
 }
 
