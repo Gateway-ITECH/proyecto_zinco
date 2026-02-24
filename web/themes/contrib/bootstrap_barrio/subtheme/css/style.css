@@ -590,3 +590,7 @@ body {
   height: 70px;
   padding: 10px;
 }
+
+.table h4.label {
+  color: #000000 !important;
+}

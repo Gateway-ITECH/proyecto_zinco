@@ -15,7 +15,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * Provides a ZincoFront controller for Actores.
  */
-class ActoresController extends ControllerBase {
+class ActoresController extends ControllerBase
+{
 
   /**
    * The entity type manager.
@@ -24,12 +25,12 @@ class ActoresController extends ControllerBase {
    */
   protected $entityTypeManager;
 
- /**
-  * The request stack.
-  *
-  * @var \Symfony\Component\HttpFoundation\RequestStack
-  */
- protected $requestStack;
+  /**
+   * The request stack.
+   *
+   * @var \Symfony\Component\HttpFoundation\RequestStack
+   */
+  protected $requestStack;
 
   /**
    * The file system service.
@@ -75,7 +76,8 @@ class ActoresController extends ControllerBase {
    * @param \Drupal\Core\Entity\EntityTypeBundleInfoInterface $entity_type_bundle_info
    *   The entity type bundle info.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $request_stack, FileSystemInterface $file_system, FileUrlGeneratorInterface $file_url_generator, EntityFormBuilderInterface $entity_form_builder, EntityTypeBundleInfoInterface $entity_type_bundle_info) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $request_stack, FileSystemInterface $file_system, FileUrlGeneratorInterface $file_url_generator, EntityFormBuilderInterface $entity_form_builder, EntityTypeBundleInfoInterface $entity_type_bundle_info)
+  {
     $this->entityTypeManager = $entity_type_manager;
     $this->requestStack = $request_stack;
     $this->fileSystem = $file_system;
@@ -87,7 +89,8 @@ class ActoresController extends ControllerBase {
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
+  public static function create(ContainerInterface $container)
+  {
     return new static(
       $container->get('entity_type.manager'),
       $container->get('request_stack'),
@@ -104,7 +107,8 @@ class ActoresController extends ControllerBase {
    * @return array
    *   A renderable array.
    */
-  public function listarActores($category_tid = NULL) {
+  public function listarActores($category_tid = NULL)
+  {
     $actors = [];
     $filters_param = $this->requestStack->getCurrentRequest()->query->get('filters');
     $search_term = $this->requestStack->getCurrentRequest()->query->get('search_term');
@@ -117,7 +121,7 @@ class ActoresController extends ControllerBase {
 
       $bundle_ids_to_filter = [];
       $bundles = [];
-      
+
 
       // If a category TID is provided, filter bundles by it.
       if ($category_tid) {
@@ -141,7 +145,7 @@ class ActoresController extends ControllerBase {
         foreach ($category_entities as $category_entity) {
           //obtener info del bundle
           $bundle_entity = $this->entityTypeManager->getStorage('zinco_actors_zincoactors_type')->load($category_entity->get('field_actor_bundle')->value);
-          
+
           $bundle = [
             'id' => $category_entity->get('field_actor_bundle')->value,
             'label' => $bundle_entity->label(),
@@ -157,7 +161,7 @@ class ActoresController extends ControllerBase {
         }
         $query->condition('bundle', $bundle_ids_to_filter, 'IN');
       }
-      
+
       if (!empty($filters_param)) {
         $bundle_ids = explode(',', $filters_param);
         $query->condition('bundle', $bundle_ids, 'IN');
@@ -173,7 +177,7 @@ class ActoresController extends ControllerBase {
       $actors = $actor_storage->loadMultiple($actor_ids);
 
       $bundle_colors = [
-       
+
       ];
 
       // Convert loaded entities to renderable arrays and add ID.
@@ -210,8 +214,7 @@ class ActoresController extends ControllerBase {
 
         return $actor_data;
       }, $actors);
-    }
-    catch (\Exception $e) {
+    } catch (\Exception $e) {
       $this->messenger()->addError($this->t('Error loading actors: @message', ['@message' => $e->getMessage()]));
     }
 
@@ -241,14 +244,15 @@ class ActoresController extends ControllerBase {
   /**
    * Redirects the user to their associated actor profile.
    */
-  public function perfil() {
+  public function perfil()
+  {
     $current_user = $this->entityTypeManager->getStorage('user')->load(\Drupal::currentUser()->id());
-    
+
     if ($current_user->hasField('field_actor') && !$current_user->get('field_actor')->isEmpty()) {
       $actor_id = $current_user->get('field_actor')->target_id;
       return $this->redirect('zinco_front.actor_profile', ['actor_id' => $actor_id]);
     }
-    
+
     return $this->redirect('zinco_front.actor_categories_list');
   }
 
@@ -261,7 +265,8 @@ class ActoresController extends ControllerBase {
    * @return array
    *   A renderable array.
    */
-  public function verPerfilActor(int $actor_id) {
+  public function verPerfilActor(int $actor_id)
+  {
     try {
       $actor_storage = $this->entityTypeManager->getStorage('zinco_actors_zincoactors');
       $actor = $actor_storage->load($actor_id);
@@ -302,7 +307,7 @@ class ActoresController extends ControllerBase {
         if ($image_file) {
           $actor_data['imagen_perfil'] = $this->fileUrlGenerator->generateAbsoluteString($image_file->getFileUri());
         }
-      } 
+      }
 
       //agregar campo field_nit_empresa_explotadora
       $actor_data['nit_empresa'] = '';
@@ -322,13 +327,13 @@ class ActoresController extends ControllerBase {
       $actor_data['datos_contacto']['direccion_empresa'] = '';
       if ($actor->hasField('field_direccion_empresa') && !$actor->get('field_direccion_empresa')->isEmpty()) {
         $actor_data['datos_contacto']['direccion_empresa'] = $actor->get('field_direccion_empresa')->value;
-      } 
+      }
 
       //agregar campo telefono
       $actor_data['datos_contacto']['telefono'] = '';
       if ($actor->hasField('telefono') && !$actor->get('telefono')->isEmpty()) {
         $actor_data['datos_contacto']['telefono'] = $actor->get('telefono')->value;
-      }   
+      }
 
       //agregar campo email
       $actor_data['datos_contacto']['email'] = '';
@@ -363,7 +368,7 @@ class ActoresController extends ControllerBase {
         ->condition('organizador_reto.target_id', $actor_id, 'IN')
         ->range(0, 3)
         ->accessCheck(FALSE)
-        ->execute();  
+        ->execute();
       if (!empty($query)) {
         $retos_innovacion_entities = $this->entityTypeManager->getStorage('zinco_retos_innovacion')->loadMultiple($query);
         foreach ($retos_innovacion_entities as $reto) {
@@ -381,7 +386,7 @@ class ActoresController extends ControllerBase {
       $actor_data['datos_contacto']['sitio_web'] = '';
       if ($actor->hasField('sitio_web') && !$actor->get('sitio_web')->isEmpty()) {
         $actor_data['datos_contacto']['sitio_web'] = $actor->get('sitio_web')->value;
-      } 
+      }
 
       //agregar campo field_incentivos_recibidos campo multiple
       $actor_data['incentivos_recibidos'] = [];
@@ -395,26 +400,26 @@ class ActoresController extends ControllerBase {
       //si el bundle es entidad gobierno agregar campo nivel_gobierno
       $actor_data['field_nivel_gobierno'] = '';
       if ($bundle_id == 'entidad_gobierno' && $actor->hasField('field_nivel_gobierno') && !$actor->get('field_nivel_gobierno')->isEmpty()) {
-        $actor_data['field_nivel_gobierno'] = 'Nivel '.$actor->get('field_nivel_gobierno')->entity->label();
-      } 
+        $actor_data['field_nivel_gobierno'] = 'Nivel ' . $actor->get('field_nivel_gobierno')->entity->label();
+      }
 
       //si el bundle es entidad gobierno agregar campo mision
       $actor_data['field_mision'] = '';
-      if (($bundle_id == 'entidad_gobierno' || $bundle_id == 'institucion_de_educacion_superio')   && $actor->hasField('field_mision') && !$actor->get('field_mision')->isEmpty()) {
+      if (($bundle_id == 'entidad_gobierno' || $bundle_id == 'institucion_de_educacion_superio') && $actor->hasField('field_mision') && !$actor->get('field_mision')->isEmpty()) {
         $actor_data['field_mision'] = $actor->get('field_mision')->value;
-      } 
+      }
 
       //si el bundle es entidad gobierno agregar campo representante legal
       $actor_data['field_representante_legal'] = '';
       if ($bundle_id == 'entidad_gobierno' && $actor->hasField('field_nombre_representante_legal') && !$actor->get('field_nombre_representante_legal')->isEmpty()) {
         $actor_data['field_representante_legal'] = $actor->get('field_nombre_representante_legal')->value;
-      } 
+      }
 
       //sie el bundle es entidad gobierno agregar campo cargo representante legal
       $actor_data['field_cargo_representante_legal'] = '';
       if ($bundle_id == 'entidad_gobierno' && $actor->hasField('field_cargo_representante_legal') && !$actor->get('field_cargo_representante_legal')->isEmpty()) {
         $actor_data['field_cargo_representante_legal'] = $actor->get('field_cargo_representante_legal')->value;
-      } 
+      }
 
       //si el bundle es entidad gobierno agregar campo sede principal
       $actor_data['field_sede_principal'] = '';
@@ -425,7 +430,7 @@ class ActoresController extends ControllerBase {
       //si el bundle es entidad gobierno agregar campo funcion ecosistema cti
       $actor_data['field_funcion_ecosistema_cti'] = '';
       if ($bundle_id == 'entidad_gobierno' && $actor->hasField('field_funcion_ecosistema_cti') && !$actor->get('field_funcion_ecosistema_cti')->isEmpty()) {
-        $actor_data['field_funcion_ecosistema_cti'] = $actor->get('field_funcion_ecosistema_cti')->value;         
+        $actor_data['field_funcion_ecosistema_cti'] = $actor->get('field_funcion_ecosistema_cti')->value;
       }
 
       //si el bundle es entidad gobierno agregar campo politicas y estrategias multiple
@@ -442,7 +447,7 @@ class ActoresController extends ControllerBase {
         foreach ($actor->get('field_marcos_regulatorios') as $item) {
           $actor_data['field_marcos_regulatorios'][] = $item->value;
         }
-      } 
+      }
 
       //si el bundle es entidad gobierno agregar campo normativas multiple
       $actor_data['field_normativas'] = [];
@@ -466,7 +471,7 @@ class ActoresController extends ControllerBase {
         foreach ($actor->get('field_convocatorias') as $item) {
           $actor_data['convocatorias_abiertas'][] = $item->value;
         }
-      } 
+      }
 
 
       //si el bundle es entidad gobierno agregar campo mecanismos financiamiento multiple
@@ -476,7 +481,7 @@ class ActoresController extends ControllerBase {
           $actor_data['field_mecanismos_financiamiento'][] = $item->value;
         }
       }
- 
+
       //si el bundle es instancia de orientacion politica agregar campo miembros multiple
       $actor_data['field_miembros_iep'] = [];
       if ($bundle_id == 'instancias_de_orientacion_politi' && $actor->hasField('field_miembros_iep') && !$actor->get('field_miembros_iep')->isEmpty()) {
@@ -501,14 +506,14 @@ class ActoresController extends ControllerBase {
       $actor_data['field_caracter_academico'] = '';
       if ($bundle_id == 'institucion_de_educacion_superio' && $actor->hasField('field_caracter_academico') && !$actor->get('field_caracter_academico')->isEmpty()) {
         $actor_data['field_caracter_academico'] = $actor->get('field_caracter_academico')->entity->label();
-      } 
+      }
 
       //si el bundle es institucion de educacion superior agregar campo field_estado_acreditacion
       $actor_data['field_estado_acreditacion'] = [];
       if ($bundle_id == 'institucion_de_educacion_superio' && $actor->hasField('field_estado_acreditacion') && !$actor->get('field_estado_acreditacion')->isEmpty()) {
         $actor_data['field_estado_acreditacion'] = $actor->get('field_estado_acreditacion')->entity->label();
       }
-      
+
       //si el bundle es institucion de educacion superior agregar campo field_siglas_ies
       $actor_data['field_siglas_ies'] = '';
       if ($bundle_id == 'institucion_de_educacion_superio' && $actor->hasField('field_siglas_ies') && !$actor->get('field_siglas_ies')->isEmpty()) {
@@ -533,7 +538,7 @@ class ActoresController extends ControllerBase {
       $actor_data['field_afiliacion_actual'] = '';
       if ($bundle_id == 'investigador' && $actor->hasField('field_afiliacion_actual') && !$actor->get('field_afiliacion_actual')->isEmpty()) {
         $actor_data['field_afiliacion_actual'] = $actor->get('field_afiliacion_actual')->value;
-      } 
+      }
 
       //si el bundle es investigador agregar campo field_nacionalidad  
       $actor_data['field_nacionalidad'] = '';
@@ -545,7 +550,7 @@ class ActoresController extends ControllerBase {
       $actor_data['field_fecha_de_nacimiento'] = '';
       if ($bundle_id == 'investigador' && $actor->hasField('field_fecha_de_nacimiento') && !$actor->get('field_fecha_de_nacimiento')->isEmpty()) {
         $actor_data['field_fecha_de_nacimiento'] = $actor->get('field_fecha_de_nacimiento')->value;
-      } 
+      }
 
       //si el bundle es investigador agregar un query para obtener los grupos de investigación en los cuales participa el investigador
       $actor_data['grupos_investigacion'] = [];
@@ -605,7 +610,7 @@ class ActoresController extends ControllerBase {
           $actor_data['acciones_rapidas'] = true;
         }
       }
-      
+
 
 
 
@@ -621,8 +626,7 @@ class ActoresController extends ControllerBase {
           ],
         ],
       ];
-    }
-    catch (\Exception $e) {
+    } catch (\Exception $e) {
       $this->messenger()->addError($this->t('Error loading actor profile: @message', ['@message' => $e->getMessage()]));
       return $this->redirect('zinco_front.actores_list');
     }
@@ -634,7 +638,8 @@ class ActoresController extends ControllerBase {
    * @return array
    *   A renderable array.
    */
-  public function listActorBundles($category_tid = NULL) {
+  public function listActorBundles($category_tid = NULL)
+  {
     $bundle_data = [];
     $cache_tags = [];
     $nombre_categoria = '';
@@ -712,7 +717,7 @@ class ActoresController extends ControllerBase {
     }
 
 
-  
+
 
     return [
       '#theme' => 'zinco_actor_bundles_list',
@@ -732,7 +737,8 @@ class ActoresController extends ControllerBase {
    * @return array
    *   A renderable array.
    */
-  public function listarCategoriasActores() {
+  public function listarCategoriasActores()
+  {
     $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
     $query = $term_storage->getQuery()
       ->condition('vid', 'categorias_de_actores')
@@ -769,7 +775,8 @@ class ActoresController extends ControllerBase {
    * @return array
    *   A renderable array.
    */
-  public function listarCategoriasBusquedaActores() {
+  public function listarCategoriasBusquedaActores()
+  {
     $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
     $query = $term_storage->getQuery()
       ->condition('vid', 'categorias_de_actores')
@@ -809,7 +816,8 @@ class ActoresController extends ControllerBase {
    * @return array
    *   A renderable array containing the actor creation form.
    */
-  public function addActorFormByBundle(string $bundle) {
+  public function addActorFormByBundle(string $bundle)
+  {
     $bundle_info = $this->entityTypeBundleInfo->getBundleInfo('zinco_actors_zincoactors');
     if (!isset($bundle_info[$bundle])) {
       $this->messenger()->addError($this->t('Invalid actor bundle: @bundle', ['@bundle' => $bundle]));
@@ -832,4 +840,4 @@ class ActoresController extends ControllerBase {
 }
 
 
-  
+
