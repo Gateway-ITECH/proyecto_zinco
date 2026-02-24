@@ -681,11 +681,8 @@
         .then(data => {
           for (const elementoId of elementos) {
             const countElement = document.getElementById(elementoId);
-            console.log(countElement);
-            if (countElement) {
-              console.log(data.length);
+            if (countElement && data && typeof data.length !== 'undefined') {
               countElement.textContent = data.length;
-              console.log(countElement.textContent);
             }
           }
 
@@ -706,7 +703,7 @@
         .then(data => {
           for (const elementoId of elementos) {
             const countElement = document.getElementById(elementoId);
-            if (countElement) {
+            if (countElement && data && typeof data.sum !== 'undefined') {
               countElement.textContent = data.sum;
             }
           }
@@ -739,7 +736,7 @@
                         <div class="progress flex-grow-1 me-2" style="height: 15px;">
                           <div class="progress-bar bg-secondary" role="progressbar" style="width: ${item.percentage}%;" aria-valuenow="${item.percentage}" aria-valuemin="0" aria-valuemax="${100}"></div>
                         </div>
-                        <span title="${item.group_column}" class="" data-group-column="${item.group_column}">${item.group_column.substring(0, 5)}... (${item.count})</span>
+                        <span title="${item.group_column || ''}" class="" data-group-column="${item.group_column || ''}">${(item.group_column || '').substring(0, 15)}... (${item.count || 0})</span>
                       </div>
                     `;
                 groupedDataWrapper.insertAdjacentHTML('beforeend', html);
@@ -775,7 +772,7 @@
                   <div class="progress flex-grow-1 me-2" style="height: 15px;">
                     <div class="progress-bar bg-info" role="progressbar" style="width: ${item.percentage}%;" aria-valuenow="${item.percentage}" aria-valuemin="0" aria-valuemax="${100}"></div>
                   </div>
-                  <span title="${item.group_column}" class="" data-group-column="${item.group_column}">${item.group_column.substring(0, 5)}... (${item.count})</span>
+                  <span title="${item.group_column || ''}" class="" data-group-column="${item.group_column || ''}">${(item.group_column || '').substring(0, 15)}... (${item.count || 0})</span>
                 </div>
               `;
               groupedDataWrapper.insertAdjacentHTML('beforeend', html);
@@ -808,17 +805,17 @@
         .then(response => response.json())
         .then(data => {
           const countElement = document.getElementById(elemento);
-          if (countElement) {
+          if (countElement && data) {
             if (campo_acumulativo && data.length > 0) {
               const sum = data.reduce((acc, item) => parseInt(acc) + (parseInt(item[campo_acumulativo]) || 0), 0);
               countElement.textContent = sum;
-              resolve(sum); // Resolve with the sum
+              resolve(sum);
             } else {
               countElement.textContent = data.length;
-              resolve(data.length); // Resolve with the data length
+              resolve(data.length);
             }
           } else {
-            resolve(data); // Resolve with the data if no countElement
+            resolve(data);
           }
         })
         .catch(error => {
@@ -882,7 +879,7 @@
                       <div class="progress flex-grow-1 me-2" style="height: 15px;">
                         <div class="progress-bar bg-secondary" role="progressbar" style="width: ${item.percentage}%;" aria-valuenow="${item.percentage}" aria-valuemin="0" aria-valuemax="${100}"></div>
                       </div>
-                      <span title="${item.group_column}" class="" data-group-column="${item.group_column}">${item.group_column.substring(0, 5)}... (${item.count})</span>
+                      <span title="${item.group_column || ''}" class="" data-group-column="${item.group_column || ''}">${(item.group_column || '').substring(0, 15)}... (${item.count || 0})</span>
                     </div>
                   `;
                   groupedDataWrapper.insertAdjacentHTML('beforeend', html);
@@ -920,8 +917,7 @@
       .then(response => response.json())
       .then(data => {
         const countElement = document.getElementById(elemento);
-        console.log(data.length);
-        if (countElement) {
+        if (countElement && data) {
           if (campo_acumulativo && data.length > 0) {
             const sum = data.reduce((acc, item) => parseInt(acc) + (parseInt(item[campo_acumulativo]) || 0), 0);
             countElement.textContent = sum;
