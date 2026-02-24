@@ -19,3 +19,20 @@
   font-size: 0.9rem;
   color: #6c757d;
 }
+
+.zinco-categorias-actores-list .term-logo {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+}
+
+.zinco-categorias-actores-list .logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  margin-bottom: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 0.25rem;
+}

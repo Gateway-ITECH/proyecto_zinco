@@ -748,10 +748,18 @@ class ActoresController extends ControllerBase
 
     $term_data = [];
     foreach ($terms as $term_id => $term_entity) {
+      $logo_url = '';
+      if ($term_entity->hasField('field_logotipo') && !$term_entity->get('field_logotipo')->isEmpty()) {
+        $file = $term_entity->get('field_logotipo')->entity;
+        if ($file) {
+          $logo_url = $this->fileUrlGenerator->generateAbsoluteString($file->getFileUri());
+        }
+      }
       $term_data[] = [
         'id' => $term_id,
         'label' => $term_entity->label(),
         'description' => $term_entity->hasField('description') && !$term_entity->get('description')->isEmpty() ? $term_entity->get('description')->value : '',
+        'logotipo' => $logo_url,
       ];
     }
 
@@ -786,10 +794,18 @@ class ActoresController extends ControllerBase
 
     $term_data = [];
     foreach ($terms as $term_id => $term_entity) {
+      $logo_url = '';
+      if ($term_entity->hasField('field_logotipo') && !$term_entity->get('field_logotipo')->isEmpty()) {
+        $file = $term_entity->get('field_logotipo')->entity;
+        if ($file) {
+          $logo_url = $this->fileUrlGenerator->generateAbsoluteString($file->getFileUri());
+        }
+      }
       $term_data[] = [
         'id' => $term_id,
         'label' => $term_entity->label(),
         'description' => $term_entity->hasField('description') && !$term_entity->get('description')->isEmpty() ? $term_entity->get('description')->value : '',
+        'logotipo' => $logo_url,
       ];
     }
 
