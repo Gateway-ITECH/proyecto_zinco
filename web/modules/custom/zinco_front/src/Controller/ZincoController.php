@@ -787,7 +787,7 @@ class ZincoController extends ControllerBase
     $noticias = $this->getLatestNodes('noticia', 3);
     $eventos = $this->getLatestNodes('evento', 3);
     $convocatorias = $this->getLatestNodes('convocatoria', 3);
-    $cursos = $this->getLatestNodes('curso', 3);
+    $cursos = $this->getLatestNodes('cursos', 3);
 
     return [
       '#theme' => 'zinco_oportunidades',
