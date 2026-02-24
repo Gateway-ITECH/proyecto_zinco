@@ -299,6 +299,6 @@ zinco_front.oportunidades:
   path: '/oportunidades'
   defaults:
     _controller: '\Drupal\zinco_front\Controller\ZincoController::oportunidades'
-    _title: 'Oportunidades'
+    _title: ''
   requirements:
     _permission: 'access content'
