@@ -685,8 +685,8 @@
             if (countElement) {
               console.log(data.length);
               countElement.textContent = data.length;
+              console.log(countElement.textContent);
             }
-            console.log(countElement.textContent);
           }
 
           resolve(data.length); // Resolve the promise with the data length
