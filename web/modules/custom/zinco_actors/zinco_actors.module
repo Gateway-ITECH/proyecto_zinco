@@ -7,6 +7,8 @@
 
 use Drupal\Core\Render\Element;
 use Drupal\user\UserInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\user\Entity\User;
 
 /**
  * Implements hook_theme().
@@ -80,4 +82,37 @@ function zinco_actors_user_predelete(UserInterface $account): void {
   $storage->delete(
     $storage->loadMultiple($zinco_actors_zincoactors_ids)
   );
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function zinco_actors_entity_insert(EntityInterface $entity): void {
+  _zinco_actors_assign_actor_to_user($entity);
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function zinco_actors_entity_update(EntityInterface $entity): void {
+  _zinco_actors_assign_actor_to_user($entity);
+}
+
+/**
+ * Helper function to assign actor to user if conditions are met.
+ */
+function _zinco_actors_assign_actor_to_user(EntityInterface $entity): void {
+  if ($entity->getEntityTypeId() === 'zinco_actors_zincoactors') {
+    $current_user = \Drupal::currentUser();
+    if ($current_user->isAuthenticated()) {
+      /** @var \Drupal\user\Entity\User $account */
+      $account = User::load($current_user->id());
+      if ($account && $account->hasRole('actor_registrado')) {
+        if ($account->hasField('field_actor') && $account->get('field_actor')->isEmpty()) {
+          $account->set('field_actor', $entity->id());
+          $account->save();
+        }
+      }
+    }
+  }
 }
