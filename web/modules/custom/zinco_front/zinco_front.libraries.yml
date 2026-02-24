@@ -141,6 +141,16 @@ zinco-categorias-actores-list:
     - core/once
     - bootstrap_barrio/global-styling
 
+zinco-categorias-busquedas-actores-list:
+  version: 1.x
+  css:
+    theme:
+      css/zinco-categorias-actores-list.css: {} # Reusing same styles
+      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css: { type: external, minified: true }
+  dependencies:
+    - core/drupal
+    - bootstrap_barrio/global-styling
+
 zinco-news-carousel:
   version: 1.x
   css:

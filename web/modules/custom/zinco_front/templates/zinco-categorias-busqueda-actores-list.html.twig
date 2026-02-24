@@ -16,7 +16,16 @@
     {% for term in terms %}
       <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
         <div class="card h-100">
-          <div class="card-body">
+          <div class="card-body text-center">
+            {% if term.logotipo %}
+              <div class="logo-container">
+                <img src="{{ term.logotipo }}" alt="{{ term.label }}" class="term-logo">
+              </div>
+            {% else %}
+              <div class="logo-container">
+                <i class="fas fa-image fa-3x text-muted"></i>
+              </div>
+            {% endif %}
             <h5 class="card-title mb-3" style="color: #333; min-height: 50px">{{ term.label }}</h5>
             <p class="card-text">{{ term.description }}</p>
             {# Assuming a route to display actors by category or a category detail page #}
