@@ -1,210 +1,179 @@
 {#
 /**
  * @file
- * Default theme implementation for the Zinco Landing Page.
- *
- * Available variables:
- * - content: A renderable array of content.
- *
- * @see template_preprocess_zinco_landing_page()
- *
- * @ingroup themeable
+ * Default theme implementation for the Zinco Landing Page adapted for ACI Medellín style.
  */
 #}
 <div class="zinco-landing-page">
-  <div class="row w-100 m-0">
-    <div class="col-12 hero-section">
-      <h1 class="hero-title animate__animated animate__fadeInDown">
-        {{ fields.field_hero_section_title ? fields.field_hero_section_title : 'No hay data' }}
-      </h1>
-      <p class="hero-subtitle animate__animated animate__fadeInUp" style="animation-delay: 0.5s;">
-        {{ fields.field_hero_section_description ? fields.field_hero_section_description : 'No hay data' }}
-      </p>
-      <a href="{{ fields.field_hero_section_link ? fields.field_hero_section_link : '#' }}" class="hero-button animate__animated animate__zoomIn" style="animation-delay: 1s;" id="hero-button">{{ fields.field_hero_section_button_label ? fields.field_hero_section_button_label : 'No hay data' }}</a>
+
+  {# Hero Carousel #}
+  <div id="heroCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active" style="background: url('https://acimedellin.org/wp-content/uploads/2023/11/Banner-Home-Web-ACI-Nov.jpg') center/cover no-repeat;">
+        <div class="carousel-overlay">
+          <div class="container text-center text-lg-start text-white">
+            <div class="row">
+              <div class="col-lg-8 hero-content">
+                <h1>{{ fields.field_hero_section_title ? fields.field_hero_section_title : 'Agencia de Cooperación e Inversión de Medellín' }}</h1>
+                <p class="mt-4 mb-5">{{ fields.field_hero_section_description ? fields.field_hero_section_description : 'Conectamos a Medellín con el mundo para generar desarrollo, oportunidades y transformación social.' }}</p>
+                <div class="hero-btns">
+                  <a href="{{ fields.field_hero_section_link ? fields.field_hero_section_link : '#' }}" class="btn btn-aci-primary me-3 mb-3">{{ fields.field_hero_section_button_label ? fields.field_hero_section_button_label : 'CONOCE MÁS' }}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {# Second Slide (Static or placeholder) #}
+      <div class="carousel-item" style="background: url('https://acimedellin.org/wp-content/uploads/2023/11/Banner-Home-Web-ACI-Nov.jpg') center/cover no-repeat; filter: hue-rotate(45deg);">
+        <div class="carousel-overlay">
+          <div class="container text-center text-lg-start text-white">
+            <div class="row">
+              <div class="col-lg-8 hero-content">
+                <h1>Medellín: Distrito de Ciencia, Tecnología e Innovación</h1>
+                <p class="mt-4 mb-5">Somos el epicentro de la innovación en América Latina, atrayendo talento y capital global.</p>
+                <div class="hero-btns">
+                  <a href="#" class="btn btn-aci-primary me-3 mb-3">CONOCE MÁS</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
   </div>
-  <section id="quienes-somos" class="container my-5">
-    <div class="row">
-      <div class="col-12 ">
-        <h2 class="text-center" data-animate="fadeInDown">¿Quienes somos?</h2>
-        <div class="quienes-somos-content">
-          <p data-animate="fadeInUp" data-delay="100">ZINCO (Zona de Innovación de Córdoba) es la plataforma oficial de articulación del Ecosistema de Ciencia, Tecnología e Innovación (CTeI) soportado en transformación digital e industrias 4.0 del departamento de Córdoba.</p>
-          <p data-animate="fadeInUp" data-delay="200">Concebida y desarrollada en el marco del proyecto “Fortalecimiento del Sistema Territorial de Ciencia, Tecnología e Innovación del Departamento de Córdoba, soportado en Transformación Digital e Industrias 4.0”, ZINCO se constituye en un instrumento estratégico para la coordinación, integración y dinamización de las capacidades científicas, tecnológicas y de innovación del territorio.</p>
-          <p data-animate="fadeInUp" data-delay="300">Nuestro propósito es fortalecer la interacción efectiva entre los actores del ecosistema, promoviendo procesos de generación, transferencia y apropiación del conocimiento, con un énfasis especial en los sectores de Tecnologías de la Información (TI), Tecnologías de la Información y las Comunicaciones (TIC) e Industrias 4.0 (I4.0).</p>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="zinco-numbers-section">
-    <div class="row w-100 m-0">
-      <div class="col-12">
-        <h2 class="zinco-numbers-title text-center my-4" data-animate="fadeInDown">{{ fields.field_data_clave_titulo ? fields.field_data_clave_titulo : 'No hay data' }}</h2>
-      </div>
-    </div>
-    <div class="row w-100 m-0 justify-content-center">
-      <div class="col-12 col-md-4 mb-4">
-        <div class="card h-100 text-center zinco-number-card" data-animate="fadeInUp" data-delay="100">
-          <div class="card-body d-flex flex-column align-items-center justify-content-center">
-            <div class="zinco-number-icon mb-3">
-              <i class="{{ fields.field_actores_registrados_icon ? fields.field_actores_registrados_icon : 'fas fa-users fa-3x' }}"></i>
-            </div>
-            <p class="card-text zinco-number-description">{{ fields.field_actores_registrados_label ? fields.field_actores_registrados_label : 'No hay data' }}</p>
-            <span class="zinco-number-value display-4 fw-bold zinco-counter" data-count="{{ fields.field_actores_registrados ? fields.field_actores_registrados : 999 }}">0</span>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-4 mb-4">
-        <div class="card h-100 text-center zinco-number-card" data-animate="fadeInUp" data-delay="200">
-          <div class="card-body d-flex flex-column align-items-center justify-content-center">
-            <div class="zinco-number-icon mb-3">
-              <i class="{{ fields.field_proyectos_activos_icon ? fields.field_proyectos_activos_icon : 'fas fa-users fa-3x' }}"></i>
-            </div>
-            <p class="card-text zinco-number-description">{{ fields.field_proyectos_activos_label ? fields.field_proyectos_activos_label : 'No hay data' }}</p>
-            <span class="zinco-number-value display-4 fw-bold zinco-counter" data-count="{{ fields.field_proyectos_activos ? fields.field_proyectos_activos : 999 }}">0</span>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-4 mb-4">
-        <div class="card h-100 text-center zinco-number-card" data-animate="fadeInUp" data-delay="300">
-          <div class="card-body d-flex flex-column align-items-center justify-content-center">
-            <div class="zinco-number-icon mb-3">
-              <i class="{{ fields.field_colaboraciones_icon ? fields.field_colaboraciones_icon : 'fas fa-users fa-3x' }}"></i>
-            </div>
-            <p class="card-text zinco-number-description">{{ fields.field_colaboraciones_title ? fields.field_colaboraciones_title : 'No hay data' }}</p>
-            <span class="zinco-number-value display-4 fw-bold zinco-counter" data-count="{{ fields.field_colaboraciones_facilitadas ? fields.field_colaboraciones_facilitadas : 999 }}">0</span>+
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section id="nuestros-objetivos" class="container my-5">
-    <div class="row">
-      <div class="col-12 text-center">
-        <h2 data-animate="fadeInDown">Nuestros Objetivos Clave</h2>
-        <ul class="list-unstyled text-start">
-          <li data-animate="fadeInUp" data-delay="100">
-            <i class="fas fa-eye me-4 fa-3x"></i>
-            <div>
-              <h3>Visibilizar las capacidades territoriales:</h3>
-              <p>Identificar, caracterizar y sistematizar a los actores estratégicos —gobierno, academia, sector productivo, intermediarios y financiadores— vinculados a los sectores TI, TIC e Industria 4.0 en el departamento.</p>
-            </div>
-          </li>
-          <li data-animate="fadeInUp" data-delay="200">
-            <i class="fas fa-link me-4 fa-3x"></i>
-            <div>
-              <h3>Articular el ecosistema de CTeI:</h3>
-              <p>Dinamizar las interacciones entre los actores, promoviendo mecanismos de gobernanza colaborativa que fortalezcan el sistema territorial de innovación y potencien su capacidad de respuesta ante desafíos regionales.</p>
-            </div>
-          </li>
-          <li data-animate="fadeInUp" data-delay="300">
-            <i class="fas fa-database me-4 fa-3x"></i>
-            <div>
-              <h3>Gestionar y estructurar el conocimiento:</h3>
-              <p>Consolidarse como un repositorio especializado para el mapeo, curaduría y articulación de la metadata asociada a productos de I+D+i orientados a la Transformación Digital y la Industria 4.0.</p>
-            </div>
-          </li>
-          <li data-animate="fadeInUp" data-delay="400">
-            <i class="fas fa-chart-line me-4 fa-3x"></i>
-            <div>
-              <h3>Fortalecer la base científica, tecnológica y empresarial:</h3>
-              <p>Impulsar el desarrollo de un ecosistema TI, TIC e I4.0 robusto, inclusivo y adaptable, que contribuya a una transformación digital sostenible y de alto impacto para el departamento de Córdoba.</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  <section class="zinco-benefits-section py-5">
+
+  {# Quiénes Somos Section #}
+  <section id="quienes-somos" class="py-5">
     <div class="container">
-      <h2 class="text-center mb-5 zinco-benefits-title" data-animate="fadeInDown">{{ fields.field_beneficios_title ? fields.field_beneficios_title : 'No hay data' }}</h2>
-      <div class="row justify-content-center">
-        <div class="col-12 col-md-6 col-lg-4 mb-4">
-          <div class="card h-100 zinco-benefit-card" data-animate="fadeInUp" data-delay="100">
-            <div class="card-body">
-              <div class="zinco-benefit-icon mb-3">
-                <i class="{{ fields.field_beneficios_izq_icono ? fields.field_beneficios_izq_icono : 'fas fa-users fa-3x' }}"></i>
-              </div>
-              <h3 class="card-title zinco-benefit-title">{{ fields.field_beneficios_izq_titulo ? fields.field_beneficios_izq_titulo : 'No hay data' }}</h3>
-              <p class="card-text zinco-benefit-description">{{ fields.field_beneficios_izq_descripcion ? fields.field_beneficios_izq_descripcion : 'No hay data' }}</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-4 mb-4">
-          <div class="card h-100 zinco-benefit-card" data-animate="fadeInUp" data-delay="200">
-            <div class="card-body">
-              <div class="zinco-benefit-icon mb-3">
-                <i class="{{ fields.field_beneficios_centro_icon ? fields.field_beneficios_centro_icon : 'fas fa-users fa-3x' }}"></i>
-              </div>
-              <h3 class="card-title zinco-benefit-title">{{ fields.field_beneficios_centro_titulo ? fields.field_beneficios_centro_titulo : 'No hay data' }}</h3>
-              <p class="card-text zinco-benefit-description">{{ fields.field_beneficios_centro_descripcion ? fields.field_beneficios_centro_descripcion : 'No hay data' }}</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-4 mb-4">
-          <div class="card h-100 zinco-benefit-card" data-animate="fadeInUp" data-delay="300">
-            <div class="card-body">
-              <div class="zinco-benefit-icon mb-3">
-                <i class="{{ fields.field_beneficios_derecha_icon ? fields.field_beneficios_derecha_icon : 'fas fa-users fa-3x' }}"></i>
-              </div>
-              <h3 class="card-title zinco-benefit-title">{{ fields.field_beneficios_derecha_titulo ? fields.field_beneficios_derecha_titulo : 'No hay data' }}</h3>
-              <p class="card-text zinco-benefit-description">{{ fields.field_beneficios_derecha_descripcion ? fields.field_beneficios_derecha_descripcion : 'No hay data' }}</p>
-            </div>
-          </div>
-        </div>
+      <div class="section-header">
+        <h2 class="text-uppercase">¿Quiénes somos?</h2>
       </div>
-      
+      <div class="quienes-somos-content">
+        <p>ZINCO (Zona de Innovación de Córdoba) es la plataforma oficial de articulación del Ecosistema de Ciencia, Tecnología e Innovación (CTeI) soportado en transformación digital e industrias 4.0 del departamento de Córdoba.</p>
+        <p>Nuestro propósito es fortalecer la interacción efectiva entre los actores del ecosistema, promoviendo procesos de generación, transferencia y apropiación del conocimiento.</p>
+      </div>
     </div>
   </section>
-  <section class="zinco-tools-section py-5">
+
+  {# Numbers Section (Integrated with ACI style) #}
+  <section class="zinco-numbers-section py-5 bg-light">
     <div class="container">
-      <h2 class="text-center mb-5 zinco-tools-title" data-animate="fadeInDown">{{ fields.field_herramientas_titulo ? fields.field_herramientas_titulo : 'No hay data' }}</h2>
-      <div class="row justify-content-center">
-        <div class="col-12 col-md-6 col-lg-4 mb-4">
-          <div class="card h-100 zinco-tool-card" data-animate="fadeInUp" data-delay="100">
-            <div class="card-body">
-              <div class="zinco-tool-icon mb-3">
-                <i class="{{ fields.field_herramientas_izq_icon ? fields.field_herramientas_izq_icon : 'fas fa-users fa-3x' }}"></i> {# Icon for Dynamic Actor Directory #}
-              </div>
-              <h3 class="card-title zinco-tool-title">{{ fields.field_herramientas_izq_titulo ? fields.field_herramientas_izq_titulo : 'No hay data' }}</h3>
-              <p class="card-text zinco-tool-description">{{ fields.field_herramientas_izq_descripcion ? fields.field_herramientas_izq_descripcion : 'No hay data' }}</p>
-            </div>
+      <h2 class="text-center mb-5 fw-bold text-uppercase" style="color: var(--aci-blue-dark);">{{ fields.field_data_clave_titulo ? fields.field_data_clave_titulo : 'Datos Clave' }}</h2>
+      <div class="row g-4 justify-content-center">
+        <div class="col-md-4">
+          <div class="card h-100 service-card p-4 text-center">
+            <div class="icon-container"><i class="fas fa-users"></i></div>
+            <p class="fw-bold text-uppercase small" style="color: var(--aci-blue-primary);">{{ fields.field_actores_registrados_label ? fields.field_actores_registrados_label : 'Actores Registrados' }}</p>
+            <span class="display-4 fw-bold" style="color: var(--aci-blue-dark);">{{ fields.field_actores_registrados ? fields.field_actores_registrados : '0' }}</span>
           </div>
         </div>
-        <div class="col-12 col-md-6 col-lg-4 mb-4">
-          <div class="card h-100 zinco-tool-card" data-animate="fadeInUp" data-delay="200">
-            <div class="card-body">
-              <div class="zinco-tool-icon mb-3">
-                <i class="{{ fields.field_herramientas_centro_icon ? fields.field_herramientas_centro_icon : 'fas fa-users fa-3x' }}"></i> {# Icon for Opportunity Manager #}
-              </div>
-              <h3 class="card-title zinco-tool-title">{{ fields.field_herramientas_centro_titulo ? fields.field_herramientas_centro_titulo : 'No hay data' }}</h3>
-              <p class="card-text zinco-tool-description">{{ fields.field_herramientas_centro_descripcion ? fields.field_herramientas_centro_descripcion : 'No hay data' }}</p>
-            </div>
+        <div class="col-md-4">
+          <div class="card h-100 service-card p-4 text-center">
+            <div class="icon-container"><i class="fas fa-project-diagram"></i></div>
+            <p class="fw-bold text-uppercase small" style="color: var(--aci-blue-primary);">{{ fields.field_proyectos_activos_label ? fields.field_proyectos_activos_label : 'Proyectos Activos' }}</p>
+            <span class="display-4 fw-bold" style="color: var(--aci-blue-dark);">{{ fields.field_proyectos_activos ? fields.field_proyectos_activos : '0' }}</span>
           </div>
         </div>
-        <div class="col-12 col-md-6 col-lg-4 mb-4">
-          <div class="card h-100 zinco-tool-card" data-animate="fadeInUp" data-delay="300">
-            <div class="card-body">
-              <div class="zinco-tool-icon mb-3">
-                <i class="{{ fields.field_herramientas_derecha_icon ? fields.field_herramientas_derecha_icon : 'fas fa-users fa-3x' }}"></i> {# Icon for CTI Capability Visualizer #}
-              </div>
-              <h3 class="card-title zinco-tool-title">{{ fields.field_herramientas_derecha_titulo ? fields.field_herramientas_derecha_titulo : 'No hay data' }}</h3>
-              <p class="card-text zinco-tool-description">{{ fields.field_herramientas_derecha_descripcion ? fields.field_herramientas_derecha_descripcion : 'No hay data' }}</p>
-            </div>
+        <div class="col-md-4">
+          <div class="card h-100 service-card p-4 text-center">
+            <div class="icon-container"><i class="fas fa-handshake"></i></div>
+            <p class="fw-bold text-uppercase small" style="color: var(--aci-blue-primary);">{{ fields.field_colaboraciones_title ? fields.field_colaboraciones_title : 'Colaboraciones' }}</p>
+            <span class="display-4 fw-bold" style="color: var(--aci-blue-dark);">{{ fields.field_colaboraciones_facilitadas ? fields.field_colaboraciones_facilitadas : '0' }}+</span>
           </div>
         </div>
       </div>
     </div>
   </section>
-  <section class="zinco-cta-section py-5">
+
+  {# Te Guiamos / Beneficios Section #}
+  <section class="py-5" id="te-guiamos">
     <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-12 col-lg-8 text-center">
-          <h2 class="mb-4 zinco-cta-title" data-animate="zoomIn">{{ fields.field_cta_titulo ? fields.field_cta_titulo : 'No hay data' }}</h2>
-          <p class="mb-5 zinco-cta-description" data-animate="fadeInUp" data-delay="150">{{ fields.field_cta_descripcion ? fields.field_cta_descripcion : 'No hay data' }}</p>
-          <a href="{{ fields.field_cta_enlace_button ? fields.field_cta_enlace_button : '#' }}" class="hero-button zinco-cta-button" data-animate="pulse" data-delay="300">{{ fields.field_cta_label_button ? fields.field_cta_label_button : 'No hay data' }}</a>
+      <div class="section-header">
+        <h2 class="text-uppercase">{{ fields.field_beneficios_title ? fields.field_beneficios_title : 'Beneficios' }}</h2>
+      </div>
+      <div class="row g-4 mt-4">
+        <div class="col-md-4">
+          <div class="card h-100 service-card p-4 text-center">
+            <div class="icon-container"><i class="{{ fields.field_beneficios_izq_icono ? fields.field_beneficios_izq_icono : 'fas fa-chart-line' }}"></i></div>
+            <h3 class="card-title h5">{{ fields.field_beneficios_izq_titulo ? fields.field_beneficios_izq_titulo : 'Inversión' }}</h3>
+            <p class="card-text small">{{ fields.field_beneficios_izq_descripcion ? fields.field_beneficios_izq_descripcion : 'Descripción del beneficio izquierdo.' }}</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100 service-card p-4 text-center">
+            <div class="icon-container"><i class="{{ fields.field_beneficios_centro_icon ? fields.field_beneficios_centro_icon : 'fas fa-handshake' }}"></i></div>
+            <h3 class="card-title h5">{{ fields.field_beneficios_centro_titulo ? fields.field_beneficios_centro_titulo : 'Cooperación' }}</h3>
+            <p class="card-text small">{{ fields.field_beneficios_centro_descripcion ? fields.field_beneficios_centro_descripcion : 'Descripción del beneficio central.' }}</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100 service-card p-4 text-center">
+            <div class="icon-container"><i class="{{ fields.field_beneficios_derecha_icon ? fields.field_beneficios_derecha_icon : 'fas fa-book-open' }}"></i></div>
+            <h3 class="card-title h5">{{ fields.field_beneficios_derecha_titulo ? fields.field_beneficios_derecha_titulo : 'Conocimiento' }}</h3>
+            <p class="card-text small">{{ fields.field_beneficios_derecha_descripcion ? fields.field_beneficios_derecha_descripcion : 'Descripción del beneficio derecho.' }}</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
-  <p></p>
+
+  {# Historias Section (Placeholder structure from index.html) #}
+  <section class="py-5 stories-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="text-uppercase">Historias que transforman</h2>
+      </div>
+      <div class="row align-items-center g-5 mt-4">
+        <div class="col-lg-6">
+          <div class="position-relative">
+            <img src="https://acimedellin.org/wp-content/uploads/2023/11/Banner-Historias-Home.jpg" class="img-fluid rounded shadow" alt="Historias">
+            <div class="btn btn-aci-primary position-absolute top-50 start-50 translate-middle rounded-circle shadow-lg" style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;">
+              <i class="fas fa-play"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <h3 class="fw-bold mb-4" style="color: var(--aci-blue-dark);">Conoce el impacto de nuestra gestión</h3>
+          <p class="mb-4">A través de testimonios reales, descubre cómo la cooperación internacional y la inversión extranjera contribuyen al crecimiento sostenible.</p>
+          <ul class="list-unstyled mb-4">
+            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Desarrollo humano y social</li>
+            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Transferencia de conocimiento</li>
+          </ul>
+          <a href="#" class="btn btn-aci-primary">VER TODAS LAS HISTORIAS</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# Allies Section #}
+  <section class="py-5 bg-white">
+    <div class="container text-center">
+      <h2 class="text-uppercase fw-bold mb-5" style="color: var(--aci-blue-dark); font-size: 1.5rem;">Red de Aliados</h2>
+      <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-4 align-items-center justify-content-center">
+        <div class="col"><img src="https://acimedellin.org/wp-content/uploads/2021/05/Logo-ProColombia.png" class="ally-logo img-fluid" alt="ProColombia"></div>
+        <div class="col"><img src="https://acimedellin.org/wp-content/uploads/2021/05/Logo-Invest-in-Colombia.png" class="ally-logo img-fluid" alt="Invest in Colombia"></div>
+        <div class="col"><img src="https://acimedellin.org/wp-content/uploads/2021/05/Logo-Ruta-N.png" class="ally-logo img-fluid" alt="Ruta N"></div>
+        <div class="col"><img src="https://acimedellin.org/wp-content/uploads/2021/05/Logo-CCM.png" class="ally-logo img-fluid" alt="Cámara de Comercio de Medellín"></div>
+      </div>
+    </div>
+  </section>
+
+  {# CTA Section #}
+  <section class="zinco-cta-section py-5" style="background-color: var(--aci-blue-dark); color: white;">
+    <div class="container text-center">
+      <h2 class="mb-4 text-uppercase fw-bold">{{ fields.field_cta_titulo ? fields.field_cta_titulo : '¿Listo para transformar a Córdoba?' }}</h2>
+      <p class="mb-5 opacity-75">{{ fields.field_cta_descripcion ? fields.field_cta_descripcion : 'Únete a nuestra plataforma y sé parte del cambio.' }}</p>
+      <a href="{{ fields.field_cta_enlace_button ? fields.field_cta_enlace_button : '#' }}" class="btn btn-aci-primary btn-lg px-5">{{ fields.field_cta_label_button ? fields.field_cta_label_button : 'Regístrate' }}</a>
+    </div>
+  </section>
+
 </div>
