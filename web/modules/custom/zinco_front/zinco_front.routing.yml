@@ -282,7 +282,6 @@ zinco_front.actor_busqueda_categories_list:
   path: '/actores/busqueda/categorias'
   defaults:
     _controller: '\Drupal\zinco_front\Controller\ActoresController::listarCategoriasBusquedaActores'
-    _title: 'Categorías de Actores'
   requirements:
     _permission: 'access content'
 
