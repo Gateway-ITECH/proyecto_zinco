@@ -38,7 +38,7 @@ function bootstrap_barrio_subtheme_form_system_theme_settings_alter(&$form, Form
  */
 function bootstrap_barrio_subtheme_preprocess_page(&$variables) {
   $route_name = \Drupal::routeMatch()->getRouteName();
-  var_dump($route_name);
+
   // Detectar si estamos en un formulario de creación o edición de entidad (nodo u otros tipos).
   $is_form = FALSE;
   

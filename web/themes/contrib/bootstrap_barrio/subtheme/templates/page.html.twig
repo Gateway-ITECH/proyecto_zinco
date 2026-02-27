@@ -64,7 +64,6 @@
 
     {# Main Content Area #}
     <div id="main-wrapper" class="layout-main-wrapper clearfix">
-      <p>{{ is_entity_form ? "formulario de entidad": "no es formulario de entidad"}}</p>
       <div id="main"{{ sidebar_first_exists or sidebar_second_exists or is_entity_form ? ' class="container my-5"' : '' }}>
         <div class="row row-offcanvas row-offcanvas-left clearfix">
           <main{{ content_attributes }} class="col">
