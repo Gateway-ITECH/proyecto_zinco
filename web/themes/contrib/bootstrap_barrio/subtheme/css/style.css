@@ -4,6 +4,28 @@
  * Subtheme specific CSS.
  */
 
+/* ============================================================
+   Navbar – sticky + scroll effect
+   ============================================================ */
+nav.navbar {
+  transition: background-color 0.35s ease, box-shadow 0.35s ease, padding 0.35s ease;
+  background-color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: none;
+}
+
+/**
+ * State applied by JS (global.js) once the page scrolls past 50 px.
+ * The navbar becomes fully opaque with a stronger shadow.
+ */
+nav.navbar.scrolled {
+  background-color: #ffffff;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.10);
+}
+
+/* ============================================================ */
+
 .chart-card-height {
   min-height: 450px;
   /* Adjust this value as needed to match the height of the other card */
