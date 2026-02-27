@@ -32,6 +32,28 @@ nav.navbar.scrolled .navbar-brand img {
   max-height: 40px;
 }
 
+/* Navbar links – white text */
+nav.navbar .nav-link,
+nav.navbar .nav-item a {
+  color: #ffffff !important;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+nav.navbar .nav-link:hover,
+nav.navbar .nav-item a:hover {
+  color: #ffffff !important;
+  opacity: 0.75;
+}
+
+/* Toggler icon white */
+nav.navbar .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+nav.navbar .navbar-toggler-icon {
+  filter: invert(1);
+}
+
 /* ============================================================ */
 
 .chart-card-height {
