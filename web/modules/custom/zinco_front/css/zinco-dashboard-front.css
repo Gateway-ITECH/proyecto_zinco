@@ -1,13 +1,20 @@
-/* Add your custom CSS for zinco-actores-list here */
+/* Estilos para las tarjetas del Dashboard */
 .tab-pane .card {
-  border-radius: 8px;
-  background: rgb(127, 197, 77);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  background: transparent;
+  border: 1px solid rgb(127, 197, 77);
+  box-shadow: none;
   min-height: 150px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tab-pane .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(127, 197, 77, 0.2);
 }
 
 .tab-pane .card-title {
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: bold;
 }
 
@@ -16,16 +23,32 @@
 .tab-pane .card-title,
 .grouped_data_wrapper .text-muted,
 .tab-pane .card-body {
-  color: #ffffff;
+  color: rgb(127, 197, 77) !important;
+}
+
+/* Iconos de las tarjetas */
+.tab-pane .card i {
+  color: rgb(127, 197, 77);
+  font-size: 1.5rem;
 }
 
 .card_grouped_data .card-title {
-  color: #000000;
+  color: rgb(127, 197, 77);
 }
 
 .card_grouped_data .card-body {
-  color: #000000;
-  border: 1px solid rgb(244, 244, 244);
-  border-radius: 8px;
-  background: rgb(244, 244, 244);
+  color: rgb(127, 197, 77);
+  border: 1px solid rgb(127, 197, 77);
+  border-radius: 12px;
+  background: transparent;
+}
+
+/* Ajuste para enlaces de detalle */
+.detalle-dump-data-link {
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.detalle-dump-data-link:hover {
+  opacity: 0.8;
 }
