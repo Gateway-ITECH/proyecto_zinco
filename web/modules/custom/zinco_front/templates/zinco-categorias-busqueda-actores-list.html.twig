@@ -11,30 +11,38 @@
  */
 #}
 {% if terms %}
-  <p>{{ 'Selecciona una categoría de actor para continuar'|t }}</p>
-  <div class="row">
-    {% for term in terms %}
-      <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-        <div class="card h-100">
-          <div class="card-body text-center">
-            {% if term.logotipo %}
-              <div class="logo-container">
-                <img src="{{ term.logotipo }}" alt="{{ term.label }}" class="term-logo">
+  <div class="container mt-5 mb-5">
+    <div class="zinco-categories-wrapper shadow-sm p-4 bg-white rounded">
+      <p>{{ 'Selecciona una categoría de actor para continuar'|t }}</p>
+      <div class="row">
+        {% for term in terms %}
+          <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+            <div class="card h-100">
+              <div class="card-body text-center">
+                {% if term.logotipo %}
+                  <div class="logo-container">
+                    <img src="{{ term.logotipo }}" alt="{{ term.label }}" class="term-logo">
+                  </div>
+                {% else %}
+                  <div class="logo-container">
+                    <i class="fas fa-image fa-3x text-muted"></i>
+                  </div>
+                {% endif %}
+                <h5 class="card-title mb-3" style="color: #333; min-height: 50px">{{ term.label }}</h5>
+                <p class="card-text">{{ term.description }}</p>
+                {# Assuming a route to display actors by category or a category detail page #}
+                <a href="/actores/list/{{ term.id }}" class="btn btn-primary">{{ 'Seleccionar'|t }}</a>
               </div>
-            {% else %}
-              <div class="logo-container">
-                <i class="fas fa-image fa-3x text-muted"></i>
-              </div>
-            {% endif %}
-            <h5 class="card-title mb-3" style="color: #333; min-height: 50px">{{ term.label }}</h5>
-            <p class="card-text">{{ term.description }}</p>
-            {# Assuming a route to display actors by category or a category detail page #}
-            <a href="/actores/list/{{ term.id }}" class="btn btn-primary">{{ 'Seleccionar'|t }}</a>
+            </div>
           </div>
-        </div>
+        {% endfor %}
       </div>
-    {% endfor %}
+    </div>
   </div>
 {% else %}
-  <p>{{ 'No se encontraron categorías de actores.'|t }}</p>
+  <div class="container mt-5 mb-5">
+    <div class="alert alert-info">
+      {{ 'No se encontraron categorías de actores.'|t }}
+    </div>
+  </div>
 {% endif %}
