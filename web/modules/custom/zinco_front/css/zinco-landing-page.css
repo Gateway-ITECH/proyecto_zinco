@@ -70,18 +70,20 @@
 }
 
 .zinco-number-card.card {
-  border: 1px solid rgb(187, 242, 148);
-  /* Slightly lighter dark blue border */
+  border: 1px solid rgb(127, 197, 77);
+  /* Green border */
   border-radius: 12px;
-  background: rgb(127, 197, 77);
-  /* Darker blue background for cards */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  background: transparent;
+  /* Transparent background */
+  box-shadow: none;
+  /* Remove default shadow */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .zinco-number-card.card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 25px rgba(127, 197, 77, 0.2);
+  /* Subtle green shadow on hover */
 }
 
 .zinco-number-icon img {
@@ -93,14 +95,14 @@
 }
 
 .zinco-number-icon i {
-  color: #fff;
-  /* Teal color for icons */
+  color: rgb(127, 197, 77);
+  /* Green color for icons */
 }
 
 .zinco-number-description.card-text {
   font-size: 1.1rem;
-  color: #fff;
-  /* Slightly darker light gray for description */
+  color: rgb(127, 197, 77);
+  /* Green color for description */
   margin-bottom: 10px;
 }
 
@@ -108,7 +110,7 @@
   font-size: 3rem;
   /* Large font size for numbers */
   font-weight: 700;
-  color: #fff;
+  color: rgb(127, 197, 77);
   /* Green color for numbers */
 }
 
