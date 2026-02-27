@@ -24,6 +24,17 @@ nav.navbar.scrolled {
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.10);
 }
 
+/* Logo shrink on scroll */
+.navbar-brand img {
+  max-height: 70px;
+  width: auto;
+  transition: max-height 0.35s ease;
+}
+
+nav.navbar.scrolled .navbar-brand img {
+  max-height: 40px;
+}
+
 /* ============================================================ */
 
 .chart-card-height {
