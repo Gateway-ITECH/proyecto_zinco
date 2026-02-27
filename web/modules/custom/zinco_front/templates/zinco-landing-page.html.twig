@@ -12,17 +12,84 @@
  */
 #}
 <div class="zinco-landing-page">
-  <div class="row w-100 m-0">
-    <div class="col-12 hero-section">
-      <h1 class="hero-title animate__animated animate__fadeInDown">
-        {{ fields.field_hero_section_title ? fields.field_hero_section_title : 'No hay data' }}
-      </h1>
-      <p class="hero-subtitle animate__animated animate__fadeInUp" style="animation-delay: 0.5s;">
-        {{ fields.field_hero_section_description ? fields.field_hero_section_description : 'No hay data' }}
-      </p>
-      <a href="{{ fields.field_hero_section_link ? fields.field_hero_section_link : '#' }}" class="hero-button animate__animated animate__zoomIn" style="animation-delay: 1s;" id="hero-button">{{ fields.field_hero_section_button_label ? fields.field_hero_section_button_label : 'No hay data' }}</a>
+  <div class="container-fluid p-0">
+    <div id="researchCarousel" class="carousel slide carousel-fade vh-100" data-bs-ride="carousel">
+      <!-- Indicators -->
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#researchCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#researchCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#researchCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#researchCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#researchCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+      </div>
+
+      <!-- Carousel Content -->
+      <div class="carousel-inner h-100">
+        <!-- Slide 1: Investigación -->
+        <div class="carousel-item active h-100">
+          <img src="/themes/contrib/bootstrap_barrio/subtheme/images/carousel_slide1.png" class="d-block w-100 h-100 object-fit-cover" alt="Laboratorio de Investigación">
+          <div class="carousel-caption d-flex flex-column justify-content-center h-100">
+            <h1 class="animate__animated animate__fadeInDown fw-bold">Laboratorios de Vanguardia</h1>
+            <p class="animate__animated animate__fadeInUp fs-4">Impulsando la ciencia en Córdoba con tecnología de punta para el mundo.</p>
+            <div class="mt-4">
+              <a href="#quienes-somos" class="hero-button animate__animated animate__zoomIn">Descubrir Más</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2: Datos -->
+        <div class="carousel-item h-100">
+          <img src="/themes/contrib/bootstrap_barrio/subtheme/images/carousel_slide2.png" class="d-block w-100 h-100 object-fit-cover" alt="Big Data">
+          <div class="carousel-caption d-flex flex-column justify-content-center h-100">
+            <h1 class="animate__animated animate__fadeInDown fw-bold">Big Data y Analítica</h1>
+            <p class="animate__animated animate__fadeInUp fs-4">Transformamos datos complejos en conocimiento estratégico para el territorio.</p>
+          </div>
+        </div>
+
+        <!-- Slide 3: Colaboración -->
+        <div class="carousel-item h-100">
+          <img src="/themes/contrib/bootstrap_barrio/subtheme/images/carousel_slide3.png" class="d-block w-100 h-100 object-fit-cover" alt="Colaboración">
+          <div class="carousel-caption d-flex flex-column justify-content-center h-100">
+            <h1 class="animate__animated animate__fadeInDown fw-bold">Colaboración Global</h1>
+            <p class="animate__animated animate__fadeInUp fs-4">Conectando mentes brillantes para resolver los desafíos regionales con innovación.</p>
+          </div>
+        </div>
+
+        <!-- Slide 4: Innovación -->
+        <div class="carousel-item h-100">
+          <img src="/themes/contrib/bootstrap_barrio/subtheme/images/carousel_slide4.png" class="d-block w-100 h-100 object-fit-cover" alt="Innovación">
+          <div class="carousel-caption d-flex flex-column justify-content-center h-100">
+            <h1 class="animate__animated animate__fadeInDown fw-bold">Ecosistemas de Innovación</h1>
+            <p class="animate__animated animate__fadeInUp fs-4">Un espacio vibrante donde las ideas disruptivas se convierten en realidades tangibles.</p>
+          </div>
+        </div>
+
+        <!-- Slide 5: Territorio -->
+        <div class="carousel-item h-100">
+          <img src="/themes/contrib/bootstrap_barrio/subtheme/images/carousel_slide5.png" class="d-block w-100 h-100 object-fit-cover" alt="Territorio">
+          <div class="carousel-caption d-flex flex-column justify-content-center h-100">
+            <h1 class="animate__animated animate__fadeInDown fw-bold">Transformación Territorial</h1>
+            <p class="animate__animated animate__fadeInUp fs-4">Llevando el desarrollo digital y la ciencia a cada rincón del departamento de Córdoba.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#researchCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#researchCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Siguiente</span>
+      </button>
     </div>
   </div>
+
+
+
+
+
   <section id="quienes-somos" class="container my-5">
     <div class="row">
       <div class="col-12 ">
