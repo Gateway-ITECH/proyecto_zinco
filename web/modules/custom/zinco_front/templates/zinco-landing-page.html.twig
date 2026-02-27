@@ -283,9 +283,11 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-12 col-lg-8 text-center">
-          <h2 class="mb-4 zinco-cta-title" data-animate="zoomIn">{{ fields.field_cta_titulo ? fields.field_cta_titulo : 'No hay data' }}</h2>
-          <p class="mb-5 zinco-cta-description" data-animate="fadeInUp" data-delay="150">{{ fields.field_cta_descripcion ? fields.field_cta_descripcion : 'No hay data' }}</p>
-          <a href="{{ fields.field_cta_enlace_button ? fields.field_cta_enlace_button : '#' }}" class="hero-button zinco-cta-button" data-animate="pulse" data-delay="300">{{ fields.field_cta_label_button ? fields.field_cta_label_button : 'No hay data' }}</a>
+          <div class="modern-title-container" data-animate="zoomIn">
+            <h2 class="modern-title">{{ fields.field_cta_titulo ? fields.field_cta_titulo : 'Únete a ZINCO' }}</h2>
+            <p class="modern-subtitle">{{ fields.field_cta_descripcion ? fields.field_cta_descripcion : 'Forma parte del ecosistema de innovación más dinámico de la región.' }}</p>
+          </div>
+          <a href="{{ fields.field_cta_enlace_button ? fields.field_cta_enlace_button : '#' }}" class="hero-button zinco-cta-button mt-4" data-animate="pulse" data-delay="300">{{ fields.field_cta_label_button ? fields.field_cta_label_button : 'Registrarse ahora' }}</a>
         </div>
       </div>
     </div>
