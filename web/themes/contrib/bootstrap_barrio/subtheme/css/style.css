@@ -100,6 +100,49 @@ nav.navbar.scrolled .navbar-brand img {
 
 /* ============================================================ */
 
+/* ============================================================
+   Section Titles (Modern Style)
+   ============================================================ */
+.modern-title-container {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.modern-title {
+  text-transform: uppercase;
+  font-family: 'Space Grotesk', sans-serif !important;
+  color: #1e293b;
+  font-weight: 700;
+  display: inline-block;
+  position: relative;
+  padding-bottom: 15px;
+  letter-spacing: 0.05em;
+  font-size: 1.75rem;
+}
+
+.modern-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  right: 20%;
+  height: 3px;
+  background-color: #7fc54d;
+  border-radius: 2px;
+}
+
+.modern-subtitle {
+  color: #64748b;
+  font-size: 1.1rem;
+  margin-top: 1.25rem;
+  max-width: 750px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* ============================================================ */
+
 /* Navbar links – white text */
 nav.navbar .nav-link,
 nav.navbar .nav-item a {
