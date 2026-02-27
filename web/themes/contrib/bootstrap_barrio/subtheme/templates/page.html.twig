@@ -63,8 +63,8 @@
     {% endif %}
 
     {# Main Content Area #}
-    <div id="main-wrapper" class="layout-main-wrapper clearfix p-5">
-      <div id="main" class="container">
+    <div id="main-wrapper" class="layout-main-wrapper clearfix">
+      <div id="main"{{ sidebar_first_exists or sidebar_second_exists ? ' class="container my-5"' : '' }}>
         <div class="row row-offcanvas row-offcanvas-left clearfix">
           <main{{ content_attributes }} class="col">
             <section class="section">
