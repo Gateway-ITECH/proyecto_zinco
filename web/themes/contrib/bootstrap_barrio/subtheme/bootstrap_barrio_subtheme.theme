@@ -43,9 +43,9 @@ function bootstrap_barrio_subtheme_preprocess_page(&$variables) {
   $is_form = FALSE;
   
   if (isset($route_name)) {
-    // Patrones comunes para formularios en Drupal, rutas de usuario y vistas
+    // Patrones comunes para formularios en Drupal, rutas de usuario, vistas y nodos
     $user_routes = ['user.login', 'user.register', 'user.pass', 'user.reset'];
-    if (strpos($route_name, '.add') !== FALSE || strpos($route_name, '.edit') !== FALSE || strpos($route_name, '_form') !== FALSE || strpos($route_name, 'view.') !== FALSE || $route_name == 'node.add' || in_array($route_name, $user_routes)) {
+    if (strpos($route_name, '.add') !== FALSE || strpos($route_name, '.edit') !== FALSE || strpos($route_name, '_form') !== FALSE || strpos($route_name, 'view.') !== FALSE || $route_name == 'entity.node.canonical' || $route_name == 'node.add' || in_array($route_name, $user_routes)) {
       $is_form = TRUE;
     }
   }
