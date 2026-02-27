@@ -1,38 +1,53 @@
+/* Estilos para listas de categorías de actores */
+.zinco-actor-categories-wrapper .card,
+.zinco-categories-wrapper .card,
 .zinco-categorias-actores-list .card {
   border: 1px solid #dee2e6;
-  border-radius: 0.25rem;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
   transition: all 0.2s ease-in-out;
 }
 
+.zinco-actor-categories-wrapper .card:hover,
+.zinco-categories-wrapper .card:hover,
 .zinco-categorias-actores-list .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
 
+.zinco-actor-categories-wrapper .card-title,
+.zinco-categories-wrapper .card-title,
 .zinco-categorias-actores-list .card-title {
-  font-size: 1.25rem;
-  font-weight: bold;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.3;
 }
 
+.zinco-actor-categories-wrapper .card-text,
+.zinco-categories-wrapper .card-text,
 .zinco-categorias-actores-list .card-text {
   font-size: 0.9rem;
   color: #6c757d;
 }
 
+.zinco-actor-categories-wrapper .term-logo,
+.zinco-categories-wrapper .term-logo,
 .zinco-categorias-actores-list .term-logo {
-  max-width: 100px;
-  max-height: 100px;
+  max-width: 80px;
+  /* Tamaño reducido de 100px a 80px */
+  max-height: 80px;
   object-fit: contain;
-  margin-bottom: 1rem;
 }
 
+.zinco-actor-categories-wrapper .logo-container,
+.zinco-categories-wrapper .logo-container,
 .zinco-categorias-actores-list .logo-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 120px;
+  height: 110px;
+  /* Altura ajustada de 120px a 110px */
   margin-bottom: 1rem;
   background-color: #f8f9fa;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
 }
