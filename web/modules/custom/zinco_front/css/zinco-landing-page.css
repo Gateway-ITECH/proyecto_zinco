@@ -128,11 +128,11 @@
 
 .zinco-benefit-card.card {
   border: 1px solid rgb(127, 197, 77);
-  /* Slightly lighter dark blue border */
+  /* Green border */
   border-radius: 12px;
-  background: rgb(127, 197, 77);
-  /* Darker blue background for cards */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  background: transparent;
+  /* Transparent background */
+  box-shadow: none;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   padding: 1.5rem;
   text-align: left;
@@ -140,26 +140,27 @@
 
 .zinco-benefit-card.card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 25px rgba(127, 197, 77, 0.2);
 }
 
 .zinco-benefit-icon {
-  color: #fff;
-  /* Teal color for icons */
+  color: rgb(127, 197, 77);
+  /* Green color for icons */
   font-size: 300%;
   /* 300% increased size */
   margin-bottom: 1rem;
 }
 
 .zinco-benefit-title {
-  color: #fff;
+  color: rgb(127, 197, 77);
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 0.75rem;
 }
 
 .zinco-benefit-description {
-  color: #fff;
+  color: #555;
+  /* Darker gray for readability on white */
   font-size: 1rem;
   line-height: 1.5;
 }
@@ -196,11 +197,11 @@
 
 .zinco-tool-card.card {
   border: 1px solid rgb(127, 197, 77);
-  /* Slightly lighter dark blue border */
+  /* Green border */
   border-radius: 12px;
-  background: rgb(127, 197, 77);
-  /* Darker blue background for cards */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  background: transparent;
+  /* Transparent background */
+  box-shadow: none;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   padding: 1.5rem;
   text-align: left;
@@ -208,26 +209,27 @@
 
 .zinco-tool-card.card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 25px rgba(127, 197, 77, 0.2);
 }
 
 .zinco-tool-icon {
-  color: #fff;
-  /* Teal color for icons */
+  color: rgb(127, 197, 77);
+  /* Green color for icons */
   font-size: 300%;
   /* 300% increased size */
   margin-bottom: 1rem;
 }
 
 .zinco-tool-title {
-  color: #fff;
+  color: rgb(127, 197, 77);
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 0.75rem;
 }
 
 .zinco-tool-description {
-  color: #fff;
+  color: #555;
+  /* Darker gray for readability on white */
   font-size: 1rem;
   line-height: 1.5;
 }
