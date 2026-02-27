@@ -44,7 +44,7 @@ function bootstrap_barrio_subtheme_preprocess_page(&$variables) {
   
   if (isset($route_name)) {
     // Patrones comunes para formularios en Drupal
-    if (strpos($route_name, '.add') !== FALSE || strpos($route_name, '.edit') !== FALSE || $route_name == 'node.add') {
+    if (strpos($route_name, '.add') !== FALSE || strpos($route_name, '.edit') || strpos($route_name, '_form') !== FALSE || $route_name == 'node.add' ) {
       $is_form = TRUE;
     }
   }
