@@ -9,7 +9,7 @@
    ============================================================ */
 nav.navbar {
   transition: background-color 0.35s ease, box-shadow 0.35s ease, padding 0.35s ease;
-  background-color: rgba(0, 0, 0, 0.30);
+  background-color: rgba(0, 0, 0, 0.20);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   box-shadow: none;
@@ -19,10 +19,7 @@ nav.navbar {
  * State applied by JS (global.js) once the page scrolls past 50 px.
  * The navbar becomes fully opaque with a stronger shadow.
  */
-nav.navbar.scrolled {
-  background-color: rgba(0, 0, 0, 0.92);
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.40);
-}
+nav.navbar.scrolled {}
 
 /* Logo shrink on scroll */
 .navbar-brand img {
