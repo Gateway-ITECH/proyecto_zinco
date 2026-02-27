@@ -756,4 +756,7 @@ body {
 
 .table h4.label {
   color: #000000 !important;
+}/* Custom spacing utilities */
+.mt-7 {
+    margin-top: 5rem !important;
 }
