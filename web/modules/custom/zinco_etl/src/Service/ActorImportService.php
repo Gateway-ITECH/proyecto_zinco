@@ -148,43 +148,48 @@ class ActorImportService
         $field_definition = $entity->getFieldDefinition($field_name);
         $type = $field_definition->getType();
 
-        if ($type === 'entity_reference') {
-            $target_type = $field_definition->getSetting('target_type');
-            if ($target_type === 'taxonomy_term') {
-                $handler_settings = $field_definition->getSetting('handler_settings');
-                $target_bundles = $handler_settings['target_bundles'] ?? [];
-                $bundle = reset($target_bundles);
+        if ($type === 'entity_reference' || $type === 'image' || $type === 'file') {
+            // Handle complex ID formats: "ID 91|gateway||2000|366|file|..."
+            if (strpos($value, '|') !== FALSE) {
+                $parts = explode('|', $value);
+                $first_part = trim($parts[0]);
+                // Search for "ID 91" or just "91"
+                if (preg_match('/(?:ID\s+)?(\d+)/i', $first_part, $matches)) {
+                    $value = $matches[1];
+                }
+            }
 
-                // Handle different formats:
-                // 1. Pipe-separated: "3|taxonomy_term|uuid|/path"
-                // 2. Numeric: "3"
-                // 3. Name: "Medellín"
-                $tid = NULL;
-                if (strpos($value, '|') !== FALSE) {
-                    $parts = explode('|', $value);
-                    if (is_numeric($parts[0])) {
-                        $tid = $parts[0];
+            if ($type === 'entity_reference') {
+                $target_type = $field_definition->getSetting('target_type');
+                if ($target_type === 'taxonomy_term') {
+                    $handler_settings = $field_definition->getSetting('handler_settings');
+                    $target_bundles = $handler_settings['target_bundles'] ?? [];
+                    $bundle = reset($target_bundles);
+
+                    // Handle other potentially remaining pipe formats or just numeric/name
+                    $tid = NULL;
+                    if (is_numeric($value)) {
+                        $tid = $value;
+                    } else {
+                        $tid = $this->lookupTerm($value, $bundle);
                     }
-                } elseif (is_numeric($value)) {
-                    $tid = $value;
-                }
 
-                if (!$tid) {
-                    $tid = $this->lookupTerm($value, $bundle);
-                }
-
-                if ($tid) {
-                    $entity->set($field_name, $tid);
+                    if ($tid) {
+                        $entity->set($field_name, $tid);
+                    } else {
+                        $this->logger->warning('Term "@value" not found for bundle "@bundle" in field "@field"', [
+                            '@value' => $value,
+                            '@bundle' => $bundle,
+                            '@field' => $field_name,
+                        ]);
+                    }
                 } else {
-                    $this->logger->warning('Term "@value" not found for bundle "@bundle" in field "@field"', [
-                        '@value' => $value,
-                        '@bundle' => $bundle,
-                        '@field' => $field_name,
-                    ]);
+                    // Generic reference by ID.
+                    $entity->set($field_name, $value);
                 }
             } else {
-                // Generic reference by ID or lookup if needed.
-                $entity->set($field_name, $value);
+                // Image or File field: directly set the target_id.
+                $entity->set($field_name, ['target_id' => $value]);
             }
         } else {
             $entity->set($field_name, $value);
