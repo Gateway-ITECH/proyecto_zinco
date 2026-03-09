@@ -95,6 +95,11 @@ class ActorImportService
                         }
                     }
 
+                    // Fill empty fields with '0' as requested.
+                    $data = array_map(function ($value) {
+                        return ($value === '' || $value === NULL) ? '0' : $value;
+                    }, $data);
+
                     $rows[] = array_combine($header, $data);
                 }
             }
@@ -179,30 +184,40 @@ class ActorImportService
         $field_definition = $entity->getFieldDefinition($field_name);
         $type = $field_definition->getType();
 
-        if ($type === 'entity_reference' || $type === 'image' || $type === 'file') {
-            // Handle complex ID formats: "ID 91|gateway||2000|366|file|..."
+        if ($type === 'entity_reference' || $type === 'entity_reference_revisions' || $type === 'image' || $type === 'file') {
+            // Handle complex ID formats:
+            // "ID 91|gateway||2000|366|file|..."
+            // "8|8|paragraph|5f059527-87e7-4325-a8e0-bef3fd97b675"
+            $target_id = NULL;
+            $target_revision_id = NULL;
+
             if (strpos($value, '|') !== FALSE) {
                 $parts = explode('|', $value);
                 $first_part = trim($parts[0]);
                 // Search for "ID 91" or just "91"
                 if (preg_match('/(?:ID\s+)?(\d+)/i', $first_part, $matches)) {
-                    $value = $matches[1];
+                    $target_id = $matches[1];
                 }
+                // For ERR, the second part might be the revision ID
+                if ($type === 'entity_reference_revisions' && isset($parts[1]) && is_numeric($parts[1])) {
+                    $target_revision_id = $parts[1];
+                }
+            } else {
+                $target_id = $value;
             }
 
-            if ($type === 'entity_reference') {
+            if ($type === 'entity_reference' || $type === 'entity_reference_revisions') {
                 $target_type = $field_definition->getSetting('target_type');
                 if ($target_type === 'taxonomy_term') {
                     $handler_settings = $field_definition->getSetting('handler_settings');
                     $target_bundles = $handler_settings['target_bundles'] ?? [];
                     $bundle = reset($target_bundles);
 
-                    // Handle other potentially remaining pipe formats or just numeric/name
                     $tid = NULL;
-                    if (is_numeric($value)) {
-                        $tid = $value;
+                    if (is_numeric($target_id)) {
+                        $tid = $target_id;
                     } else {
-                        $tid = $this->lookupTerm($value, $bundle);
+                        $tid = $this->lookupTerm($target_id, $bundle);
                     }
 
                     if ($tid) {
@@ -216,11 +231,18 @@ class ActorImportService
                     }
                 } else {
                     // Generic reference by ID.
-                    $entity->set($field_name, $value);
+                    if ($type === 'entity_reference_revisions') {
+                        $entity->set($field_name, [
+                            'target_id' => $target_id,
+                            'target_revision_id' => $target_revision_id ?: $target_id,
+                        ]);
+                    } else {
+                        $entity->set($field_name, $target_id);
+                    }
                 }
             } else {
                 // Image or File field: directly set the target_id.
-                $entity->set($field_name, ['target_id' => $value]);
+                $entity->set($field_name, ['target_id' => $target_id]);
             }
         } else {
             $entity->set($field_name, $value);
