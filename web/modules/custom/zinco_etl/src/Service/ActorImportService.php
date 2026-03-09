@@ -61,14 +61,37 @@ class ActorImportService
             $header = fgetcsv($handle, 0, $delimiter);
             if ($header) {
                 // Clean UTF-8 BOM if present in first header column.
-                $header[0] = preg_replace('/^[\xEF\xBB\xBF]+/', '', $header[0]);
+                if (isset($header[0])) {
+                    $header[0] = preg_replace('/^[\xEF\xBB\xBF]+/', '', $header[0]);
+                }
+                // Trim all header keys to avoid issues with spaces.
+                $header = array_map('trim', $header);
+
+                $line_number = 1;
                 while (($data = fgetcsv($handle, 0, $delimiter)) !== FALSE) {
-                    // Pad or truncate data to match header length.
-                    if (count($data) < count($header)) {
-                        $data = array_pad($data, count($header), '');
-                    } elseif (count($data) > count($header)) {
-                        $data = array_slice($data, 0, count($header));
+                    $line_number++;
+                    // Skip empty rows.
+                    if ($data === [NULL] || empty(array_filter($data, 'strlen'))) {
+                        continue;
                     }
+
+                    $data_count = count($data);
+                    $header_count = count($header);
+
+                    if ($data_count !== $header_count) {
+                        $this->logger->warning('CSV alignment issue on line @line: Row has @data_cols columns, but header has @header_cols.', [
+                            '@line' => $line_number,
+                            '@data_cols' => $data_count,
+                            '@header_cols' => $header_count,
+                        ]);
+
+                        if ($data_count < $header_count) {
+                            $data = array_pad($data, $header_count, '');
+                        } else {
+                            $data = array_slice($data, 0, $header_count);
+                        }
+                    }
+
                     $rows[] = array_combine($header, $data);
                 }
             }
