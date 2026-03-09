@@ -150,7 +150,24 @@ class ActorImportService
                 $target_bundles = $handler_settings['target_bundles'] ?? [];
                 $bundle = reset($target_bundles);
 
-                $tid = $this->lookupTerm($value, $bundle);
+                // Handle different formats:
+                // 1. Pipe-separated: "3|taxonomy_term|uuid|/path"
+                // 2. Numeric: "3"
+                // 3. Name: "Medellín"
+                $tid = NULL;
+                if (strpos($value, '|') !== FALSE) {
+                    $parts = explode('|', $value);
+                    if (is_numeric($parts[0])) {
+                        $tid = $parts[0];
+                    }
+                } elseif (is_numeric($value)) {
+                    $tid = $value;
+                }
+
+                if (!$tid) {
+                    $tid = $this->lookupTerm($value, $bundle);
+                }
+
                 if ($tid) {
                     $entity->set($field_name, $tid);
                 } else {
