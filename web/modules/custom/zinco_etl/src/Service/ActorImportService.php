@@ -125,6 +125,7 @@ class ActorImportService
                 }
 
                 if ($entity->hasField($field_name)) {
+                    $value = trim($value);
                     // Requirement: if value is empty, do not alter the field.
                     if ($value !== '' && $value !== NULL) {
                         $this->setFieldValue($entity, $field_name, $value);
