@@ -4,8 +4,8 @@ namespace Drupal\zinco_etl\Service;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\zinco_actors\Entity\ZincoActors;
-use Psr\Log\LoggerInterface;
 
 /**
  * Service for importing actors from CSV.
@@ -41,14 +41,14 @@ class ActorImportService
      *   The entity type manager.
      * @param \Drupal\Core\Messenger\MessengerInterface $messenger
      *   The messenger service.
-     * @param \Psr\Log\LoggerInterface $logger
-     *   The logger.
+     * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
+     *   The logger factory.
      */
-    public function __construct(EntityTypeManagerInterface $entity_type_manager, MessengerInterface $messenger, LoggerInterface $logger)
+    public function __construct(EntityTypeManagerInterface $entity_type_manager, MessengerInterface $messenger, LoggerChannelFactoryInterface $logger_factory)
     {
         $this->entityTypeManager = $entity_type_manager;
         $this->messenger = $messenger;
-        $this->logger = $logger;
+        $this->logger = $logger_factory->get('zinco_etl');
     }
 
     /**
