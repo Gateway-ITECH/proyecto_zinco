@@ -7,6 +7,8 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\zinco_etl\Service\ActorImportService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Batch\BatchBuilder;
+use Drupal\file\Entity\File;
+use Drupal\Core\File\FileSystemInterface;
 
 /**
  * Form for importing actors from CSV.
@@ -95,7 +97,7 @@ class ActorImportForm extends FormBase
             return;
         }
 
-        $file = \Drupal\Core\File\Entity\File::load(reset($file_id));
+        $file = File::load(reset($file_id));
         if (!$file) {
             return;
         }
