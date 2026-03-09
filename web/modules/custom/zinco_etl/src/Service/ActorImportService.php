@@ -90,6 +90,11 @@ class ActorImportService
         }
 
         $bundle = $row['bundle'];
+        // Handle pipe-separated bundle format: "bundle_name|entity_type|uuid"
+        if (strpos($bundle, '|') !== FALSE) {
+            $bundle_parts = explode('|', $bundle);
+            $bundle = $bundle_parts[0];
+        }
         $label = $row['label'];
 
         try {
