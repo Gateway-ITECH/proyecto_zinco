@@ -254,6 +254,9 @@ class ActorImportService
      */
     protected function lookupTerm($name, $bundle)
     {
+        if ($name === '0' || $name === 0) {
+            return NULL;
+        }
         $storage = $this->entityTypeManager->getStorage('taxonomy_term');
         $query = $storage->getQuery()
             ->condition('vid', $bundle)
