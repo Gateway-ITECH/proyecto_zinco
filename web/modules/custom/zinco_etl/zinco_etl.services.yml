@@ -5,3 +5,9 @@ services:
   zinco_etl.actor_import:
     class: Drupal\zinco_etl\Service\ActorImportService
     arguments: ['@entity_type.manager', '@messenger', '@logger.factory']
+  zinco_etl.gruplac_scraper:
+    class: Drupal\zinco_etl\Service\GruplacScraperService
+    arguments: ['@http_client']
+  zinco_etl.azure_uploader:
+    class: Drupal\zinco_etl\Service\AzureUploaderService
+    arguments: ['@config.factory', '@logger.factory', '@http_client', '@string_translation']

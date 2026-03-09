@@ -15,7 +15,8 @@ use Drupal\Core\StringTranslation\TranslationInterface;
 /**
  * Service for uploading files to Azure Blob Storage.
  */
-class AzureUploaderService {
+class AzureUploaderService
+{
   use StringTranslationTrait;
 
   /**
@@ -51,7 +52,8 @@ class AzureUploaderService {
    * @param \Drupal\Core\StringTranslation\TranslationInterface $string_translation
    *   The string translation service.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, LoggerChannelFactoryInterface $logger_factory, TranslationInterface $string_translation) {
+  public function __construct(ConfigFactoryInterface $config_factory, LoggerChannelFactoryInterface $logger_factory, ClientInterface $http_client, TranslationInterface $string_translation)
+  {
     $this->configFactory = $config_factory;
     $this->loggerFactory = $logger_factory;
     $this->httpClient = $http_client;
@@ -65,14 +67,16 @@ class AzureUploaderService {
    * @return string
    *   The Azure Blob Storage connection string.
    */
-  public function getConnectionString(): string {
+  public function getConnectionString(): string
+  {
     return $this->connectionString;
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
+  public static function create(ContainerInterface $container)
+  {
     return new static(
       $container->get('config.factory'),
       $container->get('logger.factory'),
@@ -83,7 +87,8 @@ class AzureUploaderService {
   /**
    * Initializes the Azure Blob Storage credentials from the connection string.
    */
-  protected function initializeAzureCredentials() {
+  protected function initializeAzureCredentials()
+  {
     $config = $this->configFactory->get('zinco_etl.settings');
     $this->connectionString = $config->get('azure_blob_connection_string');
 
@@ -107,7 +112,8 @@ class AzureUploaderService {
    * @return bool
    *   TRUE if the upload was successful, FALSE otherwise.
    */
-  public function uploadFile(string $file_path, string $subfolder, string $blob_name = ''): bool {
+  public function uploadFile(string $file_path, string $subfolder, string $blob_name = ''): bool
+  {
     if (empty($this->connectionString)) {
       $this->loggerFactory->get('zinco_etl')->error('Azure Blob Storage connection string is not configured. Cannot upload file.');
       return FALSE;
@@ -146,7 +152,7 @@ class AzureUploaderService {
       $script_path,
       $file_path,
       $container_name,
-      $this->connectionString,      
+      $this->connectionString,
       $full_blob_path,
     ];
 
@@ -165,8 +171,7 @@ class AzureUploaderService {
         'output' => $process->getOutput(),
       ]);
       return TRUE;
-    }
-    catch (ProcessFailedException $exception) {
+    } catch (ProcessFailedException $exception) {
       $this->loggerFactory->get('zinco_etl')->error('Failed to upload file {file_path} to Azure Blob Storage using Python script. Error: {error}, Output: {output}', [
         'file_path' => $file_path,
         'error' => $exception->getMessage(),
@@ -182,7 +187,8 @@ class AzureUploaderService {
    * @return array
    *   An associative array with 'status' (bool) and 'message' (string).
    */
-  public function testConnection(): array {
+  public function testConnection(): array
+  {
     if (empty($this->connectionString)) {
       return [
         'status' => FALSE,
@@ -233,8 +239,7 @@ class AzureUploaderService {
         'status' => TRUE,
         'message' => $this->t('Successfully connected to Azure Blob Storage. Container "{container}" exists.', ['{container}' => $container_name]),
       ];
-    }
-    catch (ProcessFailedException $exception) {
+    } catch (ProcessFailedException $exception) {
       $this->loggerFactory->get('zinco_etl')->error('Azure Blob Storage connection test failed. Error: {error}, Output: {output}', [
         'error' => $exception->getMessage(),
         'output' => $process->getErrorOutput(),
