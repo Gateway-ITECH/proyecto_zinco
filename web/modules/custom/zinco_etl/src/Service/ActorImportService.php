@@ -63,9 +63,13 @@ class ActorImportService
                 // Clean UTF-8 BOM if present in first header column.
                 $header[0] = preg_replace('/^[\xEF\xBB\xBF]+/', '', $header[0]);
                 while (($data = fgetcsv($handle, 0, $delimiter)) !== FALSE) {
-                    if (count($header) == count($data)) {
-                        $rows[] = array_combine($header, $data);
+                    // Pad or truncate data to match header length.
+                    if (count($data) < count($header)) {
+                        $data = array_pad($data, count($header), '');
+                    } elseif (count($data) > count($header)) {
+                        $data = array_slice($data, 0, count($header));
                     }
+                    $rows[] = array_combine($header, $data);
                 }
             }
             fclose($handle);
