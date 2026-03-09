@@ -2,3 +2,6 @@ services:
   zinco_etl.pdf_generator:
     class: Drupal\zinco_etl\Service\PdfGeneratorService
     arguments: ['@logger.factory', '@database']
+  zinco_etl.actor_import:
+    class: Drupal\zinco_etl\Service\ActorImportService
+    arguments: ['@entity_type.manager', '@messenger', '@logger.factory']
