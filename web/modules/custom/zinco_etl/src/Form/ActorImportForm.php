@@ -58,7 +58,7 @@ class ActorImportForm extends FormBase
             '#description' => $this->t('Upload the CSV or Excel source file. Currently only CSV is supported.'),
             '#upload_location' => 'public://import',
             '#upload_validators' => [
-                'file_validate_extensions' => ['csv'],
+                'FileExtension' => ['extensions' => 'csv'],
             ],
             '#required' => TRUE,
         ];
