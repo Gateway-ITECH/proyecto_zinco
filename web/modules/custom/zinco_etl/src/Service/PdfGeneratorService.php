@@ -21,9 +21,16 @@ class PdfGeneratorService
   protected $logger;
 
   /**
+   * The database connection.
+   *
+   * @var \Drupal\Core\Database\Connection
+   */
+  protected $database;
+
+  /**
    * Constructs a new PdfGeneratorService object.
    *
-   * @param Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
+   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
    *   The logger factory.
    * @param \Drupal\Core\Database\Connection $database
    *   The database connection.
