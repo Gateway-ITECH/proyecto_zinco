@@ -68,7 +68,9 @@ class ActorImportService
                 $header = array_map('trim', $header);
 
                 $line_number = 1;
-                var_dump(fgetcsv($handle, 0, $delimiter));
+
+                //
+
                 while (($data = fgetcsv($handle, 0, $delimiter)) !== FALSE) {
                     $line_number++;
                     // Skip empty rows.
