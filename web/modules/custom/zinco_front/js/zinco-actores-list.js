@@ -56,6 +56,12 @@
             } else {
               currentUrl.searchParams.delete('filters');
             }
+            const searchTermValue = searchInput ? searchInput.value.trim() : '';
+            if (searchTermValue) {
+              currentUrl.searchParams.set('search_term', searchTermValue);
+            } else {
+              currentUrl.searchParams.delete('search_term');
+            }
             window.location.href = currentUrl.toString();
           });
         }
