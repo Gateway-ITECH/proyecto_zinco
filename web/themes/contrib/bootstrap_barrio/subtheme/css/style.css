@@ -763,3 +763,9 @@ body {
 .mt-9 {
     margin-top: 7rem !important;
 }
+
+/* Datetime field */
+.datetime {
+  font-style: italic;
+  font-size: 0.82rem;
+}
