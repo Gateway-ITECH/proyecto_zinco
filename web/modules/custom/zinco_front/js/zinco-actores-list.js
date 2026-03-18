@@ -9,8 +9,8 @@
         // Toggle filter card visibility
         const filterButton = element.querySelector('#toggle_actores_filter');
         const filterCard = element.querySelector('#actors_filters');
-        
-        
+
+
         if (filterButton && filterCard) {
           filterButton.addEventListener('click', function () {
             filterCard.classList.toggle('hidden');
@@ -31,7 +31,7 @@
         }
 
         // si hay search term en la url ponerlo en el input de search
-        const searchTerm = urlParams.get('search_term');        
+        const searchTerm = urlParams.get('search_term');
         if (searchTerm && searchInput) {
           filterCard.classList.remove('hidden');
           searchInput.value = searchTerm;
@@ -44,7 +44,7 @@
         if (applyFiltersButton) {
           applyFiltersButton.addEventListener('click', function () {
             const filters = {};
-            
+
             const checkboxes = filterCard.querySelectorAll('input[type="checkbox"]:checked');
             checkboxes.forEach(checkbox => {
               filters[checkbox.id] = checkbox.value;
@@ -80,16 +80,16 @@
 
         // Search functionality
         if (searchInput) {
-          searchInput.addEventListener('change', function () {
-            const searchTerm = searchInput.value.trim();
-            const currentUrl = new URL(window.location.href);
-            if (searchTerm) {
-              currentUrl.searchParams.set('search_term', searchTerm);
-            } else {
-              currentUrl.searchParams.delete('search_term');
-            }
-            window.location.href = currentUrl.toString();
-          });
+          // searchInput.addEventListener('change', function () {
+          //   const searchTerm = searchInput.value.trim();
+          //   const currentUrl = new URL(window.location.href);
+          //   if (searchTerm) {
+          //     currentUrl.searchParams.set('search_term', searchTerm);
+          //   } else {
+          //     currentUrl.searchParams.delete('search_term');
+          //   }
+          //   window.location.href = currentUrl.toString();
+          // });
         }
       });
     }
