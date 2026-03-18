@@ -64,6 +64,10 @@
           clearFiltersButton.addEventListener('click', function () {
             const currentUrl = new URL(window.location.href);
             currentUrl.searchParams.delete('filters');
+            currentUrl.searchParams.delete('search_term');
+            if (searchInput) {
+              searchInput.value = '';
+            }
             window.location.href = currentUrl.toString();
           });
         }
