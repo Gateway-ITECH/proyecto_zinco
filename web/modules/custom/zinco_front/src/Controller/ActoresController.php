@@ -866,6 +866,18 @@ class ActoresController extends ControllerBase
     return new JsonResponse(['count' => $count]);
   }
 
+  /**
+   * Returns the count of projects for AJAX request.
+   */
+  public function getProjectsCount() {
+    $query = $this->entityTypeManager->getStorage('zinco_proyectos_idi')->getQuery()
+      ->accessCheck(FALSE)
+      ->count();
+    $count = $query->execute();
+
+    return new JsonResponse(['count' => $count]);
+  }
+
 }
 
 

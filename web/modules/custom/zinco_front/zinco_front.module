@@ -263,7 +263,7 @@ function zinco_front_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $fo
       // Agregamos un hipervínculo en vez de un botón.
       $form['field_actores_registrados_container']['btn_gestionar_actores'] = [
         '#type' => 'link',
-        '#title' => t('Gestionar Actores'),
+        '#title' => t('Total Actores'),
         '#url' => \Drupal\Core\Url::fromRoute('<current>'),
         '#weight' => 10,
         '#attributes' => [
@@ -274,12 +274,40 @@ function zinco_front_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $fo
         ],
       ];
 
-      // Cargamos nuestra librería personalizada con Vanilla JS.
-      $form['#attached']['library'][] = 'zinco_front/zinco-gestionar-actores';
-
       // Eliminamos el campo del nivel superior.
       unset($form['field_actores_registrados']);
     }
+
+    if (isset($form['field_proyectos_activos'])) {
+      $form['field_proyectos_activos_container'] = [
+        '#type' => 'container',
+        '#attributes' => [
+          'class' => ['field-proyectos-activos-container'],
+        ],
+        '#weight' => $form['field_proyectos_activos']['#weight'],
+      ];
+
+      $form['field_proyectos_activos_container']['field_proyectos_activos'] = $form['field_proyectos_activos'];
+      $form['field_proyectos_activos_container']['field_proyectos_activos']['#weight'] = 0;
+
+      $form['field_proyectos_activos_container']['btn_gestionar_proyectos'] = [
+        '#type' => 'link',
+        '#title' => t('Total Proyectos'),
+        '#url' => \Drupal\Core\Url::fromRoute('<current>'),
+        '#weight' => 10,
+        '#attributes' => [
+          'id' => 'btn-gestionar-proyectos-link',
+          'class' => ['gestionar-actores-link'],
+          'style' => 'margin-top: 10px; display: inline-block; cursor: pointer; text-decoration: underline;',
+          'data-endpoint' => \Drupal\Core\Url::fromRoute('zinco_front.get_projects_count')->toString(),
+        ],
+      ];
+
+      unset($form['field_proyectos_activos']);
+    }
+
+    // Cargamos nuestra librería personalizada con Vanilla JS.
+    $form['#attached']['library'][] = 'zinco_front/zinco-gestionar-actores';
   }
 }
 

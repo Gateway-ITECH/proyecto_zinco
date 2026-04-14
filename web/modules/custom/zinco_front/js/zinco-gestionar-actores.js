@@ -27,8 +27,8 @@
             })
             .then(data => {
               if (data.count !== undefined) {
-                // Buscamos el contenedor del campo
-                const container = element.closest('.field-actores-registrados-container');
+                // Buscamos el contenedor del campo (cualquier div que termine en -container)
+                const container = element.closest('div[class*="-container"]');
                 if (container) {
                   // Buscamos el input de valor dentro del contenedor
                   const input = container.querySelector('input');

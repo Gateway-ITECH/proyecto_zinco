@@ -309,3 +309,10 @@ zinco_front.get_actors_count:
     _controller: '\Drupal\zinco_front\Controller\ActoresController::getActorsCount'
   requirements:
     _permission: 'access content'
+
+zinco_front.get_projects_count:
+  path: '/actores/projects-count'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ActoresController::getProjectsCount'
+  requirements:
+    _permission: 'access content'
