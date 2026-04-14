@@ -271,6 +271,8 @@ function zinco_front_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $fo
           'wrapper' => 'field-actores-registrados-ajax-wrapper',
           'effect' => 'fade',
         ],
+        '#executes_submit_callback' => FALSE,
+        '#limit_validation_errors' => [],
         '#attributes' => [
           'class' => ['button'],
           'id' => 'btn-gestionar-actores',
