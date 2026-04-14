@@ -251,6 +251,7 @@ function zinco_front_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $fo
         '#type' => 'container',
         '#attributes' => [
           'class' => ['field-actores-registrados-container'],
+          'id' => 'field-actores-registrados-ajax-wrapper',
         ],
         '#weight' => $form['field_actores_registrados']['#weight'],
       ];
@@ -265,10 +266,15 @@ function zinco_front_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $fo
         '#value' => t('Gestionar Actores'),
         '#name' => 'gestionar_actores_btn',
         '#weight' => 10,
+        '#ajax' => [
+          'callback' => 'zinco_front_gestionar_actores_callback',
+          'wrapper' => 'field-actores-registrados-ajax-wrapper',
+          'effect' => 'fade',
+        ],
         '#attributes' => [
           'class' => ['button'],
           'id' => 'btn-gestionar-actores',
-          'style' => 'margin-top: 10px;', // Espaciado superior para separarlo del campo.
+          'style' => 'margin-top: 10px;',
         ],
       ];
 
@@ -396,5 +402,23 @@ function zinco_front_form_views_exposed_form_alter(&$form, \Drupal\Core\Form\For
 }
 
 
-//
+
+/**
+ * AJAX callback for managing actors count.
+ */
+function zinco_front_gestionar_actores_callback(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  // Contar el total de entidades de tipo zinco_actors_zincoactors.
+  $query = \Drupal::entityQuery('zinco_actors_zincoactors')
+    ->accessCheck(FALSE)
+    ->count();
+  $count = $query->execute();
+
+  // Asignar el total al campo field_actores_registrados.
+  // Es importante considerar que la ruta en el array $form puede variar según el widget.
+  if (isset($form['field_actores_registrados_container']['field_actores_registrados']['widget'][0]['value'])) {
+    $form['field_actores_registrados_container']['field_actores_registrados']['widget'][0]['value']['#value'] = $count;
+  }
+
+  return $form['field_actores_registrados_container'];
+}
 
