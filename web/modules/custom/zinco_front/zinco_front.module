@@ -274,6 +274,8 @@ function zinco_front_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $fo
         ],
       ];
 
+      //
+
       // Eliminamos el campo del nivel superior.
       unset($form['field_actores_registrados']);
     }
@@ -304,6 +306,25 @@ function zinco_front_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $fo
       ];
 
       unset($form['field_proyectos_activos']);
+    }
+
+    // Agregar enlace a iconos de FontAwesome para proteger campos específicos.
+    $icon_fields = [
+      'field_actores_registrados_icon',
+      'field_beneficios_centro_icon',
+      'field_beneficios_derecha_icon',
+      'field_beneficios_izq_icono',
+      'field_colaboraciones_icon',
+      'field_herramientas_centro_icon',
+      'field_herramientas_derecha_icon',
+      'field_herramientas_izq_icon',
+      'field_proyectos_activos_icon',
+    ];
+
+    foreach ($icon_fields as $field_name) {
+      if (isset($form[$field_name])) {
+        $form[$field_name]['#suffix'] = '<div class="icon-help-link" style="margin-top: 5px;"><a href="https://fontawesome.com/v5/search?ic=free-collection" target="_blank" style="text-decoration: underline; font-size: 0.9em;">' . t('Ver iconos disponibles (FontAwesome v5 Free)') . '</a></div>';
+      }
     }
 
     // Cargamos nuestra librería personalizada con Vanilla JS.
