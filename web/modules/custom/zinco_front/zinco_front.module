@@ -261,8 +261,11 @@ function zinco_front_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $fo
       $form['field_actores_registrados_container']['field_actores_registrados']['#weight'] = 0;
 
       // Agregamos el botón con un peso mayor para que aparezca debajo.
+      // Aseguramos que la librería AJAX de Drupal esté cargada.
+      $form['#attached']['library'][] = 'core/drupal.ajax';
+
       $form['field_actores_registrados_container']['btn_gestionar_actores'] = [
-        '#type' => 'button',
+        '#type' => 'submit', // Usamos submit para mayor compatibilidad con el sistema AJAX de Drupal.
         '#value' => t('Gestionar Actores'),
         '#name' => 'gestionar_actores_btn',
         '#weight' => 10,
@@ -270,7 +273,9 @@ function zinco_front_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $fo
           'callback' => 'zinco_front_gestionar_actores_callback',
           'wrapper' => 'field-actores-registrados-ajax-wrapper',
           'effect' => 'fade',
+          'event' => 'click',
         ],
+        '#submit' => [], // Prevenir handlers de submit.
         '#executes_submit_callback' => FALSE,
         '#limit_validation_errors' => [],
         '#attributes' => [
