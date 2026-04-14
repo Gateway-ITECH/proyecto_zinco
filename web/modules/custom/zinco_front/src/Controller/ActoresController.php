@@ -11,6 +11,7 @@ use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\File\FileSystemInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Provides a ZincoFront controller for Actores.
@@ -851,6 +852,18 @@ class ActoresController extends ControllerBase
         'tags' => $this->entityTypeManager->getDefinition('zinco_actors_zincoactors')->getListCacheTags(),
       ],
     ];
+  }
+
+  /**
+   * Returns the count of actors for AJAX request.
+   */
+  public function getActorsCount() {
+    $query = $this->entityTypeManager->getStorage('zinco_actors_zincoactors')->getQuery()
+      ->accessCheck(FALSE)
+      ->count();
+    $count = $query->execute();
+
+    return new JsonResponse(['count' => $count]);
   }
 
 }

@@ -294,10 +294,18 @@ zinco_front.perfil:
   requirements:
     _permission: 'access content'
 
+
 zinco_front.oportunidades:
   path: '/oportunidades'
   defaults:
     _controller: '\Drupal\zinco_front\Controller\ZincoController::oportunidades'
     _title: ''
+  requirements:
+    _permission: 'access content'
+
+zinco_front.get_actors_count:
+  path: '/actores/count'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ActoresController::getActorsCount'
   requirements:
     _permission: 'access content'

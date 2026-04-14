@@ -200,3 +200,10 @@ zinco-oportunidades:
     - core/drupal
     - core/once
     - bootstrap_barrio/global-styling
+zinco-gestionar-actores:
+  version: 1.x
+  js:
+    js/zinco-gestionar-actores.js: {}
+  dependencies:
+    - core/drupal
+    - core/once

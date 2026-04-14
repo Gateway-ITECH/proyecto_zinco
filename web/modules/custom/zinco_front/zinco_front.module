@@ -260,30 +260,22 @@ function zinco_front_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $fo
       $form['field_actores_registrados_container']['field_actores_registrados'] = $form['field_actores_registrados'];
       $form['field_actores_registrados_container']['field_actores_registrados']['#weight'] = 0;
 
-      // Agregamos el botón con un peso mayor para que aparezca debajo.
-      // Aseguramos que la librería AJAX de Drupal esté cargada.
-      $form['#attached']['library'][] = 'core/drupal.ajax';
-
+      // Agregamos un hipervínculo en vez de un botón.
       $form['field_actores_registrados_container']['btn_gestionar_actores'] = [
-        '#type' => 'submit', // Usamos submit para mayor compatibilidad con el sistema AJAX de Drupal.
-        '#value' => t('Gestionar Actores'),
-        '#name' => 'gestionar_actores_btn',
+        '#type' => 'link',
+        '#title' => t('Gestionar Actores'),
+        '#url' => \Drupal\Core\Url::fromRoute('<current>'),
         '#weight' => 10,
-        '#ajax' => [
-          'callback' => 'zinco_front_gestionar_actores_callback',
-          'wrapper' => 'field-actores-registrados-ajax-wrapper',
-          'effect' => 'fade',
-          'event' => 'click',
-        ],
-        '#submit' => [], // Prevenir handlers de submit.
-        '#executes_submit_callback' => FALSE,
-        '#limit_validation_errors' => [],
         '#attributes' => [
-          'class' => ['button'],
-          'id' => 'btn-gestionar-actores',
-          'style' => 'margin-top: 10px;',
+          'id' => 'btn-gestionar-actores-link',
+          'class' => ['gestionar-actores-link'],
+          'style' => 'margin-top: 10px; display: inline-block; cursor: pointer; text-decoration: underline;',
+          'data-endpoint' => \Drupal\Core\Url::fromRoute('zinco_front.get_actors_count')->toString(),
         ],
       ];
+
+      // Cargamos nuestra librería personalizada con Vanilla JS.
+      $form['#attached']['library'][] = 'zinco_front/zinco-gestionar-actores';
 
       // Eliminamos el campo del nivel superior.
       unset($form['field_actores_registrados']);
@@ -409,23 +401,4 @@ function zinco_front_form_views_exposed_form_alter(&$form, \Drupal\Core\Form\For
 }
 
 
-
-/**
- * AJAX callback for managing actors count.
- */
-function zinco_front_gestionar_actores_callback(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
-  // Contar el total de entidades de tipo zinco_actors_zincoactors.
-  $query = \Drupal::entityQuery('zinco_actors_zincoactors')
-    ->accessCheck(FALSE)
-    ->count();
-  $count = $query->execute();
-
-  // Asignar el total al campo field_actores_registrados.
-  // Es importante considerar que la ruta en el array $form puede variar según el widget.
-  if (isset($form['field_actores_registrados_container']['field_actores_registrados']['widget'][0]['value'])) {
-    $form['field_actores_registrados_container']['field_actores_registrados']['widget'][0]['value']['#value'] = $count;
-  }
-
-  return $form['field_actores_registrados_container'];
-}
 
