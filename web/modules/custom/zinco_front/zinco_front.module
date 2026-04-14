@@ -219,7 +219,7 @@ function zinco_front_user_update(UserInterface $account) {
 /**
  * Implements hook_form_alter().
  */
-function zinco_front_form_alter($form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+function zinco_front_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
   $form_object = $form_state->getFormObject();
 
   if ($form_id == 'user_form') {
@@ -241,6 +241,18 @@ function zinco_front_form_alter($form, \Drupal\Core\Form\FormStateInterface $for
         // La sintaxis '::customFrontendRedirect' indica que es un método del objeto formulario.
 
     }
+  
+
+  // Agregar botón al campo actores registrados en el tipo de contenido landing page config.
+  if (in_array($form_id, ['node_landing_page_config_form', 'node_landing_page_config_edit_form'])) {
+    if (isset($form['field_actores_registrados'])) {
+      $form['field_actores_registrados']['#prefix'] = '<div style="display: flex; align-items: flex-end; gap: 10px;">';
+      $form['field_actores_registrados']['#suffix'] = '<div><button type="button" id="btn-gestionar-actores" class="button">Gestionar Actores</button></div></div>';
+      
+      // Opcionalmente, adjuntar una librería si el botón necesita JS.
+      // $form['#attached']['library'][] = 'zinco_front/gestion_actores';
+    }
+  }
 }
 
 
@@ -359,4 +371,7 @@ function zinco_front_form_views_exposed_form_alter(&$form, \Drupal\Core\Form\For
     }
   }
 }
+
+
+//
 
