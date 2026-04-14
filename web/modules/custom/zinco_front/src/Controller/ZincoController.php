@@ -721,8 +721,16 @@ class ZincoController extends ControllerBase
 
 
 
+    // Obtener las definiciones de campos para extraer los labels.
+    $field_definitions = \Drupal::service('entity_field.manager')->getFieldDefinitions('node', $entity->bundle());
+    $labels = [];
+    foreach ($field_definitions as $field_name => $definition) {
+      $labels[$field_name] = $definition->getLabel();
+    }
+
     //agrupar los campos en un array para pasarlos a la plantilla 
     $fields = [
+      'labels' => $labels,
       'field_actores_registrados' => $field_actores_registrados,
       'field_actores_registrados_icon' => $field_actores_registrados_icon,
       'field_actores_registrados_label' => $field_actores_registrados_label,
