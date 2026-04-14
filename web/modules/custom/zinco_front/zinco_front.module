@@ -246,32 +246,33 @@ function zinco_front_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $fo
   // Agregar botón al campo actores registrados en el tipo de contenido landing page config.
   if (in_array($form_id, ['node_landing_page_config_form', 'node_landing_page_config_edit_form'])) {
     if (isset($form['field_actores_registrados'])) {
-      // Creamos un contenedor para agrupar el campo y el botón.
+      // Creamos un contenedor para agrupar el campo y el botón de forma vertical.
       $form['field_actores_registrados_container'] = [
         '#type' => 'container',
         '#attributes' => [
-          'style' => 'display: flex; align-items: center; gap: 15px;',
           'class' => ['field-actores-registrados-container'],
         ],
         '#weight' => $form['field_actores_registrados']['#weight'],
       ];
 
-      // Movemos el campo dentro del contenedor.
+      // Movemos el campo dentro del contenedor con peso menor.
       $form['field_actores_registrados_container']['field_actores_registrados'] = $form['field_actores_registrados'];
       $form['field_actores_registrados_container']['field_actores_registrados']['#weight'] = 0;
 
-      // Agregamos el botón usando elementos propios de Drupal.
+      // Agregamos el botón con un peso mayor para que aparezca debajo.
       $form['field_actores_registrados_container']['btn_gestionar_actores'] = [
         '#type' => 'button',
         '#value' => t('Gestionar Actores'),
         '#name' => 'gestionar_actores_btn',
+        '#weight' => 10,
         '#attributes' => [
           'class' => ['button'],
           'id' => 'btn-gestionar-actores',
+          'style' => 'margin-top: 10px;', // Espaciado superior para separarlo del campo.
         ],
       ];
 
-      // Eliminamos el campo del nivel superior para evitar duplicidad.
+      // Eliminamos el campo del nivel superior.
       unset($form['field_actores_registrados']);
     }
   }
