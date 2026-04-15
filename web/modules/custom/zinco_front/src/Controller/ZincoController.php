@@ -711,6 +711,8 @@ class ZincoController extends ControllerBase
     $field_proyectos_activos_label = $entity->get('field_proyectos_activos_label')->value;
     //obtener campo field_data_clave_titulo
     $field_data_clave_titulo = $entity->get('field_data_clave_titulo')->value;
+    //obtener campo field_data_clave_descripcion
+    $field_data_clave_descripcion = $entity->get('field_data_clave_descripcion')->value;
     //obtener campo field_logos_cooperantes el cual es de tipo imagen y obtener la url de la imagen
     $field_logos_cooperantes = $entity->get('field_logos_cooperantes')->entity->getFileUri();
     //validar si existe alguna imagen
@@ -769,6 +771,7 @@ class ZincoController extends ControllerBase
       'field_proyectos_activos_icon' => $field_proyectos_activos_icon,
       'field_proyectos_activos_label' => $field_proyectos_activos_label,
       'field_data_clave_titulo' => $field_data_clave_titulo,
+      'field_data_clave_descripcion' => $field_data_clave_descripcion,
       'field_logos_cooperantes_url' => $field_logos_cooperantes_url,
     ];
 
