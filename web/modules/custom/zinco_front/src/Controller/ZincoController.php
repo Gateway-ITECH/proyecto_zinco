@@ -635,6 +635,10 @@ class ZincoController extends ControllerBase
   {
     //obtener entidad tipo nodo con id 3
     $entity = \Drupal::entityTypeManager()->getStorage('node')->load(3);
+
+    // Obtener configuración de tooltips.
+    $config = \Drupal::config('zinco_front.dashboard.settings');
+    $show_tooltips = $config->get('show_tooltips') ?: FALSE;
     //obtener campo field_actores_registrados
     $field_actores_registrados = $entity->get('field_actores_registrados')->value;
     //obtener campo field_actores_registrados_icon
@@ -779,6 +783,7 @@ class ZincoController extends ControllerBase
       'field_data_clave_titulo' => $field_data_clave_titulo,
       'field_data_clave_descripcion' => $field_data_clave_descripcion,
       'field_logos_cooperantes_url' => $field_logos_cooperantes_url,
+      'show_tooltips' => $show_tooltips,
     ];
 
 

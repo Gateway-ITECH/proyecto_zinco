@@ -31,6 +31,15 @@ class ZincoDashboardConfigForm extends ConfigFormBase {
     $config = $this->config('zinco_front.dashboard.settings');
     $tables_data = $config->get('tables_data') ?: [];
     $filters_data = $config->get('filters_data') ?: [];
+    $show_tooltips = $config->get('show_tooltips') ?: FALSE;
+
+    $form['show_tooltips'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Mostrar tooltips en la Landing Page'),
+      '#description' => $this->t('Si se marca, se mostrarán los tooltips con los nombres de los campos en la Landing Page.'),
+      '#default_value' => $show_tooltips,
+      '#weight' => -10,
+    ];
 
     $form['tables_data'] = [
       '#type' => 'table',
@@ -286,6 +295,8 @@ class ZincoDashboardConfigForm extends ConfigFormBase {
     // Remove the 'new_row' and update existing filter rows.
     unset($filters_data['new_row']);
     $config->set('filters_data', $filters_data)->save();
+
+    $config->set('show_tooltips', $form_state->getValue('show_tooltips'))->save();
 
     parent::submitForm($form, $form_state);
   }

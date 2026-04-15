@@ -5,12 +5,19 @@
  *
  * Available variables:
  * - content: A renderable array of content.
+ * - show_tooltips: Boolean to enable/disable tooltips.
  *
  * @see template_preprocess_zinco_landing_page()
  *
  * @ingroup themeable
  */
 #}
+
+{% macro tooltip(show, label) %}
+  {% if show and label %}
+    data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ label }}"
+  {% endif %}
+{% endmacro %}
 <div class="zinco-landing-page">
   <div class="container-fluid p-0">
     <div id="researchCarousel" class="carousel slide carousel-fade vh-100" data-bs-ride="carousel">
@@ -110,8 +117,8 @@
       <div class="row">
         <div class="col-12 text-center">
           <div class="modern-title-container" data-animate="fadeInDown">
-            <h2 class="modern-title" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_data_clave_titulo }}">{{ fields.field_data_clave_titulo ? fields.field_data_clave_titulo : 'Data Clave' }}</h2>
-            <p class="modern-subtitle" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_data_clave_descripcion }}">{{ fields.field_data_clave_descripcion ? fields.field_data_clave_descripcion : 'Cifras e indicadores que reflejan el impacto de la innovación en nuestro departamento.' }}</p>
+            <h2 class="modern-title" {{ _self.tooltip(show_tooltips, fields.labels.field_data_clave_titulo) }}>{{ fields.field_data_clave_titulo ? fields.field_data_clave_titulo : 'Data Clave' }}</h2>
+            <p class="modern-subtitle" {{ _self.tooltip(show_tooltips, fields.labels.field_data_clave_descripcion) }}>{{ fields.field_data_clave_descripcion ? fields.field_data_clave_descripcion : 'Cifras e indicadores que reflejan el impacto de la innovación en nuestro departamento.' }}</p>
           </div>
         </div>
       </div>
@@ -120,10 +127,10 @@
         <div class="card h-100 text-center zinco-number-card" data-animate="fadeInUp" data-delay="100">
           <div class="card-body d-flex flex-column align-items-center justify-content-center">
             <div class="zinco-number-icon mb-3">
-              <i class="{{ fields.field_actores_registrados_icon ? fields.field_actores_registrados_icon : 'fas fa-users fa-3x' }}" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_actores_registrados_icon }}"></i>
+              <i class="{{ fields.field_actores_registrados_icon ? fields.field_actores_registrados_icon : 'fas fa-users fa-3x' }}" {{ _self.tooltip(show_tooltips, fields.labels.field_actores_registrados_icon) }}></i>
             </div>
-            <p class="card-text zinco-number-description" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_actores_registrados_label }}">{{ fields.field_actores_registrados_label ? fields.field_actores_registrados_label : 'No hay data' }}</p>
-            <span class="zinco-number-value display-4 fw-bold zinco-counter" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_actores_registrados }}" data-count="{{ fields.field_actores_registrados ? fields.field_actores_registrados : 999 }}">0</span>
+            <p class="card-text zinco-number-description" {{ _self.tooltip(show_tooltips, fields.labels.field_actores_registrados_label) }}>{{ fields.field_actores_registrados_label ? fields.field_actores_registrados_label : 'No hay data' }}</p>
+            <span class="zinco-number-value display-4 fw-bold zinco-counter" {{ _self.tooltip(show_tooltips, fields.labels.field_actores_registrados) }} data-count="{{ fields.field_actores_registrados ? fields.field_actores_registrados : 999 }}">0</span>
           </div>
         </div>
       </div>
@@ -131,10 +138,10 @@
         <div class="card h-100 text-center zinco-number-card" data-animate="fadeInUp" data-delay="200">
           <div class="card-body d-flex flex-column align-items-center justify-content-center">
             <div class="zinco-number-icon mb-3">
-              <i class="{{ fields.field_proyectos_activos_icon ? fields.field_proyectos_activos_icon : 'fas fa-users fa-3x' }}" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_proyectos_activos_icon }}"></i>
+              <i class="{{ fields.field_proyectos_activos_icon ? fields.field_proyectos_activos_icon : 'fas fa-users fa-3x' }}" {{ _self.tooltip(show_tooltips, fields.labels.field_proyectos_activos_icon) }}></i>
             </div>
-            <p class="card-text zinco-number-description" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_proyectos_activos_label }}">{{ fields.field_proyectos_activos_label ? fields.field_proyectos_activos_label : 'No hay data' }}</p>
-            <span class="zinco-number-value display-4 fw-bold zinco-counter" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_proyectos_activos }}" data-count="{{ fields.field_proyectos_activos ? fields.field_proyectos_activos : 999 }}">0</span>
+            <p class="card-text zinco-number-description" {{ _self.tooltip(show_tooltips, fields.labels.field_proyectos_activos_label) }}>{{ fields.field_proyectos_activos_label ? fields.field_proyectos_activos_label : 'No hay data' }}</p>
+            <span class="zinco-number-value display-4 fw-bold zinco-counter" {{ _self.tooltip(show_tooltips, fields.labels.field_proyectos_activos) }} data-count="{{ fields.field_proyectos_activos ? fields.field_proyectos_activos : 999 }}">0</span>
           </div>
         </div>
       </div>
@@ -142,10 +149,10 @@
         <div class="card h-100 text-center zinco-number-card" data-animate="fadeInUp" data-delay="300">
           <div class="card-body d-flex flex-column align-items-center justify-content-center">
             <div class="zinco-number-icon mb-3">
-              <i class="{{ fields.field_colaboraciones_icon ? fields.field_colaboraciones_icon : 'fas fa-users fa-3x' }}" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_colaboraciones_icon }}"></i>
+              <i class="{{ fields.field_colaboraciones_icon ? fields.field_colaboraciones_icon : 'fas fa-users fa-3x' }}" {{ _self.tooltip(show_tooltips, fields.labels.field_colaboraciones_icon) }}></i>
             </div>
-            <p class="card-text zinco-number-description" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_colaboraciones_title }}">{{ fields.field_colaboraciones_title ? fields.field_colaboraciones_title : 'No hay data' }}</p>
-            <span class="zinco-number-value display-4 fw-bold zinco-counter" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_colaboraciones_facilitadas }}" data-count="{{ fields.field_colaboraciones_facilitadas ? fields.field_colaboraciones_facilitadas : 999 }}">0</span>+
+            <p class="card-text zinco-number-description" {{ _self.tooltip(show_tooltips, fields.labels.field_colaboraciones_title) }}>{{ fields.field_colaboraciones_title ? fields.field_colaboraciones_title : 'No hay data' }}</p>
+            <span class="zinco-number-value display-4 fw-bold zinco-counter" {{ _self.tooltip(show_tooltips, fields.labels.field_colaboraciones_facilitadas) }} data-count="{{ fields.field_colaboraciones_facilitadas ? fields.field_colaboraciones_facilitadas : 999 }}">0</span>+
           </div>
         </div>
       </div>
@@ -195,18 +202,18 @@
   <section class="zinco-benefits-section py-5">
     <div class="container">
       <div class="modern-title-container" data-animate="fadeInDown">
-        <h2 class="modern-title" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_beneficios_title }}">{{ fields.field_beneficios_title ? fields.field_beneficios_title : 'Beneficios' }}</h2>
-        <p class="modern-subtitle" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_beneficios_descripcion }}">{{ fields.field_beneficios_descripcion ? fields.field_beneficios_descripcion : 'Ventajas competitivas y oportunidades para los actores del territorio.' }}</p>
+        <h2 class="modern-title" {{ _self.tooltip(show_tooltips, fields.labels.field_beneficios_title) }}>{{ fields.field_beneficios_title ? fields.field_beneficios_title : 'Beneficios' }}</h2>
+        <p class="modern-subtitle" {{ _self.tooltip(show_tooltips, fields.labels.field_beneficios_descripcion) }}>{{ fields.field_beneficios_descripcion ? fields.field_beneficios_descripcion : 'Ventajas competitivas y oportunidades para los actores del territorio.' }}</p>
       </div>
       <div class="row justify-content-center">
         <div class="col-12 col-md-6 col-lg-4 mb-4">
           <div class="card h-100 zinco-benefit-card" data-animate="fadeInUp" data-delay="100">
             <div class="card-body">
               <div class="zinco-benefit-icon mb-3">
-                <i class="{{ fields.field_beneficios_izq_icono ? fields.field_beneficios_izq_icono : 'fas fa-users fa-3x' }}" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_beneficios_izq_icono }}"></i>
+                <i class="{{ fields.field_beneficios_izq_icono ? fields.field_beneficios_izq_icono : 'fas fa-users fa-3x' }}" {{ _self.tooltip(show_tooltips, fields.labels.field_beneficios_izq_icono) }}></i>
               </div>
-              <h3 class="card-title zinco-benefit-title" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_beneficios_izq_titulo }}">{{ fields.field_beneficios_izq_titulo ? fields.field_beneficios_izq_titulo : 'No hay data' }}</h3>
-              <p class="card-text zinco-benefit-description" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_beneficios_izq_descripcion }}">{{ fields.field_beneficios_izq_descripcion ? fields.field_beneficios_izq_descripcion : 'No hay data' }}</p>
+              <h3 class="card-title zinco-benefit-title" {{ _self.tooltip(show_tooltips, fields.labels.field_beneficios_izq_titulo) }}>{{ fields.field_beneficios_izq_titulo ? fields.field_beneficios_izq_titulo : 'No hay data' }}</h3>
+              <p class="card-text zinco-benefit-description" {{ _self.tooltip(show_tooltips, fields.labels.field_beneficios_izq_descripcion) }}>{{ fields.field_beneficios_izq_descripcion ? fields.field_beneficios_izq_descripcion : 'No hay data' }}</p>
             </div>
           </div>
         </div>
@@ -214,10 +221,10 @@
           <div class="card h-100 zinco-benefit-card" data-animate="fadeInUp" data-delay="200">
             <div class="card-body">
               <div class="zinco-benefit-icon mb-3">
-                <i class="{{ fields.field_beneficios_centro_icon ? fields.field_beneficios_centro_icon : 'fas fa-users fa-3x' }}" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_beneficios_centro_icon }}"></i>
+                <i class="{{ fields.field_beneficios_centro_icon ? fields.field_beneficios_centro_icon : 'fas fa-users fa-3x' }}" {{ _self.tooltip(show_tooltips, fields.labels.field_beneficios_centro_icon) }}></i>
               </div>
-              <h3 class="card-title zinco-benefit-title" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_beneficios_centro_titulo }}">{{ fields.field_beneficios_centro_titulo ? fields.field_beneficios_centro_titulo : 'No hay data' }}</h3>
-              <p class="card-text zinco-benefit-description" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_beneficios_centro_descripc }}">{{ fields.field_beneficios_centro_descripcion ? fields.field_beneficios_centro_descripcion : 'No hay data' }}</p>
+              <h3 class="card-title zinco-benefit-title" {{ _self.tooltip(show_tooltips, fields.labels.field_beneficios_centro_titulo) }}>{{ fields.field_beneficios_centro_titulo ? fields.field_beneficios_centro_titulo : 'No hay data' }}</h3>
+              <p class="card-text zinco-benefit-description" {{ _self.tooltip(show_tooltips, fields.labels.field_beneficios_centro_descripc) }}>{{ fields.field_beneficios_centro_descripcion ? fields.field_beneficios_centro_descripcion : 'No hay data' }}</p>
             </div>
           </div>
         </div>
@@ -225,10 +232,10 @@
           <div class="card h-100 zinco-benefit-card" data-animate="fadeInUp" data-delay="300">
             <div class="card-body">
               <div class="zinco-benefit-icon mb-3">
-                <i class="{{ fields.field_beneficios_derecha_icon ? fields.field_beneficios_derecha_icon : 'fas fa-users fa-3x' }}" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_beneficios_derecha_icon }}"></i>
+                <i class="{{ fields.field_beneficios_derecha_icon ? fields.field_beneficios_derecha_icon : 'fas fa-users fa-3x' }}" {{ _self.tooltip(show_tooltips, fields.labels.field_beneficios_derecha_icon) }}></i>
               </div>
-              <h3 class="card-title zinco-benefit-title" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_beneficios_derecha_titulo }}">{{ fields.field_beneficios_derecha_titulo ? fields.field_beneficios_derecha_titulo : 'No hay data' }}</h3>
-              <p class="card-text zinco-benefit-description" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_beneficios_derecha_descrip }}">{{ fields.field_beneficios_derecha_descripcion ? fields.field_beneficios_derecha_descripcion : 'No hay data' }}</p>
+              <h3 class="card-title zinco-benefit-title" {{ _self.tooltip(show_tooltips, fields.labels.field_beneficios_derecha_titulo) }}>{{ fields.field_beneficios_derecha_titulo ? fields.field_beneficios_derecha_titulo : 'No hay data' }}</h3>
+              <p class="card-text zinco-benefit-description" {{ _self.tooltip(show_tooltips, fields.labels.field_beneficios_derecha_descrip) }}>{{ fields.field_beneficios_derecha_descripcion ? fields.field_beneficios_derecha_descripcion : 'No hay data' }}</p>
             </div>
           </div>
         </div>
@@ -239,18 +246,18 @@
   <section class="zinco-tools-section py-5">
     <div class="container">
       <div class="modern-title-container" data-animate="fadeInDown">
-        <h2 class="modern-title" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_herramientas_titulo }}">{{ fields.field_herramientas_titulo ? fields.field_herramientas_titulo : 'Herramientas' }}</h2>
-        <p class="modern-subtitle" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_herramientas_descripcion }}">{{ fields.field_herramientas_descripcion ? fields.field_herramientas_descripcion : 'Recursos digitales diseñados para potenciar la gestión del conocimiento.' }}</p>
+        <h2 class="modern-title" {{ _self.tooltip(show_tooltips, fields.labels.field_herramientas_titulo) }}>{{ fields.field_herramientas_titulo ? fields.field_herramientas_titulo : 'Herramientas' }}</h2>
+        <p class="modern-subtitle" {{ _self.tooltip(show_tooltips, fields.labels.field_herramientas_descripcion) }}>{{ fields.field_herramientas_descripcion ? fields.field_herramientas_descripcion : 'Recursos digitales diseñados para potenciar la gestión del conocimiento.' }}</p>
       </div>
       <div class="row justify-content-center">
         <div class="col-12 col-md-6 col-lg-4 mb-4">
           <div class="card h-100 zinco-tool-card" data-animate="fadeInUp" data-delay="100">
             <div class="card-body">
               <div class="zinco-tool-icon mb-3">
-                <i class="{{ fields.field_herramientas_izq_icon ? fields.field_herramientas_izq_icon : 'fas fa-users fa-3x' }}" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_herramientas_izq_icon }}"></i> {# Icon for Dynamic Actor Directory #}
+                <i class="{{ fields.field_herramientas_izq_icon ? fields.field_herramientas_izq_icon : 'fas fa-users fa-3x' }}" {{ _self.tooltip(show_tooltips, fields.labels.field_herramientas_izq_icon) }}></i> {# Icon for Dynamic Actor Directory #}
               </div>
-              <h3 class="card-title zinco-tool-title" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_herramientas_izq_titulo }}">{{ fields.field_herramientas_izq_titulo ? fields.field_herramientas_izq_titulo : 'No hay data' }}</h3>
-              <p class="card-text zinco-tool-description" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_herramientas_izq_descripci }}">{{ fields.field_herramientas_izq_descripcion ? fields.field_herramientas_izq_descripcion : 'No hay data' }}</p>
+              <h3 class="card-title zinco-tool-title" {{ _self.tooltip(show_tooltips, fields.labels.field_herramientas_izq_titulo) }}>{{ fields.field_herramientas_izq_titulo ? fields.field_herramientas_izq_titulo : 'No hay data' }}</h3>
+              <p class="card-text zinco-tool-description" {{ _self.tooltip(show_tooltips, fields.labels.field_herramientas_izq_descripci) }}>{{ fields.field_herramientas_izq_descripcion ? fields.field_herramientas_izq_descripcion : 'No hay data' }}</p>
             </div>
           </div>
         </div>
@@ -258,10 +265,10 @@
           <div class="card h-100 zinco-tool-card" data-animate="fadeInUp" data-delay="200">
             <div class="card-body">
               <div class="zinco-tool-icon mb-3">
-                <i class="{{ fields.field_herramientas_centro_icon ? fields.field_herramientas_centro_icon : 'fas fa-users fa-3x' }}" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_herramientas_centro_icon }}"></i> {# Icon for Opportunity Manager #}
+                <i class="{{ fields.field_herramientas_centro_icon ? fields.field_herramientas_centro_icon : 'fas fa-users fa-3x' }}" {{ _self.tooltip(show_tooltips, fields.labels.field_herramientas_centro_icon) }}></i> {# Icon for Opportunity Manager #}
               </div>
-              <h3 class="card-title zinco-tool-title" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_herramientas_centro_titulo }}">{{ fields.field_herramientas_centro_titulo ? fields.field_herramientas_centro_titulo : 'No hay data' }}</h3>
-              <p class="card-text zinco-tool-description" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_herramientas_centro_descri }}">{{ fields.field_herramientas_centro_descripcion ? fields.field_herramientas_centro_descripcion : 'No hay data' }}</p>
+              <h3 class="card-title zinco-tool-title" {{ _self.tooltip(show_tooltips, fields.labels.field_herramientas_centro_titulo) }}>{{ fields.field_herramientas_centro_titulo ? fields.field_herramientas_centro_titulo : 'No hay data' }}</h3>
+              <p class="card-text zinco-tool-description" {{ _self.tooltip(show_tooltips, fields.labels.field_herramientas_centro_descri) }}>{{ fields.field_herramientas_centro_descripcion ? fields.field_herramientas_centro_descripcion : 'No hay data' }}</p>
             </div>
           </div>
         </div>
@@ -269,10 +276,10 @@
           <div class="card h-100 zinco-tool-card" data-animate="fadeInUp" data-delay="300">
             <div class="card-body">
               <div class="zinco-tool-icon mb-3">
-                <i class="{{ fields.field_herramientas_derecha_icon ? fields.field_herramientas_derecha_icon : 'fas fa-users fa-3x' }}" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_herramientas_derecha_icon }}"></i> {# Icon for CTI Capability Visualizer #}
+                <i class="{{ fields.field_herramientas_derecha_icon ? fields.field_herramientas_derecha_icon : 'fas fa-users fa-3x' }}" {{ _self.tooltip(show_tooltips, fields.labels.field_herramientas_derecha_icon) }}></i> {# Icon for CTI Capability Visualizer #}
               </div>
-              <h3 class="card-title zinco-tool-title" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_herramientas_derecha_titulo }}">{{ fields.field_herramientas_derecha_titulo ? fields.field_herramientas_derecha_titulo : 'No hay data' }}</h3>
-              <p class="card-text zinco-tool-description" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_herramientas_derecha_descr }}">{{ fields.field_herramientas_derecha_descripcion ? fields.field_herramientas_derecha_descripcion : 'No hay data' }}</p>
+              <h3 class="card-title zinco-tool-title" {{ _self.tooltip(show_tooltips, fields.labels.field_herramientas_derecha_titulo) }}>{{ fields.field_herramientas_derecha_titulo ? fields.field_herramientas_derecha_titulo : 'No hay data' }}</h3>
+              <p class="card-text zinco-tool-description" {{ _self.tooltip(show_tooltips, fields.labels.field_herramientas_derecha_descr) }}>{{ fields.field_herramientas_derecha_descripcion ? fields.field_herramientas_derecha_descripcion : 'No hay data' }}</p>
             </div>
           </div>
         </div>
@@ -284,10 +291,10 @@
       <div class="row justify-content-center">
         <div class="col-12 col-lg-8 text-center">
           <div class="modern-title-container" data-animate="zoomIn">
-            <h2 class="modern-title" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_cta_titulo }}">{{ fields.field_cta_titulo ? fields.field_cta_titulo : 'Únete a ZINCO' }}</h2>
-            <p class="modern-subtitle" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_cta_descripcion }}">{{ fields.field_cta_descripcion ? fields.field_cta_descripcion : 'Forma parte del ecosistema de innovación más dinámico de la región.' }}</p>
+            <h2 class="modern-title" {{ _self.tooltip(show_tooltips, fields.labels.field_cta_titulo) }}>{{ fields.field_cta_titulo ? fields.field_cta_titulo : 'Únete a ZINCO' }}</h2>
+            <p class="modern-subtitle" {{ _self.tooltip(show_tooltips, fields.labels.field_cta_descripcion) }}>{{ fields.field_cta_descripcion ? fields.field_cta_descripcion : 'Forma parte del ecosistema de innovación más dinámico de la región.' }}</p>
           </div>
-          <a href="{{ fields.field_cta_enlace_button ? fields.field_cta_enlace_button : '#' }}" class="hero-button zinco-cta-button mt-4" data-animate="pulse" data-delay="300" data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ fields.labels.field_cta_label_button }} / {{ fields.labels.field_cta_enlace_button }}">{{ fields.field_cta_label_button ? fields.field_cta_label_button : 'Registrarse ahora' }}</a>
+          <a href="{{ fields.field_cta_enlace_button ? fields.field_cta_enlace_button : '#' }}" class="hero-button zinco-cta-button mt-4" data-animate="pulse" data-delay="300" {{ _self.tooltip(show_tooltips, fields.labels.field_cta_label_button ~ ' / ' ~ fields.labels.field_cta_enlace_button) }}>{{ fields.field_cta_label_button ? fields.field_cta_label_button : 'Registrarse ahora' }}</a>
         </div>
       </div>
     </div>
