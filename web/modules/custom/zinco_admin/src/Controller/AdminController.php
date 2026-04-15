@@ -27,4 +27,14 @@ class AdminController extends ControllerBase {
     ];
   }
 
+  /**
+   * Triggers the news scraping process via Batch API.
+   */
+  public function scrapeNews() {
+    $content_service = \Drupal::service('zinco_front.content_service');
+    $batch = $content_service->getScrapeBatch();
+    batch_set($batch);
+    return batch_process('admin/zinco/dashboard');
+  }
+
 }

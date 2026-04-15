@@ -8,3 +8,6 @@ services:
   zinco_front.actores_controller:
     class: Drupal\zinco_front\Controller\ActoresController
     arguments: []
+  zinco_front.content_service:
+    class: Drupal\zinco_front\Service\ContentService
+    arguments: ['@http_client', '@entity_type.manager', '@file_system', '@file_url_generator', '@logger.factory']

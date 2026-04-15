@@ -31,3 +31,11 @@ zinco_admin.dashboard.tab:
     _parent: 'system.admin_config'
     _tab_parent: 'zinco_admin.settings_form'
     _tab_route: 'zinco_admin.dashboard'
+
+zinco_admin.scrape_news:
+  path: '/admin/zinco/scrape-news'
+  defaults:
+    _controller: '\Drupal\zinco_admin\Controller\AdminController::scrapeNews'
+    _title: 'Sincronizar Noticias'
+  requirements:
+    _permission: 'access administration pages'
