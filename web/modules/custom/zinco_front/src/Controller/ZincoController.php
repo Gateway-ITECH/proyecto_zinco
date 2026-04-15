@@ -661,6 +661,8 @@ class ZincoController extends ControllerBase
     $field_beneficios_izq_titulo = $entity->get('field_beneficios_izq_titulo')->value;
     //obtener campo field_beneficios_title
     $field_beneficios_title = $entity->get('field_beneficios_title')->value;
+    //obtener campo field_beneficios_descripcion
+    $field_beneficios_descripcion = $entity->get('field_beneficios_descripcion')->value;
     //obtener campo field_colaboraciones_facilitadas
     $field_colaboraciones_facilitadas = $entity->get('field_colaboraciones_facilitadas')->value;
     //obtener campo field_colaboraciones_icon
@@ -746,6 +748,7 @@ class ZincoController extends ControllerBase
       'field_beneficios_izq_icono' => $field_beneficios_izq_icono,
       'field_beneficios_izq_titulo' => $field_beneficios_izq_titulo,
       'field_beneficios_title' => $field_beneficios_title,
+      'field_beneficios_descripcion' => $field_beneficios_descripcion,
       'field_colaboraciones_facilitadas' => $field_colaboraciones_facilitadas,
       'field_colaboraciones_icon' => $field_colaboraciones_icon,
       'field_colaboraciones_title' => $field_colaboraciones_title,
