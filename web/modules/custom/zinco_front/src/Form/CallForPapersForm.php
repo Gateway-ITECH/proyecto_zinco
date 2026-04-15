@@ -81,6 +81,12 @@ class CallForPapersForm extends FormBase {
       return;
     }
 
+    // Log the event.
+    \Drupal::logger('zinco_retos_soluciones')->info('Envío masivo de Call for Papers iniciado. Mensaje: @message. Usuarios objetivo: @count', [
+      '@message' => $message,
+      '@count' => count($uids),
+    ]);
+
     $batch = [
       'title' => $this->t('Enviando Call for Papers...'),
       'operations' => [],
