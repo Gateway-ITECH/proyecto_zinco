@@ -108,6 +108,7 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       'variables' => [
         'title' => NULL,
         'fields' => NULL,
+        'show_tooltips' => FALSE,
       ],
       'template' => 'zinco-landing-page',
     ],

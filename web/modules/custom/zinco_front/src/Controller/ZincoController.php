@@ -790,8 +790,9 @@ class ZincoController extends ControllerBase
     return [
       '#theme' => 'zinco_landing_page',
       '#fields' => $fields,
+      '#show_tooltips' => $show_tooltips,
       '#cache' => [
-        'tags' => ['node_list'],
+        'tags' => ['node_list', 'config:zinco_front.dashboard.settings'],
       ],
       '#attached' => [
         'library' => [
@@ -830,7 +831,7 @@ class ZincoController extends ControllerBase
         ],
       ],
       '#cache' => [
-        'tags' => ['node_list'],
+        'tags' => ['node_list', 'config:zinco_front.dashboard.settings'],
       ],
     ];
   }

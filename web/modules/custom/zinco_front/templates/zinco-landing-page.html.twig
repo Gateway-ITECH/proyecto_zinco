@@ -13,6 +13,8 @@
  */
 #}
 
+<!-- Debug: show_tooltips is {{ show_tooltips ? 'TRUE' : 'FALSE' }} -->
+<!-- Debug: Label field_data_clave_titulo is '{{ fields.labels.field_data_clave_titulo }}' -->
 {% macro tooltip(show, label) %}
   {% if show and label %}
     data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ label }}"
@@ -294,7 +296,7 @@
             <h2 class="modern-title" {{ _self.tooltip(show_tooltips, fields.labels.field_cta_titulo) | raw }}>{{ fields.field_cta_titulo ? fields.field_cta_titulo : 'Únete a ZINCO' }}</h2>
             <p class="modern-subtitle" {{ _self.tooltip(show_tooltips, fields.labels.field_cta_descripcion) | raw }}>{{ fields.field_cta_descripcion ? fields.field_cta_descripcion : 'Forma parte del ecosistema de innovación más dinámico de la región.' }}</p>
           </div>
-          <a href="{{ fields.field_cta_enlace_button ? fields.field_cta_enlace_button : '#' }}" class="hero-button zinco-cta-button mt-4" data-animate="pulse" data-delay="300" {{ _self.tooltip(show_tooltips, fields.labels.field_cta_label_button ~ ' / ' ~ fields.labels.field_cta_enlace_button) | raw }}>{{ fields.field_cta_label_button ? fields.field_cta_label_button : 'Registrarse ahora' }}</a>
+          <a href="{{ fields.field_cta_enlace_button ? fields.field_cta_enlace_button : '#' }}" class="hero-button zinco-cta-button mt-4" data-animate="pulse" data-delay="300" {{ _self.tooltip(fields.show_tooltips, fields.labels.field_cta_label_button ~ ' / ' ~ fields.labels.field_cta_enlace_button) | raw }}>{{ fields.field_cta_label_button ? fields.field_cta_label_button : 'Registrarse ahora' }}</a>
         </div>
       </div>
     </div>
