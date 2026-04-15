@@ -705,6 +705,8 @@ class ZincoController extends ControllerBase
     $field_herramientas_izq_titulo = $entity->get('field_herramientas_izq_titulo')->value;
     //obtener campo field_herramientas_titulo
     $field_herramientas_titulo = $entity->get('field_herramientas_titulo')->value;
+    //obtener campo field_herramientas_descripcion
+    $field_herramientas_descripcion = $entity->get('field_herramientas_descripcion')->value;
     //obtener campo field_proyectos_activos
     $field_proyectos_activos = $entity->get('field_proyectos_activos')->value;
     //obtener campo field_proyectos_icon
@@ -770,6 +772,7 @@ class ZincoController extends ControllerBase
       'field_herramientas_izq_icon' => $field_herramientas_izq_icon,
       'field_herramientas_izq_titulo' => $field_herramientas_izq_titulo,
       'field_herramientas_titulo' => $field_herramientas_titulo,
+      'field_herramientas_descripcion' => $field_herramientas_descripcion,
       'field_proyectos_activos' => $field_proyectos_activos,
       'field_proyectos_activos_icon' => $field_proyectos_activos_icon,
       'field_proyectos_activos_label' => $field_proyectos_activos_label,
