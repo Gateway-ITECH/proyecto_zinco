@@ -206,6 +206,12 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'zinco-oportunidades',
     ],
+    'zinco_user_notifications_block' => [
+      'variables' => [
+        'notifications' => [],
+      ],
+      'template' => 'zinco-user-notifications-block',
+    ],
   ];
 }
 

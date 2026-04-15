@@ -1,0 +1,46 @@
+{#
+/**
+ * @file
+ * Template for the Zinco User Notifications Block.
+ *
+ * Available variables:
+ * - notifications: Array of notification objects.
+ */
+#}
+<div class="zinco-notifications-wrapper">
+  <div class="notifications-container">
+    <div class="notifications-header">
+      <h3><i class="fas fa-bell"></i> {{ 'Mis Notificaciones'|t }}</h3>
+    </div>
+    
+    {% if notifications is not empty %}
+      <ul class="notifications-list">
+        {% for notification in notifications %}
+          <li class="notification-item">
+            <div class="notification-sender-avatar">
+              {% if notification.sender_picture %}
+                <img src="{{ notification.sender_picture }}" alt="{{ notification.sender_name }}">
+              {% else %}
+                <div class="notification-sender-placeholder">
+                  <i class="fas fa-user-circle fa-2x"></i>
+                </div>
+              {% endif %}
+            </div>
+            <div class="notification-content">
+              <div class="notification-meta">
+                <span class="notification-sender-name">{{ notification.sender_name }}</span>
+                <span class="notification-date">{{ notification.created }}</span>
+              </div>
+              <p class="notification-text">{{ notification.message }}</p>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <div class="no-notifications">
+        <i class="fas fa-bell-slash"></i>
+        <p>{{ 'No tienes notificaciones recientes.'|t }}</p>
+      </div>
+    {% endif %}
+  </div>
+</div>

@@ -208,3 +208,9 @@ zinco-gestionar-actores:
   dependencies:
     - core/drupal
     - core/once
+
+zinco-user-notifications:
+  version: 1.x
+  css:
+    theme:
+      css/zinco-user-notifications.css: {}
