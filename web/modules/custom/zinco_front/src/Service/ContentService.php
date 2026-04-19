@@ -179,6 +179,7 @@ class ContentService
    */
   protected function downloadAndCreateFile($url)
   {
+    try {
       $data = '';
       $filename = '';
 
