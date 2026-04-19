@@ -342,18 +342,17 @@ class ContentService
             continue;
           }
 
-          // Dates. Handle both "startingDate" and "startingDateFormat" for robustness.
-          // Prefer startingDate as it's more likely to be the raw data.
-          $ap_raw = $item['startingDate'] ?? $item['startingDateFormat'] ?? '';
-          $fecha_apertura = !empty($ap_raw) ? (strpos($ap_raw, ' ') !== false ? $this->parseSpanishDate($ap_raw) : $ap_raw) : NULL;
+          // Dates. Format: 2026-04-20T00:00:00 -> 2026-04-20
+          $fecha_apertura = !empty($item['startingDate']) ? substr($item['startingDate'], 0, 10) : NULL;
+          $fecha_cierre = !empty($item['closingDate']) ? substr($item['closingDate'], 0, 10) : NULL;
 
-          $ci_raw = $item['closingDate'] ?? $item['closingDateFormat'] ?? '';
-          $fecha_cierre = !empty($ci_raw) ? (strpos($ci_raw, ' ') !== false ? $this->parseSpanishDate($ci_raw) : $ci_raw) : NULL;
-
-          // Link.
-          $link = $item['friendlyUrl'] ?? '';
-          if (!empty($link) && strpos($link, 'http') !== 0) {
-            $link = 'https://www.innovamos.gov.co' . $link;
+          // Link. Using FriendlyName as requested.
+          $link = '';
+          if (!empty($item['FriendlyName'])) {
+            $link = 'https://www.innovamos.gov.co/instrumentos/' . $item['FriendlyName'];
+          }
+          elseif (!empty($item['friendlyUrl'])) {
+            $link = strpos($item['friendlyUrl'], 'http') === 0 ? $item['friendlyUrl'] : 'https://www.innovamos.gov.co' . $item['friendlyUrl'];
           }
 
           // Image.
