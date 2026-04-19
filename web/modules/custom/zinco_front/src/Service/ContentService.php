@@ -533,7 +533,7 @@ class ContentService
 
           // Extract Image from background-image style.
           $img_url = '';
-          $img_div_query = $xpath->query(".//div[1]/div", $article);
+          $img_div_query = $xpath->query(".//div[contains(@class, 'bg-image-newsreel')]", $article);
           if ($img_div_query->length) {
             $style = $img_div_query->item(0)->getAttribute('style');
             if (preg_match('/url\([\'"]?(.*?)[\'"]?\)/', $style, $matches)) {
@@ -554,7 +554,7 @@ class ContentService
             'type' => 'noticia',
             'title' => $title,
             'field_contenido_noticia' => [
-              'value' => $content,
+              'value' => $content . '<br><br><a href="' . $link . '" target="_blank">Ver más</a>',
               'format' => 'basic_html',
             ],
             'status' => 0, // MODO BORRADOR
