@@ -342,9 +342,9 @@ class ContentService
             continue;
           }
 
-          // Dates. Format: Y-m-d H:i:s (Date and time field).
-          $fecha_apertura = !empty($item['startingDate']) ? date('Y-m-d H:i:s', strtotime($item['startingDate'])) : NULL;
-          $fecha_cierre = !empty($item['closingDate']) ? date('Y-m-d H:i:s', strtotime($item['closingDate'])) : NULL;
+          // Dates. Format: Y-m-d (Date only field).
+          $fecha_apertura = !empty($item['startingDate']) ? date('Y-m-d', strtotime($item['startingDate'])) : NULL;
+          $fecha_cierre = !empty($item['closingDate']) ? date('Y-m-d', strtotime($item['closingDate'])) : NULL;
 
           // Link. Using FriendlyName as requested.
           $link = '';
