@@ -46,6 +46,13 @@ class CallForPapersForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    $form['receptors_selector'] = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['receptors-selector-wrapper']],
+      'view' => views_embed_view('selector_de_receptores', 'embed_receptors_selector'),
+      '#weight' => -10,
+    ];
+
     $form['message'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Mensaje masivo (Call for Papers)'),
