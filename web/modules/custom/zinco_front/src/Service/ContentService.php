@@ -1452,7 +1452,7 @@ class ContentService
       libxml_clear_errors();
       $xpath = new \DOMXPath($dom);
 
-      $content_query = $xpath->query("//div[contains(@class, 'field--name-body')] | //div[@property='schema:text']");
+      $content_query = $xpath->query("//div[contains(@class, 'field--name-body')] | //div[@property='schema:text'] | //div[contains(@class, 'new-row__content')]//div[contains(@class, 'body')]");
       if ($content_query->length) {
         // Return HTML content.
         return $dom->saveHTML($content_query->item(0));
