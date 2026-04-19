@@ -297,7 +297,7 @@ class ContentService
   /**
    * Scrapes convocatorias from Innovamos.
    */
-  public function scrapeInnovamosConvocatorias($url = 'https://www.innovamos.gov.co/', $limit = 10)
+  public function scrapeInnovamosConvocatorias($url = 'https://www.innovamos.gov.co/api/v1/contents?benefits=&contentType=12&featured=false&hasNextPage=false&includeTags=true&keyword=&labels=&labelsSecond=&labelsThird=&locations=&orderBy=recent&organizations=&page=0&pageSize=10&publicPolitics=&showOnHome=true&targetUsers=', $limit = 10)
   {
     $results = [
       'created' => 0,
@@ -306,32 +306,22 @@ class ContentService
 
     try {
       $response = $this->httpClient->request('GET', $url);
-      $html = (string) $response->getBody();
+      $data = json_decode((string) $response->getBody(), TRUE);
 
-      $dom = new \DOMDocument();
-      libxml_use_internal_errors(true);
-      $dom->loadHTML($html);
-      libxml_clear_errors();
-
-      $xpath = new \DOMXPath($dom);
-
-      $this->loggerFactory->get('zinco_front')->info('Iniciando scraping de Innovamos. Longitud HTML: @len. Contenido: @html', [
-        '@len' => strlen($html),
-        '@html' => $html,
+      $this->loggerFactory->get('zinco_front')->info('Iniciando importación API Innovamos. Total elementos recibidos: @count', [
+        '@count' => isset($data['items']) ? count($data['items']) : (is_array($data) ? count($data) : 0),
       ]);
 
-      // Search for cards.
-      $cards = $xpath->query("//div[contains(@class, 'card')]");
-      $this->loggerFactory->get('zinco_front')->info('Tarjetas encontradas: @count', ['@count' => $cards->length]);
+      // The API might return items directly or inside an 'items' or 'contents' key.
+      $items = $data['items'] ?? $data['contents'] ?? (is_array($data) ? $data : []);
 
-      for ($i = 0; $i < $cards->length && $results['created'] < $limit; $i++) {
-        $card = $cards->item($i);
+      foreach ($items as $item) {
+        if ($results['created'] >= $limit) {
+          break;
+        }
 
         try {
-          // Extract Title from h3.
-          $title_query = $xpath->query(".//h3", $card);
-          $title = $title_query->length ? trim($title_query->item(0)->textContent) : '';
-
+          $title = $item['name'] ?? $item['title'] ?? '';
           if (empty($title)) {
             continue;
           }
@@ -345,49 +335,34 @@ class ContentService
             continue;
           }
 
-          // Description/Publico Objetivo.
-          $desc_query = $xpath->query(".//div[contains(@class, 'txtDescrip-card')]", $card);
-          $description = $desc_query->length ? trim($desc_query->item(0)->textContent) : '';
+          // Dates. API dates are often already formatted or in 'startingDateFormat'.
+          $fecha_apertura = NULL;
+          if (!empty($item['startingDateFormat'])) {
+            $fecha_apertura = $this->parseSpanishDate($item['startingDateFormat']);
+          }
 
-          // Dates.
-          $apertura_query = $xpath->query(".//div[contains(@class, 'initCol-card')]//div[contains(@class, 'dateTxt-card')]", $card);
-          $apertura_raw = $apertura_query->length ? trim($apertura_query->item(0)->textContent) : '';
-          $fecha_apertura = $this->parseSpanishDate($apertura_raw);
-
-          $cierre_query = $xpath->query(".//div[contains(@class, 'endCol-card')]//div[contains(@class, 'dateTxt-card')]", $card);
-          $cierre_raw = $cierre_query->length ? trim($cierre_query->item(0)->textContent) : '';
-          $fecha_cierre = $this->parseSpanishDate($cierre_raw);
+          $fecha_cierre = NULL;
+          if (!empty($item['closingDateFormat'])) {
+            $fecha_cierre = $this->parseSpanishDate($item['closingDateFormat']);
+          }
 
           // Link.
-          $link_query = $xpath->query(".//a[contains(@class, 'more-card')]", $card);
-          $link = '';
-          if ($link_query->length) {
-            $link = $link_query->item(0)->getAttribute('href');
-            if (strpos($link, 'http') !== 0) {
-              $link = 'https://www.innovamos.gov.co' . $link;
-            }
+          $link = $item['friendlyUrl'] ?? '';
+          if (!empty($link) && strpos($link, 'http') !== 0) {
+            $link = 'https://www.innovamos.gov.co' . $link;
           }
 
           // Image.
-          $img_query = $xpath->query(".//img", $card);
-          $img_url = '';
-          if ($img_query->length) {
-            $img_url = $img_query->item(0)->getAttribute('src');
+          $img_url = $item['defaultImage'] ?? '';
+          if (!empty($img_url) && strpos($img_url, 'http') !== 0) {
+            $img_url = 'https://www.innovamos.gov.co' . $img_url;
           }
-
-          $this->loggerFactory->get('zinco_front')->debug('Datos extraídos de Innovamos: Título: @title, Apertura: @ap, Cierre: @ci, Link: @link, Imagen: @img', [
-            '@title' => $title,
-            '@ap' => $apertura_raw,
-            '@ci' => $cierre_raw,
-            '@link' => $link,
-            '@img' => $img_url,
-          ]);
 
           $node_data = [
             'type' => 'convocatoria',
             'title' => $title,
             'field_publico_objetivo' => [
-              'value' => $description,
+              'value' => $item['metaDescription'] ?? $item['description'] ?? '',
               'format' => 'basic_html',
             ],
             'field_fecha_de_apertura' => $fecha_apertura,
@@ -412,14 +387,16 @@ class ContentService
           $new_node->save();
           $results['created']++;
 
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
           $results['errors'][] = $e->getMessage();
-          $this->loggerFactory->get('zinco_front')->error('Error procesando convocatoria Innovamos: @msg', ['@msg' => $e->getMessage()]);
+          $this->loggerFactory->get('zinco_front')->error('Error procesando el ítem de la API Innovamos: @msg', ['@msg' => $e->getMessage()]);
         }
       }
-    } catch (\Exception $e) {
+    }
+    catch (\Exception $e) {
       $results['errors'][] = $e->getMessage();
-      $this->loggerFactory->get('zinco_front')->error('Fallo el scraping de Innovamos: @msg', ['@msg' => $e->getMessage()]);
+      $this->loggerFactory->get('zinco_front')->error('Fallo la consulta a la API de Innovamos: @msg', ['@msg' => $e->getMessage()]);
     }
 
     return $results;
