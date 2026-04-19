@@ -483,8 +483,11 @@ class ContentService
 
       $xpath = new \DOMXPath($dom);
 
+      $this->loggerFactory->get('zinco_front')->info('Iniciando scraping CC Montería. Longitud HTML: @len', ['@len' => strlen($html)]);
+
       // Selectors based on analysis: a.box-newsreel
       $articles = $xpath->query("//a[contains(@class, 'box-newsreel')]");
+      $this->loggerFactory->get('zinco_front')->info('Noticias encontradas en CC Montería: @count', ['@count' => $articles->length]);
 
       for ($i = 0; $i < $articles->length && $results['created'] < $limit; $i++) {
         $article = $articles->item($i);
@@ -528,6 +531,12 @@ class ContentService
               }
             }
           }
+
+          $this->loggerFactory->get('zinco_front')->debug('Datos extraídos CC Montería: Título: @title, Link: @link, Imagen: @img', [
+            '@title' => $title,
+            '@link' => $link,
+            '@img' => $img_url,
+          ]);
 
           $node_data = [
             'type' => 'noticia',
