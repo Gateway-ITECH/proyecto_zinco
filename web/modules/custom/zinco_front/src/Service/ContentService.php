@@ -485,6 +485,8 @@ class ContentService
         '@status' => $status_code,
         '@len' => strlen($html),
       ]);
+
+      $dom = new \DOMDocument();
       libxml_use_internal_errors(true);
       $dom->loadHTML($html);
       libxml_clear_errors();
