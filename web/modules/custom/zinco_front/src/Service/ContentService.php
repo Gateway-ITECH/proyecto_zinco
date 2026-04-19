@@ -994,6 +994,12 @@ class ContentService
         $href = $link_node->getAttribute('href');
         if (empty($href)) continue;
 
+        // Extract title from parent p tag as suggested by user.
+        $parent_p = $link_node->parentNode;
+        $title = $parent_p ? trim($parent_p->textContent) : '';
+        // Clean up the trailing caret if present.
+        $title = preg_replace('/\s*>\s*$/', '', $title);
+
         if (strpos($href, 'http') !== 0) {
           $href = 'https://web.icetex.gov.co' . $href;
         }
@@ -1001,10 +1007,13 @@ class ContentService
         try {
           $detail_results = $this->scrapeIcetexDetail($href);
           if ($detail_results) {
+            // Use detail title if list title is empty, or vice versa if preferred.
+            $final_title = !empty($title) ? $title : $detail_results['title'];
+
             // Check if already exists.
             $existing = $this->entityTypeManager->getStorage('node')->loadByProperties([
               'type' => 'convocatoria',
-              'title' => $detail_results['title'],
+              'title' => $final_title,
             ]);
             if (!empty($existing)) {
               continue;
@@ -1012,7 +1021,7 @@ class ContentService
 
             $node_data = [
               'type' => 'convocatoria',
-              'title' => $detail_results['title'],
+              'title' => $final_title,
               'field_publico_objetivo' => [
                 'value' => $detail_results['perfil'],
                 'format' => 'basic_html',
