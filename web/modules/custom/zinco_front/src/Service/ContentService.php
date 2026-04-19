@@ -319,8 +319,8 @@ class ContentService
 
       $this->loggerFactory->get('zinco_front')->info('Iniciando importación API JSON Innovamos. Datos recibidos: @data', ['@data' => substr($json_string, 0, 1000)]);
 
-      // The items are usually in 'items' or 'contents'.
-      $items = $data['items'] ?? $data['contents'] ?? (is_array($data) ? $data : []);
+      // The items are in the 'results' key.
+      $items = $data['results'] ?? [];
 
       foreach ($items as $item) {
         if ($results['created'] >= $limit) {
@@ -328,7 +328,7 @@ class ContentService
         }
 
         try {
-          $title = $item['name'] ?? $item['title'] ?? '';
+          $title = $item['name'] ?? '';
           if (empty($title)) {
             continue;
           }
@@ -342,9 +342,13 @@ class ContentService
             continue;
           }
 
-          // Dates.
-          $fecha_apertura = !empty($item['startingDateFormat']) ? $this->parseSpanishDate($item['startingDateFormat']) : NULL;
-          $fecha_cierre = !empty($item['closingDateFormat']) ? $this->parseSpanishDate($item['closingDateFormat']) : NULL;
+          // Dates. Handle both "startingDate" and "startingDateFormat" for robustness.
+          // Prefer startingDate as it's more likely to be the raw data.
+          $ap_raw = $item['startingDate'] ?? $item['startingDateFormat'] ?? '';
+          $fecha_apertura = !empty($ap_raw) ? (strpos($ap_raw, ' ') !== false ? $this->parseSpanishDate($ap_raw) : $ap_raw) : NULL;
+
+          $ci_raw = $item['closingDate'] ?? $item['closingDateFormat'] ?? '';
+          $fecha_cierre = !empty($ci_raw) ? (strpos($ci_raw, ' ') !== false ? $this->parseSpanishDate($ci_raw) : $ci_raw) : NULL;
 
           // Link.
           $link = $item['friendlyUrl'] ?? '';
@@ -362,7 +366,7 @@ class ContentService
             'type' => 'convocatoria',
             'title' => $title,
             'field_publico_objetivo' => [
-              'value' => $item['metaDescription'] ?? $item['description'] ?? '',
+              'value' => $item['metadescription'] ?? $item['metaDescription'] ?? '',
               'format' => 'basic_html',
             ],
             'field_fecha_de_apertura' => $fecha_apertura,
