@@ -223,7 +223,7 @@ class ContentService
       'title' => t('Sincronizando contenidos (Noticias y Convocatorias)...'),
       'operations' => [
         [[get_class($this), 'processBatchItem'], [$url]],
-        [[get_class($this), 'processInnovamosBatchItem'], ['https://www.innovamos.gov.co/']],
+        [[get_class($this), 'processInnovamosBatchItem'], ['https://www.innovamos.gov.co/api/v1/contents?benefits=&contentType=12&featured=false&hasNextPage=false&includeTags=true&keyword=&labels=&labelsSecond=&labelsThird=&locations=&orderBy=recent&organizations=&page=0&pageSize=10&publicPolitics=&showOnHome=true&targetUsers=']],
       ],
       'finished' => [get_class($this), 'finishBatch'],
     ];
@@ -307,7 +307,7 @@ class ContentService
     try {
       $response = $this->httpClient->request('GET', $url);
       $xml_string = (string) $response->getBody();
-      
+
       // Load XML with error suppression for malformed content.
       $xml = @simplexml_load_string($xml_string);
 
@@ -391,14 +391,12 @@ class ContentService
           $new_node->save();
           $results['created']++;
 
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
           $results['errors'][] = $e->getMessage();
           $this->loggerFactory->get('zinco_front')->error('Error procesando el ítem de la API Innovamos: @msg', ['@msg' => $e->getMessage()]);
         }
       }
-    }
-    catch (\Exception $e) {
+    } catch (\Exception $e) {
       $results['errors'][] = $e->getMessage();
       $this->loggerFactory->get('zinco_front')->error('Fallo la consulta a la API de Innovamos: @msg', ['@msg' => $e->getMessage()]);
     }
