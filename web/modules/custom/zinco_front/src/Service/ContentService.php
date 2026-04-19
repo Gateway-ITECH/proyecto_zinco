@@ -449,37 +449,42 @@ class ContentService
   /**
    * Helper to convert Spanish dates like "13 marzo 2026" to "2026-03-13".
    */
-  protected function parseSpanishDate($date_string)
+  protected function parseSpanishDate($dateString)
   {
-    if (empty($date_string)) {
+    if (empty($dateString)) {
       return NULL;
     }
 
     $months = [
-      'enero' => '01',
-      'febrero' => '02',
-      'marzo' => '03',
-      'abril' => '04',
-      'mayo' => '05',
-      'junio' => '06',
-      'julio' => '07',
-      'agosto' => '08',
-      'septiembre' => '09',
-      'octubre' => '10',
-      'noviembre' => '11',
-      'diciembre' => '12',
+      'enero' => '01', 'febrero' => '02', 'marzo' => '03', 'abril' => '04',
+      'mayo' => '05', 'junio' => '06', 'julio' => '07', 'agosto' => '08',
+      'septiembre' => '09', 'octubre' => '10', 'noviembre' => '11', 'diciembre' => '12'
     ];
 
-    $parts = explode(' ', strtolower(trim($date_string)));
-    if (count($parts) === 3) {
-      $day = str_pad($parts[0], 2, '0', STR_PAD_LEFT);
-      $month_name = $parts[1];
-      $year = $parts[2];
+    $dateString = mb_strtolower(trim($dateString));
+
+    // Format: "13 marzo 2026", "13 de marzo de 2026", or "Jueves 13 de marzo de 2026".
+    if (preg_match('/(?:[a-z]+,?\s+)?(\d{1,2})\s+(?:de\s+)?([a-z]+)\s+(?:de\s+)?(\d{4})/i', $dateString, $matches)) {
+      $day = str_pad($matches[1], 2, '0', STR_PAD_LEFT);
+      $month_name = $matches[2];
+      $year = $matches[3];
 
       if (isset($months[$month_name])) {
         return "$year-" . $months[$month_name] . "-$day";
       }
     }
+
+    // Format: "Marzo 12, 2026" or "Jueves, Marzo 12, 2026".
+    if (preg_match('/(?:[a-z]+,?\s+)?([a-z]+)\s+(\d{1,2}),\s+(\d{4})/i', $dateString, $matches)) {
+      $month_name = $matches[1];
+      $day = str_pad($matches[2], 2, '0', STR_PAD_LEFT);
+      $year = $matches[3];
+
+      if (isset($months[$month_name])) {
+        return "$year-" . $months[$month_name] . "-$day";
+      }
+    }
+
     return NULL;
   }
 
@@ -650,7 +655,15 @@ class ContentService
           $date_text = $date_query->length ? trim($date_query->item(0)->textContent) : '';
 
           // Filter: Opening date must be in 2026 or more.
-          if (!preg_match('/202[6-9]|20[3-9][0-9]/', $date_text)) {
+          $year_found = false;
+          if (preg_match('/20\d{2}/', $date_text, $yr_matches)) {
+            $year = (int) $yr_matches[0];
+            if ($year >= 2026) {
+              $year_found = true;
+            }
+          }
+          
+          if (!$year_found) {
             continue;
           }
 
@@ -696,10 +709,23 @@ class ContentService
             'uid' => 1,
           ];
           
-          // Try to set opening date.
-          $fecha = $this->parseSpanishDate($date_text);
-          if ($fecha) {
-            $node_data['field_fecha_de_apertura'] = $fecha;
+          // Try to set dates from detail page.
+          if (!empty($link)) {
+            $detail_dates = $this->scrapeMincienciasDetailDates($link);
+            if ($detail_dates['apertura']) {
+              $node_data['field_fecha_de_apertura'] = $detail_dates['apertura'];
+            }
+            if ($detail_dates['cierre']) {
+              $node_data['field_fecha_de_cierre'] = $detail_dates['cierre'];
+            }
+          }
+
+          // Fallback opening date from main table if not found in detail.
+          if (empty($node_data['field_fecha_de_apertura'])) {
+            $fecha = $this->parseSpanishDate($date_text);
+            if ($fecha) {
+              $node_data['field_fecha_de_apertura'] = $fecha;
+            }
           }
 
           $new_node = \Drupal\node\Entity\Node::create($node_data);
@@ -717,6 +743,45 @@ class ContentService
     }
 
     return $results;
+  }
+
+  /**
+   * Scrapes dates from the detail page of a Minciencias convocatoria.
+   */
+  protected function scrapeMincienciasDetailDates($url)
+  {
+    $dates = [
+      'apertura' => NULL,
+      'cierre' => NULL,
+    ];
+
+    try {
+      $response = $this->httpClient->request('GET', $url);
+      $html = (string) $response->getBody();
+
+      $dom = new \DOMDocument();
+      @$dom->loadHTML($html);
+      $xpath = new \DOMXPath($dom);
+
+      // Apertura Date.
+      $ap_query = $xpath->query('//table//tr[td[1][contains(normalize-space(), "Apertura")] or th[1][contains(normalize-space(), "Apertura")]]/td[2]');
+      if ($ap_query->length) {
+        $dates['apertura'] = $this->parseSpanishDate($ap_query->item(0)->textContent);
+      }
+
+      // Cierre Date.
+      $ci_query = $xpath->query('//table//tr[td[1][contains(normalize-space(), "Cierre")] or th[1][contains(normalize-space(), "Cierre")]]/td[2]');
+      if ($ci_query->length) {
+        $dates['cierre'] = $this->parseSpanishDate($ci_query->item(0)->textContent);
+      }
+    } catch (\Exception $e) {
+      $this->loggerFactory->get('zinco_front')->error('Error scraping Minciencias detail (@url): @msg', [
+        '@url' => $url,
+        '@msg' => $e->getMessage(),
+      ]);
+    }
+
+    return $dates;
   }
 
 }
