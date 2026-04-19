@@ -992,51 +992,67 @@ class ContentService
       for ($i = 0; $i < $links->length && $results['created'] < $limit; $i++) {
         $link_node = $links->item($i);
         $href = $link_node->getAttribute('href');
-        if (empty($href)) continue;
-
-        // Extract title from parent p tag as suggested by user.
-        $parent_p = $link_node->parentNode;
-        $title = $parent_p ? trim($parent_p->textContent) : '';
-        // Clean up the trailing caret if present.
-        $title = preg_replace('/\s*>\s*$/', '', $title);
+        if (empty($href)) {
+          $this->loggerFactory->get('zinco_front')->warning('Beca ICETEX @i: href vacío.', ['@i' => $i]);
+          continue;
+        }
 
         if (strpos($href, 'http') !== 0) {
           $href = 'https://web.icetex.gov.co' . $href;
         }
 
+        $this->loggerFactory->get('zinco_front')->debug('Procesando beca ICETEX @i: @url', ['@i' => $i, '@url' => $href]);
+
+        // Extract title from parent p tag as suggested by user.
+        $parent_p = $link_node->parentNode;
+        $title = $parent_p ? trim($parent_p->textContent) : '';
+        $title = preg_replace('/\s*>\s*$/', '', $title);
+
         try {
           $detail_results = $this->scrapeIcetexDetail($href);
-          if ($detail_results) {
-            // Use detail title if list title is empty, or vice versa if preferred.
-            $final_title = !empty($title) ? $title : $detail_results['title'];
-
-            // Check if already exists.
-            $existing = $this->entityTypeManager->getStorage('node')->loadByProperties([
-              'type' => 'convocatoria',
-              'title' => $final_title,
-            ]);
-            if (!empty($existing)) {
-              continue;
-            }
-
-            $node_data = [
-              'type' => 'convocatoria',
-              'title' => $final_title,
-              'field_publico_objetivo' => [
-                'value' => $detail_results['perfil'],
-                'format' => 'basic_html',
-              ],
-              'field_fecha_de_apertura' => $detail_results['apertura'],
-              'field_fecha_de_cierre' => $detail_results['cierre'],
-              'field_mas_informacion' => $href,
-              'status' => 0,
-              'uid' => 1,
-            ];
-
-            $new_node = \Drupal\node\Entity\Node::create($node_data);
-            $new_node->save();
-            $results['created']++;
+          if (!$detail_results) {
+            $this->loggerFactory->get('zinco_front')->warning('No se pudo obtener el detalle para @url', ['@url' => $href]);
+            continue;
           }
+
+          $final_title = !empty($title) ? $title : $detail_results['title'];
+
+          if (empty($final_title)) {
+            $this->loggerFactory->get('zinco_front')->warning('Título vacío para @url', ['@url' => $href]);
+            continue;
+          }
+
+          // Check if already exists.
+          $existing = $this->entityTypeManager->getStorage('node')->loadByProperties([
+            'type' => 'convocatoria',
+            'title' => $final_title,
+          ]);
+          if (!empty($existing)) {
+            $this->loggerFactory->get('zinco_front')->info('Beca ICETEX ya existe (ignorando): @title', ['@title' => $final_title]);
+            continue;
+          }
+
+          $node_data = [
+            'type' => 'convocatoria',
+            'title' => $final_title,
+            'field_publico_objetivo' => [
+              'value' => $detail_results['perfil'],
+              'format' => 'basic_html',
+            ],
+            'field_fecha_de_apertura' => $detail_results['apertura'],
+            'field_fecha_de_cierre' => $detail_results['cierre'],
+            'field_mas_informacion' => $href,
+            'status' => 0,
+            'uid' => 1,
+          ];
+
+          $new_node = \Drupal\node\Entity\Node::create($node_data);
+          $new_node->save();
+          $this->loggerFactory->get('zinco_front')->info('Beca ICETEX registrada con éxito: @title (ID: @id)', [
+            '@title' => $final_title,
+            '@id' => $new_node->id(),
+          ]);
+          $results['created']++;
         } catch (\Exception $e) {
           $this->loggerFactory->get('zinco_front')->error('Error procesando detalle de beca ICETEX (@url): @msg', [
             '@url' => $href,
@@ -1075,6 +1091,7 @@ class ContentService
       $title = $title_query->length ? trim($title_query->item(0)->textContent) : '';
 
       if (empty($title)) {
+        $this->loggerFactory->get('zinco_front')->debug('Detalle ICETEX: Título no encontrado en @url', ['@url' => $url]);
         return NULL;
       }
 
@@ -1099,6 +1116,12 @@ class ContentService
           }
         }
       }
+
+      $this->loggerFactory->get('zinco_front')->debug('Detalle ICETEX extraído: Título: @title, Apertura: @ap, Cierre: @ci', [
+        '@title' => $title,
+        '@ap' => $apertura ?? 'N/A',
+        '@ci' => $cierre ?? 'N/A',
+      ]);
 
       // Perfil: Accordion with text "Perfil de las personas aspirantes"
       $perfil = '';
