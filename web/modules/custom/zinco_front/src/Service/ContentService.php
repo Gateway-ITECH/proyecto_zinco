@@ -242,6 +242,7 @@ class ContentService
         [[get_class($this), 'processMincienciasBatchItem'], ['https://minciencias.gov.co/plan-convocatorias-actei-2025-2026-0']],
         [[get_class($this), 'processInnpulsaBatchItem'], ['https://source-preserve.emergent.host/api/convocatorias?active_only=true']],
         [[get_class($this), 'processIcetexBatchItem'], ['https://web.icetex.gov.co/becas/becas-para-estudios-en-el-exterior/becas-vigentes']],
+        [[get_class($this), 'processColfuturoBatchItem'], ['https://www.colfuturo.org/noticias']],
       ],
       'finished' => [get_class($this), 'finishBatch'],
     ];
@@ -281,6 +282,7 @@ class ContentService
       $min_conv_total = 0;
       $inn_conv_total = 0;
       $ice_conv_total = 0;
+      $col_news_total = 0;
       foreach ($results as $res) {
         if (isset($res['type'])) {
           if ($res['type'] == 'noticias') {
@@ -301,11 +303,15 @@ class ContentService
           if ($res['type'] == 'convocatorias_icetex') {
             $ice_conv_total += $res['created'];
           }
+          if ($res['type'] == 'noticias_colfuturo') {
+            $col_news_total += $res['created'];
+          }
         }
       }
-      \Drupal::messenger()->addMessage(t('Sincronización completada. Noticias: @news, Noticias CC: @cc, Convocatorias Innovamos: @conv, Minciencias: @min, Innpulsa: @inn, ICETEX: @ice.', [
+      \Drupal::messenger()->addMessage(t('Sincronización completada. Noticias: @news, Noticias CC: @cc, Colfuturo: @col, Convocatorias Innovamos: @conv, Minciencias: @min, Innpulsa: @inn, ICETEX: @ice.', [
         '@news' => $news_total,
         '@cc' => $cc_news_total,
+        '@col' => $col_news_total,
         '@conv' => $conv_total,
         '@min' => $min_conv_total,
         '@inn' => $inn_conv_total,
@@ -404,6 +410,22 @@ class ContentService
       'created' => $results['created'],
     ];
     $context['message'] = t('Procesando convocatorias de Innovamos...');
+    $context['finished'] = 1;
+  }
+
+  /**
+   * Batch process callback for Colfuturo.
+   */
+  public static function processColfuturoBatchItem($url, &$context)
+  {
+    $service = \Drupal::service('zinco_front.content_service');
+    $results = $service->scrapeColfuturoNews($url, 10);
+
+    $context['results'][] = [
+      'type' => 'noticias_colfuturo',
+      'created' => $results['created'],
+    ];
+    $context['message'] = t('Procesando noticias de Colfuturo...');
     $context['finished'] = 1;
   }
 
