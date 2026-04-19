@@ -241,6 +241,7 @@ class ContentService
         [[get_class($this), 'processCCMonteriaBatchItem'], ['https://ccmonteria.org.co/noticias']],
         [[get_class($this), 'processMincienciasBatchItem'], ['https://minciencias.gov.co/plan-convocatorias-actei-2025-2026-0']],
         [[get_class($this), 'processInnpulsaBatchItem'], ['https://source-preserve.emergent.host/api/convocatorias?active_only=true']],
+        [[get_class($this), 'processIcetexBatchItem'], ['https://web.icetex.gov.co/becas/becas-para-estudios-en-el-exterior/becas-vigentes']],
       ],
       'finished' => [get_class($this), 'finishBatch'],
     ];
@@ -279,6 +280,7 @@ class ContentService
       $cc_news_total = 0;
       $min_conv_total = 0;
       $inn_conv_total = 0;
+      $ice_conv_total = 0;
       foreach ($results as $res) {
         if (isset($res['type'])) {
           if ($res['type'] == 'noticias') {
@@ -296,14 +298,18 @@ class ContentService
           if ($res['type'] == 'convocatorias_innpulsa') {
             $inn_conv_total += $res['created'];
           }
+          if ($res['type'] == 'convocatorias_icetex') {
+            $ice_conv_total += $res['created'];
+          }
         }
       }
-      \Drupal::messenger()->addMessage(t('Sincronización completada. Noticias Unicórdoba: @news, Noticias CC Montería: @cc, Convocatorias Innovamos: @conv, Convocatorias Minciencias: @min, Convocatorias Innpulsa: @inn.', [
+      \Drupal::messenger()->addMessage(t('Sincronización completada. Noticias: @news, Noticias CC: @cc, Convocatorias Innovamos: @conv, Minciencias: @min, Innpulsa: @inn, ICETEX: @ice.', [
         '@news' => $news_total,
         '@cc' => $cc_news_total,
         '@conv' => $conv_total,
         '@min' => $min_conv_total,
         '@inn' => $inn_conv_total,
+        '@ice' => $ice_conv_total,
       ]));
     } else {
       \Drupal::messenger()->addError(t('El proceso de sincronización falló. Revisa los logs para más detalles.'));
@@ -339,6 +345,22 @@ class ContentService
       'created' => $results['created'],
     ];
     $context['message'] = t('Procesando convocatorias de Innpulsa...');
+    $context['finished'] = 1;
+  }
+
+  /**
+   * Batch process callback for ICETEX.
+   */
+  public static function processIcetexBatchItem($url, &$context)
+  {
+    $service = \Drupal::service('zinco_front.content_service');
+    $results = $service->scrapeIcetexConvocatorias($url, 10);
+
+    $context['results'][] = [
+      'type' => 'convocatorias_icetex',
+      'created' => $results['created'],
+    ];
+    $context['message'] = t('Procesando becas vigentes de ICETEX...');
     $context['finished'] = 1;
   }
 
@@ -853,8 +875,10 @@ class ContentService
 
       // If the data is nested under a key, adjust here. The screenshot shows a list at root or similar.
       $items = $data;
-      if (isset($data['results'])) $items = $data['results'];
-      elseif (isset($data['data'])) $items = $data['data'];
+      if (isset($data['results']))
+        $items = $data['results'];
+      elseif (isset($data['data']))
+        $items = $data['data'];
 
       foreach ($items as $item) {
         if ($results['created'] >= $limit) {
@@ -863,14 +887,16 @@ class ContentService
 
         try {
           $title = $item['title'] ?? '';
-          if (empty($title)) continue;
+          if (empty($title))
+            continue;
 
           // Check if already exists.
           $existing = $this->entityTypeManager->getStorage('node')->loadByProperties([
             'type' => 'convocatoria',
             'title' => $title,
           ]);
-          if (!empty($existing)) continue;
+          if (!empty($existing))
+            continue;
 
           // Process Target Audience + Description + Purpose + Benefits.
           $audience = $item['target_audience'] ?? '';
@@ -924,6 +950,170 @@ class ContentService
     }
 
     return $results;
+  }
+
+  /**
+   * Scrapes scholarships (becas) from ICETEX.
+   */
+  public function scrapeIcetexConvocatorias($url = 'https://web.icetex.gov.co/becas/becas-para-estudios-en-el-exterior/becas-vigentes', $limit = 10)
+  {
+    $results = [
+      'created' => 0,
+      'errors' => [],
+    ];
+
+    try {
+      $response = $this->httpClient->request('GET', $url, [
+        'headers' => [
+          'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        ],
+      ]);
+      $html = (string) $response->getBody();
+
+      $dom = new \DOMDocument();
+      @$dom->loadHTML($html);
+      $xpath = new \DOMXPath($dom);
+
+      // Links to detail pages: a.lnk_art_nuevo_cred
+      $links = $xpath->query("//a[contains(@class, 'lnk_art_nuevo_cred')]");
+      $this->loggerFactory->get('zinco_front')->info('Becas encontradas en ICETEX: @count', ['@count' => $links->length]);
+
+      for ($i = 0; $i < $links->length && $results['created'] < $limit; $i++) {
+        $link_node = $links->item($i);
+        $href = $link_node->getAttribute('href');
+        if (empty($href)) continue;
+
+        if (strpos($href, 'http') !== 0) {
+          $href = 'https://web.icetex.gov.co' . $href;
+        }
+
+        try {
+          $detail_results = $this->scrapeIcetexDetail($href);
+          if ($detail_results) {
+            // Check if already exists.
+            $existing = $this->entityTypeManager->getStorage('node')->loadByProperties([
+              'type' => 'convocatoria',
+              'title' => $detail_results['title'],
+            ]);
+            if (!empty($existing)) {
+              continue;
+            }
+
+            $node_data = [
+              'type' => 'convocatoria',
+              'title' => $detail_results['title'],
+              'field_publico_objetivo' => [
+                'value' => $detail_results['perfil'],
+                'format' => 'basic_html',
+              ],
+              'field_fecha_de_apertura' => $detail_results['apertura'],
+              'field_fecha_de_cierre' => $detail_results['cierre'],
+              'field_mas_informacion' => $href,
+              'status' => 0,
+              'uid' => 1,
+            ];
+
+            $new_node = \Drupal\node\Entity\Node::create($node_data);
+            $new_node->save();
+            $results['created']++;
+          }
+        } catch (\Exception $e) {
+          $this->loggerFactory->get('zinco_front')->error('Error procesando detalle de beca ICETEX (@url): @msg', [
+            '@url' => $href,
+            '@msg' => $e->getMessage(),
+          ]);
+        }
+      }
+
+    } catch (\Exception $e) {
+      $results['errors'][] = $e->getMessage();
+      $this->loggerFactory->get('zinco_front')->error('Fallo el scraping de ICETEX: @msg', ['@msg' => $e->getMessage()]);
+    }
+
+    return $results;
+  }
+
+  /**
+   * Scrapes details from an ICETEX scholarship detail page.
+   */
+  protected function scrapeIcetexDetail($url)
+  {
+    try {
+      $response = $this->httpClient->request('GET', $url, [
+        'headers' => [
+          'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        ],
+      ]);
+      $html = (string) $response->getBody();
+
+      $dom = new \DOMDocument();
+      @$dom->loadHTML($html);
+      $xpath = new \DOMXPath($dom);
+
+      // Title: h1.titulo-interno
+      $title_query = $xpath->query("//h1[contains(@class, 'titulo-interno')]");
+      $title = $title_query->length ? trim($title_query->item(0)->textContent) : '';
+
+      if (empty($title)) {
+        return NULL;
+      }
+
+      // Dates: Apertura and Cierre in div.info_convo
+      $apertura = NULL;
+      $cierre = NULL;
+
+      $info_convo = $xpath->query("//div[contains(@class, 'info_convo')]//p");
+      foreach ($info_convo as $p) {
+        $text = $p->textContent;
+        if (stripos($text, 'Apertura:') !== false) {
+          $date_parts = explode(':', $text, 2);
+          if (isset($date_parts[1])) {
+            $apertura = $this->parseSpanishDate($date_parts[1]);
+          }
+        }
+        if (stripos($text, 'Cierre:') !== false) {
+          $date_parts = explode(':', $text, 2);
+          if (isset($date_parts[1])) {
+            $clean_date = preg_replace('/,?\s+hasta.*/i', '', $date_parts[1]);
+            $cierre = $this->parseSpanishDate($clean_date);
+          }
+        }
+      }
+
+      // Perfil: Accordion with text "Perfil de las personas aspirantes"
+      $perfil = '';
+      $perfil_button = $xpath->query("//button[contains(normalize-space(), 'Perfil de las personas aspirantes')] | //a[contains(normalize-space(), 'Perfil de las personas aspirantes')]");
+      if ($perfil_button->length) {
+        $id = $perfil_button->item(0)->getAttribute('aria-controls') ?: $perfil_button->item(0)->getAttribute('href');
+        if ($id) {
+          $id = ltrim($id, '#');
+          $content_by_id = $xpath->query("//div[@id='$id']");
+          if ($content_by_id->length) {
+            $perfil = trim($content_by_id->item(0)->textContent);
+          }
+        }
+        if (empty($perfil)) {
+          $content_query = $xpath->query("./following-sibling::div[contains(@class, 'panel-body')] | ./following-sibling::div[contains(@class, 'content')] | ../following-sibling::div", $perfil_button->item(0));
+          if ($content_query->length) {
+            $perfil = trim($content_query->item(0)->textContent);
+          }
+        }
+      }
+
+      return [
+        'title' => $title,
+        'apertura' => $apertura,
+        'cierre' => $cierre,
+        'perfil' => $perfil,
+      ];
+
+    } catch (\Exception $e) {
+      $this->loggerFactory->get('zinco_front')->error('Error scraping ICETEX detail (@url): @msg', [
+        '@url' => $url,
+        '@msg' => $e->getMessage(),
+      ]);
+    }
+    return NULL;
   }
 
 }
