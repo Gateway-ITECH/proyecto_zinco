@@ -517,6 +517,7 @@ class ContentService
           $content = $article->getAttribute('title');
 
           if (empty($title)) {
+            $this->loggerFactory->get('zinco_front')->warning('CC Montería: Título vacío. Saltando elemento.');
             continue;
           }
 
@@ -526,6 +527,7 @@ class ContentService
             'title' => $title,
           ]);
           if (!empty($existing)) {
+            $this->loggerFactory->get('zinco_front')->info('CC Montería: Noticia ya existe (saltando): @title', ['@title' => $title]);
             continue;
           }
 
@@ -572,6 +574,10 @@ class ContentService
 
           $new_node = \Drupal\node\Entity\Node::create($node_data);
           $new_node->save();
+          $this->loggerFactory->get('zinco_front')->info('CC Montería: Noticia guardada con éxito: @title (ID: @id)', [
+            '@title' => $title,
+            '@id' => $new_node->id(),
+          ]);
           $results['created']++;
 
         }
