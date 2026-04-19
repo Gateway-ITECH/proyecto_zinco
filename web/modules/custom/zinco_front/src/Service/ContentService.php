@@ -315,7 +315,10 @@ class ContentService
 
       $xpath = new \DOMXPath($dom);
 
-      $this->loggerFactory->get('zinco_front')->info('Iniciando scraping de Innovamos. Longitud HTML: @len', ['@len' => strlen($html)]);
+      $this->loggerFactory->get('zinco_front')->info('Iniciando scraping de Innovamos. Longitud HTML: @len. Contenido: @html', [
+        '@len' => strlen($html),
+        '@html' => $html,
+      ]);
 
       // Search for cards.
       $cards = $xpath->query("//div[contains(@class, 'card')]");
