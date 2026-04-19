@@ -504,7 +504,7 @@ class ContentService
 
         try {
           // Extract Title.
-          $title_query = $xpath->query(".//div[2]/div[2]", $article);
+          $title_query = $xpath->query(".//div[contains(@class, 'title-newsreel-index')]", $article);
           $title = $title_query->length ? trim($title_query->item(0)->textContent) : '';
 
           // Link.
