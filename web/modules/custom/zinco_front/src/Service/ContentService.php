@@ -348,10 +348,9 @@ class ContentService
 
           // Link. Using FriendlyName as requested.
           $link = '';
-          if (!empty($item['FriendlyName'])) {
-            $link = 'https://www.innovamos.gov.co/instrumentos/' . $item['FriendlyName'];
-          }
-          elseif (!empty($item['friendlyUrl'])) {
+          if (!empty($item['friendlyName'])) {
+            $link = 'https://www.innovamos.gov.co/instrumentos/' . $item['friendlyName'];
+          } elseif (!empty($item['friendlyUrl'])) {
             $link = strpos($item['friendlyUrl'], 'http') === 0 ? $item['friendlyUrl'] : 'https://www.innovamos.gov.co' . $item['friendlyUrl'];
           }
 
