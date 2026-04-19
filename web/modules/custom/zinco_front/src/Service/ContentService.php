@@ -1117,9 +1117,9 @@ class ContentService
           if (strpos($deep_url, 'http') !== 0) {
             $deep_url = 'https://web.icetex.gov.co' . $deep_url;
           }
-          
+
           $this->loggerFactory->get('zinco_front')->debug('Siguiendo enlace profundo hacia @url', ['@url' => $deep_url]);
-          
+
           try {
             $response_deep = $this->httpClient->request('GET', $deep_url, [
               'headers' => [
@@ -1132,7 +1132,7 @@ class ContentService
             $dom_deep->loadHTML($html_target);
             libxml_clear_errors();
             $xpath_target = new \DOMXPath($dom_deep);
-            
+
             // Update title if deeper page has a better one
             $title_query_deep = $xpath_target->query("//h1[contains(@class, 'titulo-interno')]");
             if ($title_query_deep->length) {
@@ -1172,7 +1172,7 @@ class ContentService
 
       // Fallback to div.info_convo if indicators not found
       if (!$apertura && !$cierre) {
-        $info_convo = $xpath_detail->query("//div[contains(@class, 'info_convo')]//p");
+        $info_convo = $xpath_target->query("//div[contains(@class, 'info_convo')]//p");
         foreach ($info_convo as $p) {
           $text = $p->textContent;
           if (stripos($text, 'Apertura:') !== false) {
