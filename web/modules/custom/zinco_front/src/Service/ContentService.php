@@ -353,6 +353,9 @@ class ContentService
    */
   public static function processIcetexBatchItem($url, &$context)
   {
+    $logger = \Drupal::logger('zinco_front');
+    $logger->info('Iniciando batch de ICETEX para URL: @url', ['@url' => $url]);
+
     $service = \Drupal::service('zinco_front.content_service');
     $results = $service->scrapeIcetexConvocatorias($url, 10);
 
@@ -360,7 +363,15 @@ class ContentService
       'type' => 'convocatorias_icetex',
       'created' => $results['created'],
     ];
-    $context['message'] = t('Procesando becas vigentes de ICETEX...');
+
+    $logger->info('Batch de ICETEX finalizado. Creadas @count convocatorias.', ['@count' => $results['created']]);
+    if (!empty($results['errors'])) {
+      foreach ($results['errors'] as $error) {
+        $logger->error('Error en batch ICETEX: @error', ['@error' => $error]);
+      }
+    }
+
+    $context['message'] = t('Procesando becas vigentes de ICETEX (@count creadas)...', ['@count' => $results['created']]);
     $context['finished'] = 1;
   }
 
