@@ -563,6 +563,23 @@ class ContentService
       }
     }
 
+    // Format: "Mar. 24 / 2026" (Colfuturo) or similar.
+    if (preg_match('/([a-z]{3})\.?\s+(\d{1,2})\s*[\/\-]\s*(\d{4})/i', $dateString, $matches)) {
+      $month_abbr = mb_strtolower(trim($matches[1], '.'));
+      $day = str_pad($matches[2], 2, '0', STR_PAD_LEFT);
+      $year = $matches[3];
+
+      $abbr_map = [
+        'ene' => '01', 'feb' => '02', 'mar' => '03', 'abr' => '04', 'may' => '05', 'jun' => '06',
+        'jul' => '07', 'ago' => '08', 'sep' => '09', 'oct' => '10', 'nov' => '11', 'dic' => '12',
+        'jan' => '01', 'apr' => '04', 'aug' => '08', 'dec' => '12'
+      ];
+
+      if (isset($abbr_map[$month_abbr])) {
+        return "$year-" . $abbr_map[$month_abbr] . "-$day";
+      }
+    }
+
     return NULL;
   }
 
@@ -1227,6 +1244,163 @@ class ContentService
 
     } catch (\Exception $e) {
       $this->loggerFactory->get('zinco_front')->error('Error scraping ICETEX detail (@url): @msg', [
+        '@url' => $url,
+        '@msg' => $e->getMessage(),
+      ]);
+    }
+    return NULL;
+  }
+
+  /**
+   * Scrapes news from Colfuturo.
+   */
+  public function scrapeColfuturoNews($url = 'https://www.colfuturo.org/noticias', $limit = 10)
+  {
+    $results = [
+      'created' => 0,
+      'errors' => [],
+    ];
+
+    try {
+      $response = $this->httpClient->request('GET', $url, [
+        'headers' => [
+          'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        ],
+      ]);
+      $html = (string) $response->getBody();
+
+      $dom = new \DOMDocument();
+      libxml_use_internal_errors(true);
+      $dom->loadHTML($html);
+      libxml_clear_errors();
+
+      $xpath = new \DOMXPath($dom);
+
+      // Selectors: .views-row
+      $articles = $xpath->query("//div[contains(@class, 'views-row')]");
+      $this->loggerFactory->get('zinco_front')->info('Noticias encontradas en Colfuturo: @count', ['@count' => $articles->length]);
+
+      for ($i = 0; $i < $articles->length && $results['created'] < $limit; $i++) {
+        $article = $articles->item($i);
+
+        try {
+          // Extract Title and Link.
+          $title_query = $xpath->query(".//h3//a | .//div[contains(@class, 'views-field-title')]//a", $article);
+          if (!$title_query->length) {
+            continue;
+          }
+
+          $title = trim($title_query->item(0)->textContent);
+          $link = $title_query->item(0)->getAttribute('href');
+
+          if (!empty($link) && strpos($link, 'http') !== 0) {
+            $link = 'https://www.colfuturo.org' . $link;
+          }
+
+          if (empty($title)) {
+            continue;
+          }
+
+          // Check if already exists.
+          $existing = $this->entityTypeManager->getStorage('node')->loadByProperties([
+            'type' => 'noticia',
+            'title' => $title,
+          ]);
+          if (!empty($existing)) {
+            continue;
+          }
+
+          // Extract Image.
+          $img_url = '';
+          $img_query = $xpath->query(".//div[contains(@class, 'views-field-field-image')]//img | .//img", $article);
+          if ($img_query->length) {
+            $img_url = $img_query->item(0)->getAttribute('src');
+            if (!empty($img_url) && strpos($img_url, 'http') !== 0) {
+              $img_url = 'https://www.colfuturo.org' . $img_url;
+            }
+          }
+
+          // Extract Summary/Date.
+          $summary = '';
+          $summary_query = $xpath->query(".//div[contains(@class, 'views-field-field-summary')] | .//div[contains(@class, 'node__content')]", $article);
+          if ($summary_query->length) {
+            $summary = trim($summary_query->item(0)->textContent);
+          }
+
+          // Visit Detail Page for full content.
+          $content = $summary;
+          if (!empty($link)) {
+            $detail_content = $this->scrapeColfuturoDetailContent($link);
+            if ($detail_content) {
+              $content = $detail_content;
+            }
+          }
+
+          $node_data = [
+            'type' => 'noticia',
+            'title' => $title,
+            'field_contenido_noticia' => [
+              'value' => $content,
+              'format' => 'basic_html',
+            ],
+            'status' => 0, // DRAFT
+            'uid' => 1,
+          ];
+
+          // Handle Image.
+          if (!empty($img_url)) {
+            $file = $this->downloadAndCreateFile($img_url);
+            if ($file) {
+              $node_data['field_imagen_destacada'] = [
+                'target_id' => $file->id(),
+                'alt' => $title,
+              ];
+            }
+          }
+
+          $new_node = \Drupal\node\Entity\Node::create($node_data);
+          $new_node->save();
+          $this->loggerFactory->get('zinco_front')->info('Colfuturo: Noticia creada: @title', ['@title' => $title]);
+          $results['created']++;
+
+        } catch (\Exception $e) {
+          $results['errors'][] = $e->getMessage();
+          $this->loggerFactory->get('zinco_front')->error('Error procesando noticia Colfuturo: @msg', ['@msg' => $e->getMessage()]);
+        }
+      }
+    } catch (\Exception $e) {
+      $results['errors'][] = $e->getMessage();
+      $this->loggerFactory->get('zinco_front')->error('Fallo el scraping de Colfuturo: @msg', ['@msg' => $e->getMessage()]);
+    }
+
+    return $results;
+  }
+
+  /**
+   * Scrapes the body content from a Colfuturo news detail page.
+   */
+  protected function scrapeColfuturoDetailContent($url)
+  {
+    try {
+      $response = $this->httpClient->request('GET', $url, [
+        'headers' => [
+          'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        ],
+      ]);
+      $html = (string) $response->getBody();
+      $dom = new \DOMDocument();
+      libxml_use_internal_errors(true);
+      $dom->loadHTML($html);
+      libxml_clear_errors();
+      $xpath = new \DOMXPath($dom);
+
+      $content_query = $xpath->query("//div[contains(@class, 'field--name-body')] | //div[@property='schema:text']");
+      if ($content_query->length) {
+        // Return HTML content.
+        return $dom->saveHTML($content_query->item(0));
+      }
+    } catch (\Exception $e) {
+      $this->loggerFactory->get('zinco_front')->error('Error scraping Colfuturo detail (@url): @msg', [
         '@url' => $url,
         '@msg' => $e->getMessage(),
       ]);
