@@ -592,9 +592,22 @@ class ContentService
       $year = $matches[3];
 
       $abbr_map = [
-        'ene' => '01', 'feb' => '02', 'mar' => '03', 'abr' => '04', 'may' => '05', 'jun' => '06',
-        'jul' => '07', 'ago' => '08', 'sep' => '09', 'oct' => '10', 'nov' => '11', 'dic' => '12',
-        'jan' => '01', 'apr' => '04', 'aug' => '08', 'dec' => '12'
+        'ene' => '01',
+        'feb' => '02',
+        'mar' => '03',
+        'abr' => '04',
+        'may' => '05',
+        'jun' => '06',
+        'jul' => '07',
+        'ago' => '08',
+        'sep' => '09',
+        'oct' => '10',
+        'nov' => '11',
+        'dic' => '12',
+        'jan' => '01',
+        'apr' => '04',
+        'aug' => '08',
+        'dec' => '12'
       ];
 
       if (isset($abbr_map[$month_abbr])) {
@@ -1307,7 +1320,7 @@ class ContentService
 
         try {
           // Extract Title and Link.
-          $title_node = $xpath->query(".//h3 | .//div[contains(@class, 'views-field-title')] | .//div[contains(@class, 'new-row___content')]//div[contains(@class, 'title')]", $article)->item(0);
+          $title_node = $xpath->query(".//h3 | .//div[contains(@class, 'views-field-title')] | .//div[contains(@class, 'new-row__content')]//div[contains(@class, 'title')]", $article)->item(0);
 
           if (!$title_node) {
             $this->loggerFactory->get('zinco_front')->warning('Colfuturo: No se encontró el nodo de título para el ítem @i.', ['@i' => $i]);
