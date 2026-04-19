@@ -1170,6 +1170,13 @@ class ContentService
         }
       }
 
+      // Extract target audience (público objetivo) from the specific path requested.
+      $perfil = '';
+      $publico_nodes = $xpath_target->query("//div[contains(@class, 'descrp_conv')]/div[contains(@class, 'descrp_conv')]/div[contains(@class, 'descrp_conv')]/div[contains(@class, 'descrp_conv')]/p[3]");
+      if ($publico_nodes->length) {
+        $perfil = trim($publico_nodes->item(0)->textContent);
+      }
+
       // Fallback to div.info_convo if indicators not found
       if (!$apertura && !$cierre) {
         $info_convo = $xpath_target->query("//div[contains(@class, 'info_convo')]//p");
@@ -1196,16 +1203,17 @@ class ContentService
         '@ci' => $cierre ?? 'N/A',
       ]);
 
-      // Perfil: Accordion with text "Perfil de las personas aspirantes"
-      $perfil = '';
-      $perfil_button = $xpath_target->query("//button[contains(normalize-space(), 'Perfil de las personas aspirantes')] | //a[contains(normalize-space(), 'Perfil de las personas aspirantes')]");
-      if ($perfil_button->length) {
-        $id = $perfil_button->item(0)->getAttribute('aria-controls') ?: $perfil_button->item(0)->getAttribute('href');
-        if ($id) {
-          $id = ltrim($id, '#');
-          $content_by_id = $xpath_target->query("//div[@id='$id']");
-          if ($content_by_id->length) {
-            $perfil = trim($content_by_id->item(0)->textContent);
+      // Fallback: Perfil from Accordion with text "Perfil de las personas aspirantes" if not found above.
+      if (empty($perfil)) {
+        $perfil_button = $xpath_target->query("//button[contains(normalize-space(), 'Perfil de las personas aspirantes')] | //a[contains(normalize-space(), 'Perfil de las personas aspirantes')]");
+        if ($perfil_button->length) {
+          $id = $perfil_button->item(0)->getAttribute('aria-controls') ?: $perfil_button->item(0)->getAttribute('href');
+          if ($id) {
+            $id = ltrim($id, '#');
+            $content_by_id = $xpath_target->query("//div[@id='$id']");
+            if ($content_by_id->length) {
+              $perfil = trim($content_by_id->item(0)->textContent);
+            }
           }
         }
       }
