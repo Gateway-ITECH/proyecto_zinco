@@ -179,18 +179,31 @@ class ContentService
    */
   protected function downloadAndCreateFile($url)
   {
-    try {
-      // Ensure URL is absolute.
-      if (strpos($url, '//') === 0) {
-        $url = 'https:' . $url;
-      }
+      $data = '';
+      $filename = '';
 
-      $response = $this->httpClient->request('GET', $url);
-      $data = (string) $response->getBody();
+      if (strpos($url, 'data:image/') === 0) {
+        // Handle Base64 data URI.
+        if (preg_match('/^data:image\/(\w+);base64,(.*)$/', $url, $matches)) {
+          $extension = $matches[1];
+          $data = base64_decode($matches[2]);
+          $filename = 'base64_image_' . time() . '_' . rand(100, 999) . '.' . $extension;
+        } else {
+          return NULL;
+        }
+      } else {
+        // Handle Normal URL.
+        if (strpos($url, '//') === 0) {
+          $url = 'https:' . $url;
+        }
 
-      $filename = basename(parse_url($url, PHP_URL_PATH));
-      if (empty($filename) || strpos($filename, '.') === false) {
-        $filename = 'news_image_' . time() . '.jpg';
+        $response = $this->httpClient->request('GET', $url);
+        $data = (string) $response->getBody();
+
+        $filename = basename(parse_url($url, PHP_URL_PATH));
+        if (empty($filename) || strpos($filename, '.') === false) {
+          $filename = 'news_image_' . time() . '.jpg';
+        }
       }
 
       $directory = 'public://noticias/' . date('Y-m');
@@ -226,6 +239,7 @@ class ContentService
         [[get_class($this), 'processInnovamosBatchItem'], ['https://www.innovamos.gov.co/api/v1/contents?benefits=&contentType=12&featured=false&hasNextPage=false&includeTags=true&keyword=&labels=&labelsSecond=&labelsThird=&locations=&orderBy=recent&organizations=&page=0&pageSize=10&publicPolitics=&showOnHome=true&targetUsers=']],
         [[get_class($this), 'processCCMonteriaBatchItem'], ['https://ccmonteria.org.co/noticias']],
         [[get_class($this), 'processMincienciasBatchItem'], ['https://minciencias.gov.co/plan-convocatorias-actei-2025-2026-0']],
+        [[get_class($this), 'processInnpulsaBatchItem'], ['https://source-preserve.emergent.host/api/convocatorias?active_only=true']],
       ],
       'finished' => [get_class($this), 'finishBatch'],
     ];
@@ -263,6 +277,7 @@ class ContentService
       $conv_total = 0;
       $cc_news_total = 0;
       $min_conv_total = 0;
+      $inn_conv_total = 0;
       foreach ($results as $res) {
         if (isset($res['type'])) {
           if ($res['type'] == 'noticias') {
@@ -277,13 +292,17 @@ class ContentService
           if ($res['type'] == 'convocatorias_min') {
             $min_conv_total += $res['created'];
           }
+          if ($res['type'] == 'convocatorias_innpulsa') {
+            $inn_conv_total += $res['created'];
+          }
         }
       }
-      \Drupal::messenger()->addMessage(t('Sincronización completada. Noticias Unicórdoba: @news, Noticias CC Montería: @cc, Convocatorias Innovamos: @conv, Convocatorias Minciencias: @min.', [
+      \Drupal::messenger()->addMessage(t('Sincronización completada. Noticias Unicórdoba: @news, Noticias CC Montería: @cc, Convocatorias Innovamos: @conv, Convocatorias Minciencias: @min, Convocatorias Innpulsa: @inn.', [
         '@news' => $news_total,
         '@cc' => $cc_news_total,
         '@conv' => $conv_total,
         '@min' => $min_conv_total,
+        '@inn' => $inn_conv_total,
       ]));
     } else {
       \Drupal::messenger()->addError(t('El proceso de sincronización falló. Revisa los logs para más detalles.'));
@@ -303,6 +322,22 @@ class ContentService
       'created' => $results['created'],
     ];
     $context['message'] = t('Procesando plan de convocatorias de Minciencias...');
+    $context['finished'] = 1;
+  }
+
+  /**
+   * Batch process callback for Innpulsa.
+   */
+  public static function processInnpulsaBatchItem($url, &$context)
+  {
+    $service = \Drupal::service('zinco_front.content_service');
+    $results = $service->scrapeInnpulsaConvocatorias($url, 20);
+
+    $context['results'][] = [
+      'type' => 'convocatorias_innpulsa',
+      'created' => $results['created'],
+    ];
+    $context['message'] = t('Procesando convocatorias de Innpulsa...');
     $context['finished'] = 1;
   }
 
@@ -456,9 +491,18 @@ class ContentService
     }
 
     $months = [
-      'enero' => '01', 'febrero' => '02', 'marzo' => '03', 'abril' => '04',
-      'mayo' => '05', 'junio' => '06', 'julio' => '07', 'agosto' => '08',
-      'septiembre' => '09', 'octubre' => '10', 'noviembre' => '11', 'diciembre' => '12'
+      'enero' => '01',
+      'febrero' => '02',
+      'marzo' => '03',
+      'abril' => '04',
+      'mayo' => '05',
+      'junio' => '06',
+      'julio' => '07',
+      'agosto' => '08',
+      'septiembre' => '09',
+      'octubre' => '10',
+      'noviembre' => '11',
+      'diciembre' => '12'
     ];
 
     $dateString = mb_strtolower(trim($dateString));
@@ -662,7 +706,7 @@ class ContentService
               $year_found = true;
             }
           }
-          
+
           if (!$year_found) {
             continue;
           }
@@ -673,7 +717,7 @@ class ContentService
             continue;
           }
           $title = trim($title_query->item(0)->textContent);
-          
+
           $link_query = $xpath->query(".//a", $title_query->item(0));
           $link = $link_query->length ? $link_query->item(0)->getAttribute('href') : '';
           if (!empty($link) && strpos($link, 'http') !== 0) {
@@ -708,7 +752,7 @@ class ContentService
             'status' => 0,
             'uid' => 1,
           ];
-          
+
           // Try to set dates from detail page.
           if (!empty($link)) {
             $detail_dates = $this->scrapeMincienciasDetailDates($link);
@@ -782,6 +826,103 @@ class ContentService
     }
 
     return $dates;
+  }
+
+  //
+
+  /**
+   * Scrapes convocatorias from Innpulsa JSON API.
+   */
+  public function scrapeInnpulsaConvocatorias($url, $limit = 20)
+  {
+    $results = [
+      'created' => 0,
+      'errors' => [],
+    ];
+
+    try {
+      $response = $this->httpClient->request('GET', $url);
+      $json_string = (string) $response->getBody();
+      $data = json_decode($json_string, TRUE);
+
+      if (json_last_error() !== JSON_ERROR_NONE) {
+        $this->loggerFactory->get('zinco_front')->error('Error decoding Innpulsa JSON: @msg', ['@msg' => json_last_error_msg()]);
+        return $results;
+      }
+
+      // If the data is nested under a key, adjust here. The screenshot shows a list at root or similar.
+      $items = $data;
+      if (isset($data['results'])) $items = $data['results'];
+      elseif (isset($data['data'])) $items = $data['data'];
+
+      foreach ($items as $item) {
+        if ($results['created'] >= $limit) {
+          break;
+        }
+
+        try {
+          $title = $item['title'] ?? '';
+          if (empty($title)) continue;
+
+          // Check if already exists.
+          $existing = $this->entityTypeManager->getStorage('node')->loadByProperties([
+            'type' => 'convocatoria',
+            'title' => $title,
+          ]);
+          if (!empty($existing)) continue;
+
+          // Process Target Audience + Description + Purpose + Benefits.
+          $audience = $item['target_audience'] ?? '';
+          $description = $item['description'] ?? '';
+          $purpose = $item['purpose'] ?? '';
+          $benefits = $item['benefits'] ?? '';
+
+          $full_content = "<strong>Descripción:</strong><br>$description<br><br>";
+          $full_content .= "<strong>Público Objetivo:</strong><br>$audience<br><br>";
+          $full_content .= "<strong>Propósito:</strong><br>$purpose<br><br>";
+          $full_content .= "<strong>Beneficios:</strong><br>$benefits";
+
+          $node_data = [
+            'type' => 'convocatoria',
+            'title' => $title,
+            'field_publico_objetivo' => [
+              'value' => $full_content,
+              'format' => 'basic_html',
+            ],
+            'field_fecha_de_apertura' => $item['start_date'] ?? NULL,
+            'field_fecha_de_cierre' => $item['end_date'] ?? NULL,
+            'field_mas_informacion' => $item['registration_url'] ?? '',
+            'status' => 0, // DRAFT
+            'uid' => 1,
+          ];
+
+          // Handle Image (Base64 or URL).
+          $img_url = $item['image_url'] ?? '';
+          if (!empty($img_url)) {
+            $file = $this->downloadAndCreateFile($img_url);
+            if ($file) {
+              $node_data['field_imagen_destacada'] = [
+                'target_id' => $file->id(),
+                'alt' => $title,
+              ];
+            }
+          }
+
+          $new_node = \Drupal\node\Entity\Node::create($node_data);
+          $new_node->save();
+          $results['created']++;
+
+        } catch (\Exception $e) {
+          $results['errors'][] = $e->getMessage();
+          $this->loggerFactory->get('zinco_front')->error('Error processing Innpulsa item: @msg', ['@msg' => $e->getMessage()]);
+        }
+      }
+    } catch (\Exception $e) {
+      $results['errors'][] = $e->getMessage();
+      $this->loggerFactory->get('zinco_front')->error('Innpulsa API call failed: @msg', ['@msg' => $e->getMessage()]);
+    }
+
+    return $results;
   }
 
 }
