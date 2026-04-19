@@ -1086,13 +1086,12 @@ class ContentService
       @$dom->loadHTML($html);
       $xpath = new \DOMXPath($dom);
 
-      // Title: h1.titulo-interno
-      $title_query = $xpath->query("//h1[contains(@class, 'titulo-interno')]");
+      // Title: h1.titulo-interno or p.dist_dwn_nuevo_cred
+      $title_query = $xpath->query("//h1[contains(@class, 'titulo-interno')] | //p[contains(@class, 'dist_dwn_nuevo_cred')]");
       $title = $title_query->length ? trim($title_query->item(0)->textContent) : '';
-
-      if (empty($title)) {
-        $this->loggerFactory->get('zinco_front')->debug('Detalle ICETEX: Título no encontrado en @url', ['@url' => $url]);
-        return NULL;
+      // Clean up title if taken from p.dist_dwn_nuevo_cred
+      if (!empty($title)) {
+        $title = preg_replace('/\s*>\s*$/', '', $title);
       }
 
       // Dates: Apertura and Cierre in div.info_convo
