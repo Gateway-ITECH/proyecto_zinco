@@ -79,7 +79,7 @@ class ContentService
    * @return array
    *   Results of the operation.
    */
-  public function scrapeUnicordobaNews($url = 'https://unicordoba.edu.co/noticias-historial/', $limit = 5)
+  public function scrapeUnicordobaNews($url = 'https://unicordoba.edu.co/noticias-historial/', $limit = 30)
   {
     $results = [
       'created' => 0,
@@ -273,8 +273,7 @@ class ContentService
         '@news' => $news_total,
         '@conv' => $conv_total,
       ]));
-    }
-    else {
+    } else {
       \Drupal::messenger()->addError(t('El proceso de sincronización falló. Revisa los logs para más detalles.'));
     }
   }
@@ -399,14 +398,12 @@ class ContentService
           $new_node->save();
           $results['created']++;
 
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
           $results['errors'][] = $e->getMessage();
           $this->loggerFactory->get('zinco_front')->error('Error procesando convocatoria Innovamos: @msg', ['@msg' => $e->getMessage()]);
         }
       }
-    }
-    catch (\Exception $e) {
+    } catch (\Exception $e) {
       $results['errors'][] = $e->getMessage();
       $this->loggerFactory->get('zinco_front')->error('Fallo el scraping de Innovamos: @msg', ['@msg' => $e->getMessage()]);
     }
