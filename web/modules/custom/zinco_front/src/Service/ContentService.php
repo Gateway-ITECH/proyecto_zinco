@@ -1075,6 +1075,8 @@ class ContentService
   protected function scrapeIcetexDetail($url)
   {
     try {
+      $this->loggerFactory->get('zinco_front')->debug('Llamando a scrapeIcetexDetail para @url', ['@url' => $url]);
+
       $response = $this->httpClient->request('GET', $url, [
         'headers' => [
           'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -1083,35 +1085,66 @@ class ContentService
       $html = (string) $response->getBody();
 
       $dom = new \DOMDocument();
-      @$dom->loadHTML($html);
+      libxml_use_internal_errors(true);
+      $dom->loadHTML($html);
+      libxml_clear_errors();
+
       $xpath = new \DOMXPath($dom);
 
-      // Title: h1.titulo-interno or p.dist_dwn_nuevo_cred
-      $title_query = $xpath->query("//h1[contains(@class, 'titulo-interno')] | //p[contains(@class, 'dist_dwn_nuevo_cred')]");
+      // Title: h1.titulo-interno
+      $title_query = $xpath->query("//h1[contains(@class, 'titulo-interno')]");
       $title = $title_query->length ? trim($title_query->item(0)->textContent) : '';
-      // Clean up title if taken from p.dist_dwn_nuevo_cred
-      if (!empty($title)) {
-        $title = preg_replace('/\s*>\s*$/', '', $title);
+
+      // Clean up title if taken from p.dist_dwn_nuevo_cred (fallback)
+      if (empty($title)) {
+        $title_query_alt = $xpath->query("//p[contains(@class, 'dist_dwn_nuevo_cred')]");
+        if ($title_query_alt->length) {
+          $title = trim($title_query_alt->item(0)->textContent);
+          $title = preg_replace('/\s*>\s*$/', '', $title);
+        }
       }
 
-      // Dates: Apertura and Cierre in div.info_convo
+      // Dates: Apertura and Cierre in div.indicadores_becas
       $apertura = NULL;
       $cierre = NULL;
 
-      $info_convo = $xpath->query("//div[contains(@class, 'info_convo')]//p");
-      foreach ($info_convo as $p) {
-        $text = $p->textContent;
+      $date_containers = $xpath->query("//div[contains(@class, 'indicadores_becas')]");
+      foreach ($date_containers as $container) {
+        $text = $container->textContent;
+        // Normalize
+        $text = str_replace("\xc2\xa0", ' ', $text);
+        $text = preg_replace('/\s+/', ' ', $text);
+
         if (stripos($text, 'Apertura:') !== false) {
-          $date_parts = explode(':', $text, 2);
+          $date_parts = explode('Apertura:', $text, 2);
           if (isset($date_parts[1])) {
-            $apertura = $this->parseSpanishDate($date_parts[1]);
+            $apertura = $this->parseSpanishDate(trim($date_parts[1]));
           }
         }
         if (stripos($text, 'Cierre:') !== false) {
-          $date_parts = explode(':', $text, 2);
+          $date_parts = explode('Cierre:', $text, 2);
           if (isset($date_parts[1])) {
             $clean_date = preg_replace('/,?\s+hasta.*/i', '', $date_parts[1]);
-            $cierre = $this->parseSpanishDate($clean_date);
+            $cierre = $this->parseSpanishDate(trim($clean_date));
+          }
+        }
+      }
+
+      // Fallback to div.info_convo if indicators not found
+      if (!$apertura && !$cierre) {
+        $info_convo = $xpath->query("//div[contains(@class, 'info_convo')]//p");
+        foreach ($info_convo as $p) {
+          $text = $p->textContent;
+          if (stripos($text, 'Apertura:') !== false) {
+            $ap_parts = explode(':', $text, 2);
+            if (isset($ap_parts[1])) $apertura = $this->parseSpanishDate($ap_parts[1]);
+          }
+          if (stripos($text, 'Cierre:') !== false) {
+            $ci_parts = explode(':', $text, 2);
+            if (isset($ci_parts[1])) {
+              $clean_date = preg_replace('/,?\s+hasta.*/i', '', $ci_parts[1]);
+              $cierre = $this->parseSpanishDate($clean_date);
+            }
           }
         }
       }
@@ -1132,12 +1165,6 @@ class ContentService
           $content_by_id = $xpath->query("//div[@id='$id']");
           if ($content_by_id->length) {
             $perfil = trim($content_by_id->item(0)->textContent);
-          }
-        }
-        if (empty($perfil)) {
-          $content_query = $xpath->query("./following-sibling::div[contains(@class, 'panel-body')] | ./following-sibling::div[contains(@class, 'content')] | ../following-sibling::div", $perfil_button->item(0));
-          if ($content_query->length) {
-            $perfil = trim($content_query->item(0)->textContent);
           }
         }
       }
