@@ -985,42 +985,50 @@ class ContentService
       @$dom->loadHTML($html);
       $xpath = new \DOMXPath($dom);
 
-      // Links to detail pages: a.lnk_art_nuevo_cred
-      $links = $xpath->query("//a[contains(@class, 'lnk_art_nuevo_cred')]");
-      $this->loggerFactory->get('zinco_front')->info('Becas encontradas en ICETEX: @count', ['@count' => $links->length]);
+      // The container is usually div.media
+      $items = $xpath->query("//div[contains(@class, 'media')]");
+      $this->loggerFactory->get('zinco_front')->info('Becas encontradas en ICETEX: @count', ['@count' => $items->length]);
 
-      for ($i = 0; $i < $links->length && $results['created'] < $limit; $i++) {
-        $link_node = $links->item($i);
-        $href = $link_node->getAttribute('href');
-        if (empty($href)) {
-          $this->loggerFactory->get('zinco_front')->warning('Beca ICETEX @i: href vacío.', ['@i' => $i]);
+      for ($i = 0; $i < $items->length && $results['created'] < $limit; $i++) {
+        $item_node = $items->item($i);
+
+        // Find the link
+        $link_query = $xpath->query(".//a[contains(@class, 'lnk_art_nuevo_cred')]", $item_node);
+        if (!$link_query->length)
           continue;
-        }
+
+        $link_node = $link_query->item(0);
+        $href = $link_node->getAttribute('href');
+        if (empty($href))
+          continue;
 
         if (strpos($href, 'http') !== 0) {
           $href = 'https://web.icetex.gov.co' . $href;
         }
 
-        $this->loggerFactory->get('zinco_front')->debug('Procesando beca ICETEX @i: @url', ['@i' => $i, '@url' => $href]);
-
-        // Extract title from parent p tag as suggested by user.
-        $parent_p = $link_node->parentNode;
-        $title = $parent_p ? trim($parent_p->textContent) : '';
+        // Title from a tag text (cleaning the span >)
+        $title = trim($link_node->textContent);
         $title = preg_replace('/\s*>\s*$/', '', $title);
 
+        // Image from img tag
+        $image_url = '';
+        $img_query = $xpath->query(".//img[contains(@class, 'image_article_nuevo_cred')]", $item_node);
+        if ($img_query->length) {
+          $image_url = $img_query->item(0)->getAttribute('src');
+          if (!empty($image_url) && strpos($image_url, 'http') !== 0) {
+            $image_url = 'https://web.icetex.gov.co' . $image_url;
+          }
+        }
+
         try {
+          $this->loggerFactory->get('zinco_front')->debug('Procesando beca ICETEX @i: @url', ['@i' => $i, '@url' => $href]);
+
           $detail_results = $this->scrapeIcetexDetail($href);
           if (!$detail_results) {
-            $this->loggerFactory->get('zinco_front')->warning('No se pudo obtener el detalle para @url', ['@url' => $href]);
             continue;
           }
 
           $final_title = !empty($title) ? $title : $detail_results['title'];
-
-          if (empty($final_title)) {
-            $this->loggerFactory->get('zinco_front')->warning('Título vacío para @url', ['@url' => $href]);
-            continue;
-          }
 
           // Check if already exists.
           $existing = $this->entityTypeManager->getStorage('node')->loadByProperties([
@@ -1028,7 +1036,6 @@ class ContentService
             'title' => $final_title,
           ]);
           if (!empty($existing)) {
-            $this->loggerFactory->get('zinco_front')->info('Beca ICETEX ya existe (ignorando): @title', ['@title' => $final_title]);
             continue;
           }
 
@@ -1046,18 +1053,22 @@ class ContentService
             'uid' => 1,
           ];
 
+          // Handle image if found
+          if ($image_url) {
+            $file = $this->downloadAndCreateFile($image_url);
+            if ($file) {
+              $node_data['field_imagen_destacada'] = [
+                'target_id' => $file->id(),
+                'alt' => $final_title,
+              ];
+            }
+          }
+
           $new_node = \Drupal\node\Entity\Node::create($node_data);
           $new_node->save();
-          $this->loggerFactory->get('zinco_front')->info('Beca ICETEX registrada con éxito: @title (ID: @id)', [
-            '@title' => $final_title,
-            '@id' => $new_node->id(),
-          ]);
           $results['created']++;
         } catch (\Exception $e) {
-          $this->loggerFactory->get('zinco_front')->error('Error procesando detalle de beca ICETEX (@url): @msg', [
-            '@url' => $href,
-            '@msg' => $e->getMessage(),
-          ]);
+          $this->loggerFactory->get('zinco_front')->error('Error en item ICETEX: @msg', ['@msg' => $e->getMessage()]);
         }
       }
 
@@ -1104,11 +1115,33 @@ class ContentService
         }
       }
 
+      //obtener url de title
+      $title_url = '';
+      $title_url_alt = $xpath->query("//a[contains(@class, 'lnk_art_nuevo_cred')]");
+      if ($title_url_alt->length) {
+        $title_url = trim($title_url_alt->item(0)->getAttribute('href'));
+      }
+
+      $response_detail = $this->httpClient->request('GET', $title_url, [
+        'headers' => [
+          'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        ],
+      ]);
+      $html_detail = (string) $response_detail->getBody();
+
+      $dom_detail = new \DOMDocument();
+      libxml_use_internal_errors(true);
+      $dom_detail->loadHTML($html_detail);
+      libxml_clear_errors();
+
+      $xpath_detail = new \DOMXPath($dom_detail);
+
+
       // Dates: Apertura and Cierre in div.indicadores_becas
       $apertura = NULL;
       $cierre = NULL;
 
-      $date_containers = $xpath->query("//div[contains(@class, 'indicadores_becas')]");
+      $date_containers = $xpath_detail->query("//div[contains(@class, 'indicadores_becas')]");
       foreach ($date_containers as $container) {
         $text = $container->textContent;
         // Normalize
@@ -1132,12 +1165,13 @@ class ContentService
 
       // Fallback to div.info_convo if indicators not found
       if (!$apertura && !$cierre) {
-        $info_convo = $xpath->query("//div[contains(@class, 'info_convo')]//p");
+        $info_convo = $xpath_detail->query("//div[contains(@class, 'info_convo')]//p");
         foreach ($info_convo as $p) {
           $text = $p->textContent;
           if (stripos($text, 'Apertura:') !== false) {
             $ap_parts = explode(':', $text, 2);
-            if (isset($ap_parts[1])) $apertura = $this->parseSpanishDate($ap_parts[1]);
+            if (isset($ap_parts[1]))
+              $apertura = $this->parseSpanishDate($ap_parts[1]);
           }
           if (stripos($text, 'Cierre:') !== false) {
             $ci_parts = explode(':', $text, 2);
@@ -1157,12 +1191,12 @@ class ContentService
 
       // Perfil: Accordion with text "Perfil de las personas aspirantes"
       $perfil = '';
-      $perfil_button = $xpath->query("//button[contains(normalize-space(), 'Perfil de las personas aspirantes')] | //a[contains(normalize-space(), 'Perfil de las personas aspirantes')]");
+      $perfil_button = $xpath_detail->query("//button[contains(normalize-space(), 'Perfil de las personas aspirantes')] | //a[contains(normalize-space(), 'Perfil de las personas aspirantes')]");
       if ($perfil_button->length) {
         $id = $perfil_button->item(0)->getAttribute('aria-controls') ?: $perfil_button->item(0)->getAttribute('href');
         if ($id) {
           $id = ltrim($id, '#');
-          $content_by_id = $xpath->query("//div[@id='$id']");
+          $content_by_id = $xpath_detail->query("//div[@id='$id']");
           if ($content_by_id->length) {
             $perfil = trim($content_by_id->item(0)->textContent);
           }
