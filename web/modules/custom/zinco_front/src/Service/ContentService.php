@@ -1310,12 +1310,17 @@ class ContentService
           $title_node = $xpath->query(".//h3 | .//div[contains(@class, 'views-field-title')] | .//div[contains(@class, 'new-row___content')]//div[contains(@class, 'title')]", $article)->item(0);
 
           if (!$title_node) {
+            $this->loggerFactory->get('zinco_front')->warning('Colfuturo: No se encontró el nodo de título para el ítem @i.', ['@i' => $i]);
             continue;
           }
 
           $title = trim($title_node->textContent);
-          $link = '';
+          if (empty($title)) {
+            $this->loggerFactory->get('zinco_front')->warning('Colfuturo: Título vacío para el ítem @i.', ['@i' => $i]);
+            continue;
+          }
 
+          $link = '';
           if ($title_node->nodeName === 'a') {
             $link = $title_node->getAttribute('href');
           } else {
@@ -1332,12 +1337,10 @@ class ContentService
             }
           }
 
-          if (!empty($link) && strpos($link, 'http') !== 0) {
+          if (empty($link)) {
+            $this->loggerFactory->get('zinco_front')->warning('Colfuturo: No se encontró enlace para la noticia: @title', ['@title' => $title]);
+          } elseif (strpos($link, 'http') !== 0) {
             $link = 'https://www.colfuturo.org' . $link;
-          }
-
-          if (empty($title)) {
-            continue;
           }
 
           // Check if already exists.
@@ -1346,8 +1349,11 @@ class ContentService
             'title' => $title,
           ]);
           if (!empty($existing)) {
+            $this->loggerFactory->get('zinco_front')->debug('Colfuturo: La noticia ya existe (omitida): @title', ['@title' => $title]);
             continue;
           }
+
+          $this->loggerFactory->get('zinco_front')->info('Colfuturo: Procesando noticia nueva: @title', ['@title' => $title]);
 
           // Extract Image.
           $img_url = '';
