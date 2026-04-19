@@ -1307,13 +1307,30 @@ class ContentService
 
         try {
           // Extract Title and Link.
-          $title_query = $xpath->query(".//h3//a | .//div[contains(@class, 'views-field-title')]//a", $article);
-          if (!$title_query->length) {
+          $title_node = $xpath->query(".//h3 | .//div[contains(@class, 'views-field-title')] | .//div[contains(@class, 'new-row___content')]//div[contains(@class, 'title')]", $article)->item(0);
+
+          if (!$title_node) {
             continue;
           }
 
-          $title = trim($title_query->item(0)->textContent);
-          $link = $title_query->item(0)->getAttribute('href');
+          $title = trim($title_node->textContent);
+          $link = '';
+
+          if ($title_node->nodeName === 'a') {
+            $link = $title_node->getAttribute('href');
+          } else {
+            // Check for link inside title or wrapping it.
+            $a_query = $xpath->query(".//a", $title_node);
+            if ($a_query->length) {
+              $link = $a_query->item(0)->getAttribute('href');
+            } else {
+              // Try wrapping link or nearby link.
+              $a_query = $xpath->query(".//a", $article);
+              if ($a_query->length) {
+                $link = $a_query->item(0)->getAttribute('href');
+              }
+            }
+          }
 
           if (!empty($link) && strpos($link, 'http') !== 0) {
             $link = 'https://www.colfuturo.org' . $link;
