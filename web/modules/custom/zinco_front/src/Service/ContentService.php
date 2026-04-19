@@ -342,9 +342,9 @@ class ContentService
             continue;
           }
 
-          // Dates. Format: 2026-04-20T00:00:00 -> 2026-04-20
-          $fecha_apertura = !empty($item['startingDate']) ? substr($item['startingDate'], 0, 10) : NULL;
-          $fecha_cierre = !empty($item['closingDate']) ? substr($item['closingDate'], 0, 10) : NULL;
+          // Dates. Format: 2026-04-20T00:00:00 -> 2026-04-20 00:00:00
+          $fecha_apertura = !empty($item['startingDate']) ? str_replace('T', ' ', $item['startingDate']) : NULL;
+          $fecha_cierre = !empty($item['closingDate']) ? str_replace('T', ' ', $item['closingDate']) : NULL;
 
           // Link. Using FriendlyName as requested.
           $link = '';
