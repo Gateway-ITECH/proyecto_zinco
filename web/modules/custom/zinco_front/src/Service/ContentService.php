@@ -224,6 +224,7 @@ class ContentService
       'operations' => [
         [[get_class($this), 'processBatchItem'], [$url]],
         [[get_class($this), 'processInnovamosBatchItem'], ['https://www.innovamos.gov.co/api/v1/contents?benefits=&contentType=12&featured=false&hasNextPage=false&includeTags=true&keyword=&labels=&labelsSecond=&labelsThird=&locations=&orderBy=recent&organizations=&page=0&pageSize=10&publicPolitics=&showOnHome=true&targetUsers=']],
+        [[get_class($this), 'processCCMonteriaBatchItem'], ['https://ccmonteria.org.co/noticias']],
       ],
       'finished' => [get_class($this), 'finishBatch'],
     ];
@@ -259,6 +260,7 @@ class ContentService
     if ($success) {
       $news_total = 0;
       $conv_total = 0;
+      $cc_news_total = 0;
       foreach ($results as $res) {
         if (isset($res['type'])) {
           if ($res['type'] == 'noticias') {
@@ -267,15 +269,35 @@ class ContentService
           if ($res['type'] == 'convocatorias') {
             $conv_total += $res['created'];
           }
+          if ($res['type'] == 'noticias_cc') {
+            $cc_news_total += $res['created'];
+          }
         }
       }
-      \Drupal::messenger()->addMessage(t('Sincronización completada. Noticias: @news, Convocatorias: @conv.', [
+      \Drupal::messenger()->addMessage(t('Sincronización completada. Noticias Unicórdoba: @news, Noticias CC Montería: @cc, Convocatorias: @conv.', [
         '@news' => $news_total,
+        '@cc' => $cc_news_total,
         '@conv' => $conv_total,
       ]));
     } else {
       \Drupal::messenger()->addError(t('El proceso de sincronización falló. Revisa los logs para más detalles.'));
     }
+  }
+
+  /**
+   * Batch process callback for CC Montería.
+   */
+  public static function processCCMonteriaBatchItem($url, &$context)
+  {
+    $service = \Drupal::service('zinco_front.content_service');
+    $results = $service->scrapeCCMonteriaNews($url, 10);
+
+    $context['results'][] = [
+      'type' => 'noticias_cc',
+      'created' => $results['created'],
+    ];
+    $context['message'] = t('Procesando noticias de la Cámara de Comercio de Montería...');
+    $context['finished'] = 1;
   }
 
   /**
@@ -440,6 +462,112 @@ class ContentService
   }
 
 
-  //
+  /**
+   * Scrapes news from CC Montería.
+   */
+  public function scrapeCCMonteriaNews($url = 'https://ccmonteria.org.co/noticias', $limit = 10)
+  {
+    $results = [
+      'created' => 0,
+      'errors' => [],
+    ];
+
+    try {
+      $response = $this->httpClient->request('GET', $url);
+      $html = (string) $response->getBody();
+
+      $dom = new \DOMDocument();
+      libxml_use_internal_errors(true);
+      $dom->loadHTML($html);
+      libxml_clear_errors();
+
+      $xpath = new \DOMXPath($dom);
+
+      // Selectors based on analysis: a.box-newsreel
+      $articles = $xpath->query("//a[contains(@class, 'box-newsreel')]");
+
+      for ($i = 0; $i < $articles->length && $results['created'] < $limit; $i++) {
+        $article = $articles->item($i);
+
+        try {
+          // Extract Title.
+          $title_query = $xpath->query(".//div[2]/div[2]", $article);
+          $title = $title_query->length ? trim($title_query->item(0)->textContent) : '';
+
+          // Link.
+          $link = $article->getAttribute('href');
+          if (!empty($link) && strpos($link, 'http') !== 0) {
+            $link = 'https://ccmonteria.org.co' . $link;
+          }
+
+          // Content from 'title' attribute.
+          $content = $article->getAttribute('title');
+
+          if (empty($title)) {
+            continue;
+          }
+
+          // Check if already exists.
+          $existing = $this->entityTypeManager->getStorage('node')->loadByProperties([
+            'type' => 'noticia',
+            'title' => $title,
+          ]);
+          if (!empty($existing)) {
+            continue;
+          }
+
+          // Extract Image from background-image style.
+          $img_url = '';
+          $img_div_query = $xpath->query(".//div[1]/div", $article);
+          if ($img_div_query->length) {
+            $style = $img_div_query->item(0)->getAttribute('style');
+            if (preg_match('/url\([\'"]?(.*?)[\'"]?\)/', $style, $matches)) {
+              $img_url = $matches[1];
+              if (strpos($img_url, 'http') !== 0) {
+                $img_url = 'https://ccmonteria.org.co' . $img_url;
+              }
+            }
+          }
+
+          $node_data = [
+            'type' => 'noticia',
+            'title' => $title,
+            'field_contenido_noticia' => [
+              'value' => $content,
+              'format' => 'basic_html',
+            ],
+            'status' => 0, // MODO BORRADOR
+            'uid' => 1,
+          ];
+
+          // Handle Image.
+          if (!empty($img_url)) {
+            $file = $this->downloadAndCreateFile($img_url);
+            if ($file) {
+              $node_data['field_imagen_destacada'] = [
+                'target_id' => $file->id(),
+                'alt' => $title,
+              ];
+            }
+          }
+
+          $new_node = \Drupal\node\Entity\Node::create($node_data);
+          $new_node->save();
+          $results['created']++;
+
+        }
+        catch (\Exception $e) {
+          $results['errors'][] = $e->getMessage();
+          $this->loggerFactory->get('zinco_front')->error('Error procesando noticia CC Montería: @msg', ['@msg' => $e->getMessage()]);
+        }
+      }
+    }
+    catch (\Exception $e) {
+      $results['errors'][] = $e->getMessage();
+      $this->loggerFactory->get('zinco_front')->error('Fallo el scraping de CC Montería: @msg', ['@msg' => $e->getMessage()]);
+    }
+
+    return $results;
+  }
 
 }
