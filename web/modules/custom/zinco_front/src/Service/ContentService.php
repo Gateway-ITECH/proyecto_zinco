@@ -1106,42 +1106,49 @@ class ContentService
       $title_query = $xpath->query("//h1[contains(@class, 'titulo-interno')]");
       $title = $title_query->length ? trim($title_query->item(0)->textContent) : '';
 
-      // Clean up title if taken from p.dist_dwn_nuevo_cred (fallback)
-      if (empty($title)) {
-        $title_query_alt = $xpath->query("//p[contains(@class, 'dist_dwn_nuevo_cred')]");
-        if ($title_query_alt->length) {
-          $title = trim($title_query_alt->item(0)->textContent);
-          $title = preg_replace('/\s*>\s*$/', '', $title);
+      // Check if there is a deeper link (a.lnk_art_nuevo_cred) as sometimes the first page is a gateway
+      $xpath_target = $xpath;
+      $html_target = $html;
+
+      $deep_link_query = $xpath->query("//a[contains(@class, 'lnk_art_nuevo_cred')]");
+      if ($deep_link_query->length) {
+        $deep_url = $deep_link_query->item(0)->getAttribute('href');
+        if (!empty($deep_url)) {
+          if (strpos($deep_url, 'http') !== 0) {
+            $deep_url = 'https://web.icetex.gov.co' . $deep_url;
+          }
+          
+          $this->loggerFactory->get('zinco_front')->debug('Siguiendo enlace profundo hacia @url', ['@url' => $deep_url]);
+          
+          try {
+            $response_deep = $this->httpClient->request('GET', $deep_url, [
+              'headers' => [
+                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+              ],
+            ]);
+            $html_target = (string) $response_deep->getBody();
+            $dom_deep = new \DOMDocument();
+            libxml_use_internal_errors(true);
+            $dom_deep->loadHTML($html_target);
+            libxml_clear_errors();
+            $xpath_target = new \DOMXPath($dom_deep);
+            
+            // Update title if deeper page has a better one
+            $title_query_deep = $xpath_target->query("//h1[contains(@class, 'titulo-interno')]");
+            if ($title_query_deep->length) {
+              $title = trim($title_query_deep->item(0)->textContent);
+            }
+          } catch (\Exception $e) {
+            $this->loggerFactory->get('zinco_front')->warning('No se pudo cargar el enlace profundo @url: @msg', ['@url' => $deep_url, '@msg' => $e->getMessage()]);
+          }
         }
       }
-
-      //obtener url de title
-      $title_url = '';
-      $title_url_alt = $xpath->query("//a[contains(@class, 'lnk_art_nuevo_cred')]");
-      if ($title_url_alt->length) {
-        $title_url = trim($title_url_alt->item(0)->getAttribute('href'));
-      }
-
-      $response_detail = $this->httpClient->request('GET', $title_url, [
-        'headers' => [
-          'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        ],
-      ]);
-      $html_detail = (string) $response_detail->getBody();
-
-      $dom_detail = new \DOMDocument();
-      libxml_use_internal_errors(true);
-      $dom_detail->loadHTML($html_detail);
-      libxml_clear_errors();
-
-      $xpath_detail = new \DOMXPath($dom_detail);
-
 
       // Dates: Apertura and Cierre in div.indicadores_becas
       $apertura = NULL;
       $cierre = NULL;
 
-      $date_containers = $xpath_detail->query("//div[contains(@class, 'indicadores_becas')]");
+      $date_containers = $xpath_target->query("//div[contains(@class, 'indicadores_becas')]");
       foreach ($date_containers as $container) {
         $text = $container->textContent;
         // Normalize
