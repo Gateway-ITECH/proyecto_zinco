@@ -1198,12 +1198,12 @@ class ContentService
 
       // Perfil: Accordion with text "Perfil de las personas aspirantes"
       $perfil = '';
-      $perfil_button = $xpath_detail->query("//button[contains(normalize-space(), 'Perfil de las personas aspirantes')] | //a[contains(normalize-space(), 'Perfil de las personas aspirantes')]");
+      $perfil_button = $xpath_target->query("//button[contains(normalize-space(), 'Perfil de las personas aspirantes')] | //a[contains(normalize-space(), 'Perfil de las personas aspirantes')]");
       if ($perfil_button->length) {
         $id = $perfil_button->item(0)->getAttribute('aria-controls') ?: $perfil_button->item(0)->getAttribute('href');
         if ($id) {
           $id = ltrim($id, '#');
-          $content_by_id = $xpath_detail->query("//div[@id='$id']");
+          $content_by_id = $xpath_target->query("//div[@id='$id']");
           if ($content_by_id->length) {
             $perfil = trim($content_by_id->item(0)->textContent);
           }
