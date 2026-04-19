@@ -316,7 +316,7 @@ class ContentService
         return $results;
       }
 
-      $this->loggerFactory->get('zinco_front')->info('Iniciando importación API XML Innovamos.');
+      $this->loggerFactory->get('zinco_front')->info('Iniciando importación API XML Innovamos. XML recibido: @xml', ['@xml' => $xml_string]);
 
       // Typically XML has a root and children. We iterate over children.
       foreach ($xml->children() as $item) {
