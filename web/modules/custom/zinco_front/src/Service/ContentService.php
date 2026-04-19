@@ -306,22 +306,26 @@ class ContentService
 
     try {
       $response = $this->httpClient->request('GET', $url);
-      $data = json_decode((string) $response->getBody(), TRUE);
+      $xml_string = (string) $response->getBody();
+      
+      // Load XML with error suppression for malformed content.
+      $xml = @simplexml_load_string($xml_string);
 
-      $this->loggerFactory->get('zinco_front')->info('Iniciando importación API Innovamos. Total elementos recibidos: @count', [
-        '@count' => isset($data['items']) ? count($data['items']) : (is_array($data) ? count($data) : 0),
-      ]);
+      if ($xml === FALSE) {
+        $this->loggerFactory->get('zinco_front')->error('No se pudo cargar el XML de Innovamos. Contenido: @content', ['@content' => substr($xml_string, 0, 500)]);
+        return $results;
+      }
 
-      // The API might return items directly or inside an 'items' or 'contents' key.
-      $items = $data['items'] ?? $data['contents'] ?? (is_array($data) ? $data : []);
+      $this->loggerFactory->get('zinco_front')->info('Iniciando importación API XML Innovamos.');
 
-      foreach ($items as $item) {
+      // Typically XML has a root and children. We iterate over children.
+      foreach ($xml->children() as $item) {
         if ($results['created'] >= $limit) {
           break;
         }
 
         try {
-          $title = $item['name'] ?? $item['title'] ?? '';
+          $title = (string) ($item->name ?? $item->title ?? '');
           if (empty($title)) {
             continue;
           }
@@ -335,25 +339,25 @@ class ContentService
             continue;
           }
 
-          // Dates. API dates are often already formatted or in 'startingDateFormat'.
+          // Dates.
           $fecha_apertura = NULL;
-          if (!empty($item['startingDateFormat'])) {
-            $fecha_apertura = $this->parseSpanishDate($item['startingDateFormat']);
+          if (!empty($item->startingDateFormat)) {
+            $fecha_apertura = $this->parseSpanishDate((string) $item->startingDateFormat);
           }
 
           $fecha_cierre = NULL;
-          if (!empty($item['closingDateFormat'])) {
-            $fecha_cierre = $this->parseSpanishDate($item['closingDateFormat']);
+          if (!empty($item->closingDateFormat)) {
+            $fecha_cierre = $this->parseSpanishDate((string) $item->closingDateFormat);
           }
 
           // Link.
-          $link = $item['friendlyUrl'] ?? '';
+          $link = (string) ($item->friendlyUrl ?? '');
           if (!empty($link) && strpos($link, 'http') !== 0) {
             $link = 'https://www.innovamos.gov.co' . $link;
           }
 
           // Image.
-          $img_url = $item['defaultImage'] ?? '';
+          $img_url = (string) ($item->defaultImage ?? '');
           if (!empty($img_url) && strpos($img_url, 'http') !== 0) {
             $img_url = 'https://www.innovamos.gov.co' . $img_url;
           }
@@ -362,7 +366,7 @@ class ContentService
             'type' => 'convocatoria',
             'title' => $title,
             'field_publico_objetivo' => [
-              'value' => $item['metaDescription'] ?? $item['description'] ?? '',
+              'value' => (string) ($item->metaDescription ?? $item->description ?? ''),
               'format' => 'basic_html',
             ],
             'field_fecha_de_apertura' => $fecha_apertura,
