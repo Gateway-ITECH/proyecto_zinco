@@ -306,26 +306,29 @@ class ContentService
 
     try {
       $response = $this->httpClient->request('GET', $url);
-      $xml_string = (string) $response->getBody();
+      $json_string = (string) $response->getBody();
+      $data = json_decode($json_string, TRUE);
 
-      // Load XML with error suppression for malformed content.
-      $xml = @simplexml_load_string($xml_string);
-
-      if ($xml === FALSE) {
-        $this->loggerFactory->get('zinco_front')->error('No se pudo cargar el XML de Innovamos. Contenido: @content', ['@content' => substr($xml_string, 0, 500)]);
+      if (json_last_error() !== JSON_ERROR_NONE) {
+        $this->loggerFactory->get('zinco_front')->error('Error decodificando JSON de Innovamos: @error. Contenido: @content', [
+          '@error' => json_last_error_msg(),
+          '@content' => substr($json_string, 0, 500),
+        ]);
         return $results;
       }
 
-      $this->loggerFactory->get('zinco_front')->info('Iniciando importación API XML Innovamos. XML recibido: @xml', ['@xml' => $xml_string]);
+      $this->loggerFactory->get('zinco_front')->info('Iniciando importación API JSON Innovamos. Datos recibidos: @data', ['@data' => substr($json_string, 0, 1000)]);
 
-      // Typically XML has a root and children. We iterate over children.
-      foreach ($xml->children() as $item) {
+      // The items are usually in 'items' or 'contents'.
+      $items = $data['items'] ?? $data['contents'] ?? (is_array($data) ? $data : []);
+
+      foreach ($items as $item) {
         if ($results['created'] >= $limit) {
           break;
         }
 
         try {
-          $title = (string) ($item->name ?? $item->title ?? '');
+          $title = $item['name'] ?? $item['title'] ?? '';
           if (empty($title)) {
             continue;
           }
@@ -340,24 +343,17 @@ class ContentService
           }
 
           // Dates.
-          $fecha_apertura = NULL;
-          if (!empty($item->startingDateFormat)) {
-            $fecha_apertura = $this->parseSpanishDate((string) $item->startingDateFormat);
-          }
-
-          $fecha_cierre = NULL;
-          if (!empty($item->closingDateFormat)) {
-            $fecha_cierre = $this->parseSpanishDate((string) $item->closingDateFormat);
-          }
+          $fecha_apertura = !empty($item['startingDateFormat']) ? $this->parseSpanishDate($item['startingDateFormat']) : NULL;
+          $fecha_cierre = !empty($item['closingDateFormat']) ? $this->parseSpanishDate($item['closingDateFormat']) : NULL;
 
           // Link.
-          $link = (string) ($item->friendlyUrl ?? '');
+          $link = $item['friendlyUrl'] ?? '';
           if (!empty($link) && strpos($link, 'http') !== 0) {
             $link = 'https://www.innovamos.gov.co' . $link;
           }
 
           // Image.
-          $img_url = (string) ($item->defaultImage ?? '');
+          $img_url = $item['defaultImage'] ?? '';
           if (!empty($img_url) && strpos($img_url, 'http') !== 0) {
             $img_url = 'https://www.innovamos.gov.co' . $img_url;
           }
@@ -366,7 +362,7 @@ class ContentService
             'type' => 'convocatoria',
             'title' => $title,
             'field_publico_objetivo' => [
-              'value' => (string) ($item->metaDescription ?? $item->description ?? ''),
+              'value' => $item['metaDescription'] ?? $item['description'] ?? '',
               'format' => 'basic_html',
             ],
             'field_fecha_de_apertura' => $fecha_apertura,
@@ -393,12 +389,12 @@ class ContentService
 
         } catch (\Exception $e) {
           $results['errors'][] = $e->getMessage();
-          $this->loggerFactory->get('zinco_front')->error('Error procesando el ítem de la API Innovamos: @msg', ['@msg' => $e->getMessage()]);
+          $this->loggerFactory->get('zinco_front')->error('Error procesando ítem de Innovamos: @msg', ['@msg' => $e->getMessage()]);
         }
       }
     } catch (\Exception $e) {
       $results['errors'][] = $e->getMessage();
-      $this->loggerFactory->get('zinco_front')->error('Fallo la consulta a la API de Innovamos: @msg', ['@msg' => $e->getMessage()]);
+      $this->loggerFactory->get('zinco_front')->error('Fallo la consulta API de Innovamos: @msg', ['@msg' => $e->getMessage()]);
     }
 
     return $results;
