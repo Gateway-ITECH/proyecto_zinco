@@ -225,6 +225,7 @@ class ContentService
         [[get_class($this), 'processBatchItem'], [$url]],
         [[get_class($this), 'processInnovamosBatchItem'], ['https://www.innovamos.gov.co/api/v1/contents?benefits=&contentType=12&featured=false&hasNextPage=false&includeTags=true&keyword=&labels=&labelsSecond=&labelsThird=&locations=&orderBy=recent&organizations=&page=0&pageSize=10&publicPolitics=&showOnHome=true&targetUsers=']],
         [[get_class($this), 'processCCMonteriaBatchItem'], ['https://ccmonteria.org.co/noticias']],
+        [[get_class($this), 'processMincienciasBatchItem'], ['https://minciencias.gov.co/plan-convocatorias-actei-2025-2026-0']],
       ],
       'finished' => [get_class($this), 'finishBatch'],
     ];
@@ -261,6 +262,7 @@ class ContentService
       $news_total = 0;
       $conv_total = 0;
       $cc_news_total = 0;
+      $min_conv_total = 0;
       foreach ($results as $res) {
         if (isset($res['type'])) {
           if ($res['type'] == 'noticias') {
@@ -272,16 +274,36 @@ class ContentService
           if ($res['type'] == 'noticias_cc') {
             $cc_news_total += $res['created'];
           }
+          if ($res['type'] == 'convocatorias_min') {
+            $min_conv_total += $res['created'];
+          }
         }
       }
-      \Drupal::messenger()->addMessage(t('Sincronización completada. Noticias Unicórdoba: @news, Noticias CC Montería: @cc, Convocatorias: @conv.', [
+      \Drupal::messenger()->addMessage(t('Sincronización completada. Noticias Unicórdoba: @news, Noticias CC Montería: @cc, Convocatorias Innovamos: @conv, Convocatorias Minciencias: @min.', [
         '@news' => $news_total,
         '@cc' => $cc_news_total,
         '@conv' => $conv_total,
+        '@min' => $min_conv_total,
       ]));
     } else {
       \Drupal::messenger()->addError(t('El proceso de sincronización falló. Revisa los logs para más detalles.'));
     }
+  }
+
+  /**
+   * Batch process callback for Minciencias.
+   */
+  public static function processMincienciasBatchItem($url, &$context)
+  {
+    $service = \Drupal::service('zinco_front.content_service');
+    $results = $service->scrapeMincienciasConvocatorias($url, 20);
+
+    $context['results'][] = [
+      'type' => 'convocatorias_min',
+      'created' => $results['created'],
+    ];
+    $context['message'] = t('Procesando plan de convocatorias de Minciencias...');
+    $context['finished'] = 1;
   }
 
   /**
@@ -580,16 +602,118 @@ class ContentService
           ]);
           $results['created']++;
 
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
           $results['errors'][] = $e->getMessage();
           $this->loggerFactory->get('zinco_front')->error('Error procesando noticia CC Montería: @msg', ['@msg' => $e->getMessage()]);
         }
       }
-    }
-    catch (\Exception $e) {
+    } catch (\Exception $e) {
       $results['errors'][] = $e->getMessage();
       $this->loggerFactory->get('zinco_front')->error('Fallo el scraping de CC Montería: @msg', ['@msg' => $e->getMessage()]);
+    }
+
+    return $results;
+  }
+
+  /**
+   * Scrapes convocatorias from Minciencias.
+   */
+  public function scrapeMincienciasConvocatorias($url = 'https://minciencias.gov.co/plan-convocatorias-actei-2025-2026-0', $limit = 20)
+  {
+    $results = [
+      'created' => 0,
+      'errors' => [],
+    ];
+
+    try {
+      $response = $this->httpClient->request('GET', $url);
+      $html = (string) $response->getBody();
+
+      $dom = new \DOMDocument();
+      libxml_use_internal_errors(true);
+      $dom->loadHTML($html);
+      libxml_clear_errors();
+
+      $xpath = new \DOMXPath($dom);
+
+      // Selector identified: table inside the body.
+      $rows = $xpath->query("//div[contains(@class, 'field-name-body')]//table//tbody/tr");
+
+      foreach ($rows as $row) {
+        if ($results['created'] >= $limit) {
+          break;
+        }
+
+        try {
+          // Date is in column 5 (Opening Date).
+          $date_query = $xpath->query(".//td[5]", $row);
+          $date_text = $date_query->length ? trim($date_query->item(0)->textContent) : '';
+
+          // Filter: Opening date must be in 2026 or more.
+          if (!preg_match('/202[6-9]|20[3-9][0-9]/', $date_text)) {
+            continue;
+          }
+
+          // Title / Link (Column 2).
+          $title_query = $xpath->query(".//td[2]", $row);
+          if (!$title_query->length) {
+            continue;
+          }
+          $title = trim($title_query->item(0)->textContent);
+          
+          $link_query = $xpath->query(".//a", $title_query->item(0));
+          $link = $link_query->length ? $link_query->item(0)->getAttribute('href') : '';
+          if (!empty($link) && strpos($link, 'http') !== 0) {
+            $link = 'https://minciencias.gov.co' . $link;
+          }
+
+          // Description (Column 3).
+          $desc_query = $xpath->query(".//td[3]", $row);
+          $desc = $desc_query->length ? trim($desc_query->item(0)->textContent) : '';
+
+          if (empty($title)) {
+            continue;
+          }
+
+          // Check if already exists.
+          $existing = $this->entityTypeManager->getStorage('node')->loadByProperties([
+            'type' => 'convocatoria',
+            'title' => $title,
+          ]);
+          if (!empty($existing)) {
+            continue;
+          }
+
+          $node_data = [
+            'type' => 'convocatoria',
+            'title' => $title,
+            'field_publico_objetivo' => [
+              'value' => $desc,
+              'format' => 'basic_html',
+            ],
+            'field_mas_informacion' => $link,
+            'status' => 0,
+            'uid' => 1,
+          ];
+          
+          // Try to set opening date.
+          $fecha = $this->parseSpanishDate($date_text);
+          if ($fecha) {
+            $node_data['field_fecha_de_apertura'] = $fecha;
+          }
+
+          $new_node = \Drupal\node\Entity\Node::create($node_data);
+          $new_node->save();
+          $results['created']++;
+
+        } catch (\Exception $e) {
+          $results['errors'][] = $e->getMessage();
+          $this->loggerFactory->get('zinco_front')->error('Error procesando convocatoria Minciencias: @msg', ['@msg' => $e->getMessage()]);
+        }
+      }
+    } catch (\Exception $e) {
+      $results['errors'][] = $e->getMessage();
+      $this->loggerFactory->get('zinco_front')->error('Fallo el scraping de Minciencias: @msg', ['@msg' => $e->getMessage()]);
     }
 
     return $results;
