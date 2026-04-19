@@ -315,8 +315,11 @@ class ContentService
 
       $xpath = new \DOMXPath($dom);
 
+      $this->loggerFactory->get('zinco_front')->info('Iniciando scraping de Innovamos. Longitud HTML: @len', ['@len' => strlen($html)]);
+
       // Search for cards.
       $cards = $xpath->query("//div[contains(@class, 'card')]");
+      $this->loggerFactory->get('zinco_front')->info('Tarjetas encontradas: @count', ['@count' => $cards->length]);
 
       for ($i = 0; $i < $cards->length && $results['created'] < $limit; $i++) {
         $card = $cards->item($i);
@@ -368,6 +371,14 @@ class ContentService
           if ($img_query->length) {
             $img_url = $img_query->item(0)->getAttribute('src');
           }
+
+          $this->loggerFactory->get('zinco_front')->debug('Datos extraídos de Innovamos: Título: @title, Apertura: @ap, Cierre: @ci, Link: @link, Imagen: @img', [
+            '@title' => $title,
+            '@ap' => $apertura_raw,
+            '@ci' => $cierre_raw,
+            '@link' => $link,
+            '@img' => $img_url,
+          ]);
 
           $node_data = [
             'type' => 'convocatoria',
