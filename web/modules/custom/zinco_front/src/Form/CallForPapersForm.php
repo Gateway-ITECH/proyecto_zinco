@@ -86,6 +86,15 @@ class CallForPapersForm extends FormBase
 
     //
 
+    $form['reto_innovacion'] = [
+      '#type' => 'entity_autocomplete',
+      '#target_type' => 'zinco_retos_innovacion',
+      '#title' => $this->t('Reto de Innovación Relacionado'),
+      '#description' => $this->t('Seleccione el reto de innovación relacionado con este mensaje.'),
+      '#required' => FALSE,
+      '#weight' => -5,
+    ];
+
     $form['message'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Mensaje masivo (Call for Papers)'),
