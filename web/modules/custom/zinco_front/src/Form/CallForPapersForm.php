@@ -106,7 +106,7 @@ class CallForPapersForm extends FormBase
     $form['message'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Mensaje masivo (Call for Papers)'),
-      '#description' => $this->t('Este mensaje será enviado como notificación a todos los usuarios con el rol "Actor Registrado".'),
+      '#description' => $this->t('Este mensaje será enviado como notificación a todos los usuarios seleccionados.'),
       '#required' => TRUE,
       '#rows' => 5,
     ];
@@ -115,9 +115,18 @@ class CallForPapersForm extends FormBase
       '#type' => 'submit',
       '#value' => $this->t('Enviar Mensaje Masivo'),
       '#button_type' => 'primary',
+      '#submit' => ['::submitForm'],
     ];
 
     return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validateForm(array &$form, FormStateInterface $form_state)
+  {
+    \Drupal::logger('zinco_debug')->info('CallForPapersForm: validateForm iniciado.');
   }
 
   /**
