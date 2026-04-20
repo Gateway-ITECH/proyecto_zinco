@@ -46,12 +46,31 @@ class CallForPapersForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['receptors_selector'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['receptors-selector-wrapper']],
-      'view' => views_embed_view('selector_de_receptores', 'embed_receptors_selector'),
-      '#weight' => -10,
-    ];
+    $view_id = 'selector_de_receptores';
+    $display_id = 'embed_receptors_selector';
+
+    $view = \Drupal\views\Views::getView($view_id);
+
+    if ($view) {
+      $view->setDisplay($display_id);
+      $view->initHandlers();
+
+      // Render the exposed filter form.
+      $form['filtros_vista'] = $view->renderExposedForm();
+
+      // Render the results in a details element for organization.
+      $form['previsualizacion_usuarios'] = [
+        '#type' => 'details',
+        '#title' => $this->t('Usuarios seleccionados para el envío'),
+        '#open' => TRUE,
+        '#weight' => -10,
+        'results' => [
+          '#type' => 'container',
+          '#attributes' => ['id' => 'view-results-wrapper'],
+          'view' => $view->render(),
+        ],
+      ];
+    }
 
     $form['message'] = [
       '#type' => 'textarea',
