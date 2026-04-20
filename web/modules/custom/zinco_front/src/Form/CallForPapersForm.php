@@ -69,14 +69,8 @@ class CallForPapersForm extends FormBase
       $view->initHandlers();
 
       // Render the exposed filter form.
-      $exposed_form_render = $view->display_handler->getPlugin('exposed_form')->renderExposedForm();
-      // To avoid nested forms, we strip the form-specific attributes and actions.
-      if (isset($exposed_form_render['#type']) && $exposed_form_render['#type'] === 'form') {
-        unset($exposed_form_render['#type']);
-        unset($exposed_form_render['#attributes']);
-        unset($exposed_form_render['actions']);
-      }
-      $form['filtros_vista'] = $exposed_form_render;
+      $exposed_form = $view->display_handler->getPlugin('exposed_form');
+      //$form['filtros_vista'] = $exposed_form->renderExposedForm();
       $form['previsualizacion_usuarios'] = [
         '#type' => 'details',
         '#title' => $this->t('Usuarios seleccionados para el envío'),
