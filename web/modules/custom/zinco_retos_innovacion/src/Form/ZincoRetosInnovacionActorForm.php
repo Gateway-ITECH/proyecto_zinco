@@ -21,20 +21,20 @@ final class ZincoRetosInnovacionActorForm extends ZincoRetosInnovacionForm
   {
     $result = parent::save($form, $form_state);
 
-    $current_user = \Drupal::currentUser();
-    $user_entity = User::load($current_user->id());
+    //$current_user = \Drupal::currentUser();
+    //$user_entity = User::load($current_user->id());
 
-    if ($user_entity && $user_entity->hasField('field_actor') && !$user_entity->get('field_actor')->isEmpty()) {
-      $actor_id = $user_entity->get('field_actor')->target_id;
-      // Redirect to the actor profile. 
-      // Assuming the route name based on standard entity patterns.
-      // $form_state->setRedirect('entity.zinco_actors_zincoactors.canonical', [
-      //   'zinco_actors_zincoactors' => $actor_id,
-      // ]);
-    } else {
-      // Fallback to the entity view page if no actor is found.
-      $form_state->setRedirectUrl($this->entity->toUrl());
-    }
+    //if ($user_entity && $user_entity->hasField('field_actor') && !$user_entity->get('field_actor')->isEmpty()) {
+    //$actor_id = $user_entity->get('field_actor')->target_id;
+    // Redirect to the actor profile. 
+    // Assuming the route name based on standard entity patterns.
+    // $form_state->setRedirect('entity.zinco_actors_zincoactors.canonical', [
+    //   'zinco_actors_zincoactors' => $actor_id,
+    // ]);
+    // } else {
+    // Fallback to the entity view page if no actor is found.
+    //$form_state->setRedirectUrl($this->entity->toUrl());
+    //}
 
     return $result;
   }
