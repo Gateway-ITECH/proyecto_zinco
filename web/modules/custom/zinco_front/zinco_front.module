@@ -456,5 +456,18 @@ function zinco_front_form_views_exposed_form_alter(&$form, \Drupal\Core\Form\For
   }
 }
 
+/**
+ * Implements hook_mail().
+ */
+function zinco_front_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'call_for_papers':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = $params['subject'];
+      $message['body'][] = $params['message'];
+      break;
+  }
+}
+
 
 

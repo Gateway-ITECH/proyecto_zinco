@@ -125,6 +125,9 @@ class CallForPapersForm extends FormBase
    */
   public function submitForm(array &$form, FormStateInterface $form_state)
   {
+    $logger = \Drupal::logger('zinco_debug');
+    $logger->info('CallForPapersForm: submitForm iniciado.');
+
     $message = $form_state->getValue('message');
 
     // Get UIDs from the filtered view.
@@ -134,6 +137,7 @@ class CallForPapersForm extends FormBase
     $uids = [];
 
     if ($view) {
+      $logger->info('CallForPapersForm: Vista @view cargada correctamente.', ['@view' => $view_id]);
       $view->setDisplay($display_id);
       // Ensure we use the same input used in buildForm.
       $input = $form_state->getUserInput();
@@ -141,6 +145,7 @@ class CallForPapersForm extends FormBase
         $view->setExposedInput($input);
       }
       $view->execute();
+      $logger->info('CallForPapersForm: Vista ejecutada. Resultados: @count', ['@count' => count($view->result)]);
 
       foreach ($view->result as $row) {
         if (isset($row->uid)) {
@@ -149,7 +154,11 @@ class CallForPapersForm extends FormBase
           $uids[] = $row->_entity->id();
         }
       }
+    } else {
+      $logger->error('CallForPapersForm: No se pudo cargar la vista @view.', ['@view' => $view_id]);
     }
+
+    $logger->info('CallForPapersForm: UIDs finales extraídos: @count', ['@count' => count($uids)]);
 
     if (empty($uids)) {
       $this->messenger()->addWarning($this->t('No se encontraron usuarios para enviar el mensaje según los filtros aplicados.'));
@@ -189,6 +198,7 @@ class CallForPapersForm extends FormBase
   public static function processBatchNotifications($uids, $message, $sender_uid, &$context)
   {
     $database = \Drupal::database();
+    $mailManager = \Drupal::service('plugin.manager.mail');
     $created = time();
 
     foreach ($uids as $uid) {
@@ -200,6 +210,20 @@ class CallForPapersForm extends FormBase
           'uid_receiver' => $uid,
         ])
         ->execute();
+
+      // Load user and send email if possible.
+      $user = \Drupal\user\Entity\User::load($uid);
+      if ($user && !empty($user->getEmail())) {
+        $module = 'zinco_front';
+        $key = 'call_for_papers';
+        $to = $user->getEmail();
+        $params = [
+          'message' => $message,
+          'subject' => t('Nueva Notificación: Call for Papers'),
+        ];
+        $langcode = $user->getPreferredLangcode();
+        $mailManager->mail($module, $key, $to, $langcode, $params, NULL, TRUE);
+      }
     }
 
     if (!isset($context['results']['count'])) {
