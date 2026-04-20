@@ -15,6 +15,10 @@
 
           // Collect form data using FormData.
           const formData = new FormData(form);
+          console.log('Datos enviados en FormData:');
+          for (let [key, value] of formData.entries()) {
+            console.log(key, value);
+          }
 
           // Disable button and show processing state.
           btn.disabled = true;
