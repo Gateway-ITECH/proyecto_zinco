@@ -41,6 +41,7 @@ use Drupal\zinco_retos_innovacion\ZincoRetosInnovacionListBuilder;
     'list_builder' => ZincoRetosInnovacionListBuilder::class,
     'views_data' => EntityViewsData::class,
     'form' => [
+      'default' => ZincoRetosInnovacionForm::class,
       'add' => ZincoRetosInnovacionForm::class,
       'edit' => ZincoRetosInnovacionForm::class,
       'delete' => ContentEntityDeleteForm::class,
