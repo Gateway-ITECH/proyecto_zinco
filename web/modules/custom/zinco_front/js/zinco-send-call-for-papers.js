@@ -10,7 +10,7 @@
 
           const endpoint = btn.getAttribute('data-endpoint');
           const form = btn.closest('form');
-
+          console.log("form", form);
           if (!form) return;
 
           // Collect form data using FormData.
