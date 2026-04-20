@@ -750,7 +750,7 @@ class RetosController extends ControllerBase
       'bundle' => 'reto',
     ]);
 
-    $form = $this->entityFormBuilder()->getForm($entity, 'default');
+    $form = $this->entityFormBuilder()->getForm($entity, 'actor_add');
 
     return [
       '#type' => 'container',
