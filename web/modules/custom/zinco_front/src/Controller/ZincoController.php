@@ -1039,8 +1039,9 @@ class ZincoController extends ControllerBase
     $redirect = batch_process(Url::fromRoute('zinco_front.call_for_papers')->toString());
 
     if ($redirect instanceof \Symfony\Component\HttpFoundation\RedirectResponse) {
-      return new AjaxResponse([
-        new RedirectCommand($redirect->getTargetUrl()),
+      return new JsonResponse([
+        'success' => true,
+        'redirect' => $redirect->getTargetUrl(),
       ]);
     }
 
