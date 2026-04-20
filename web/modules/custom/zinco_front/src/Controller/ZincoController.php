@@ -968,26 +968,31 @@ class ZincoController extends ControllerBase
       return new JsonResponse(['success' => false, 'message' => 'El mensaje es requerido.'], 400);
     }
 
-    // Get all user input to pass to the view.
+    // Get all user input to pass to the view if needed.
     $input = $request->request->all();
 
-    $view_id = 'selector_de_receptores';
-    $display_id = 'embed_receptors_selector';
-    $view = Views::getView($view_id);
-    $uids = [];
+    // Try to get UIDs from the request first (passed from JS).
+    $uids = $request->request->all('uids');
 
-    if ($view) {
-      $view->setDisplay($display_id);
-      if (!empty($input)) {
-        $view->setExposedInput($input);
-      }
-      $view->execute();
+    if (empty($uids)) {
+      $view_id = 'selector_de_receptores';
+      $display_id = 'embed_receptors_selector';
+      $view = Views::getView($view_id);
+      $uids = [];
 
-      foreach ($view->result as $row) {
-        if (isset($row->uid)) {
-          $uids[] = $row->uid;
-        } elseif (isset($row->_entity) && $row->_entity->getEntityTypeId() === 'user') {
-          $uids[] = $row->_entity->id();
+      if ($view) {
+        $view->setDisplay($display_id);
+        if (!empty($input)) {
+          $view->setExposedInput($input);
+        }
+        $view->execute();
+
+        foreach ($view->result as $row) {
+          if (isset($row->uid)) {
+            $uids[] = $row->uid;
+          } elseif (isset($row->_entity) && $row->_entity->getEntityTypeId() === 'user') {
+            $uids[] = $row->_entity->id();
+          }
         }
       }
     }

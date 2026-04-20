@@ -19,6 +19,25 @@
           if (messageField) {
             formData.set('message', messageField.value);
           }
+
+          // Extract UIDs from the visible table results.
+          const uids = [];
+          const rows = document.querySelectorAll('.view-id-selector_de_receptores table tbody tr');
+          rows.forEach(row => {
+            // Looking for the ID in the "Ver detalle" link or similar.
+            const link = row.querySelector('a[href*="/edit"]');
+            if (link) {
+              const match = link.href.match(/\/(\d+)\//);
+              if (match) {
+                uids.push(match[1]);
+              }
+            }
+          });
+
+          if (uids.length > 0) {
+            uids.forEach(uid => formData.append('uids[]', uid));
+          }
+
           console.log('Datos enviados en FormData:');
           for (let [key, value] of formData.entries()) {
             console.log(key, value);
