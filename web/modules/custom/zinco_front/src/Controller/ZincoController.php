@@ -1115,6 +1115,8 @@ class ZincoController extends ControllerBase
         if ($fecha_eval) $message .= "- Evaluación: $fecha_eval\n";
       }
 
+      $reto_url = $reto->toUrl('canonical', ['absolute' => TRUE])->toString();
+      $message .= "\nPuedes ver más detalles del reto en: $reto_url\n";
       $message .= "\nTe invitamos a participar y proponer tu solución.";
 
       return new JsonResponse([
