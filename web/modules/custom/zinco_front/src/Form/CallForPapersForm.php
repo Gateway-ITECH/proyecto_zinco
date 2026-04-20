@@ -150,28 +150,38 @@ class CallForPapersForm extends FormBase
     $mailManager = \Drupal::service('plugin.manager.mail');
     $created = time();
 
-    foreach ($uids as $uid) {
-      $database->insert('zinco_notifications')
-        ->fields([
-          'notification' => $message,
-          'created' => $created,
-          'uid_sender' => $sender_uid,
-          'uid_receiver' => $uid,
-        ])
+    foreach ($uids as $actor_id) {
+      // Find the user associated with this actor via field_actor.
+      $user_ids = \Drupal::entityTypeManager()->getStorage('user')->getQuery()
+        ->condition('field_actor', $actor_id)
+        ->accessCheck(FALSE)
         ->execute();
 
-      // Load user and send email if possible.
-      $user = \Drupal\user\Entity\User::load($uid);
-      if ($user && !empty($user->getEmail())) {
-        $module = 'zinco_front';
-        $key = 'call_for_papers';
-        $to = $user->getEmail();
-        $params = [
-          'message' => $message,
-          'subject' => t('Nueva Notificación: Call for Papers'),
-        ];
-        $langcode = $user->getPreferredLangcode();
-        $mailManager->mail($module, $key, $to, $langcode, $params, NULL, TRUE);
+      if (!empty($user_ids)) {
+        $user_id = reset($user_ids);
+        $user = \Drupal\user\Entity\User::load($user_id);
+
+        $database->insert('zinco_notifications')
+          ->fields([
+            'notification' => $message,
+            'created' => $created,
+            'uid_sender' => $sender_uid,
+            'uid_receiver' => $user_id,
+          ])
+          ->execute();
+
+        // Send email if the user has one.
+        if ($user && !empty($user->getEmail())) {
+          $module = 'zinco_front';
+          $key = 'call_for_papers';
+          $to = $user->getEmail();
+          $params = [
+            'message' => $message,
+            'subject' => t('Nueva Notificación: Call for Papers'),
+          ];
+          $langcode = $user->getPreferredLangcode();
+          $mailManager->mail($module, $key, $to, $langcode, $params, NULL, TRUE);
+        }
       }
     }
 
