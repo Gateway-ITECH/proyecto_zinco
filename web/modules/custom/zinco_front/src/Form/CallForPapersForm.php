@@ -102,14 +102,61 @@ class CallForPapersForm extends FormBase
       '#description' => $this->t('Seleccione el reto de innovación relacionado con este mensaje.'),
       '#required' => FALSE,
       '#weight' => -5,
+      '#ajax' => [
+        'callback' => '::suggestMessageCallback',
+        'wrapper' => 'message-textarea-wrapper',
+        'event' => 'change',
+        'progress' => [
+          'type' => 'throbber',
+          'message' => $this->t('Generando sugerencia...'),
+        ],
+      ],
     ];
 
-    $form['message'] = [
+    $form['message_wrapper'] = [
+      '#type' => 'container',
+      '#attributes' => ['id' => 'message-textarea-wrapper'],
+      '#weight' => 0,
+    ];
+
+    $reto_id = $form_state->getValue('reto_innovacion');
+    $suggested_message = '';
+    if ($reto_id) {
+      $reto = \Drupal::entityTypeManager()->getStorage('zinco_retos_innovacion')->load($reto_id);
+      if ($reto) {
+        $title = $reto->label();
+        $description = $reto->get('description')->value ?? '';
+        $municipio = $reto->hasField('field_municipio') && $reto->get('field_municipio')->entity ? $reto->get('field_municipio')->entity->label() : '';
+        $organizador = $reto->hasField('organizador_reto') ? $reto->get('organizador_reto')->value : '';
+        $recompensas = $reto->hasField('recompensas_reto') ? $reto->get('recompensas_reto')->value : '';
+        $fecha_inicio = $reto->hasField('fecha_inicio') ? $reto->get('fecha_inicio')->value : '';
+        $fecha_fin = $reto->hasField('fecha_fin') ? $reto->get('fecha_fin')->value : '';
+        $fecha_eval = $reto->hasField('fecha_evaluacion') ? $reto->get('fecha_evaluacion')->value : '';
+
+        $suggested_message = "¡Nuevo Reto de Innovación: $title!\n\n";
+        $suggested_message .= "Descripción: " . strip_tags($description) . "\n\n";
+        if ($organizador) $suggested_message .= "Organizado por: $organizador\n";
+        if ($municipio) $suggested_message .= "Ubicación: $municipio\n";
+        if ($recompensas) $suggested_message .= "Recompensas: " . strip_tags($recompensas) . "\n";
+        
+        if ($fecha_inicio || $fecha_fin || $fecha_eval) {
+          $suggested_message .= "\nFechas clave:\n";
+          if ($fecha_inicio) $suggested_message .= "- Inicio: $fecha_inicio\n";
+          if ($fecha_fin) $suggested_message .= "- Fin: $fecha_fin\n";
+          if ($fecha_eval) $suggested_message .= "- Evaluación: $fecha_eval\n";
+        }
+        
+        $suggested_message .= "\nTe invitamos a participar y proponer tu solución.";
+      }
+    }
+
+    $form['message_wrapper']['message'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Mensaje masivo (Call for Papers)'),
       '#description' => $this->t('Este mensaje será enviado como notificación a todos los usuarios seleccionados.'),
       '#required' => TRUE,
-      '#rows' => 5,
+      '#rows' => 10,
+      '#value' => $suggested_message ?: $form_state->getValue('message'),
     ];
 
     $form['actions']['submit'] = [
@@ -139,6 +186,14 @@ class CallForPapersForm extends FormBase
   public function submitForm(array &$form, FormStateInterface $form_state)
   {
     // Validation logic if needed.
+  }
+
+  /**
+   * AJAX callback to suggest a message based on the selected challenge.
+   */
+  public function suggestMessageCallback(array &$form, FormStateInterface $form_state)
+  {
+    return $form['message_wrapper'];
   }
 
   /**
