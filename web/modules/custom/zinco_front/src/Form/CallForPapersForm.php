@@ -67,6 +67,9 @@ class CallForPapersForm extends FormBase
 
       $view->initHandlers();
 
+      // Render the exposed filter form.
+      $exposed_form = $view->display_handler->getPlugin('exposed_form');
+      //$form['filtros_vista'] = $exposed_form->renderExposedForm();
       $form['previsualizacion_usuarios'] = [
         '#type' => 'details',
         '#title' => $this->t('Usuarios seleccionados para el envío'),
