@@ -10,7 +10,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Provides a Call for Papers form.
  */
-class CallForPapersForm extends FormBase {
+class CallForPapersForm extends FormBase
+{
 
   /**
    * The database connection.
@@ -22,14 +23,16 @@ class CallForPapersForm extends FormBase {
   /**
    * Constructs a new CallForPapersForm object.
    */
-  public function __construct(Connection $database) {
+  public function __construct(Connection $database)
+  {
     $this->database = $database;
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
+  public static function create(ContainerInterface $container)
+  {
     return new static(
       $container->get('database')
     );
@@ -38,14 +41,16 @@ class CallForPapersForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormId() {
+  public function getFormId()
+  {
     return 'zinco_front_call_for_papers_form';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state)
+  {
     $view_id = 'selector_de_receptores';
     $display_id = 'embed_receptors_selector';
 
@@ -53,12 +58,18 @@ class CallForPapersForm extends FormBase {
 
     if ($view) {
       $view->setDisplay($display_id);
+
+      // Get user input from form state to pass it to the view for filtering.
+      $input = $form_state->getUserInput();
+      if (!empty($input)) {
+        $view->setExposedInput($input);
+      }
+
       $view->initHandlers();
 
       // Render the exposed filter form.
-      $form['filtros_vista'] = $view->display_handler->getPlugin('exposed_form')->renderExposedForm();
-
-      // Render the results in a details element for organization.
+      $exposed_form = $view->display_handler->getPlugin('exposed_form');
+      $form['filtros_vista'] = $exposed_form->renderExposedForm();
       $form['previsualizacion_usuarios'] = [
         '#type' => 'details',
         '#title' => $this->t('Usuarios seleccionados para el envío'),
@@ -92,7 +103,8 @@ class CallForPapersForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state)
+  {
     $message = $form_state->getValue('message');
 
     // Get all users with the role 'actor_registrado'.
@@ -137,7 +149,8 @@ class CallForPapersForm extends FormBase {
   /**
    * Batch operation callback to process notifications.
    */
-  public static function processBatchNotifications($uids, $message, $sender_uid, &$context) {
+  public static function processBatchNotifications($uids, $message, $sender_uid, &$context)
+  {
     $database = \Drupal::database();
     $created = time();
 
@@ -161,12 +174,12 @@ class CallForPapersForm extends FormBase {
   /**
    * Batch finished callback.
    */
-  public static function batchFinished($success, $results, $operations) {
+  public static function batchFinished($success, $results, $operations)
+  {
     if ($success) {
       $count = isset($results['count']) ? $results['count'] : 0;
       \Drupal::messenger()->addMessage(t('Se han enviado @count notificaciones exitosamente.', ['@count' => $count]));
-    }
-    else {
+    } else {
       \Drupal::messenger()->addError(t('Hubo un error al procesar el envío masivo.'));
     }
   }
