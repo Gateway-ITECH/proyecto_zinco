@@ -128,6 +128,19 @@ class CallForPapersForm extends FormBase
     return $form;
   }
 
+  public function validateForm(array &$form, FormStateInterface $form_state)
+  {
+    // Validation logic if needed.
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitForm(array &$form, FormStateInterface $form_state)
+  {
+    // Validation logic if needed.
+  }
+
   /**
    * Batch operation callback to process notifications.
    */
