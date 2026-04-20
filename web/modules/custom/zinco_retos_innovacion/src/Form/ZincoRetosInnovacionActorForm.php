@@ -11,12 +11,14 @@ use Drupal\user\Entity\User;
 /**
  * Form controller for the zinco retos innovacion entity forms for actors.
  */
-final class ZincoRetosInnovacionActorForm extends ZincoRetosInnovacionForm {
+final class ZincoRetosInnovacionActorForm extends ZincoRetosInnovacionForm
+{
 
   /**
    * {@inheritdoc}
    */
-  public function save(array $form, FormStateInterface $form_state): int {
+  public function save(array $form, FormStateInterface $form_state): int
+  {
     $result = parent::save($form, $form_state);
 
     $current_user = \Drupal::currentUser();
@@ -26,11 +28,10 @@ final class ZincoRetosInnovacionActorForm extends ZincoRetosInnovacionForm {
       $actor_id = $user_entity->get('field_actor')->target_id;
       // Redirect to the actor profile. 
       // Assuming the route name based on standard entity patterns.
-      $form_state->setRedirect('entity.zinco_actors_zincoactors.canonical', [
-        'zinco_actors_zincoactors' => $actor_id,
-      ]);
-    }
-    else {
+      // $form_state->setRedirect('entity.zinco_actors_zincoactors.canonical', [
+      //   'zinco_actors_zincoactors' => $actor_id,
+      // ]);
+    } else {
       // Fallback to the entity view page if no actor is found.
       $form_state->setRedirectUrl($this->entity->toUrl());
     }
