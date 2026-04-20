@@ -340,3 +340,12 @@ zinco_front.get_reto_suggestion:
   requirements:
     _permission: 'access administration pages'
   methods: [GET]
+
+zinco_front.add_reto_form:
+  path: '/retos/add'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\RetosController::addRetoForm'
+    _title: 'Publicar Reto'
+  requirements:
+    _role: 'actor_registrado'
+  methods: [GET]

@@ -738,4 +738,33 @@ class RetosController extends ControllerBase
     }
   }
 
+  /**
+   * Displays the zinco_retos_innovacion entity add form for the 'reto' bundle.
+   *
+   * @return array
+   *   A renderable array containing the form.
+   */
+  public function addRetoForm()
+  {
+    $entity = $this->entityTypeManager->getStorage('zinco_retos_innovacion')->create([
+      'bundle' => 'reto',
+    ]);
+
+    $form = $this->entityFormBuilder()->getForm($entity, 'default');
+
+    return [
+      '#type' => 'container',
+      '#attributes' => [
+        'class' => ['container', 'mt-5', 'mb-5', 'p-4', 'bg-white', 'shadow-sm', 'rounded'],
+      ],
+      'title' => [
+        '#type' => 'html_tag',
+        '#tag' => 'h2',
+        '#value' => $this->t('Publicar Nuevo Reto de Innovación'),
+        '#attributes' => ['class' => ['mb-4', 'text-primary', 'border-bottom', 'pb-3']],
+      ],
+      'form' => $form,
+    ];
+  }
+
 }
