@@ -5,6 +5,7 @@ namespace Drupal\zinco_front\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Database\Connection;
+use Drupal\Core\Url;
 use Drupal\views\Views;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -94,7 +95,7 @@ class CallForPapersForm extends FormBase
       $options[$reto->id()] = $reto->label();
     }
 
-    $form['previsualizacion_usuarios']['reto_innovacion'] = [
+    $form['reto_innovacion'] = [
       '#type' => 'select',
       '#options' => $options,
       '#title' => $this->t('Reto de Innovación Relacionado'),
@@ -103,7 +104,7 @@ class CallForPapersForm extends FormBase
       '#weight' => -5,
     ];
 
-    $form['previsualizacion_usuarios']['message'] = [
+    $form['message'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Mensaje masivo (Call for Papers)'),
       '#description' => $this->t('Este mensaje será enviado como notificación a todos los usuarios seleccionados.'),
@@ -111,87 +112,20 @@ class CallForPapersForm extends FormBase
       '#rows' => 5,
     ];
 
-    return $form;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function validateForm(array &$form, FormStateInterface $form_state)
-  {
-    \Drupal::logger('zinco_debug')->info('CallForPapersForm: validateForm iniciado.');
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function submitForm(array &$form, FormStateInterface $form_state)
-  {
-    $logger = \Drupal::logger('zinco_debug');
-    $logger->info('CallForPapersForm: submitForm iniciado.');
-
-    $message = $form_state->getValue('message');
-
-    // Get UIDs from the filtered view.
-    $view_id = 'selector_de_receptores';
-    $display_id = 'embed_receptors_selector';
-    $view = Views::getView($view_id);
-    $uids = [];
-
-    if ($view) {
-      $logger->info('CallForPapersForm: Vista @view cargada correctamente.', ['@view' => $view_id]);
-      $view->setDisplay($display_id);
-      // Ensure we use the same input used in buildForm.
-      $input = $form_state->getUserInput();
-      if (!empty($input)) {
-        $view->setExposedInput($input);
-      }
-      $view->execute();
-      $logger->info('CallForPapersForm: Vista ejecutada. Resultados: @count', ['@count' => count($view->result)]);
-
-      foreach ($view->result as $row) {
-        if (isset($row->uid)) {
-          $uids[] = $row->uid;
-        } elseif (isset($row->_entity) && $row->_entity->getEntityTypeId() === 'user') {
-          $uids[] = $row->_entity->id();
-        }
-      }
-    } else {
-      $logger->error('CallForPapersForm: No se pudo cargar la vista @view.', ['@view' => $view_id]);
-    }
-
-    $logger->info('CallForPapersForm: UIDs finales extraídos: @count', ['@count' => count($uids)]);
-
-    if (empty($uids)) {
-      $this->messenger()->addWarning($this->t('No se encontraron usuarios para enviar el mensaje según los filtros aplicados.'));
-      return;
-    }
-
-    // Log the event.
-    \Drupal::logger('zinco_retos_soluciones')->info('Envío masivo de Call for Papers iniciado. Mensaje: @message. Usuarios objetivo: @count', [
-      '@message' => $message,
-      '@count' => count($uids),
-    ]);
-
-    $batch = [
-      'title' => $this->t('Enviando Call for Papers...'),
-      'operations' => [],
-      'init_message' => $this->t('Iniciando proceso de envío masivo.'),
-      'progress_message' => $this->t('Enviando notificación @current de @total.'),
-      'error_message' => $this->t('Ocurrió un error durante el proceso.'),
-      'finished' => [static::class, 'batchFinished'],
+    $form['actions']['submit'] = [
+      '#type' => 'button',
+      '#value' => $this->t('Enviar Mensaje Masivo'),
+      '#attributes' => [
+        'id' => 'btn-enviar-masivo',
+        'class' => ['button--primary'],
+        'data-endpoint' => Url::fromRoute('zinco_front.send_call_for_papers')->toString(),
+      ],
+      '#attached' => [
+        'library' => ['zinco_front/zinco-send-call-for-papers'],
+      ],
     ];
 
-    // Chunk uids to process in batches of 20 for better performance.
-    $chunks = array_chunk($uids, 20);
-    foreach ($chunks as $chunk) {
-      $batch['operations'][] = [
-        [static::class, 'processBatchNotifications'],
-        [$chunk, $message, $this->currentUser()->id()],
-      ];
-    }
-
-    batch_set($batch);
+    return $form;
   }
 
   /**

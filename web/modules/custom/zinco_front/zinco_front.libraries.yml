@@ -214,3 +214,11 @@ zinco-user-notifications:
   css:
     theme:
       css/zinco-user-notifications.css: {}
+
+zinco-send-call-for-papers:
+  version: 1.x
+  js:
+    js/zinco-send-call-for-papers.js: {}
+  dependencies:
+    - core/drupal
+    - core/once

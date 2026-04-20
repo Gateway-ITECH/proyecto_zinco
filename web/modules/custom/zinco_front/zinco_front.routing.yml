@@ -324,3 +324,11 @@ zinco_front.call_for_papers:
     _title: 'Call for Papers'
   requirements:
     _permission: 'access administration pages'
+
+zinco_front.send_call_for_papers:
+  path: '/admin/zinco/call-for-papers/send'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::sendCallForPapers'
+  requirements:
+    _permission: 'access administration pages'
+  methods: [POST]

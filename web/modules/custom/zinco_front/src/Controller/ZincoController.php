@@ -13,6 +13,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Drupal\views\Views;
+use Drupal\Core\Url;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\RedirectCommand;
 
 /**
  * Provides a ZincoController.
@@ -953,5 +957,77 @@ class ZincoController extends ControllerBase
 
     return $data;
   }
+
+  /**
+   * AJAX callback to send Call for Papers.
+   */
+  public function sendCallForPapers(Request $request)
+  {
+    $message = $request->request->get('message');
+    if (empty($message)) {
+      return new JsonResponse(['success' => false, 'message' => 'El mensaje es requerido.'], 400);
+    }
+
+    // Get all user input to pass to the view.
+    $input = $request->request->all();
+
+    $view_id = 'selector_de_receptores';
+    $display_id = 'embed_receptors_selector';
+    $view = Views::getView($view_id);
+    $uids = [];
+
+    if ($view) {
+      $view->setDisplay($display_id);
+      if (!empty($input)) {
+        $view->setExposedInput($input);
+      }
+      $view->execute();
+
+      foreach ($view->result as $row) {
+        if (isset($row->uid)) {
+          $uids[] = $row->uid;
+        } elseif (isset($row->_entity) && $row->_entity->getEntityTypeId() === 'user') {
+          $uids[] = $row->_entity->id();
+        }
+      }
+    }
+
+    if (empty($uids)) {
+      return new JsonResponse(['success' => false, 'message' => 'No se encontraron usuarios para enviar el mensaje con los filtros aplicados.'], 400);
+    }
+
+    $batch = [
+      'title' => $this->t('Enviando Call for Papers...'),
+      'operations' => [],
+      'init_message' => $this->t('Iniciando proceso de envío masivo.'),
+      'progress_message' => $this->t('Enviando notificación @current de @total.'),
+      'error_message' => $this->t('Ocurrió un error durante el proceso.'),
+      'finished' => ['\Drupal\zinco_front\Form\CallForPapersForm', 'batchFinished'],
+    ];
+
+    // Chunk uids to process in batches of 20.
+    $chunks = array_chunk($uids, 20);
+    $sender_uid = $this->currentUser()->id();
+    foreach ($chunks as $chunk) {
+      $batch['operations'][] = [
+        ['\Drupal\zinco_front\Form\CallForPapersForm', 'processBatchNotifications'],
+        [$chunk, $message, $sender_uid],
+      ];
+    }
+
+    batch_set($batch);
+
+    // batch_process() prepares the batch and returns a redirect response.
+    $redirect = batch_process(Url::fromRoute('zinco_front.call_for_papers')->toString());
+
+    if ($redirect instanceof \Symfony\Component\HttpFoundation\RedirectResponse) {
+      return new AjaxResponse([
+        new RedirectCommand($redirect->getTargetUrl()),
+      ]);
+    }
+
+    return new JsonResponse(['success' => true]);
+  }
+
 }
 
