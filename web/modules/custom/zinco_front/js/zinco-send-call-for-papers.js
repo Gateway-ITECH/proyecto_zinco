@@ -15,6 +15,10 @@
 
           // Collect form data using FormData.
           const formData = new FormData(form);
+          const messageField = document.getElementById('edit-message');
+          if (messageField) {
+            formData.set('message', messageField.value);
+          }
           console.log('Datos enviados en FormData:');
           for (let [key, value] of formData.entries()) {
             console.log(key, value);
