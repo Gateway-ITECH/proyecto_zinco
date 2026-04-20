@@ -121,3 +121,46 @@ p{
   color: #28a745; /* Example color for icons */
 }
 
+/* Settings button styling */
+.actor-settings-dropdown {
+  z-index: 10;
+}
+
+.actor-settings-dropdown .btn-light {
+  transition: all 0.3s ease;
+  border: 1px solid #dee2e6;
+  background-color: #ffffff;
+}
+
+.actor-settings-dropdown .btn-light:hover {
+  background-color: #f8f9fa;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+}
+
+.actor-settings-dropdown .btn-light:hover i {
+  transform: rotate(90deg);
+  color: #007bff !important;
+}
+
+.actor-settings-dropdown .btn-light i {
+  transition: transform 0.4s ease, color 0.3s ease;
+}
+
+.actor-settings-dropdown .dropdown-menu {
+  min-width: 220px;
+  border-radius: 12px;
+  padding: 10px 0;
+  border: none;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+}
+
+.actor-settings-dropdown .dropdown-item {
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.actor-settings-dropdown .dropdown-item:hover {
+  background-color: #f0f7ff;
+  color: #007bff;
+  padding-left: 1.5rem;
+}

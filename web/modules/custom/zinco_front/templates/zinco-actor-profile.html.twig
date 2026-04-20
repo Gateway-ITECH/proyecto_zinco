@@ -9,12 +9,30 @@
 #}
 <div class="container mt-7 mb-5">
   <div class="actor-profile-wrapper">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/actores/list">Actores</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{ actor.label }}</li>
-      </ol>
-    </nav>
+    <div class="position-relative">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/actores/list">Actores</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{{ actor.label }}</li>
+        </ol>
+      </nav>
+
+      {% if user.hasRole('actor_registrado') %}
+        <div class="actor-settings-dropdown dropdown position-absolute top-0 end-0">
+          <button class="btn btn-light btn-sm shadow-sm rounded-circle" type="button" id="actorSettingsMenu" data-bs-toggle="dropdown" aria-expanded="false" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-cog fa-lg text-secondary"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" aria-labelledby="actorSettingsMenu">
+            <li><h6 class="dropdown-header">Gestión de Perfil</h6></li>
+            <li><a class="dropdown-item py-2" href="/profile/edit"><i class="fas fa-user-edit me-2 text-primary"></i>Editar Perfil</a></li>
+            <li><a class="dropdown-item py-2" href="/retos/add"><i class="fas fa-plus-circle me-2 text-success"></i>Publicar Reto</a></li>
+            <li><a class="dropdown-item py-2" href="/proyectos/add"><i class="fas fa-project-diagram me-2 text-info"></i>Nuevo Proyecto</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item py-2 text-danger" href="/user/logout"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
+          </ul>
+        </div>
+      {% endif %}
+    </div>
 
     {% if actor.bundle_id == 'empresa_explotadora_de_conocimie' or actor.bundle_id == 'empresa_generadora_de_conocimien' %}
       <div class="card mb-3">
