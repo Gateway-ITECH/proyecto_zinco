@@ -761,7 +761,7 @@ class RetosController extends ControllerBase
     $form = $this->entityFormBuilder()->getForm($entity, 'actor_add');
 
     // Hide fields for actors.
-    $hidden_fields = ['estado_reto_innovacion', 'aprobado_por'];
+    $hidden_fields = ['estado_reto_innovacion', 'aprobado_por', 'organizador_reto'];
     foreach ($hidden_fields as $field_name) {
       if (isset($form[$field_name])) {
         $form[$field_name]['#access'] = FALSE;
