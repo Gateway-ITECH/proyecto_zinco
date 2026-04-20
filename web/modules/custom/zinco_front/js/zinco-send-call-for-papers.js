@@ -1,17 +1,17 @@
 ((Drupal, once) => {
   Drupal.behaviors.zincoSendCallForPapers = {
     attach: function (context) {
-      console.log("cargando js");
       const elements = once('zinco-send-call-for-papers', '#btn-enviar-masivo', context);
-      console.log(elements);
       elements.forEach((btn) => {
         btn.addEventListener('click', (e) => {
           e.preventDefault();
 
           const endpoint = btn.getAttribute('data-endpoint');
-          const form = btn.closest('form');
-          console.log("form", form);
-          if (!form) return;
+          const form = document.getElementById('zinco-front-call-for-papers-form');
+          if (!form) {
+            console.error('Form #zinco-front-call-for-papers-form not found.');
+            return;
+          }
 
           // Collect form data using FormData.
           const formData = new FormData(form);
