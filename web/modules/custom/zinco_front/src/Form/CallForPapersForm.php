@@ -5,6 +5,7 @@ namespace Drupal\zinco_front\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Database\Connection;
+use Drupal\views\Views;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -107,15 +108,32 @@ class CallForPapersForm extends FormBase
   {
     $message = $form_state->getValue('message');
 
-    // Get all users with the role 'actor_registrado'.
-    $uids = \Drupal::entityQuery('user')
-      ->condition('status', 1)
-      ->condition('roles', 'actor_registrado')
-      ->accessCheck(FALSE)
-      ->execute();
+    // Get UIDs from the filtered view.
+    $view_id = 'selector_de_receptores';
+    $display_id = 'embed_receptors_selector';
+    $view = Views::getView($view_id);
+    $uids = [];
+
+    if ($view) {
+      $view->setDisplay($display_id);
+      // Ensure we use the same input used in buildForm.
+      $input = $form_state->getUserInput();
+      if (!empty($input)) {
+        $view->setExposedInput($input);
+      }
+      $view->execute();
+
+      foreach ($view->result as $row) {
+        if (isset($row->uid)) {
+          $uids[] = $row->uid;
+        } elseif (isset($row->_entity) && $row->_entity->getEntityTypeId() === 'user') {
+          $uids[] = $row->_entity->id();
+        }
+      }
+    }
 
     if (empty($uids)) {
-      $this->messenger()->addWarning($this->t('No se encontraron usuarios con el rol "Actor Registrado".'));
+      $this->messenger()->addWarning($this->t('No se encontraron usuarios para enviar el mensaje según los filtros aplicados.'));
       return;
     }
 
