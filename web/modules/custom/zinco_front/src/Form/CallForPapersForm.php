@@ -86,9 +86,17 @@ class CallForPapersForm extends FormBase
 
     //
 
+    // Get all Zinco Retos Innovacion for the select list.
+    $retos_storage = \Drupal::entityTypeManager()->getStorage('zinco_retos_innovacion');
+    $retos = $retos_storage->loadMultiple();
+    $options = ['' => $this->t('- Seleccione un reto -')];
+    foreach ($retos as $reto) {
+      $options[$reto->id()] = $reto->label();
+    }
+
     $form['reto_innovacion'] = [
-      '#type' => 'entity_autocomplete',
-      '#target_type' => 'zinco_retos_innovacion',
+      '#type' => 'select',
+      '#options' => $options,
       '#title' => $this->t('Reto de Innovación Relacionado'),
       '#description' => $this->t('Seleccione el reto de innovación relacionado con este mensaje.'),
       '#required' => FALSE,
