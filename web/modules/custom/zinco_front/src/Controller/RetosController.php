@@ -750,7 +750,23 @@ class RetosController extends ControllerBase
       'bundle' => 'reto',
     ]);
 
+    // Set the current user's actor as the default organizer.
+    $current_user = \Drupal::currentUser();
+    $user_entity = \Drupal\user\Entity\User::load($current_user->id());
+    if ($user_entity && $user_entity->hasField('field_actor') && !$user_entity->get('field_actor')->isEmpty()) {
+      $actor_id = $user_entity->get('field_actor')->target_id;
+      $entity->set('organizador_reto', [$actor_id]);
+    }
+
     $form = $this->entityFormBuilder()->getForm($entity, 'actor_add');
+
+    // Hide fields for actors.
+    $hidden_fields = ['estado_reto_innovacion', 'aprobado_por'];
+    foreach ($hidden_fields as $field_name) {
+      if (isset($form[$field_name])) {
+        $form[$field_name]['#access'] = FALSE;
+      }
+    }
 
     return [
       '#type' => 'container',
