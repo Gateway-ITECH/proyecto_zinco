@@ -69,12 +69,8 @@ class CallForPapersForm extends FormBase
       $view->initHandlers();
 
       // Render the exposed filter form.
-      // Render the exposed filter form.
-      $exposed_form_render = $view->display_handler->getPlugin('exposed_form')->renderExposedForm();
-      // Strip form wrappers to avoid nested <form> tags which break the main form submit.
-      unset($exposed_form_render['#type']);
-      unset($exposed_form_render['#theme_wrappers']);
-      $form['filtros_vista'] = $exposed_form_render;
+      $exposed_form = $view->display_handler->getPlugin('exposed_form');
+      //$form['filtros_vista'] = $exposed_form->renderExposedForm();
       $form['previsualizacion_usuarios'] = [
         '#type' => 'details',
         '#title' => $this->t('Usuarios seleccionados para el envío'),
@@ -98,7 +94,7 @@ class CallForPapersForm extends FormBase
       $options[$reto->id()] = $reto->label();
     }
 
-    $form['reto_innovacion'] = [
+    $form['previsualizacion_usuarios']['reto_innovacion'] = [
       '#type' => 'select',
       '#options' => $options,
       '#title' => $this->t('Reto de Innovación Relacionado'),
@@ -107,19 +103,12 @@ class CallForPapersForm extends FormBase
       '#weight' => -5,
     ];
 
-    $form['message'] = [
+    $form['previsualizacion_usuarios']['message'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Mensaje masivo (Call for Papers)'),
       '#description' => $this->t('Este mensaje será enviado como notificación a todos los usuarios seleccionados.'),
       '#required' => TRUE,
       '#rows' => 5,
-    ];
-
-    $form['actions']['submit'] = [
-      '#type' => 'submit',
-      '#value' => $this->t('Enviar Mensaje Masivo'),
-      '#button_type' => 'primary',
-      '#submit' => ['::submitForm'],
     ];
 
     return $form;
