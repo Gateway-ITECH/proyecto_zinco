@@ -963,8 +963,12 @@ class ZincoController extends ControllerBase
    */
   public function sendCallForPapers(Request $request)
   {
+    $logger = \Drupal::logger('zinco_debug');
+    $logger->info('ZincoController: sendCallForPapers iniciado (AJAX).');
+
     $message = $request->request->get('message');
     if (empty($message)) {
+      $logger->warning('ZincoController: Intento de envío sin mensaje.');
       return new JsonResponse(['success' => false, 'message' => 'El mensaje es requerido.'], 400);
     }
 
@@ -973,8 +977,10 @@ class ZincoController extends ControllerBase
 
     // Try to get UIDs from the request first (passed from JS).
     $uids = $request->request->all('uids');
+    $logger->info('ZincoController: UIDs recibidos desde el frontend: @count', ['@count' => count($uids)]);
 
     if (empty($uids)) {
+      $logger->info('ZincoController: No se recibieron UIDs del frontend, ejecutando vista de respaldo.');
       $view_id = 'selector_de_receptores';
       $display_id = 'embed_receptors_selector';
       $view = Views::getView($view_id);
@@ -986,6 +992,7 @@ class ZincoController extends ControllerBase
           $view->setExposedInput($input);
         }
         $view->execute();
+        $logger->info('ZincoController: Vista ejecutada. Resultados: @count', ['@count' => count($view->result)]);
 
         foreach ($view->result as $row) {
           if (isset($row->uid)) {
@@ -994,8 +1001,12 @@ class ZincoController extends ControllerBase
             $uids[] = $row->_entity->id();
           }
         }
+      } else {
+        $logger->error('ZincoController: No se pudo cargar la vista @view.', ['@view' => $view_id]);
       }
     }
+
+    $logger->info('ZincoController: Total de UIDs a procesar: @count', ['@count' => count($uids)]);
 
     if (empty($uids)) {
       return new JsonResponse(['success' => false, 'message' => 'No se encontraron usuarios para enviar el mensaje con los filtros aplicados.'], 400);
@@ -1012,6 +1023,8 @@ class ZincoController extends ControllerBase
 
     // Chunk uids to process in batches of 20.
     $chunks = array_chunk($uids, 20);
+    $logger->info('ZincoController: Inicializando batch con @count operaciones.', ['@count' => count($chunks)]);
+
     $sender_uid = $this->currentUser()->id();
     foreach ($chunks as $chunk) {
       $batch['operations'][] = [
