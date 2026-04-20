@@ -16,6 +16,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\user\EntityOwnerTrait;
 use Drupal\views\EntityViewsData;
+use Drupal\zinco_retos_innovacion\Form\ZincoRetosInnovacionActorForm;
 use Drupal\zinco_retos_innovacion\Form\ZincoRetosInnovacionForm;
 use Drupal\zinco_retos_innovacion\ZincoRetosInnovacionInterface;
 use Drupal\zinco_retos_innovacion\ZincoRetosInnovacionListBuilder;
@@ -44,6 +45,7 @@ use Drupal\zinco_retos_innovacion\ZincoRetosInnovacionListBuilder;
       'default' => ZincoRetosInnovacionForm::class,
       'add' => ZincoRetosInnovacionForm::class,
       'edit' => ZincoRetosInnovacionForm::class,
+      'actor_add' => ZincoRetosInnovacionActorForm::class,
       'delete' => ContentEntityDeleteForm::class,
       'delete-multiple-confirm' => DeleteMultipleForm::class,
     ],
