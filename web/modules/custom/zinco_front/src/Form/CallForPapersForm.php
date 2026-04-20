@@ -150,6 +150,8 @@ class CallForPapersForm extends FormBase
     $mailManager = \Drupal::service('plugin.manager.mail');
     $created = time();
 
+    $logger = \Drupal::logger('zinco_retos_soluciones');
+
     foreach ($uids as $actor_id) {
       // Find the user associated with this actor via field_actor.
       $user_ids = \Drupal::entityTypeManager()->getStorage('user')->getQuery()
@@ -169,6 +171,13 @@ class CallForPapersForm extends FormBase
             'uid_receiver' => $user_id,
           ])
           ->execute();
+
+        // Log the notification.
+        $logger->info('Notificación masiva enviada: Usuario @uid (Actor @actor). Mensaje: @msg', [
+          '@uid' => $user_id,
+          '@actor' => $actor_id,
+          '@msg' => mb_substr($message, 0, 100) . (mb_strlen($message) > 100 ? '...' : ''),
+        ]);
 
         // Send email if the user has one.
         if ($user && !empty($user->getEmail())) {
