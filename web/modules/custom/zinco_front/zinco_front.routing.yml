@@ -332,3 +332,11 @@ zinco_front.send_call_for_papers:
   requirements:
     _permission: 'access administration pages'
   methods: [POST]
+
+zinco_front.get_reto_suggestion:
+  path: '/admin/zinco/call-for-papers/suggest/{reto_id}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::getRetoSuggestion'
+  requirements:
+    _permission: 'access administration pages'
+  methods: [GET]

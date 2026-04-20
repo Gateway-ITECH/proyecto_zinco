@@ -1048,5 +1048,85 @@ class ZincoController extends ControllerBase
     return new JsonResponse(['success' => true]);
   }
 
-}
+  /**
+   * AJAX callback to get a suggested message based on a challenge.
+   */
+  public function getRetoSuggestion($reto_id)
+  {
+    if (!$reto_id) {
+      return new JsonResponse(['success' => false, 'message' => 'ID de reto no proporcionado.'], 400);
+    }
 
+    try {
+      $reto = \Drupal::entityTypeManager()->getStorage('zinco_retos_innovacion')->load($reto_id);
+      if (!$reto) {
+        return new JsonResponse(['success' => false, 'message' => 'Reto no encontrado.'], 404);
+      }
+
+      $title = $reto->label();
+      $description = '';
+      if ($reto->hasField('description') && !$reto->get('description')->isEmpty()) {
+        $description = strip_tags($reto->get('description')->value ?? '');
+      }
+
+      $municipio = '';
+      if ($reto->hasField('field_municipio') && !$reto->get('field_municipio')->isEmpty()) {
+        $municipio_entity = $reto->get('field_municipio')->entity;
+        if ($municipio_entity) {
+          $municipio = $municipio_entity->label();
+        }
+      }
+
+      $organizadores = [];
+      if ($reto->hasField('organizador_reto') && !$reto->get('organizador_reto')->isEmpty()) {
+        foreach ($reto->get('organizador_reto')->referencedEntities() as $org_entity) {
+          $organizadores[] = $org_entity->label();
+        }
+      }
+      $organizador_str = implode(', ', $organizadores);
+
+      $recompensas = '';
+      if ($reto->hasField('recompensas_reto') && !$reto->get('recompensas_reto')->isEmpty()) {
+        $recompensas = strip_tags($reto->get('recompensas_reto')->value ?? '');
+      }
+
+      $fecha_inicio = $reto->hasField('fecha_inicio') ? $reto->get('fecha_inicio')->value : '';
+      $fecha_fin = $reto->hasField('fecha_fin') ? $reto->get('fecha_fin')->value : '';
+      $fecha_eval = $reto->hasField('fecha_evaluacion') ? $reto->get('fecha_evaluacion')->value : '';
+
+      $message = "¡Nuevo Reto de Innovación: $title!\n\n";
+      if ($description) {
+        $message .= "Descripción: $description\n\n";
+      }
+      if ($organizador_str) {
+        $message .= "Organizado por: $organizador_str\n";
+      }
+      if ($municipio) {
+        $message .= "Ubicación: $municipio\n";
+      }
+      if ($recompensas) {
+        $message .= "Recompensas: $recompensas\n";
+      }
+
+      if ($fecha_inicio || $fecha_fin || $fecha_eval) {
+        $message .= "\nFechas clave:\n";
+        if ($fecha_inicio) $message .= "- Inicio: $fecha_inicio\n";
+        if ($fecha_fin) $message .= "- Fin: $fecha_fin\n";
+        if ($fecha_eval) $message .= "- Evaluación: $fecha_eval\n";
+      }
+
+      $message .= "\nTe invitamos a participar y proponer tu solución.";
+
+      return new JsonResponse([
+        'success' => true,
+        'suggestion' => $message,
+      ]);
+    } catch (\Exception $e) {
+      return new JsonResponse([
+        'success' => false,
+        'message' => $e->getMessage(),
+      ], 500);
+    }
+  }
+
+}

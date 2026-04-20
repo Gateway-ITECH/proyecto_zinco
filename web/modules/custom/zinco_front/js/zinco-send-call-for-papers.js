@@ -2,6 +2,33 @@
   Drupal.behaviors.zincoSendCallForPapers = {
     attach: function (context) {
       const elements = once('zinco-send-call-for-papers', '#btn-enviar-masivo', context);
+      // Add event listener for challenge selection to suggest a message.
+      const retoSelect = document.getElementById('edit-reto-innovacion');
+      if (retoSelect) {
+        retoSelect.addEventListener('change', (e) => {
+          const retoId = e.target.value;
+          if (!retoId) return;
+
+          // Fetch the suggestion from the controller.
+          // Note: The path is hardcoded or could be passed via data attribute.
+          const suggestUrl = `/admin/zinco/call-for-papers/suggest/${retoId}`;
+
+          fetch(suggestUrl)
+            .then(response => response.json())
+            .then(data => {
+              if (data.success && data.suggestion) {
+                const messageField = document.getElementById('edit-message');
+                if (messageField) {
+                  messageField.value = data.suggestion;
+                }
+              }
+            })
+            .catch(error => {
+              console.error('Error fetching reto suggestion:', error);
+            });
+        });
+      }
+
       elements.forEach((btn) => {
         btn.addEventListener('click', (e) => {
           e.preventDefault();
