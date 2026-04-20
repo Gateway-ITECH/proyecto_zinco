@@ -753,7 +753,6 @@ class RetosController extends ControllerBase
     // Set the current user's actor as the default organizer.
     $current_user = \Drupal::currentUser();
     $user_entity = \Drupal\user\Entity\User::load($current_user->id());
-    var_dump($user_entity->get('field_actor'));
     if ($user_entity && $user_entity->hasField('field_actor') && !$user_entity->get('field_actor')->isEmpty()) {
       $actor_id = $user_entity->get('field_actor')->target_id;
       $entity->set('organizador_reto', [$actor_id]);
