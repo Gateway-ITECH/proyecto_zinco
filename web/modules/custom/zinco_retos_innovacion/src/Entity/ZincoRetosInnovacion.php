@@ -72,7 +72,8 @@ use Drupal\zinco_retos_innovacion\ZincoRetosInnovacionListBuilder;
   ],
   field_ui_base_route: 'entity.zinco_retos_innovacion_type.edit_form',
 )]
-class ZincoRetosInnovacion extends ContentEntityBase implements ZincoRetosInnovacionInterface {
+class ZincoRetosInnovacion extends ContentEntityBase implements ZincoRetosInnovacionInterface
+{
 
   use EntityChangedTrait;
   use EntityOwnerTrait;
@@ -80,7 +81,8 @@ class ZincoRetosInnovacion extends ContentEntityBase implements ZincoRetosInnova
   /**
    * {@inheritdoc}
    */
-  public function preSave(EntityStorageInterface $storage): void {
+  public function preSave(EntityStorageInterface $storage): void
+  {
     parent::preSave($storage);
     if (!$this->getOwnerId()) {
       // If no owner has been set explicitly, make the anonymous user the owner.
@@ -91,7 +93,8 @@ class ZincoRetosInnovacion extends ContentEntityBase implements ZincoRetosInnova
   /**
    * {@inheritdoc}
    */
-  public static function baseFieldDefinitions(EntityTypeInterface $entity_type): array {
+  public static function baseFieldDefinitions(EntityTypeInterface $entity_type): array
+  {
 
     $fields = parent::baseFieldDefinitions($entity_type);
 
@@ -114,7 +117,7 @@ class ZincoRetosInnovacion extends ContentEntityBase implements ZincoRetosInnova
     $fields['status'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Status'))
       ->setDefaultValue(TRUE)
-      ->setSetting('on_label', 'Enabled')
+      ->setSetting('on_label', 'Publicado')
       ->setDisplayOptions('form', [
         'type' => 'boolean_checkbox',
         'settings' => [
@@ -300,7 +303,7 @@ class ZincoRetosInnovacion extends ContentEntityBase implements ZincoRetosInnova
       ])
       ->setDisplayConfigurable('view', TRUE);
 
-  
+
 
     $fields['organizador_reto'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Organizador del reto'))

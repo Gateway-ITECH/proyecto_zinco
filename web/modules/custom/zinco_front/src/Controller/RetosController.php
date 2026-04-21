@@ -113,6 +113,7 @@ class RetosController extends ControllerBase
       $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
       $query = $term_storage->getQuery()
         ->condition('vid', 'estados_de_retos_de_innovacion')
+        ->condition('status', 1)
         ->accessCheck(FALSE);
       $tids = $query->execute();
       $terms = $term_storage->loadMultiple($tids);
