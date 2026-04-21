@@ -11,3 +11,6 @@ services:
   zinco_front.content_service:
     class: Drupal\zinco_front\Service\ContentService
     arguments: ['@http_client', '@entity_type.manager', '@file_system', '@file_url_generator', '@logger.factory']
+  zinco_front.mail_service:
+    class: Drupal\zinco_front\Service\MailService
+    arguments: ['@plugin.manager.mail', '@renderer', '@config.factory', '@language_manager']

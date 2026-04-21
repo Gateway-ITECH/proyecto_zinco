@@ -212,6 +212,20 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'zinco-user-notifications-block',
     ],
+    'email_call_for_papers' => [
+      'variables' => [
+        'variables' => [],
+        'site_name' => NULL,
+      ],
+      'template' => 'email-call-for-papers',
+    ],
+    'email_new_reto_notification' => [
+      'variables' => [
+        'variables' => [],
+        'site_name' => NULL,
+      ],
+      'template' => 'email-new-reto-notification',
+    ],
   ];
 }
 
@@ -465,6 +479,13 @@ function zinco_front_mail($key, &$message, $params) {
       $message['from'] = \Drupal::config('system.site')->get('mail');
       $message['subject'] = $params['subject'];
       $message['body'][] = $params['message'];
+      break;
+
+    case 'templated_email':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = $params['subject'];
+      $message['body'][] = $params['body'];
+      $message['headers']['Content-Type'] = 'text/html; charset=UTF-8';
       break;
   }
 }

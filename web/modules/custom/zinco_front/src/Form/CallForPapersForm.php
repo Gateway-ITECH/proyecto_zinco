@@ -181,15 +181,17 @@ class CallForPapersForm extends FormBase
 
         // Send email if the user has one.
         if ($user && !empty($user->getEmail())) {
-          $module = 'zinco_front';
-          $key = 'call_for_papers';
-          $to = $user->getEmail();
-          $params = [
-            'message' => $message,
-            'subject' => t('Nueva Notificación: Call for Papers'),
-          ];
-          $langcode = $user->getPreferredLangcode();
-          $mailManager->mail($module, $key, $to, $langcode, $params, NULL, TRUE);
+          /** @var \Drupal\zinco_front\Service\MailService $mailService */
+          $mailService = \Drupal::service('zinco_front.mail_service');
+          $mailService->sendTemplatedEmail(
+            $user->getEmail(),
+            t('Nueva Notificación: Call for Papers'),
+            'email_call_for_papers',
+            [
+              'message' => $message,
+              'base_url' => \Drupal::request()->getSchemeAndHttpHost(),
+            ]
+          );
         }
       }
     }

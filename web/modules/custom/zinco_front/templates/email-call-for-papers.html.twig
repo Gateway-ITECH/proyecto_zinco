@@ -1,0 +1,129 @@
+{#
+/**
+ * @file
+ * Template for Call for Papers email.
+ */
+#}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ variables.subject }}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f9;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+        .wrapper {
+            width: 100%;
+            table-layout: fixed;
+            background-color: #f4f7f9;
+            padding-bottom: 40px;
+        }
+        .main {
+            background-color: #ffffff;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 600px;
+            border-spacing: 0;
+            color: #4a4a4a;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-top: 40px;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            padding: 40px 20px;
+            text-align: center;
+            color: #ffffff;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .content {
+            padding: 40px 30px;
+            line-height: 1.6;
+        }
+        .content h2 {
+            color: #1a2a6c;
+            font-size: 20px;
+            margin-top: 0;
+        }
+        .content p {
+            font-size: 16px;
+            color: #555555;
+            margin-bottom: 20px;
+        }
+        .button-wrapper {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .button {
+            background-color: #1a2a6c;
+            color: #ffffff !important;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        .footer {
+            padding: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #999999;
+        }
+        .footer p {
+            margin: 5px 0;
+        }
+        .highlight {
+            color: #b21f1f;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <table class="main">
+            <tr>
+                <td class="header">
+                    <h1>{{ site_name }}</h1>
+                </td>
+            </tr>
+            <tr>
+                <td class="content">
+                    <h2>Nueva Notificación: Call for Papers</h2>
+                    <p>Hola,</p>
+                    <p>Has recibido una nueva notificación relacionada con el programa <span class="highlight">Zinco</span>.</p>
+                    
+                    <div style="background-color: #f8f9fa; border-left: 4px solid #1a2a6c; padding: 20px; margin: 20px 0;">
+                        {{ variables.message | raw }}
+                    </div>
+
+                    <p>Para más detalles, puedes acceder a tu panel de control en nuestro portal.</p>
+                    
+                    <div class="button-wrapper">
+                        <a href="{{ variables.base_url }}/dashboard" class="button">Ir al Dashboard</a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="footer">
+                    <p>&copy; {{ "now"|date("Y") }} {{ site_name }}. Todos los derechos reservados.</p>
+                    <p>Este es un mensaje automático, por favor no respondas a este correo.</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
