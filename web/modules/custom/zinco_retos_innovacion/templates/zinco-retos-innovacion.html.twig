@@ -1,24 +1,82 @@
 {#
 /**
  * @file
- * Default theme implementation to present a zinco retos innovacion entity.
- *
- * This template is used when viewing a canonical zinco retos innovacion page,
- *
- * Available variables:
- * - content: A list of content items. Use 'content' to print all content, or
- *   print a subset such as 'content.label'.
- * - attributes: HTML attributes for the container element.
- *
- * @see template_preprocess_zinco_retos_innovacion()
+ * Custom theme implementation for Zinco Retos Innovacion.
  */
 #}
-<article{{ attributes }}>
-  {% if view_mode != 'full' %}
-    {{ title_prefix }}
-    {{ title_suffix }}
-  {% endif %}
-  {% if content %}
-    {{- content -}}
-  {% endif %}
+<article{{ attributes.addClass('reto-innovacion-container') }}>
+
+  {# 1. ENCABEZADO PRINCIPAL #}
+  <header class="reto-header">
+    <div class="reto-meta-top">
+      <span class="badge-area">{{ content.field_area_de_enfoque }}</span>
+      <span class="badge-status {{ content.field_estado|render|clean_class }}">
+        {{ content.field_estado }}
+      </span>
+    </div>
+    
+    <h1 class="reto-title">{{ label }}</h1>
+    
+    <div class="reto-short-desc">
+      {{ content.field_descripcion_corta }}
+    </div>
+  </header>
+
+  <div class="reto-content-layout">
+    
+    {# 2. COLUMNA PRINCIPAL (Izquierda) #}
+    <div class="reto-main-column">
+      
+      <section class="reto-card">
+        <h3>Descripción Detallada</h3>
+        {{ content.field_descripcion }}
+      </section>
+
+      <section class="reto-card">
+        <h3>Criterios de Evaluación</h3>
+        <div class="criterios-list">
+          {{ content.field_criterios_reto }}
+        </div>
+      </section>
+
+      <section class="reto-card">
+        <h3>Recompensas y Restricciones</h3>
+        <div class="highlight-box">
+          {{ content.field_recompensas_del_reto }}
+          <hr>
+          {{ content.field_requisitos_restricciones }}
+        </div>
+      </section>
+    </div>
+
+    {# 3. BARRA LATERAL (Derecha) #}
+    <aside class="reto-sidebar">
+      
+      <div class="sidebar-block">
+        <h4>Detalles del Organizador</h4>
+        <div class="item"><strong>Organizador:</strong> {{ content.field_organizador_del_reto }}</div>
+        <div class="item"><strong>Sector:</strong> {{ content.field_sector_economico }}</div>
+        <div class="item"><strong>Ubicación:</strong> {{ content.field_municipio }}</div>
+      </div>
+
+      <div class="sidebar-block cronograma">
+        <h4>Cronograma</h4>
+        <div class="item"><strong>Inicio:</strong> {{ content.field_fecha_de_inicio }}</div>
+        <div class="item"><strong>Fin:</strong> {{ content.field_fecha_de_fin }}</div>
+        <div class="item"><strong>Evaluación:</strong> {{ content.field_fecha_de_evaluacion }}</div>
+      </div>
+
+      {% if content.field_documentos_del_reto|render %}
+        <div class="sidebar-block docs">
+          <h4>Documentación</h4>
+          {{ content.field_documentos_del_reto }}
+        </div>
+      {% endif %}
+
+    </aside>
+  </div>
+
+  {# Imprimir campos ocultos o técnicos que sobren para evitar errores #}
+  <div style="display:none;">{{ content|without('field_area_de_enfoque', 'field_estado', 'field_descripcion_corta', 'field_descripcion', 'field_criterios_reto', 'field_recompensas_del_reto', 'field_requisitos_restricciones', 'field_organizador_del_reto', 'field_sector_economico', 'field_municipio', 'field_fecha_de_inicio', 'field_fecha_de_fin', 'field_fecha_de_evaluacion', 'field_documentos_del_reto') }}</div>
+
 </article>
