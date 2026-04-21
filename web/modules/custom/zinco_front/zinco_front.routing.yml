@@ -348,4 +348,4 @@ zinco_front.add_reto_form:
     _title: 'Publicar Reto'
   requirements:
     _role: 'actor_registrado'
-  methods: [GET]
+
