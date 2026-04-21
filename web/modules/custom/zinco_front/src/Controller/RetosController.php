@@ -748,6 +748,7 @@ class RetosController extends ControllerBase
   {
     $entity = $this->entityTypeManager->getStorage('zinco_retos_innovacion')->create([
       'bundle' => 'reto',
+      'status' => FALSE,
     ]);
 
     // Set the current user's actor as the default organizer.
