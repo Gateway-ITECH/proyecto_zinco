@@ -42,7 +42,7 @@
   {# 1. ENCABEZADO PRINCIPAL #}
   <header class="reto-header">
     <div class="reto-meta-top">
-      <span class="badge-area">{{ content.area_enfoque }}</span>
+      <span class="badge-area">{{ content.area_enfoque[0]|render|striptags|trim }}</span>
       <span class="badge-status {{ content.estado_reto_innovacion|render|clean_class }}">
         {{ content.estado_reto_innovacion }}
       </span>
