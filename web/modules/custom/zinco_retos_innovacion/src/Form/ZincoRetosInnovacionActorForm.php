@@ -27,8 +27,8 @@ final class ZincoRetosInnovacionActorForm extends ZincoRetosInnovacionForm
     if ($user_entity && $user_entity->hasField('field_actor') && !$user_entity->get('field_actor')->isEmpty()) {
       $actor_id = $user_entity->get('field_actor')->target_id;
       // Redirect to the actor profile. 
-      $form_state->setRedirect('entity.zinco_actors_zincoactors.canonical', [
-        'zinco_actors_zincoactors' => $actor_id,
+      $form_state->setRedirect('zinco_front.actor_profile', [
+        'actor_id' => $actor_id,
       ]);
     } else {
       // Fallback to the entity view page if no actor is found.
