@@ -490,7 +490,69 @@ function zinco_front_mail($key, &$message, $params) {
   }
 }
 
-//
+/**
+ * Implements hook_ENTITY_TYPE_insert() for zinco_retos_innovacion.
+ */
+function zinco_front_zinco_retos_innovacion_insert(\Drupal\Core\Entity\EntityInterface $entity) {
+  _zinco_front_notify_organizers_on_publish($entity);
+}
 
+/**
+ * Implements hook_ENTITY_TYPE_update() for zinco_retos_innovacion.
+ */
+function zinco_front_zinco_retos_innovacion_update(\Drupal\Core\Entity\EntityInterface $entity) {
+  // Check if status changed from false to true.
+  $original = $entity->original;
+  if ($original && !$original->get('status')->value && $entity->get('status')->value) {
+    _zinco_front_notify_organizers_on_publish($entity);
+  }
+}
+
+/**
+ * Helper function to notify organizers when a reto is published.
+ */
+function _zinco_front_notify_organizers_on_publish(\Drupal\Core\Entity\EntityInterface $entity) {
+  // Only proceed if the reto is published (status = true).
+  if (!$entity->get('status')->value) {
+    return;
+  }
+
+  if ($entity->hasField('organizador_reto') && !$entity->get('organizador_reto')->isEmpty()) {
+    $actor_ids = array_column($entity->get('organizador_reto')->getValue(), 'target_id');
+    
+    // Find users associated with these actors.
+    $query = \Drupal::entityQuery('user')
+      ->condition('status', 1)
+      ->condition('field_actor', $actor_ids, 'IN')
+      ->accessCheck(FALSE);
+    
+    $uids = $query->execute();
+    
+    if (!empty($uids)) {
+      $users = \Drupal\user\Entity\User::loadMultiple($uids);
+      $mail_service = \Drupal::service('zinco_front.mail_service');
+      $base_url = \Drupal::request()->getSchemeAndHttpHost();
+      
+      $variables = [
+        'reto_label' => $entity->label(),
+        'created_date' => \Drupal::service('date.formatter')->format(\Drupal::time()->getRequestTime(), 'custom', 'd/m/Y'),
+        'base_url' => $base_url,
+        'reto_url' => $entity->toUrl('canonical')->toString(),
+      ];
+      
+      foreach ($users as $user) {
+        if ($email = $user->getEmail()) {
+          $variables['author_name'] = $user->getDisplayName();
+          $mail_service->sendTemplatedEmail(
+            $email,
+            'Tu Reto de Innovación ha sido publicado: ' . $entity->label(),
+            'email_new_reto_notification', 
+            $variables
+          );
+        }
+      }
+    }
+  }
+}
 
 
