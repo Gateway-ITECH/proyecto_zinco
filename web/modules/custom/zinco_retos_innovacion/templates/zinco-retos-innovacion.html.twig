@@ -4,6 +4,39 @@
  * Custom theme implementation for Zinco Retos Innovacion.
  */
 #}
+<style>
+  .reto-content-layout {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.reto-main-column { flex: 2; }
+.reto-sidebar { flex: 1; }
+
+.reto-card, .sidebar-block {
+  background: #ffffff;
+  border: 1px solid #e1e1e1;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.sidebar-block h4 {
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 8px;
+  margin-top: 0;
+}
+
+.badge-area {
+  background: #007bff;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+</style>
 <article{{ attributes.addClass('reto-innovacion-container') }}>
 
   {# 1. ENCABEZADO PRINCIPAL #}
