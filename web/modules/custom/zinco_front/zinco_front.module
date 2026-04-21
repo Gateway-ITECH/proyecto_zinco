@@ -226,6 +226,13 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'email-new-reto-notification',
     ],
+    'email_reto_publicado' => [
+      'variables' => [
+        'variables' => [],
+        'site_name' => NULL,
+      ],
+      'template' => 'email-reto-publicado',
+    ],
   ];
 }
 
@@ -537,7 +544,7 @@ function _zinco_front_notify_organizers_on_publish(\Drupal\Core\Entity\EntityInt
         'reto_label' => $entity->label(),
         'created_date' => \Drupal::service('date.formatter')->format(\Drupal::time()->getRequestTime(), 'custom', 'd/m/Y'),
         'base_url' => $base_url,
-        'reto_url' => $entity->toUrl('canonical')->toString(),
+        'reto_url' => '/retos/' . $entity->id(),
       ];
       
       foreach ($users as $user) {
@@ -546,7 +553,7 @@ function _zinco_front_notify_organizers_on_publish(\Drupal\Core\Entity\EntityInt
           $mail_service->sendTemplatedEmail(
             $email,
             'Tu Reto de Innovación ha sido publicado: ' . $entity->label(),
-            'email_new_reto_notification', 
+            'email_reto_publicado', 
             $variables
           );
         }
