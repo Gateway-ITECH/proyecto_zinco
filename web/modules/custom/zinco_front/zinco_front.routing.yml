@@ -243,6 +243,15 @@ zinco_front.solution_detail:
     _permission: 'access retos evaluacion'
     solution_id: '\d+'
 
+zinco_front.solution_public_detail:
+  path: '/retos/detalle/{solution_id}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\RetosController::solutionDetail'
+    _title: 'Detalle de la Solución'
+  requirements:
+    _permission: 'access content'
+    solution_id: '\d+'
+
 zinco_front.reto_calificar:
   path: '/retos/calificar/{solution_id}'
   defaults:
