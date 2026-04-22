@@ -35,9 +35,9 @@
             </tr>
             <tr>
                 <td class="content">
-                    <h2>Nueva postulación recibida y validada</h2>
+                    <h2>Nueva postulación recibida</h2>
                     <p>Hola {{ variables.author_name }},</p>
-                    <p>Una nueva propuesta de solución para tu reto ha sido validada por el equipo administrativo y está lista para ser evaluada por ti.</p>
+                    <p>Una nueva propuesta de solución para tu reto ha sido validada por el equipo administrativo y ya está disponible para que la consultes.</p>
                     
                     <div class="details-box">
                         <p><strong>Reto:</strong> {{ variables.reto_label }}</p>
@@ -45,10 +45,10 @@
                         <p><strong>Fecha de Validación:</strong> {{ variables.validated_date }}</p>
                     </div>
 
-                    <p>Puedes revisar y calificar la propuesta haciendo clic en el siguiente botón:</p>
+                    <p>Puedes revisar los detalles de la propuesta haciendo clic en el siguiente botón:</p>
                     
                     <div class="button-wrapper">
-                        <a href="{{ variables.base_url }}{{ variables.solution_url }}" class="button">Evaluar Propuesta</a>
+                        <a href="{{ variables.base_url }}{{ variables.solution_url }}" class="button">Ver Propuesta</a>
                     </div>
                 </td>
             </tr>

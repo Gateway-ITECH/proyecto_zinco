@@ -617,7 +617,7 @@ function _zinco_front_notify_solution_validated(\Drupal\Core\Entity\EntityInterf
     'reto_label' => $reto_label,
     'validated_date' => $date_formatter->format(\Drupal::time()->getRequestTime(), 'custom', 'd/m/Y'),
     'base_url' => $base_url,
-    'solution_url' => '/retos/evaluar/' . $solution->id(),
+    'solution_url' => '/retos/detalle/' . $solution->id(),
   ];
 
   // 2. Notify Solution Authors.
@@ -648,7 +648,7 @@ function _zinco_front_notify_solution_validated(\Drupal\Core\Entity\EntityInterf
         $variables['author_name'] = $user->getDisplayName();
         $mail_service->sendTemplatedEmail(
           $email,
-          'Nueva postulación validada para tu reto: ' . $reto_label,
+          'Nueva postulación recibida para tu reto: ' . $reto_label,
           'email_solution_validated_organizer',
           $variables
         );
