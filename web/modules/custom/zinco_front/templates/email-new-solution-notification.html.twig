@@ -1,0 +1,131 @@
+{#
+/**
+ * @file
+ * Template for New Solution notification email for administrators.
+ */
+#}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Postulación Recibida</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f9;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+        .wrapper {
+            width: 100%;
+            table-layout: fixed;
+            background-color: #f4f7f9;
+            padding-bottom: 40px;
+        }
+        .main {
+            background-color: #ffffff;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 600px;
+            border-spacing: 0;
+            color: #4a4a4a;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-top: 40px;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            padding: 40px 20px;
+            text-align: center;
+            color: #ffffff;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .content {
+            padding: 40px 30px;
+            line-height: 1.6;
+        }
+        .content h2 {
+            color: #1e3c72;
+            font-size: 18px;
+            margin-top: 0;
+        }
+        .details-box {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .details-box p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .details-box strong {
+            color: #333;
+        }
+        .button-wrapper {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .button {
+            background-color: #1e3c72;
+            color: #ffffff !important;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .footer {
+            padding: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #999999;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <table class="main">
+            <tr>
+                <td class="header">
+                    <h1>Notificación Administrativa</h1>
+                </td>
+            </tr>
+            <tr>
+                <td class="content">
+                    <h2>Se ha recibido una nueva postulación a un reto</h2>
+                    <p>Hola Administrador,</p>
+                    <p>Se ha registrado una nueva propuesta de solución para uno de los retos de innovación activos.</p>
+                    
+                    <div class="details-box">
+                        <p><strong>Reto:</strong> {{ variables.reto_label }}</p>
+                        <p><strong>Propuesta:</strong> {{ variables.solution_label }}</p>
+                        <p><strong>Postulante:</strong> {{ variables.author_name }}</p>
+                        <p><strong>Fecha:</strong> {{ variables.created_date }}</p>
+                    </div>
+
+                    <p>Puedes revisar los detalles de la postulación haciendo clic en el siguiente botón:</p>
+                    
+                    <div class="button-wrapper">
+                        <a href="{{ variables.base_url }}{{ variables.solution_url }}" class="button">Ver Detalle de la Propuesta</a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="footer">
+                    <p>&copy; {{ "now"|date("Y") }} {{ site_name }}. Portal de Innovación.</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

@@ -233,6 +233,13 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'email-reto-publicado',
     ],
+    'email_new_solution_notification' => [
+      'variables' => [
+        'variables' => [],
+        'site_name' => NULL,
+      ],
+      'template' => 'email-new-solution-notification',
+    ],
   ];
 }
 
