@@ -77,12 +77,14 @@
         <div class="card-deck">
           {% if reto.soluciones %}
             {% for solucion in reto.soluciones %}
-              <div class="card mb-3">
-                <div class="card-body">
-                  <h5 class="card-title">{{ solucion.label }}</h5>
-                  <p class="card-text">{{ solucion.description }}</p>
+              {% if solucion.status %}
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ solucion.label }}</h5>
+                    <p class="card-text">{{ solucion.description }}</p>
+                  </div>
                 </div>
-              </div>
+              {% endif %}
             {% endfor %}
           {% else %}
             <p>No se han recibido propuestas para este reto aún.</p>

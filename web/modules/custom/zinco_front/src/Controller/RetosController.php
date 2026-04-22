@@ -374,7 +374,7 @@ class RetosController extends ControllerBase
             'label' => $solucion->label(),
             'description' => $solucion->get('description')->value,
             'author' => $solucion->getOwner()->getDisplayName(),
-            // Add other fields as needed.
+            'status' => $solucion->get('status')->value,
           ];
         }
       }
