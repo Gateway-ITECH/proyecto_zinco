@@ -14,3 +14,8 @@ services:
   zinco_front.mail_service:
     class: Drupal\zinco_front\Service\MailService
     arguments: ['@plugin.manager.mail', '@renderer', '@config.factory', '@language_manager']
+  zinco_front.access_denied_subscriber:
+    class: Drupal\zinco_front\EventSubscriber\AccessDeniedSubscriber
+    arguments: ['@current_user']
+    tags:
+      - { name: event_subscriber }
