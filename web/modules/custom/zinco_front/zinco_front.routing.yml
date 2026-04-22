@@ -213,7 +213,7 @@ zinco_front.reto_detail:
   path: '/retos/{reto_id}'
   defaults:
     _controller: '\Drupal\zinco_front\Controller\RetosController::verDetalleReto'
-    _title: 'Detalle del Reto'
+    _title: ''
   requirements:
     _permission: 'access content'
     reto_id: '\d+'
