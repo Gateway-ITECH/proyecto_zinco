@@ -573,19 +573,12 @@ class RetosController extends ControllerBase
       $entity->set('field_estado_postulacion_idea', $no_revisado_term->id());
     }
 
-    // Asignar el actor del usuario actual como autor por defecto.
-    $current_user = \Drupal::currentUser();
-    $user_entity = $this->entityTypeManager->getStorage('user')->load($current_user->id());
-    if ($user_entity && $user_entity->hasField('field_actor') && !$user_entity->get('field_actor')->isEmpty()) {
-      $actor_id = $user_entity->get('field_actor')->target_id;
-      $entity->set('field_autores_solucion', [$actor_id]);
-    }
-
     $form = $this->entityFormBuilder()->getForm($entity, 'frontend_add');
     $form['field_reto_asociado']['#access'] = FALSE;
     $form['field_retroalimentacion']['#access'] = FALSE;
     $form['field_revisores_postulacion']['#access'] = FALSE;
     $form['field_estado_postulacion_idea']['#access'] = FALSE;
+    //
     $form['contextual_alert'] = [
       '#type' => 'markup',
       '#markup' => $this->t('<div class="alert alert-info">En caso que no encuentre el nombre del autor puede registrarlo <a href="/actores/categorias">aquí</a></div>'),
