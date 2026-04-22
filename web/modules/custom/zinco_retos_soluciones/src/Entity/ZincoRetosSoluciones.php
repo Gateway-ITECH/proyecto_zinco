@@ -67,7 +67,8 @@ use Drupal\zinco_retos_soluciones\ZincoRetosSolucionesListBuilder;
   ],
   field_ui_base_route: 'entity.zinco_retos_soluciones.settings',
 )]
-class ZincoRetosSoluciones extends ContentEntityBase implements ZincoRetosSolucionesInterface {
+class ZincoRetosSoluciones extends ContentEntityBase implements ZincoRetosSolucionesInterface
+{
 
   use EntityChangedTrait;
   use EntityOwnerTrait;
@@ -75,7 +76,8 @@ class ZincoRetosSoluciones extends ContentEntityBase implements ZincoRetosSoluci
   /**
    * {@inheritdoc}
    */
-  public function preSave(EntityStorageInterface $storage): void {
+  public function preSave(EntityStorageInterface $storage): void
+  {
     parent::preSave($storage);
     if (!$this->getOwnerId()) {
       // If no owner has been set explicitly, make the anonymous user the owner.
@@ -86,7 +88,8 @@ class ZincoRetosSoluciones extends ContentEntityBase implements ZincoRetosSoluci
   /**
    * {@inheritdoc}
    */
-  public static function baseFieldDefinitions(EntityTypeInterface $entity_type): array {
+  public static function baseFieldDefinitions(EntityTypeInterface $entity_type): array
+  {
 
     $fields = parent::baseFieldDefinitions($entity_type);
 
@@ -108,7 +111,7 @@ class ZincoRetosSoluciones extends ContentEntityBase implements ZincoRetosSoluci
       ->setDisplayConfigurable('view', TRUE);
 
     $fields['status'] = BaseFieldDefinition::create('boolean')
-      ->setLabel(t('Status'))
+      ->setLabel(t('Postulación válida'))
       ->setDefaultValue(TRUE)
       ->setSetting('on_label', 'Enabled')
       ->setDisplayOptions('form', [
@@ -193,19 +196,20 @@ class ZincoRetosSoluciones extends ContentEntityBase implements ZincoRetosSoluci
    * Sobrescribimos este método para establecer una URL de redirección específica
    * para la operación 'frontend_add'.
    */
-  protected function getRedirectUrl() {
-    
+  protected function getRedirectUrl()
+  {
+
     // 1. Verifica si la operación actual es 'frontend_add'.
     var_dump($this->operation);
     if ($this->operation === 'frontend_add') {
-      
+
       // 2. Devuelve la URL a la que deseas redirigir.
       // Puedes usar fromRoute() para rutas definidas en routing.yml.
       //return Url::fromRoute('mymodule.success_page');
-      
+
       // O a la página principal de la entidad después de la creación:
       // return Url::fromRoute('entity.zinco_retos_soluciones.collection');
-      
+
       // O a una URL absoluta:
       return Url::fromUri('https://tusitio.com/gracias');
     }
@@ -216,21 +220,22 @@ class ZincoRetosSoluciones extends ContentEntityBase implements ZincoRetosSoluci
   }
 
 
-  public function customFrontendRedirect(array &$form, FormStateInterface $form_state) {
+  public function customFrontendRedirect(array &$form, FormStateInterface $form_state)
+  {
     // 1. Opcional: Verifica que la entidad se haya guardado correctamente, 
     // aunque este handler generalmente solo se ejecuta en caso de éxito.
-    $entity = $this->entity; 
-    
+    $entity = $this->entity;
+
     // 2. Verifica la operación para asegurar la especificidad.
     if ($this->operation === 'frontend_add') {
-        // 3. Forzar la redirección a una ruta específica.
-        // Esto sobrescribe cualquier redirección que el handler principal haya intentado establecer.
-        $form_state->setRedirect('mymodule.success_page'); 
-        
-        // Si necesitas redirigir al ID de la entidad recién creada:
-        // $form_state->setRedirect('entity.zinco_retos_soluciones.canonical', ['zinco_retos_soluciones' => $entity->id()]);
+      // 3. Forzar la redirección a una ruta específica.
+      // Esto sobrescribe cualquier redirección que el handler principal haya intentado establecer.
+      $form_state->setRedirect('mymodule.success_page');
+
+      // Si necesitas redirigir al ID de la entidad recién creada:
+      // $form_state->setRedirect('entity.zinco_retos_soluciones.canonical', ['zinco_retos_soluciones' => $entity->id()]);
     }
-}
+  }
 
 }
 
