@@ -578,6 +578,8 @@ class RetosController extends ControllerBase
     $form['field_retroalimentacion']['#access'] = FALSE;
     $form['field_revisores_postulacion']['#access'] = FALSE;
     $form['field_estado_postulacion_idea']['#access'] = FALSE;
+    $form['uid']['#access'] = FALSE;
+    $form['status']['#value'] = 0;
     //
     $form['contextual_alert'] = [
       '#type' => 'markup',
