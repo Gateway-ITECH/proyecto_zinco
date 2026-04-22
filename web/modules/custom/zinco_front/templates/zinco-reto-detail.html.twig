@@ -81,7 +81,7 @@
                 <div class="card mb-3">
                   <div class="card-body">
                     <h5 class="card-title">{{ solucion.label }}</h5>
-                    <p class="card-text">{{ solucion.description }}</p>
+                    <p class="card-text">{{ solucion.description | raw }}</p>
                   </div>
                 </div>
               {% endif %}
