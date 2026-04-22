@@ -223,7 +223,7 @@ zinco_front.reto_solution_form:
   defaults:
      _controller: '\Drupal\zinco_front\Controller\RetosController::submitRetoSolutionForm'
   requirements:
-     _permission: 'access content'
+     _user_is_logged_in: 'TRUE'
      reto_id: '\d+'
 
 zinco_front.reto_evaluar_list:
