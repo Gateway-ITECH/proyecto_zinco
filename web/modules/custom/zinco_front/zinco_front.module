@@ -240,6 +240,20 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'email-new-solution-notification',
     ],
+    'email_solution_validated_author' => [
+      'variables' => [
+        'variables' => [],
+        'site_name' => NULL,
+      ],
+      'template' => 'email-solution-validated-author',
+    ],
+    'email_solution_validated_organizer' => [
+      'variables' => [
+        'variables' => [],
+        'site_name' => NULL,
+      ],
+      'template' => 'email-solution-validated-organizer',
+    ],
   ];
 }
 
@@ -308,8 +322,6 @@ function zinco_front_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $fo
           'data-endpoint' => \Drupal\Core\Url::fromRoute('zinco_front.get_actors_count')->toString(),
         ],
       ];
-
-      //
 
       // Eliminamos el campo del nivel superior.
       unset($form['field_actores_registrados']);
@@ -570,3 +582,92 @@ function _zinco_front_notify_organizers_on_publish(\Drupal\Core\Entity\EntityInt
 }
 
 
+
+/**
+ * Implements hook_ENTITY_TYPE_update() for zinco_retos_soluciones.
+ */
+function zinco_front_zinco_retos_soluciones_update(\Drupal\Core\Entity\EntityInterface $entity) {
+  $original = $entity->original;
+  // Trigger notification when status changes from false to true (validated).
+  if ($original && !$original->get('status')->value && $entity->get('status')->value) {
+    _zinco_front_notify_solution_validated($entity);
+  }
+}
+
+/**
+ * Helper function to notify authors and reto organizers when a solution is validated.
+ */
+function _zinco_front_notify_solution_validated(\Drupal\Core\Entity\EntityInterface $solution) {
+  $mail_service = \Drupal::service('zinco_front.mail_service');
+  $base_url = \Drupal::request()->getSchemeAndHttpHost();
+  $date_formatter = \Drupal::service('date.formatter');
+
+  // 1. Prepare common variables.
+  $reto_label = '';
+  $reto_entity = NULL;
+  if ($solution->hasField('field_reto_asociado') && !$solution->get('field_reto_asociado')->isEmpty()) {
+    $reto_entity = $solution->get('field_reto_asociado')->entity;
+    if ($reto_entity) {
+      $reto_label = $reto_entity->label();
+    }
+  }
+
+  $variables = [
+    'solution_label' => $solution->label(),
+    'reto_label' => $reto_label,
+    'validated_date' => $date_formatter->format(\Drupal::time()->getRequestTime(), 'custom', 'd/m/Y'),
+    'base_url' => $base_url,
+    'solution_url' => '/retos/evaluar/' . $solution->id(),
+  ];
+
+  // 2. Notify Solution Authors.
+  if ($solution->hasField('field_autores_solucion') && !$solution->get('field_autores_solucion')->isEmpty()) {
+    $actor_ids = array_column($solution->get('field_autores_solucion')->getValue(), 'target_id');
+    $author_users = _zinco_front_get_users_from_actors($actor_ids);
+
+    foreach ($author_users as $user) {
+      if ($email = $user->getEmail()) {
+        $variables['author_name'] = $user->getDisplayName();
+        $mail_service->sendTemplatedEmail(
+          $email,
+          'Tu postulación ha sido validada: ' . $solution->label(),
+          'email_solution_validated_author',
+          $variables
+        );
+      }
+    }
+  }
+
+  // 3. Notify Reto Organizers.
+  if ($reto_entity && $reto_entity->hasField('organizador_reto') && !$reto_entity->get('organizador_reto')->isEmpty()) {
+    $reto_actor_ids = array_column($reto_entity->get('organizador_reto')->getValue(), 'target_id');
+    $organizer_users = _zinco_front_get_users_from_actors($reto_actor_ids);
+
+    foreach ($organizer_users as $user) {
+      if ($email = $user->getEmail()) {
+        $variables['author_name'] = $user->getDisplayName();
+        $mail_service->sendTemplatedEmail(
+          $email,
+          'Nueva postulación validada para tu reto: ' . $reto_label,
+          'email_solution_validated_organizer',
+          $variables
+        );
+      }
+    }
+  }
+}
+
+/**
+ * Helper function to find users associated with actor IDs.
+ */
+function _zinco_front_get_users_from_actors(array $actor_ids) {
+  if (empty($actor_ids)) {
+    return [];
+  }
+  $query = \Drupal::entityQuery('user')
+    ->condition('status', 1)
+    ->condition('field_actor', $actor_ids, 'IN')
+    ->accessCheck(FALSE);
+  $uids = $query->execute();
+  return !empty($uids) ? \Drupal\user\Entity\User::loadMultiple($uids) : [];
+}
