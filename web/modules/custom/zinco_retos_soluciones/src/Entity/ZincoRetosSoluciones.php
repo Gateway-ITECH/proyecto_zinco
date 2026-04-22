@@ -17,6 +17,7 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\user\EntityOwnerTrait;
 use Drupal\views\EntityViewsData;
 use Drupal\zinco_retos_soluciones\Form\ZincoRetosSolucionesForm;
+use Drupal\zinco_retos_soluciones\Form\ZincoRetosSolucionesActorForm;
 use Drupal\zinco_retos_soluciones\ZincoRetosSolucionesInterface;
 use Drupal\zinco_retos_soluciones\ZincoRetosSolucionesListBuilder;
 
@@ -44,7 +45,7 @@ use Drupal\zinco_retos_soluciones\ZincoRetosSolucionesListBuilder;
       'edit' => ZincoRetosSolucionesForm::class,
       'delete' => ContentEntityDeleteForm::class,
       'delete-multiple-confirm' => DeleteMultipleForm::class,
-      'frontend_add' => ZincoRetosSolucionesForm::class
+      'frontend_add' => ZincoRetosSolucionesActorForm::class
     ],
     'route_provider' => [
       'html' => AdminHtmlRouteProvider::class,
