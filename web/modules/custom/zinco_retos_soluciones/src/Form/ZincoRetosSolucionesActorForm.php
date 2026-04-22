@@ -10,38 +10,40 @@ use Drupal\user\Entity\User;
 /**
  * Form controller for the zinco retos soluciones entity edit forms for actors.
  */
-class ZincoRetosSolucionesActorForm extends ZincoRetosSolucionesForm
-{
+class ZincoRetosSolucionesActorForm extends ZincoRetosSolucionesForm {
 
-  public function save(array $form, FormStateInterface $form_state): int
-  {
-    $result = parent::save($form, $form_state);
-
-    $message_args = ['%label' => $this->entity->toLink()->toString()];
-    $logger_args = [
-      '%label' => $this->entity->label(),
-      'link' => $this->entity->toLink($this->t('View'))->toString(),
-    ];
-
-    switch ($result) {
-      case SAVED_NEW:
-        $this->messenger()->addStatus($this->t('New zinco retos soluciones %label has been created.', $message_args));
-        $this->logger('zinco_retos_soluciones')->notice('New zinco retos soluciones %label has been created.', $logger_args);
-        break;
-
-      case SAVED_UPDATED:
-        $this->messenger()->addStatus($this->t('The zinco retos soluciones %label has been updated.', $message_args));
-        $this->logger('zinco_retos_soluciones')->notice('The zinco retos soluciones %label has been updated.', $logger_args);
-        break;
-
-      default:
-        throw new \LogicException('Could not save the entity.');
+  /**
+   * {@inheritdoc}
+   */
+  public function buildForm(array $form, FormStateInterface $form_state) {
+    // Si la entidad es nueva y no tiene autores, asignar el actor del usuario actual.
+    if ($this->entity->isNew() && $this->entity->get('field_autores_solucion')->isEmpty()) {
+      $current_user = \Drupal::currentUser();
+      $user_entity = User::load($current_user->id());
+      if ($user_entity && $user_entity->hasField('field_actor') && !$user_entity->get('field_actor')->isEmpty()) {
+        $actor_id = $user_entity->get('field_actor')->target_id;
+        $this->entity->set('field_autores_solucion', [$actor_id]);
+      }
     }
 
-    $form_state->setRedirectUrl($this->entity->toUrl());
+    return parent::buildForm($form, $form_state);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function save(array $form, FormStateInterface $form_state): int {
+    $result = parent::save($form, $form_state);
+
+    $current_user = \Drupal::currentUser();
+    $user_entity = User::load($current_user->id());
+
+    if ($user_entity && $user_entity->hasField('field_actor') && !$user_entity->get('field_actor')->isEmpty()) {
+      $actor_id = $user_entity->get('field_actor')->target_id;
+      $form_state->setRedirect('zinco_front.actor_profile', ['actor_id' => $actor_id]);
+    }
 
     return $result;
   }
-
 
 }
