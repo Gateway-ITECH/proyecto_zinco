@@ -756,16 +756,23 @@ body {
 
 .table h4.label {
   color: #000000 !important;
-}/* Custom spacing utilities */
-.mt-7 {
-    margin-top: 5rem !important;
 }
+
+/* Custom spacing utilities */
+.mt-7 {
+  margin-top: 5rem !important;
+}
+
 .mt-9 {
-    margin-top: 7rem !important;
+  margin-top: 7rem !important;
 }
 
 /* Datetime field */
 .datetime {
   font-style: italic;
   font-size: 0.82rem;
+}
+
+#content {
+  margin-top: 50px;
 }
