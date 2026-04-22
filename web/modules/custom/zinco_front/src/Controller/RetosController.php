@@ -573,7 +573,7 @@ class RetosController extends ControllerBase
       $entity->set('field_estado_postulacion_idea', $no_revisado_term->id());
     }
 
-    $form = $this->entityFormBuilder()->getForm($entity);
+    $form = $this->entityFormBuilder()->getForm($entity, 'frontend_add');
     $form['field_reto_asociado']['#access'] = FALSE;
     $form['field_retroalimentacion']['#access'] = FALSE;
     $form['field_revisores_postulacion']['#access'] = FALSE;
