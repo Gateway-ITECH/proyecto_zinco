@@ -1,24 +1,109 @@
 {#
 /**
  * @file
- * Default theme implementation to present a zinco retos soluciones entity.
- *
- * This template is used when viewing a canonical zinco retos soluciones page,
- *
- * Available variables:
- * - content: A list of content items. Use 'content' to print all content, or
- *   print a subset such as 'content.label'.
- * - attributes: HTML attributes for the container element.
- *
- * @see template_preprocess_zinco_retos_soluciones()
+ * Custom theme implementation for Zinco Retos Soluciones.
  */
 #}
-<article{{ attributes }}>
-  {% if view_mode != 'full' %}
-    {{ title_prefix }}
-    {{ title_suffix }}
-  {% endif %}
-  {% if content %}
-    {{- content -}}
-  {% endif %}
+<style>
+  .solution-content-layout {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+  }
+
+  .solution-main-column { flex: 2; }
+  .solution-sidebar { flex: 1; }
+
+  .solution-card, .sidebar-block {
+    background: #ffffff;
+    border: 1px solid #e1e1e1;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .sidebar-block h4 {
+    border-bottom: 2px solid #28a745;
+    padding-bottom: 8px;
+    margin-top: 0;
+  }
+
+  .badge-status {
+    background: #28a745;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+</style>
+
+<article{{ attributes.addClass('solution-container') }}>
+
+  {# 1. ENCABEZADO PRINCIPAL #}
+  <header class="solution-header">
+    <div class="solution-meta-top">
+      {% if content.field_estado_postulacion_idea %}
+        <span class="badge-status">
+          {{ content.field_estado_postulacion_idea }}
+        </span>
+      {% endif %}
+    </div>
+    
+    <h1 class="solution-title">{{ label }}</h1>
+  </header>
+
+  <div class="solution-content-layout">
+    
+    {# 2. COLUMNA PRINCIPAL (Izquierda) #}
+    <div class="solution-main-column">
+      
+      <section class="solution-card">
+        <h3>Descripción de la Propuesta</h3>
+        {{ content.description }}
+      </section>
+
+      <section class="solution-card">
+        <h3>Autores / Equipo</h3>
+        <div class="authors-list">
+          {{ content.field_autores_solucion }}
+        </div>
+      </section>
+
+      {% if content.field_retroalimentacion|render %}
+        <section class="solution-card">
+          <h3>Retroalimentación</h3>
+          {{ content.field_retroalimentacion }}
+        </section>
+      {% endif %}
+    </div>
+
+    {# 3. BARRA LATERAL (Derecha) #}
+    <aside class="solution-sidebar">
+      
+      <div class="sidebar-block">
+        <h4>Reto Asociado</h4>
+        <div class="item">{{ content.field_reto_asociado }}</div>
+      </div>
+
+      <div class="sidebar-block info">
+        <h4>Información</h4>
+        <div class="item"><strong>Fecha de Envío:</strong> {{ content.created }}</div>
+      </div>
+
+      {% if content.field_archvos_solucion|render %}
+        <div class="sidebar-block docs">
+          <h4>Documentación Adjunta</h4>
+          {{ content.field_archvos_solucion }}
+        </div>
+      {% endif %}
+
+    </aside>
+  </div>
+
+  {# Imprimir campos ocultos o técnicos que sobren para evitar errores #}
+  <div style="display:none;">{{ content|without('field_estado_postulacion_idea', 'description', 'field_autores_solucion', 'field_retroalimentacion', 'field_reto_asociado', 'created', 'field_archvos_solucion', 'status', 'uid', 'changed') }}</div>
+
 </article>
