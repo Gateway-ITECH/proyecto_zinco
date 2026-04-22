@@ -71,14 +71,16 @@
       </div>
 
       <div class="col-md-4">
-        <div class="card mb-4">
-          <div class="card-body">
-            <h5 class="card-title">Calificar propuesta</h5>
-            <div class="mt-3">
-              <a href="/retos/calificar/{{ solution.id }}" class="btn btn-primary">{{ 'Evaluar Solución'|t }}</a>
+        {% if is_evaluator %}
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="card-title">Calificar propuesta</h5>
+              <div class="mt-3">
+                <a href="/retos/calificar/{{ solution.id }}" class="btn btn-primary">{{ 'Evaluar Solución'|t }}</a>
+              </div>
             </div>
           </div>
-        </div>
+        {% endif %}
 
         {% if solution.files %}
           <div class="card mb-4">

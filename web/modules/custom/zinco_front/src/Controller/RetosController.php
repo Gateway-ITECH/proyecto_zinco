@@ -524,13 +524,17 @@ class RetosController extends ControllerBase
         }
       }
 
+      $current_user = \Drupal::currentUser();
+      $is_evaluator = in_array('evaluador_retos', $current_user->getRoles());
+
       return [
         '#theme' => 'zinco_reto_solution_detail',
         '#solution' => $solution_data,
         '#reto' => $reto_data,
+        '#is_evaluator' => $is_evaluator,
         '#cache' => [
           'tags' => $this->entityTypeManager->getDefinition('zinco_retos_soluciones')->getListCacheTags(),
-          'contexts' => ['url'],
+          'contexts' => ['url', 'user.roles'],
         ],
         '#attached' => [
           'library' => [
