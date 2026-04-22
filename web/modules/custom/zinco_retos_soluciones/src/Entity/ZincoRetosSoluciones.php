@@ -26,10 +26,10 @@ use Drupal\zinco_retos_soluciones\ZincoRetosSolucionesListBuilder;
  */
 #[ContentEntityType(
   id: 'zinco_retos_soluciones',
-  label: new TranslatableMarkup('Zinco retos soluciones'),
-  label_collection: new TranslatableMarkup('Zinco retos solucioness'),
-  label_singular: new TranslatableMarkup('zinco retos soluciones'),
-  label_plural: new TranslatableMarkup('zinco retos solucioness'),
+  label: new TranslatableMarkup('Postulaciones retos'),
+  label_collection: new TranslatableMarkup('Postulaciones retos'),
+  label_singular: new TranslatableMarkup('Postulaciones retos'),
+  label_plural: new TranslatableMarkup('Postulaciones retos'),
   entity_keys: [
     'id' => 'id',
     'label' => 'label',
