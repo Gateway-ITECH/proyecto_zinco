@@ -940,12 +940,11 @@ class ZincoController extends ControllerBase
         }
         break;
 
-      case 'curso':
-        // Generic fields for curso
-        if ($node->hasField('field_imagen_destacada') && !$node->get('field_imagen_destacada')->isEmpty()) {
-          $file = $node->get('field_imagen_destacada')->entity;
+      case 'cursos':
+        if ($node->hasField('field_flyer_publicitario') && !$node->get('field_flyer_publicitario')->isEmpty()) {
+          $file = $node->get('field_flyer_publicitario')->entity;
           if ($file) {
-            $data['image_url'] = $this->fileUrlGenerator->generateAbsoluteString($file->getFileUri());
+            $data['field_flyer_publicitario'] = $this->fileUrlGenerator->generateAbsoluteString($file->getFileUri());
           }
         }
         if ($node->hasField('body') && !$node->get('body')->isEmpty()) {

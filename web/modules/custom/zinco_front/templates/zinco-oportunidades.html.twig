@@ -82,9 +82,9 @@
               <div class="col-12 col-md-6 col-lg-4">
                 <article class="news-card">
                   <a href="{{ course.url }}" class="news-card-link">
-                    {% if course.image_url %}
+                    {% if course.field_flyer_publicitario %}
                       <div class="news-card-image">
-                        <img src="{{ course.image_url }}" alt="{{ course.title }}" loading="lazy">
+                        <img src="{{ course.field_flyer_publicitario }}" alt="{{ course.title }}" loading="lazy">
                       </div>
                     {% else %}
                       <div class="news-card-image news-card-image-placeholder">
