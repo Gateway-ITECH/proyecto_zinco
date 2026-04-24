@@ -193,8 +193,12 @@ class RetosController extends ControllerBase
         if (!empty($reto_data['fecha_fin'])) {
           $current_date = new \DateTime();
           $end_date = new \DateTime($reto_data['fecha_fin']);
-          $interval = $current_date->diff($end_date);
-          $reto_data['days_remaining'] = $interval->days;
+          if ($current_date > $end_date) {
+            $reto_data['days_remaining'] = -1;
+          } else {
+            $interval = $current_date->diff($end_date);
+            $reto_data['days_remaining'] = $interval->days;
+          }
         } else {
           $reto_data['days_remaining'] = 0;
         }
@@ -301,8 +305,12 @@ class RetosController extends ControllerBase
       if (!empty($reto_data['fecha_fin'])) {
         $current_date = new \DateTime();
         $end_date = new \DateTime($reto_data['fecha_fin']);
-        $interval = $current_date->diff($end_date);
-        $reto_data['days_remaining'] = $interval->days;
+        if ($current_date > $end_date) {
+          $reto_data['days_remaining'] = -1;
+        } else {
+          $interval = $current_date->diff($end_date);
+          $reto_data['days_remaining'] = $interval->days;
+        }
       } else {
         $reto_data['days_remaining'] = 0;
       }
@@ -475,8 +483,12 @@ class RetosController extends ControllerBase
           if (!empty($reto_data['fecha_fin'])) {
             $current_date = new \DateTime();
             $end_date = new \DateTime($reto_data['fecha_fin']);
-            $interval = $current_date->diff($end_date);
-            $reto_data['days_remaining'] = $interval->days;
+            if ($current_date > $end_date) {
+              $reto_data['days_remaining'] = -1;
+            } else {
+              $interval = $current_date->diff($end_date);
+              $reto_data['days_remaining'] = $interval->days;
+            }
           } else {
             $reto_data['days_remaining'] = 0;
           }
