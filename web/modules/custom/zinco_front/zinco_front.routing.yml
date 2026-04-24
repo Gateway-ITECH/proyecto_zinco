@@ -362,7 +362,7 @@ zinco_front.curso_detail:
   path: '/cursos/{curso_id}'
   defaults:
     _controller: '\Drupal\zinco_front\Controller\ZincoController::verCurso'
-    _title: 'Detalle del Curso'
+    _title: ''
   requirements:
     _permission: 'access content'
     curso_id: '\d+'
