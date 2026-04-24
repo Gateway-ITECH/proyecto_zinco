@@ -784,3 +784,7 @@ body {
 article>header em {
   display: none;
 }
+
+.views-field-field-imagen-destacada {
+  padding: 0 !important;
+}
