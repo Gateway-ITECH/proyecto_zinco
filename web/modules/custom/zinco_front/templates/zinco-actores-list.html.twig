@@ -26,7 +26,7 @@
         <div class="col-md-3 hidden" id="actors_filters">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title"><i class="bi bi-funnel-fill"></i> {{ 'Filtros'|t }}</h5>
+              <h5 class="card-title"><i class="fas fa-filter"></i> {{ 'Filtros'|t }}</h5>
               <div class="mb-3">
                 <label for="search-filter" class="form-label">{{ 'Buscar'|t }}</label>
                 <input type="text" class="form-control" id="search-filter" placeholder="{{ 'Nombre, especialidad...'|t }}">
@@ -57,7 +57,7 @@
                   <div class="card h-100">
                     <div class="card-body">
                       <div class="d-flex align-items-center mb-2">
-                        <span class="me-2"><i class="bi bi-building"></i></span>
+                        <span class="me-2"><i class="fas fa-building"></i></span>
                         <h5 class="card-title mb-0">{{ actor.label }}</h5>
                       </div>
                       <span class="badge {{ actor.bundle_color }} mb-2">{{ actor.field_tipo_actor }}</span>
@@ -65,13 +65,13 @@
                         <div class="card-text">{{ actor.description|raw }}</div>
                       {% endif %}
                       {% if actor.field_municipio %}
-                        <p class="card-text"><i class="bi bi-geo-alt-fill"></i> {{ actor.field_municipio }}</p>
+                        <p class="card-text"><i class="fas fa-map-marker-alt me-1"></i> {{ actor.field_municipio }}</p>
                       {% endif %}
                       {% if actor.field_fomento %}
                         <p class="card-text">{{ actor.field_fomento }}</p>
                       {% endif %}
                       {% if actor.field_website %}
-                        <p class="card-text"><i class="bi bi-globe"></i> <a href="{{ actor.field_website }}" target="_blank">Sitio web</a></p>
+                        <p class="card-text"><i class="fas fa-globe me-1"></i> <a href="{{ actor.field_website }}" target="_blank">Sitio web</a></p>
                       {% endif %}
                       {% if actor.profile_link %}
                         <a href="{{ actor.profile_link }}" class="btn btn-primary w-100">{{ 'Ver Perfil'|t }}</a>
