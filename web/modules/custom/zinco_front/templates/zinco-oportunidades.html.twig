@@ -29,7 +29,7 @@
             {% for call in convocatorias %}
               <div class="col-12 col-md-6 col-lg-4">
                 <article class="call-card call-{{ call.urgency_class }}">
-                  <a href="{{ call.url }}" class="call-card-link">
+                  <a href="/convocatorias/{{ call.id }}" class="call-card-link">
                     <div class="call-card-header">
                       <div class="call-status-badge">
                         <i class="fas fa-check-circle"></i>
@@ -118,7 +118,7 @@
             {% for event in eventos %}
               <div class="col-12 col-md-6 col-lg-4">
                 <article class="event-card">
-                  <a href="{{ event.url }}" class="event-card-link">
+                  <a href="/eventos/{{ event.id }}" class="event-card-link">
                     <div class="event-card-header">
                       {% if event.date_day %}
                         <div class="event-date-badge">
@@ -160,7 +160,7 @@
             {% for item in noticias %}
               <div class="col-12 col-md-6 col-lg-4">
                 <article class="news-card">
-                  <a href="{{ item.url }}" class="news-card-link">
+                  <a href="/noticias/{{ item.id }}" class="news-card-link">
                     {% if item.image_url %}
                       <div class="news-card-image">
                         <img src="{{ item.image_url }}" alt="{{ item.title }}" loading="lazy">
