@@ -24,6 +24,31 @@
             </div>
           {% endif %}
 
+          {% if curso.finalizado and curso.evidencias %}
+            <div class="course-evidences p-4 p-md-5 bg-light border-bottom">
+              <h3 class="h4 mb-4"><i class="fas fa-images me-2 text-primary"></i> Evidencias del Curso</h3>
+              <div id="courseEvidencesCarousel" class="carousel slide shadow-sm rounded overflow-hidden" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  {% for evidence in curso.evidencias %}
+                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                      <img src="{{ evidence }}" class="d-block w-100" alt="Evidencia {{ loop.index }}">
+                    </div>
+                  {% endfor %}
+                </div>
+                {% if curso.evidencias|length > 1 %}
+                  <button class="carousel-control-prev" type="button" data-bs-target="#courseEvidencesCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#courseEvidencesCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                  </button>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+
           <div class="card-body p-4 p-md-5">
             <div class="mb-4">
               <nav aria-label="breadcrumb">
@@ -61,6 +86,20 @@
   max-height: 500px;
   object-fit: contain;
   background-color: #f1f5f9;
+}
+
+#courseEvidencesCarousel {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#courseEvidencesCarousel .carousel-item img {
+  height: 450px;
+  object-fit: cover;
+}
+
+.course-evidences {
+  border-top: 1px solid #e2e8f0;
 }
 
 .course-content p {

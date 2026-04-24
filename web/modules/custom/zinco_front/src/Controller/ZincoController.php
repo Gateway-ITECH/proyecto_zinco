@@ -1155,6 +1155,17 @@ class ZincoController extends ControllerBase
       $data['description'] = $node->get('body')->value;
     }
 
+    // New fields for finished courses.
+    $data['finalizado'] = $node->hasField('field_finalizado') ? $node->get('field_finalizado')->value : FALSE;
+    $data['evidencias'] = [];
+    if ($node->hasField('field_evidencias_curso') && !$node->get('field_evidencias_curso')->isEmpty()) {
+      foreach ($node->get('field_evidencias_curso') as $item) {
+        if ($file = $item->entity) {
+          $data['evidencias'][] = $this->fileUrlGenerator->generateAbsoluteString($file->getFileUri());
+        }
+      }
+    }
+
     return [
       '#theme' => 'zinco_curso_detail',
       '#curso' => $data,
