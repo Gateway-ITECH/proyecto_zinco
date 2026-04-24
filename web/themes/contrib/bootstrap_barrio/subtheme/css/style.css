@@ -781,6 +781,6 @@ body {
   margin-top: -100px;
 }
 
-.header em {
+article>header em {
   display: none;
 }
