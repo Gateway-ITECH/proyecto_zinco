@@ -791,6 +791,6 @@ article>header em {
 
 .views-field-field-imagen-destacada img {
   width: 100%;
-  height: auto;
+  height: 480px;
   display: block;
 }
