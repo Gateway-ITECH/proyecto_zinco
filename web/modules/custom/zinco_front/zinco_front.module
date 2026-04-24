@@ -255,6 +255,12 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'email-solution-validated-organizer',
     ],
+    'zinco_curso_detail' => [
+      'variables' => [
+        'curso' => NULL,
+      ],
+      'template' => 'zinco-curso-detail',
+    ],
   ];
 }
 

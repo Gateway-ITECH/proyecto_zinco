@@ -941,6 +941,7 @@ class ZincoController extends ControllerBase
         break;
 
       case 'cursos':
+        $data['url'] = Url::fromRoute('zinco_front.curso_detail', ['curso_id' => $node->id()])->toString();
         if ($node->hasField('field_flyer_publicitario') && !$node->get('field_flyer_publicitario')->isEmpty()) {
           $file = $node->get('field_flyer_publicitario')->entity;
           if ($file) {
@@ -1109,9 +1110,12 @@ class ZincoController extends ControllerBase
 
       if ($fecha_inicio || $fecha_fin || $fecha_eval) {
         $message .= "\nFechas clave:\n";
-        if ($fecha_inicio) $message .= "- Inicio: $fecha_inicio\n";
-        if ($fecha_fin) $message .= "- Fin: $fecha_fin\n";
-        if ($fecha_eval) $message .= "- Evaluación: $fecha_eval\n";
+        if ($fecha_inicio)
+          $message .= "- Inicio: $fecha_inicio\n";
+        if ($fecha_fin)
+          $message .= "- Fin: $fecha_fin\n";
+        if ($fecha_eval)
+          $message .= "- Evaluación: $fecha_eval\n";
       }
 
       $reto_url = $reto->toUrl('canonical', ['absolute' => TRUE])->toString();
@@ -1128,6 +1132,38 @@ class ZincoController extends ControllerBase
         'message' => $e->getMessage(),
       ], 500);
     }
+  }
+
+  /**
+   * Returns a course detail page.
+   *
+   * @param int $curso_id
+   *   The ID of the course node.
+   *
+   * @return array
+   *   A renderable array.
+   */
+  public function verCurso($curso_id)
+  {
+    $node = \Drupal::entityTypeManager()->getStorage('node')->load($curso_id);
+    if (!$node || $node->bundle() !== 'cursos') {
+      throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+    }
+
+    $data = $this->formatNodeForCard($node);
+    if ($node->hasField('body') && !$node->get('body')->isEmpty()) {
+      $data['description'] = $node->get('body')->value;
+    }
+
+    return [
+      '#theme' => 'zinco_curso_detail',
+      '#curso' => $data,
+      '#attached' => [
+        'library' => [
+          'zinco_front/zinco-landing-page',
+        ],
+      ],
+    ];
   }
 
 }
