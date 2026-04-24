@@ -67,13 +67,77 @@
               </nav>
             </div>
 
-            <h1 class="display-4 fw-bold mb-4">{{ curso.title }}</h1>
+            <h1 class="display-4 fw-bold mb-5">{{ curso.title }}</h1>
 
-            <div class="course-content fs-5 text-muted mb-5">
-              {{ curso.description|raw }}
+            <div class="row">
+              <div class="col-lg-8">
+                <div class="course-content fs-5 text-muted mb-5">
+                  <h4 class="text-dark fw-bold mb-3">Descripción del Curso</h4>
+                  {{ curso.description|raw }}
+                </div>
+              </div>
+
+              <div class="col-lg-4">
+                <div class="course-sidebar p-4 rounded-4 bg-light border">
+                  <h4 class="fw-bold mb-4">Detalles del Curso</h4>
+                  
+                  <div class="mb-4">
+                    <label class="text-uppercase small fw-bold text-muted d-block mb-1">Entidad Certificadora</label>
+                    <div class="d-flex align-items-center">
+                      <i class="fas fa-university text-primary me-2"></i>
+                      <span class="fw-semibold">{{ curso.entidad ?: 'No especificada' }}</span>
+                    </div>
+                  </div>
+
+                  <div class="mb-4">
+                    <label class="text-uppercase small fw-bold text-muted d-block mb-1">Modalidad</label>
+                    <div class="d-flex align-items-center">
+                      <i class="fas fa-laptop-house text-primary me-2"></i>
+                      <span class="fw-semibold">{{ curso.modalidad ?: 'No especificada' }}</span>
+                    </div>
+                  </div>
+
+                  <div class="row mb-4">
+                    <div class="col-6">
+                      <label class="text-uppercase small fw-bold text-muted d-block mb-1">Duración</label>
+                      <div class="d-flex align-items-center">
+                        <i class="far fa-clock text-primary me-2"></i>
+                        <span class="fw-semibold">{{ curso.duracion ? curso.duracion ~ ' Horas' : 'N/A' }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-4">
+                    <div class="col-12 mb-3">
+                      <label class="text-uppercase small fw-bold text-muted d-block mb-1">Fecha de Inicio</label>
+                      <div class="d-flex align-items-center">
+                        <i class="far fa-calendar-alt text-primary me-2"></i>
+                        <span class="fw-semibold">{{ curso.fecha_inicio ?: 'Próximamente' }}</span>
+                      </div>
+                    </div>
+                    {% if curso.fecha_fin %}
+                    <div class="col-12">
+                      <label class="text-uppercase small fw-bold text-muted d-block mb-1">Fecha de Fin</label>
+                      <div class="d-flex align-items-center">
+                        <i class="far fa-calendar-check text-primary me-2"></i>
+                        <span class="fw-semibold">{{ curso.fecha_fin }}</span>
+                      </div>
+                    </div>
+                    {% endif %}
+                  </div>
+
+                  {% if curso.link_curso %}
+                    <div class="mt-5">
+                      <a href="{{ curso.link_curso }}" target="_blank" class="btn btn-primary w-100 btn-lg rounded-pill shadow-sm">
+                        Ir al Curso <i class="fas fa-external-link-alt ms-2"></i>
+                      </a>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
             </div>
 
-            <div class="course-actions pt-4 border-top">
+            <div class="course-actions pt-5 mt-5 border-top">
               <a href="/oportunidades" class="btn btn-outline-secondary btn-lg rounded-pill px-4">
                 <i class="fas fa-arrow-left me-2"></i> Volver a Oportunidades
               </a>
@@ -128,6 +192,21 @@
 
 .course-content p {
   margin-bottom: 1.5rem;
+}
+
+.course-sidebar {
+  position: sticky;
+  top: 100px;
+}
+
+.course-sidebar label {
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+}
+
+.course-sidebar i {
+  width: 20px;
+  text-align: center;
 }
 
 .breadcrumb-item a {
