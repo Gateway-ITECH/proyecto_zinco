@@ -279,6 +279,13 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'zinco-convocatoria-detail',
     ],
+    'email_reviewer_assigned' => [
+      'variables' => [
+        'variables' => [],
+        'site_name' => NULL,
+      ],
+      'template' => 'email-reviewer-assigned',
+    ],
   ];
 }
 
@@ -609,6 +616,16 @@ function _zinco_front_notify_organizers_on_publish(\Drupal\Core\Entity\EntityInt
 
 
 /**
+ * Implements hook_ENTITY_TYPE_insert() for zinco_retos_soluciones.
+ */
+function zinco_front_zinco_retos_soluciones_insert(\Drupal\Core\Entity\EntityInterface $entity) {
+  if ($entity->hasField('field_revisores_postulacion') && !$entity->get('field_revisores_postulacion')->isEmpty()) {
+    $reviewer_ids = array_column($entity->get('field_revisores_postulacion')->getValue(), 'target_id');
+    _zinco_front_notify_reviewers_assigned($entity, $reviewer_ids);
+  }
+}
+
+/**
  * Implements hook_ENTITY_TYPE_update() for zinco_retos_soluciones.
  */
 function zinco_front_zinco_retos_soluciones_update(\Drupal\Core\Entity\EntityInterface $entity) {
@@ -616,6 +633,17 @@ function zinco_front_zinco_retos_soluciones_update(\Drupal\Core\Entity\EntityInt
   // Trigger notification when status changes from false to true (validated).
   if ($original && !$original->get('status')->value && $entity->get('status')->value) {
     _zinco_front_notify_solution_validated($entity);
+  }
+
+  // Trigger notification when reviewers are added.
+  if ($original && $entity->hasField('field_revisores_postulacion')) {
+    $old_reviewers = array_column($original->get('field_revisores_postulacion')->getValue(), 'target_id');
+    $new_reviewers = array_column($entity->get('field_revisores_postulacion')->getValue(), 'target_id');
+    $added_reviewers = array_diff($new_reviewers, $old_reviewers);
+
+    if (!empty($added_reviewers)) {
+      _zinco_front_notify_reviewers_assigned($entity, $added_reviewers);
+    }
   }
 }
 
@@ -678,6 +706,46 @@ function _zinco_front_notify_solution_validated(\Drupal\Core\Entity\EntityInterf
           $variables
         );
       }
+    }
+  }
+}
+
+/**
+ * Helper function to notify assigned reviewers.
+ */
+function _zinco_front_notify_reviewers_assigned(\Drupal\Core\Entity\EntityInterface $solution, array $reviewer_ids) {
+  if (empty($reviewer_ids)) {
+    return;
+  }
+
+  $mail_service = \Drupal::service('zinco_front.mail_service');
+  $base_url = \Drupal::request()->getSchemeAndHttpHost();
+  
+  $reto_label = '';
+  if ($solution->hasField('field_reto_asociado') && !$solution->get('field_reto_asociado')->isEmpty()) {
+    $reto_entity = $solution->get('field_reto_asociado')->entity;
+    if ($reto_entity) {
+      $reto_label = $reto_entity->label();
+    }
+  }
+
+  $variables = [
+    'solution_label' => $solution->label(),
+    'reto_label' => $reto_label,
+    'base_url' => $base_url,
+    'evaluate_url' => $base_url . '/retos/evaluar/' . $solution->id(),
+  ];
+
+  $reviewers = \Drupal\user\Entity\User::loadMultiple($reviewer_ids);
+  foreach ($reviewers as $reviewer) {
+    if ($email = $reviewer->getEmail()) {
+      $variables['reviewer_name'] = $reviewer->getDisplayName();
+      $mail_service->sendTemplatedEmail(
+        $email,
+        'Asignación como evaluador: ' . $solution->label(),
+        'email_reviewer_assigned',
+        $variables
+      );
     }
   }
 }

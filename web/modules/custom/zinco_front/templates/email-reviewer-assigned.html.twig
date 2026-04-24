@@ -1,0 +1,62 @@
+{#
+/**
+ * @file
+ * Template for Reviewer Assigned notification email.
+ */
+#}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignación como evaluador</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f9; margin: 0; padding: 0; }
+        .wrapper { width: 100%; table-layout: fixed; background-color: #f4f7f9; padding-bottom: 40px; }
+        .main { background-color: #ffffff; margin: 0 auto; width: 100%; max-width: 600px; border-spacing: 0; color: #4a4a4a; border-radius: 8px; margin-top: 40px; }
+        .header { background: linear-gradient(135deg, #007bff, #0056b3); padding: 40px 20px; text-align: center; color: #ffffff; }
+        .header h1 { margin: 0; font-size: 22px; font-weight: 700; text-transform: uppercase; }
+        .content { padding: 40px 30px; line-height: 1.6; }
+        .content h2 { color: #007bff; font-size: 18px; margin-top: 0; }
+        .details-box { background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 6px; padding: 20px; margin: 20px 0; }
+        .details-box p { margin: 5px 0; font-size: 14px; }
+        .button-wrapper { text-align: center; margin-top: 30px; }
+        .button { background-color: #007bff; color: #ffffff !important; padding: 12px 25px; text-decoration: none; border-radius: 4px; font-weight: 600; display: inline-block; }
+        .footer { padding: 30px; text-align: center; font-size: 12px; color: #999999; }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <table class="main">
+            <tr>
+                <td class="header">
+                    <h1>Asignación de Evaluación</h1>
+                </td>
+            </tr>
+            <tr>
+                <td class="content">
+                    <h2>Has sido asignado como evaluador</h2>
+                    <p>Hola {{ variables.reviewer_name }},</p>
+                    <p>Te informamos que has sido asignado como evaluador para una nueva propuesta de solución al siguiente reto:</p>
+                    
+                    <div class="details-box">
+                        <p><strong>Reto:</strong> {{ variables.reto_label }}</p>
+                        <p><strong>Propuesta:</strong> {{ variables.solution_label }}</p>
+                    </div>
+
+                    <p>Te invitamos a revisar los detalles de la propuesta y realizar la evaluación correspondiente haciendo clic en el siguiente botón:</p>
+                    
+                    <div class="button-wrapper">
+                        <a href="{{ variables.evaluate_url }}" class="button">Realizar Evaluación</a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="footer">
+                    <p>&copy; {{ "now"|date("Y") }} {{ site_name }}. Portal de Innovación.</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
