@@ -14,6 +14,13 @@
   color: #fff;
 }
 
+.reto-title-detail {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #212529;
+}
+
 .reto-subtitle {
   font-size: 1.1rem;
   color: #6c757d;
