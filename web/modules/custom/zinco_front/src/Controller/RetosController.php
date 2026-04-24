@@ -665,7 +665,7 @@ class RetosController extends ControllerBase
       $solucion_query = $reto_solucion_storage->getQuery()
         ->condition('field_revisores_postulacion', $user_id, 'IN')
         ->condition('field_estado_postulacion_idea', $en_evaluacion_term->id())
-        ->condition('field_reto_asociado.entity.status', 1)
+        ->condition('field_reto_asociado.entity.status', TRUE)
         ->accessCheck(FALSE);
       $solucion_ids = $solucion_query->execute();
 
