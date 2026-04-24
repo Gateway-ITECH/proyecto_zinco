@@ -169,6 +169,7 @@ class RetosController extends ControllerBase
         $query->condition('label', $search_term, 'CONTAINS');
       }
 
+      $query->sort('fecha_inicio', 'DESC');
       $query->accessCheck(FALSE);
       $pager = $query->pager(9); // Display 9 retos per page.
       $reto_ids = $pager->execute();
