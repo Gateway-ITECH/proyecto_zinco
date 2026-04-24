@@ -903,6 +903,8 @@ class ZincoController extends ControllerBase
           $data['date_day'] = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'd');
           $data['date_month'] = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'M');
           $data['date_year'] = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'Y');
+          $data['date_calendar_start'] = gmdate('Ymd\THis\Z', $timestamp);
+          $data['date_calendar_end'] = gmdate('Ymd\THis\Z', $timestamp + 3600);
         }
         if ($node->hasField('field_lugar_del_evento') && !$node->get('field_lugar_del_evento')->isEmpty()) {
           $data['location'] = $node->get('field_lugar_del_evento')->value;
@@ -1243,6 +1245,17 @@ class ZincoController extends ControllerBase
     if ($node->hasField('field_agenda_evento') && !$node->get('field_agenda_evento')->isEmpty()) {
       $data['content_full'] = $node->get('field_agenda_evento')->value;
     }
+    
+    // Calendar Links
+    $title = urlencode($node->getTitle());
+    $description = urlencode(strip_tags($data['content_full'] ?? ''));
+    $location = urlencode($data['location'] ?? '');
+    
+    $start = $data['date_calendar_start'] ?? gmdate('Ymd\THis\Z');
+    $end = $data['date_calendar_end'] ?? gmdate('Ymd\THis\Z', time() + 3600);
+    
+    $data['google_calendar_url'] = "https://calendar.google.com/calendar/render?action=TEMPLATE&text={$title}&dates={$start}/{$end}&details={$description}&location={$location}";
+    $data['outlook_calendar_url'] = "https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&subject={$title}&body={$description}&location={$location}&startdt={$start}&enddt={$end}";
     return [
       '#theme' => 'zinco_evento_detail',
       '#evento' => $data,

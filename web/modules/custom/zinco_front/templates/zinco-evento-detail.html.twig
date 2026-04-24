@@ -65,8 +65,8 @@
           <div class="mb-4">
             <label class="text-uppercase small fw-bold text-muted d-block mb-2">Añadir al Calendario</label>
             <div class="d-flex gap-2">
-              <button class="btn btn-sm btn-outline-primary rounded-pill w-100"><i class="fab fa-google me-1"></i> Google</button>
-              <button class="btn btn-sm btn-outline-info rounded-pill w-100"><i class="fab fa-microsoft me-1"></i> Outlook</button>
+              <a href="{{ evento.google_calendar_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary rounded-pill w-100"><i class="fab fa-google me-1"></i> Google</a>
+              <a href="{{ evento.outlook_calendar_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-info rounded-pill w-100"><i class="fab fa-microsoft me-1"></i> Outlook</a>
             </div>
           </div>
 
