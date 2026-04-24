@@ -1402,7 +1402,6 @@ class ContentService
               'value' => $content . '<br><br><a href="' . $link . '" target="_blank">Ver más</a>',
               'format' => 'basic_html',
             ],
-            'field_leer_mas_url' => $link,
             'status' => 0, // DRAFT
             'uid' => 1,
           ];
