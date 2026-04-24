@@ -1193,6 +1193,9 @@ class ZincoController extends ControllerBase
           'zinco_front/zinco-landing-page',
         ],
       ],
+      '#cache' => [
+        'tags' => $node->getCacheTags(),
+      ],
     ];
   }
 
