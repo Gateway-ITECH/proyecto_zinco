@@ -754,6 +754,37 @@ class RetosController extends ControllerBase
       $form['field_evaluador']['#access'] = FALSE;
       $form['field_fecha_de_evaluacion']['#access'] = FALSE;
 
+      // Filtrar los autocompletar de criterios para que solo muestren los del reto asociado.
+      $solution = $this->entityTypeManager->getStorage('zinco_retos_soluciones')->load($solution_id);
+      if ($solution && $solution->hasField('field_reto_asociado') && !$solution->get('field_reto_asociado')->isEmpty()) {
+        $reto_entity = $solution->get('field_reto_asociado')->entity;
+        if ($reto_entity && $reto_entity->hasField('criterios_evaluacion_reto') && !$reto_entity->get('criterios_evaluacion_reto')->isEmpty()) {
+          $criterio_ids = array_column($reto_entity->get('criterios_evaluacion_reto')->getValue(), 'target_id');
+          $criterios_arg = implode('+', $criterio_ids); // Argumento para filtro contextual (permitir múltiples valores).
+
+          // Si field_puntuacion_de_solucion es un campo de párrafos con autocompletar dentro.
+          if (isset($form['field_puntuacion_de_solucion']['widget'])) {
+            foreach (\Drupal\Core\Render\Element::children($form['field_puntuacion_de_solucion']['widget']) as $delta) {
+              if (is_numeric($delta)) {
+                // Intentamos encontrar el campo de criterio dentro del subformulario.
+                $internal_fields = ['field_criterio', 'field_criterio_evaluacion'];
+                foreach ($internal_fields as $field_name) {
+                  if (isset($form['field_puntuacion_de_solucion']['widget'][$delta]['subform'][$field_name])) {
+                    $form['field_puntuacion_de_solucion']['widget'][$delta]['subform'][$field_name]['widget'][0]['target_id']['#selection_handler'] = 'views';
+                    $form['field_puntuacion_de_solucion']['widget'][$delta]['subform'][$field_name]['widget'][0]['target_id']['#selection_settings'] = [
+                      'view' => [
+                        'view_name' => 'criterios_evaluacion_retos',
+                        'display_name' => 'entity_reference_1',
+                        'arguments' => [$criterios_arg],
+                      ],
+                    ];
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
 
       return [
         '#theme' => 'zinco_reto_calificar',
