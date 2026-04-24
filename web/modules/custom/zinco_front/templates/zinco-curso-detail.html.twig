@@ -131,7 +131,7 @@
                     {% endif %}
                   </div>
 
-                  {% if curso.link_curso %}
+                  {% if curso.link_curso and not curso.finalizado %}
                     <div class="mt-5">
                       <a href="{{ curso.link_curso }}" target="_blank" class="btn btn-primary w-100 btn-lg rounded-pill shadow-sm">
                         Ir al Curso <i class="fas fa-external-link-alt ms-2"></i>
