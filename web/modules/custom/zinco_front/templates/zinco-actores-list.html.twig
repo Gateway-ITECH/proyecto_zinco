@@ -62,7 +62,7 @@
                       </div>
                       <span class="badge {{ actor.bundle_color }} mb-2">{{ actor.field_tipo_actor }}</span>
                       {% if actor.description %}
-                        <p class="card-text">{{ actor.description }}</p>
+                        <div class="card-text">{{ actor.description|raw }}</div>
                       {% endif %}
                       {% if actor.field_municipio %}
                         <p class="card-text"><i class="bi bi-geo-alt-fill"></i> {{ actor.field_municipio }}</p>
