@@ -711,8 +711,12 @@ class ContentService
             'type' => 'noticia',
             'title' => $title,
             'field_contenido_noticia' => [
-              'value' => $content . '<br><br><a href="' . $link . '" target="_blank">Ver más</a>',
+              'value' => $content,
               'format' => 'basic_html',
+            ],
+            'field_leer_mas_url' => [
+              'uri' => $link,
+              'title' => 'Leer más',
             ],
             'status' => 0, // MODO BORRADOR
             'uid' => 1,
@@ -1400,6 +1404,10 @@ class ContentService
             'field_contenido_noticia' => [
               'value' => $content,
               'format' => 'basic_html',
+            ],
+            'field_leer_mas_url' => [
+              'uri' => $link,
+              'title' => 'Leer más',
             ],
             'status' => 0, // DRAFT
             'uid' => 1,
