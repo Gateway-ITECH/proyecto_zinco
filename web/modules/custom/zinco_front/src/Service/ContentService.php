@@ -711,7 +711,7 @@ class ContentService
             'type' => 'noticia',
             'title' => $title,
             'field_contenido_noticia' => [
-              'value' => $content,
+              'value' => $content . '<br><br><a href="' . $link . '" target="_blank">Ver más</a>',
               'format' => 'basic_html',
             ],
             'field_leer_mas_url' => $link,
@@ -1399,7 +1399,7 @@ class ContentService
             'type' => 'noticia',
             'title' => $title,
             'field_contenido_noticia' => [
-              'value' => $content,
+              'value' => $content . '<br><br><a href="' . $link . '" target="_blank">Ver más</a>',
               'format' => 'basic_html',
             ],
             'field_leer_mas_url' => $link,
