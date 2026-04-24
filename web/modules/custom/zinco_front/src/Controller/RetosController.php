@@ -235,6 +235,14 @@ class RetosController extends ControllerBase
         // Generate profile link.
         $reto_data['profile_link'] = '/retos/' . $reto->id();
 
+        // Calculate proposals count.
+        $soluciones_count = $this->entityTypeManager->getStorage('zinco_retos_soluciones')->getQuery()
+          ->condition('field_reto_asociado', $reto->id())
+          ->condition('status', 1)
+          ->accessCheck(FALSE)
+          ->count()
+          ->execute();
+        $reto_data['propuestas_count'] = $soluciones_count;
 
         return $reto_data;
       }, $retos);
