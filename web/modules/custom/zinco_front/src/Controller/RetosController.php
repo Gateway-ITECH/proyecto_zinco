@@ -155,9 +155,10 @@ class RetosController extends ControllerBase
       $reto_storage = $this->entityTypeManager->getStorage('zinco_retos_innovacion');
       $query = $reto_storage->getQuery();
 
-      // Ensure only visible and approved retos are listed.
+      // Ensure only visible, approved and published retos are listed.
       $query->condition('visibilidad_reto', 1);
       $query->exists('aprobado_por');
+      $query->condition('status', 1);
       if (!empty($filters_param)) {
         $bundle_ids = explode(',', $filters_param);
         // Assuming 'area_enfoque' is the field to filter by.
