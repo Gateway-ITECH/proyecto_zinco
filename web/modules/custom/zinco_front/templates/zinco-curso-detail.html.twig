@@ -71,6 +71,10 @@
               <div class="mb-3">
                 <span class="badge bg-success px-3 py-2 rounded-pill">Finalizado</span>
               </div>
+            {% elseif curso.estado_curso %}
+              <div class="mb-3">
+                <span class="badge bg-primary px-3 py-2 rounded-pill">{{ curso.estado_curso }}</span>
+              </div>
             {% endif %}
             <h1 class="display-4 fw-bold mb-5">{{ curso.title }}</h1>
 

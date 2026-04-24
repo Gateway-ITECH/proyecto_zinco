@@ -1176,6 +1176,13 @@ class ZincoController extends ControllerBase
       }
     }
 
+    $data['estado_curso'] = NULL;
+    if ($node->hasField('field_estado_curso') && !$node->get('field_estado_curso')->isEmpty()) {
+      if ($term_estado = $node->get('field_estado_curso')->entity) {
+        $data['estado_curso'] = $term_estado->label();
+      }
+    }
+
     if ($node->hasField('field_fecha_inicio') && !$node->get('field_fecha_inicio')->isEmpty()) {
       $data['fecha_inicio'] = \Drupal::service('date.formatter')->format(strtotime($node->get('field_fecha_inicio')->value), 'custom', 'd/m/Y');
     }
