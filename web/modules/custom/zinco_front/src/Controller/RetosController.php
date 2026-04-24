@@ -661,9 +661,11 @@ class RetosController extends ControllerBase
       }
 
       // Query zinco_retos_soluciones where the current user is a reviewer and the solution is 'En evaluación'.
+      // Only show solutions for active challenges.
       $solucion_query = $reto_solucion_storage->getQuery()
         ->condition('field_revisores_postulacion', $user_id, 'IN')
         ->condition('field_estado_postulacion_idea', $en_evaluacion_term->id())
+        ->condition('field_reto_asociado.entity.status', 1)
         ->accessCheck(FALSE);
       $solucion_ids = $solucion_query->execute();
 
