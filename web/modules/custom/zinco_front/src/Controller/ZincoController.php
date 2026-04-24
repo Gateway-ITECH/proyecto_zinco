@@ -1170,7 +1170,7 @@ class ZincoController extends ControllerBase
     $data['duracion'] = $node->hasField('field_duracion_horas') ? $node->get('field_duracion_horas')->value : NULL;
     $data['entidad'] = $node->hasField('field_entidad_que_certifica') ? $node->get('field_entidad_que_certifica')->value : NULL;
     $data['modalidad'] = $node->hasField('field_modalidad_del_curso') ? $node->get('field_modalidad_del_curso')->value : NULL;
-    
+
     if ($node->hasField('field_fecha_inicio') && !$node->get('field_fecha_inicio')->isEmpty()) {
       $data['fecha_inicio'] = \Drupal::service('date.formatter')->format(strtotime($node->get('field_fecha_inicio')->value), 'custom', 'd/m/Y');
     }
@@ -1179,6 +1179,10 @@ class ZincoController extends ControllerBase
     }
     if ($node->hasField('field_link_del_curso') && !$node->get('field_link_del_curso')->isEmpty()) {
       $data['link_curso'] = $node->get('field_link_del_curso')->uri;
+    }
+
+    if ($node->hasField('field_descripcion_curso') && !$node->get('field_descripcion_curso')->isEmpty()) {
+      $data['field_descripcion_curso'] = $node->get('field_descripcion_curso')->value;
     }
 
     return [
