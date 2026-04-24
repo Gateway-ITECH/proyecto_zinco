@@ -67,6 +67,11 @@
               </nav>
             </div>
 
+            {% if curso.finalizado %}
+              <div class="mb-3">
+                <span class="badge bg-success px-3 py-2 rounded-pill">Finalizado</span>
+              </div>
+            {% endif %}
             <h1 class="display-4 fw-bold mb-5">{{ curso.title }}</h1>
 
             <div class="row">
