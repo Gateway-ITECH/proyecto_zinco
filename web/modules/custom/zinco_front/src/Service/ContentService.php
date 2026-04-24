@@ -714,10 +714,7 @@ class ContentService
               'value' => $content,
               'format' => 'basic_html',
             ],
-            'field_leer_mas_url' => [
-              'uri' => $link,
-              'title' => 'Leer más',
-            ],
+            'field_leer_mas_url' => $link,
             'status' => 0, // MODO BORRADOR
             'uid' => 1,
           ];
@@ -1405,10 +1402,7 @@ class ContentService
               'value' => $content,
               'format' => 'basic_html',
             ],
-            'field_leer_mas_url' => [
-              'uri' => $link,
-              'title' => 'Leer más',
-            ],
+            'field_leer_mas_url' => $link,
             'status' => 0, // DRAFT
             'uid' => 1,
           ];
