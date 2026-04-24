@@ -439,13 +439,15 @@ body {
 }
 
 /* Link field (Ver herramienta) */
-.caja-herramientas-list .views-field-view-node {
+.caja-herramientas-list .views-field-view-node,
+.caja-herramientas-list .views-field.views-field-nid {
   margin-top: auto;
   /* Push to bottom */
   padding-bottom: 2rem;
 }
 
-.caja-herramientas-list .views-field-view-node a {
+.caja-herramientas-list .views-field-view-node a,
+.caja-herramientas-list .views-field.views-field-nid a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -459,7 +461,8 @@ body {
   transition: all 0.2s ease;
 }
 
-.caja-herramientas-list .views-field-view-node a:hover {
+.caja-herramientas-list .views-field-view-node a:hover,
+.caja-herramientas-list .views-field.views-field-nid a:hover {
   background-color: #0284c7;
   color: #ffffff;
   box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
