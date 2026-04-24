@@ -17,7 +17,8 @@ use Drupal\Core\File\FileUrlGeneratorInterface;
  *   category = @Translation("Custom")
  * )
  */
-class NewsCarousel extends BlockBase implements ContainerFactoryPluginInterface {
+class NewsCarousel extends BlockBase implements ContainerFactoryPluginInterface
+{
 
   /**
    * The entity type manager.
@@ -47,7 +48,8 @@ class NewsCarousel extends BlockBase implements ContainerFactoryPluginInterface 
    * @param \Drupal\Core\File\FileUrlGeneratorInterface $file_url_generator
    *   The file URL generator.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, FileUrlGeneratorInterface $file_url_generator) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, FileUrlGeneratorInterface $file_url_generator)
+  {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
     $this->fileUrlGenerator = $file_url_generator;
@@ -56,7 +58,8 @@ class NewsCarousel extends BlockBase implements ContainerFactoryPluginInterface 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)
+  {
     return new static(
       $configuration,
       $plugin_id,
@@ -69,7 +72,8 @@ class NewsCarousel extends BlockBase implements ContainerFactoryPluginInterface 
   /**
    * {@inheritdoc}
    */
-  public function build() {
+  public function build()
+  {
     $build = [];
     $news_items = [];
 
@@ -80,14 +84,13 @@ class NewsCarousel extends BlockBase implements ContainerFactoryPluginInterface 
         ->condition('type', 'noticia')
         ->condition('status', 1)
         ->sort('created', 'DESC')
-        ->range(0, 10)
-        ->accessCheck(TRUE);
-      
+        ->accessCheck(FALSE);
+
       $nids = $query->execute();
-      
+
       if (!empty($nids)) {
         $nodes = $node_storage->loadMultiple($nids);
-        
+
         foreach ($nodes as $node) {
           $news_item = [
             'id' => $node->id(),
@@ -96,7 +99,7 @@ class NewsCarousel extends BlockBase implements ContainerFactoryPluginInterface 
             'date' => \Drupal::service('date.formatter')->format($node->getCreatedTime(), 'custom', 'd/m/Y'),
             'timestamp' => $node->getCreatedTime(),
           ];
-          
+
           // Get featured image.
           if ($node->hasField('field_imagen_destacada') && !$node->get('field_imagen_destacada')->isEmpty()) {
             $image_field = $node->get('field_imagen_destacada')->first();
@@ -106,24 +109,23 @@ class NewsCarousel extends BlockBase implements ContainerFactoryPluginInterface 
               $news_item['image_alt'] = $image_field->alt ?? $node->getTitle();
             }
           }
-          
+
           // Get content excerpt.
           if ($node->hasField('field_contenido_noticia') && !$node->get('field_contenido_noticia')->isEmpty()) {
             $content = $node->get('field_contenido_noticia')->value;
             // Strip HTML tags and limit to 150 characters.
             $plain_text = strip_tags($content);
-            $news_item['excerpt'] = mb_strlen($plain_text) > 150 
-              ? mb_substr($plain_text, 0, 150) . '...' 
+            $news_item['excerpt'] = mb_strlen($plain_text) > 150
+              ? mb_substr($plain_text, 0, 150) . '...'
               : $plain_text;
           } else {
             $news_item['excerpt'] = '';
           }
-          
+
           $news_items[] = $news_item;
         }
       }
-    }
-    catch (\Exception $e) {
+    } catch (\Exception $e) {
       \Drupal::logger('zinco_front')->error('Error loading news for carousel: @message', ['@message' => $e->getMessage()]);
     }
 
