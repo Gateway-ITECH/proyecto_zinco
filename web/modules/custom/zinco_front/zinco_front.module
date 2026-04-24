@@ -261,6 +261,24 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'zinco-curso-detail',
     ],
+    'zinco_noticia_detail' => [
+      'variables' => [
+        'noticia' => NULL,
+      ],
+      'template' => 'zinco-noticia-detail',
+    ],
+    'zinco_evento_detail' => [
+      'variables' => [
+        'evento' => NULL,
+      ],
+      'template' => 'zinco-evento-detail',
+    ],
+    'zinco_convocatoria_detail' => [
+      'variables' => [
+        'convocatoria' => NULL,
+      ],
+      'template' => 'zinco-convocatoria-detail',
+    ],
   ];
 }
 

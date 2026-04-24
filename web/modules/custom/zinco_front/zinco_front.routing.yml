@@ -367,3 +367,29 @@ zinco_front.curso_detail:
     _permission: 'access content'
     curso_id: '\d+'
 
+zinco_front.noticia_detail:
+  path: '/noticias/{noticia_id}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::verNoticia'
+    _title: ''
+  requirements:
+    _permission: 'access content'
+    noticia_id: '\d+'
+
+zinco_front.evento_detail:
+  path: '/eventos/{evento_id}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::verEvento'
+    _title: ''
+  requirements:
+    _permission: 'access content'
+    evento_id: '\d+'
+
+zinco_front.convocatoria_detail:
+  path: '/convocatorias/{convocatoria_id}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::verConvocatoria'
+    _title: ''
+  requirements:
+    _permission: 'access content'
+    convocatoria_id: '\d+'

@@ -1211,4 +1211,66 @@ class ZincoController extends ControllerBase
     ];
   }
 
+  /**
+   * Returns a noticia detail page.
+   */
+  public function verNoticia($noticia_id) {
+    $node = \Drupal::entityTypeManager()->getStorage('node')->load($noticia_id);
+    if (!$node || $node->bundle() !== 'noticia') {
+      throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+    }
+    $data = $this->formatNodeForCard($node);
+    if ($node->hasField('field_contenido_noticia') && !$node->get('field_contenido_noticia')->isEmpty()) {
+      $data['content_full'] = $node->get('field_contenido_noticia')->value;
+    }
+    return [
+      '#theme' => 'zinco_noticia_detail',
+      '#noticia' => $data,
+      '#attached' => ['library' => ['zinco_front/zinco-landing-page']],
+      '#cache' => ['tags' => $node->getCacheTags()],
+    ];
+  }
+
+  /**
+   * Returns an evento detail page.
+   */
+  public function verEvento($evento_id) {
+    $node = \Drupal::entityTypeManager()->getStorage('node')->load($evento_id);
+    if (!$node || $node->bundle() !== 'evento') {
+      throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+    }
+    $data = $this->formatNodeForCard($node);
+    if ($node->hasField('field_agenda_evento') && !$node->get('field_agenda_evento')->isEmpty()) {
+      $data['content_full'] = $node->get('field_agenda_evento')->value;
+    }
+    return [
+      '#theme' => 'zinco_evento_detail',
+      '#evento' => $data,
+      '#attached' => ['library' => ['zinco_front/zinco-landing-page']],
+      '#cache' => ['tags' => $node->getCacheTags()],
+    ];
+  }
+
+  /**
+   * Returns a convocatoria detail page.
+   */
+  public function verConvocatoria($convocatoria_id) {
+    $node = \Drupal::entityTypeManager()->getStorage('node')->load($convocatoria_id);
+    if (!$node || $node->bundle() !== 'convocatoria') {
+      throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+    }
+    $data = $this->formatNodeForCard($node);
+    if ($node->hasField('body') && !$node->get('body')->isEmpty()) {
+      $data['content_full'] = $node->get('body')->value;
+    }
+    return [
+      '#theme' => 'zinco_convocatoria_detail',
+      '#convocatoria' => $data,
+      '#attached' => ['library' => ['zinco_front/zinco-landing-page']],
+      '#cache' => ['tags' => $node->getCacheTags()],
+    ];
+  }
+
 }
+
+

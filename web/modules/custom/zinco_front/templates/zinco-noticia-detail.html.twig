@@ -1,0 +1,101 @@
+{#
+/**
+ * @file
+ * Template for the Noticia Detail page.
+ */
+#}
+<section class="zinco-noticia-detail py-5 mt-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card border-0 shadow-sm overflow-hidden rounded-4">
+          
+          {% if noticia.image_url %}
+            <div class="noticia-detail-image position-relative">
+              <img src="{{ noticia.image_url }}" alt="{{ noticia.title }}" class="img-fluid w-100">
+              <div class="noticia-date-badge position-absolute top-0 start-0 m-4 bg-primary text-white px-3 py-2 rounded-pill shadow">
+                <i class="far fa-calendar-alt me-2"></i> {{ noticia.date }}
+              </div>
+            </div>
+          {% endif %}
+
+          <div class="card-body p-4 p-md-5">
+            <div class="mb-4">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                  <li class="breadcrumb-item"><a href="/oportunidades">Oportunidades</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Noticias</li>
+                </ol>
+              </nav>
+            </div>
+
+            {% if not noticia.image_url %}
+              <div class="text-muted mb-3">
+                <i class="far fa-calendar-alt me-2"></i> {{ noticia.date }}
+              </div>
+            {% endif %}
+
+            <h1 class="display-4 fw-bold mb-4 text-dark">{{ noticia.title }}</h1>
+
+            <div class="noticia-content fs-5 text-secondary lh-lg mb-5">
+              {{ noticia.content_full|raw }}
+            </div>
+
+            <div class="noticia-actions pt-4 border-top">
+              <a href="/oportunidades" class="btn btn-outline-secondary btn-lg rounded-pill px-4 hover-shadow">
+                <i class="fas fa-arrow-left me-2"></i> Volver a Oportunidades
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.zinco-noticia-detail {
+  background-color: #f8fafc;
+  min-height: 80vh;
+}
+
+.noticia-detail-image img {
+  max-height: 500px;
+  object-fit: cover;
+  border-bottom: 5px solid #7fc54d;
+}
+
+.noticia-date-badge {
+  font-size: 0.9rem;
+  font-weight: 600;
+  background-color: #7fc54d !important;
+}
+
+.noticia-content p {
+  margin-bottom: 1.5rem;
+  color: #475569;
+}
+
+.noticia-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 2rem 0;
+}
+
+.breadcrumb-item a {
+  color: #7fc54d;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.breadcrumb-item a:hover {
+  color: #619a3b;
+}
+
+.hover-shadow:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
+}
+</style>
