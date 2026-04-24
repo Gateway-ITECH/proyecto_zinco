@@ -76,9 +76,9 @@
           {% endif %}
 
           <div class="mt-5">
-            <button class="btn btn-primary w-100 btn-lg rounded-pill shadow-sm hover-shadow" {% if convocatoria.days_remaining is defined and convocatoria.days_remaining < 0 %}disabled{% endif %}>
+            <a href="{{ convocatoria.field_mas_informacion ?? '#' }}" class="btn btn-primary w-100 btn-lg rounded-pill shadow-sm hover-shadow {% if convocatoria.days_remaining is defined and convocatoria.days_remaining < 0 %}disabled{% endif %}" {% if convocatoria.days_remaining is defined and convocatoria.days_remaining < 0 %}tabindex="-1" aria-disabled="true"{% endif %} target="_blank" rel="noopener noreferrer">
               Postularse a la Convocatoria <i class="fas fa-paper-plane ms-2"></i>
-            </button>
+            </a>
             {% if convocatoria.days_remaining is defined and convocatoria.days_remaining < 0 %}
               <small class="d-block text-center text-muted mt-2">Esta convocatoria ha cerrado.</small>
             {% endif %}

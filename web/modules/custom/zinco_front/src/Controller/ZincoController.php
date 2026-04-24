@@ -1263,6 +1263,9 @@ class ZincoController extends ControllerBase
     if ($node->hasField('body') && !$node->get('body')->isEmpty()) {
       $data['content_full'] = $node->get('body')->value;
     }
+    if ($node->hasField('field_mas_informacion') && !$node->get('field_mas_informacion')->isEmpty()) {
+      $data['field_mas_informacion'] = $node->get('field_mas_informacion')->uri;
+    }
     return [
       '#theme' => 'zinco_convocatoria_detail',
       '#convocatoria' => $data,
