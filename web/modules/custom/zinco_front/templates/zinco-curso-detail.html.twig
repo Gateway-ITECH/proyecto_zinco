@@ -26,7 +26,6 @@
 
           {% if curso.finalizado and curso.evidencias %}
             <div class="course-evidences p-4 p-md-5 bg-light border-bottom">
-              <h3 class="h4 mb-4"><i class="fas fa-images me-2 text-primary"></i> Evidencias del Curso</h3>
               <div id="courseEvidencesCarousel" class="carousel slide shadow-sm rounded overflow-hidden" data-bs-ride="carousel">
                 <div class="carousel-inner">
                   {% for evidence in curso.evidencias %}
