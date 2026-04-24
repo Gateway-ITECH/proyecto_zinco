@@ -27,6 +27,14 @@
           {% if curso.finalizado and curso.evidencias %}
             <div class="course-evidences p-4 p-md-5 bg-light border-bottom">
               <div id="courseEvidencesCarousel" class="carousel slide shadow-sm rounded overflow-hidden" data-bs-ride="carousel">
+                {% if curso.evidencias|length > 1 %}
+                  <div class="carousel-indicators">
+                    {% for evidence in curso.evidencias %}
+                      <button type="button" data-bs-target="#courseEvidencesCarousel" data-bs-slide-to="{{ loop.index0 }}" {% if loop.first %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ loop.index }}"></button>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+
                 <div class="carousel-inner">
                   {% for evidence in curso.evidencias %}
                     <div class="carousel-item {% if loop.first %}active{% endif %}">
@@ -34,6 +42,7 @@
                     </div>
                   {% endfor %}
                 </div>
+
                 {% if curso.evidencias|length > 1 %}
                   <button class="carousel-control-prev" type="button" data-bs-target="#courseEvidencesCarousel" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -97,8 +106,23 @@
   object-fit: cover;
 }
 
+#courseEvidencesCarousel .carousel-indicators {
+  bottom: -40px;
+  margin-bottom: 0;
+}
+
+#courseEvidencesCarousel .carousel-indicators [data-bs-target] {
+  background-color: #7fc54d;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  margin: 0 5px;
+}
+
 .course-evidences {
   border-top: 1px solid #e2e8f0;
+  padding-bottom: 60px !important; /* Spacing for indicators */
 }
 
 .course-content p {
