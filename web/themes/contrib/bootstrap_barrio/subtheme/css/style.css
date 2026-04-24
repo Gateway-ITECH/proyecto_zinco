@@ -788,3 +788,9 @@ article>header em {
 .views-field-field-imagen-destacada {
   padding: 0 !important;
 }
+
+.views-field-field-imagen-destacada img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
