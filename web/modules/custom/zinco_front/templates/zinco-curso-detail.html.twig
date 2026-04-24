@@ -26,7 +26,7 @@
 
           {% if curso.finalizado and curso.evidencias %}
             <div class="course-evidences p-4 p-md-5 bg-light border-bottom">
-              <div id="courseEvidencesCarousel" class="carousel slide shadow-sm rounded overflow-hidden" data-bs-ride="carousel">
+              <div id="courseEvidencesCarousel" class="carousel slide shadow-sm rounded overflow-hidden" data-bs-ride="carousel" data-bs-interval="3000">
                 {% if curso.evidencias|length > 1 %}
                   <div class="carousel-indicators">
                     {% for evidence in curso.evidencias %}
