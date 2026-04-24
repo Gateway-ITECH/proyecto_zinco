@@ -34,6 +34,15 @@
             <div class="convocatoria-content fs-5 text-secondary lh-lg mb-0">
               <h4 class="text-dark fw-bold mb-3 border-bottom pb-2">Descripción de la Convocatoria</h4>
               {{ convocatoria.content_full|raw }}
+              
+              {% if convocatoria.field_publico_objetivo %}
+                <div class="mt-5">
+                  <h4 class="text-dark fw-bold mb-3 border-bottom pb-2">Público Objetivo</h4>
+                  <div class="publico-objetivo-content">
+                    {{ convocatoria.field_publico_objetivo|raw }}
+                  </div>
+                </div>
+              {% endif %}
             </div>
           </div>
         </div>
