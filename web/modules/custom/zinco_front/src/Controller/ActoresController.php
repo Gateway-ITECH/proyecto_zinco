@@ -189,7 +189,7 @@ class ActoresController extends ControllerBase
         $bundle_id = $actor->bundle();
         $bundle_entity = $this->entityTypeManager->getStorage('zinco_actors_zincoactors_type')->load($bundle_id);
         $bundle_label = $bundle_entity ? $bundle_entity->label() : $bundle_id;
-        $actor_data['field_tipo_actor'] = (strlen($bundle_label) > 10) ? substr($bundle_label, 0, 10) . '...' : $bundle_label;
+        $actor_data['field_tipo_actor'] = $bundle_label;
         $actor_data['bundle_color'] = $bundle_colors[$bundle_id] ?? 'text-bg-secondary';
 
         // Get the label of the 'municipio' taxonomy term.
