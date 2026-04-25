@@ -41,6 +41,7 @@
       </div>
 
       <div class="col-md-4">
+        {% if reto.estado_reto_innovacion != 'Cumplido' %}
         <div class="card mb-4">
           <div class="card-body">
             <h5 class="card-title">¿Listo para innovar?</h5>
@@ -48,6 +49,7 @@
             <a href="/retos/{{ reto.id }}/solution/add" class="btn btn-primary btn-block"><i class="fas fa-lightbulb"></i> Envía tu propuesta</a>
           </div>
         </div>
+        {% endif %}
 
         <div class="card mb-4">
           <div class="card-body">
