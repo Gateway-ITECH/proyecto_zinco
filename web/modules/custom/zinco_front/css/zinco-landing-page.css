@@ -400,4 +400,27 @@
 
 #researchCarousel {
   top: -100px;
+  position: relative;
+  z-index: 1;
+}
+
+#data-rain-canvas {
+  position: absolute;
+  top: -100px; /* Match carousel position */
+  left: 0;
+  width: 100%;
+  height: calc(100vh + 100px);
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+#researchCarousel .carousel-caption {
+  z-index: 15;
+}
+
+#researchCarousel .carousel-control-prev,
+#researchCarousel .carousel-control-next,
+#researchCarousel .carousel-indicators {
+  z-index: 20;
 }

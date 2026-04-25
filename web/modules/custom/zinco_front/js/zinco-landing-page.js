@@ -66,6 +66,51 @@
                     return new bootstrap.Tooltip(tooltipTriggerEl);
                 });
             }
+
+            // Data Rain Effect Implementation
+            const canvas = document.getElementById('data-rain-canvas');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                let width, height, columns, drops;
+
+                const initCanvas = () => {
+                    width = canvas.width = window.innerWidth;
+                    height = canvas.height = window.innerHeight + 100;
+                    columns = Math.floor(width / 25);
+                    drops = [];
+                    for (let i = 0; i < columns; i++) {
+                        drops[i] = Math.random() * -100; // Random start positions
+                    }
+                };
+
+                const draw = () => {
+                    // Create a fading effect
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+                    ctx.fillRect(0, 0, width, height);
+
+                    // Set text style
+                    ctx.fillStyle = '#28a745'; // Zinco Green
+                    ctx.font = '14px monospace';
+
+                    for (let i = 0; i < drops.length; i++) {
+                        // Random binary or hex-like characters
+                        const text = Math.floor(Math.random() * 2);
+                        ctx.fillText(text.toString(), i * 25, drops[i] * 25);
+
+                        // Reset drop to top if it reaches the bottom
+                        if (drops[i] * 25 > height && Math.random() > 0.975) {
+                            drops[i] = 0;
+                        }
+                        drops[i]++;
+                    }
+                    requestAnimationFrame(draw);
+                };
+
+                initCanvas();
+                draw();
+
+                window.addEventListener('resize', initCanvas);
+            }
         }
     };
 
