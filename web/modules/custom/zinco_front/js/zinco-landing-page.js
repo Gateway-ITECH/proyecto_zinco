@@ -84,16 +84,16 @@
                 };
 
                 const draw = () => {
-                    // Create a fading effect
-                    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+                    // Create a fading effect (dark color)
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
                     ctx.fillRect(0, 0, width, height);
 
-                    // Set text style
-                    ctx.fillStyle = '#28a745'; // Zinco Green
+                    // Set text style (white color)
+                    ctx.fillStyle = '#ffffff';
                     ctx.font = '14px monospace';
 
                     for (let i = 0; i < drops.length; i++) {
-                        // Random binary or hex-like characters
+                        // Random binary characters
                         const text = Math.floor(Math.random() * 2);
                         ctx.fillText(text.toString(), i * 25, drops[i] * 25);
 
@@ -101,7 +101,8 @@
                         if (drops[i] * 25 > height && Math.random() > 0.975) {
                             drops[i] = 0;
                         }
-                        drops[i]++;
+                        // Slower increment
+                        drops[i] += 0.5;
                     }
                     requestAnimationFrame(draw);
                 };
