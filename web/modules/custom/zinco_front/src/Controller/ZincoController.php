@@ -924,6 +924,7 @@ class ZincoController extends ControllerBase
           $data['closing_date'] = \Drupal::service('date.formatter')->format($closing_timestamp, 'custom', 'd/m/Y');
           $data['closing_day'] = \Drupal::service('date.formatter')->format($closing_timestamp, 'custom', 'd');
           $data['closing_month'] = \Drupal::service('date.formatter')->format($closing_timestamp, 'custom', 'M');
+          $data['closing_year'] = \Drupal::service('date.formatter')->format($closing_timestamp, 'custom', 'Y');
 
           $days_remaining = floor(($closing_timestamp - \Drupal::time()->getRequestTime()) / 86400);
           $data['days_remaining'] = $days_remaining;

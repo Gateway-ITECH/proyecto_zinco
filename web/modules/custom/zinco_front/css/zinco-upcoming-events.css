@@ -104,6 +104,14 @@
     margin-top: 4px;
 }
 
+.event-date-year {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: #6c757d;
+    margin-top: 2px;
+}
+
 .event-time-label {
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
