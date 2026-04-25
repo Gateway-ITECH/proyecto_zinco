@@ -397,3 +397,7 @@
 .quienes-somos-content p {
   text-align: center;
 }
+
+#researchCarousel {
+  margin-top: -100px;
+}
