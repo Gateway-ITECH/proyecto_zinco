@@ -834,10 +834,10 @@ article>header em {
   position: absolute;
   bottom: 0;
   left: 0;
-  height: 3px;
+  height: 4px;
   width: 0;
-  background: linear-gradient(90deg, #007bff, #6610f2);
-  animation: navbarLoadLine 1s ease-in-out forwards;
+  background: linear-gradient(90deg, #28a745, #99ff99);
+  animation: navbarLoadLine 1.5s ease-in-out forwards;
   z-index: 1031;
 }
 
