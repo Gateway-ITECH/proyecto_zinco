@@ -858,25 +858,12 @@ article>header em {
 }
 
 #block-bootstrap-barrio-subtheme-page-title h1 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  color: #1e293b;
-  font-size: 2.75rem;
-  letter-spacing: -0.02em;
+  font-family: 'Open Sans', sans-serif; /* Matching the clean sans-serif in the image */
+  font-weight: 700; /* fw-bold */
+  color: #343a40; /* Dark grey */
+  font-size: 3.5rem; /* display-4 */
+  letter-spacing: -0.01em;
   margin-bottom: 0;
-  display: inline-block;
-  position: relative;
-  padding-bottom: 15px;
+  display: block;
   line-height: 1.2;
-}
-
-#block-bootstrap-barrio-subtheme-page-title h1::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 20%;
-  right: 20%;
-  height: 4px;
-  background-color: #7fc54d;
-  border-radius: 2px;
 }
