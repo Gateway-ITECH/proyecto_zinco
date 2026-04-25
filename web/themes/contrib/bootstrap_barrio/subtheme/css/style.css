@@ -263,7 +263,8 @@ body {
   /*display: none;*/
 }
 
-.detalle-dump-data .view-header p {
+.detalle-dump-data .view-header p,
+.caja-herramientas .view-header p {
   margin-top: 10px;
   text-align: center;
 }
@@ -845,6 +846,7 @@ article>header em {
   0% {
     width: 0;
   }
+
   100% {
     width: 100%;
   }
@@ -858,10 +860,14 @@ article>header em {
 }
 
 #block-bootstrap-barrio-subtheme-page-title h1 {
-  font-family: 'Open Sans', sans-serif; /* Matching the clean sans-serif in the image */
-  font-weight: 700; /* fw-bold */
-  color: #343a40; /* Dark grey */
-  font-size: 3.5rem; /* display-4 */
+  font-family: 'Open Sans', sans-serif;
+  /* Matching the clean sans-serif in the image */
+  font-weight: 700;
+  /* fw-bold */
+  color: #343a40;
+  /* Dark grey */
+  font-size: 3.5rem;
+  /* display-4 */
   letter-spacing: -0.01em;
   margin-bottom: 0;
   display: block;
