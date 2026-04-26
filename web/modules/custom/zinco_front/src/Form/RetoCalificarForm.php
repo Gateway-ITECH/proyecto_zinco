@@ -222,37 +222,20 @@ class RetoCalificarForm extends FormBase
       ]);
 
       // Handle scores if the field exists.
+      // Based on previous controller code, we might need to use paragraphs.
       if ($evaluation->hasField('field_puntuacion_de_solucion')) {
         $puntuaciones = [];
-        $paragraph_storage = $this->entityTypeManager->getStorage('paragraph');
-
-        foreach ($criterios_values as $paragraph_id => $rating_id) {
-          // Load the criteria paragraph to find the associated taxonomy term.
-          $criteria_paragraph = $paragraph_storage->load($paragraph_id);
-          if ($criteria_paragraph) {
-            $term_id = NULL;
-            // Check for potential field names referencing the taxonomy term.
-            if ($criteria_paragraph->hasField('field_criterio') && !$criteria_paragraph->get('field_criterio')->isEmpty()) {
-              $term_id = $criteria_paragraph->get('field_criterio')->target_id;
-            }
-            elseif ($criteria_paragraph->hasField('field_criterio_evaluacion') && !$criteria_paragraph->get('field_criterio_evaluacion')->isEmpty()) {
-              $term_id = $criteria_paragraph->get('field_criterio_evaluacion')->target_id;
-            }
-
-            // Only create the score paragraph if we have a valid term ID.
-            if ($term_id) {
-              $puntuacion_paragraph = $paragraph_storage->create([
-                'type' => 'puntuacion_de_criterios_de_reto',
-                'field_criterio_evaluacion_reto' => $term_id,
-                'field_calificacion_de_solucion_a' => $rating_id,
-              ]);
-              $puntuacion_paragraph->save();
-              $puntuaciones[] = [
-                'target_id' => $puntuacion_paragraph->id(),
-                'target_revision_id' => $puntuacion_paragraph->getRevisionId(),
-              ];
-            }
-          }
+        foreach ($criterios_values as $criterio_id => $rating_id) {
+          $puntuacion_paragraph = $this->entityTypeManager->getStorage('paragraph')->create([
+            'type' => 'puntuacion_de_criterios_de_reto', // Assuming this is the bundle.
+            'field_criterio_evaluacion_reto' => $criterio_id,
+            'field_calificacion_de_solucion_a' => $rating_id,
+          ]);
+          $puntuacion_paragraph->save();
+          $puntuaciones[] = [
+            'target_id' => $puntuacion_paragraph->id(),
+            'target_revision_id' => $puntuacion_paragraph->getRevisionId(),
+          ];
         }
         $evaluation->set('field_puntuacion_de_solucion', $puntuaciones);
       }
