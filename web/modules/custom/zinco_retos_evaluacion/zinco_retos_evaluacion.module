@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * @file
- * Provides a zinco retos evaluacion entity type.
+ * Provides a Evaluación de retos entity type.
  */
 
 use Drupal\Core\Render\Element;
@@ -20,13 +20,13 @@ function zinco_retos_evaluacion_theme(): array {
 }
 
 /**
- * Prepares variables for zinco retos evaluacion templates.
+ * Prepares variables for Evaluación de retos templates.
  *
  * Default template: zinco-retos-evaluacion.html.twig.
  *
  * @param array $variables
  *   An associative array containing:
- *   - elements: An associative array containing the zinco retos evaluacion information and any
+ *   - elements: An associative array containing the Evaluación de retos information and any
  *     fields attached to the entity.
  *   - attributes: HTML attributes for the containing element.
  */

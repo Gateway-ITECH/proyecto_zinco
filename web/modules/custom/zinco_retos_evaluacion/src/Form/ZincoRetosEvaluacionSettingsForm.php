@@ -8,24 +8,27 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Configuration form for a zinco retos evaluacion entity type.
+ * Configuration form for a Evaluación de retos entity type.
  */
-final class ZincoRetosEvaluacionSettingsForm extends FormBase {
+final class ZincoRetosEvaluacionSettingsForm extends FormBase
+{
 
   /**
    * {@inheritdoc}
    */
-  public function getFormId(): string {
+  public function getFormId(): string
+  {
     return 'zinco_retos_evaluacion_settings';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state): array {
+  public function buildForm(array $form, FormStateInterface $form_state): array
+  {
 
     $form['settings'] = [
-      '#markup' => $this->t('Settings form for a zinco retos evaluacion entity type.'),
+      '#markup' => $this->t('Settings form for a Evaluación de retos entity type.'),
     ];
 
     $form['actions'] = [
@@ -42,7 +45,8 @@ final class ZincoRetosEvaluacionSettingsForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state): void {
+  public function submitForm(array &$form, FormStateInterface $form_state): void
+  {
     $this->messenger()->addStatus($this->t('The configuration has been updated.'));
   }
 

@@ -22,13 +22,13 @@ use Drupal\zinco_retos_evaluacion\ZincoRetosEvaluacionInterface;
 use Drupal\zinco_retos_evaluacion\ZincoRetosEvaluacionListBuilder;
 
 /**
- * Defines the zinco retos evaluacion entity class.
+ * Defines the Evaluación de retos entity class.
  */
 #[ContentEntityType(
   id: 'zinco_retos_evaluacion',
-  label: new TranslatableMarkup('Zinco retos evaluacion'),
+  label: new TranslatableMarkup('Evaluación de retos'),
   label_collection: new TranslatableMarkup('Evaluaciones de retos'),
-  label_singular: new TranslatableMarkup('zinco retos evaluacion'),
+  label_singular: new TranslatableMarkup('Evaluación de retos'),
   label_plural: new TranslatableMarkup('Evaluaciones de retos'),
   entity_keys: [
     'id' => 'id',
@@ -169,7 +169,7 @@ class ZincoRetosEvaluacion extends ContentEntityBase implements ZincoRetosEvalua
 
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Authored on'))
-      ->setDescription(t('The time that the zinco retos evaluacion was created.'))
+      ->setDescription(t('The time that the Evaluación de retos was created.'))
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'timestamp',
@@ -184,7 +184,7 @@ class ZincoRetosEvaluacion extends ContentEntityBase implements ZincoRetosEvalua
 
     $fields['changed'] = BaseFieldDefinition::create('changed')
       ->setLabel(t('Changed'))
-      ->setDescription(t('The time that the zinco retos evaluacion was last edited.'));
+      ->setDescription(t('The time that the Evaluación de retos was last edited.'));
 
     return $fields;
   }

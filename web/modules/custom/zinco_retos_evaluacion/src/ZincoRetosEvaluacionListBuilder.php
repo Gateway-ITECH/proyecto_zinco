@@ -8,14 +8,16 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityListBuilder;
 
 /**
- * Provides a list controller for the zinco retos evaluacion entity type.
+ * Provides a list controller for the Evaluación de retos entity type.
  */
-final class ZincoRetosEvaluacionListBuilder extends EntityListBuilder {
+final class ZincoRetosEvaluacionListBuilder extends EntityListBuilder
+{
 
   /**
    * {@inheritdoc}
    */
-  public function buildHeader(): array {
+  public function buildHeader(): array
+  {
     $header['id'] = $this->t('ID');
     $header['label'] = $this->t('Label');
     $header['status'] = $this->t('Status');
@@ -28,7 +30,8 @@ final class ZincoRetosEvaluacionListBuilder extends EntityListBuilder {
   /**
    * {@inheritdoc}
    */
-  public function buildRow(EntityInterface $entity): array {
+  public function buildRow(EntityInterface $entity): array
+  {
     /** @var \Drupal\zinco_retos_evaluacion\ZincoRetosEvaluacionInterface $entity */
     $row['id'] = $entity->id();
     $row['label'] = $entity->toLink();
