@@ -124,8 +124,17 @@ class RetosController extends ControllerBase
           'label' => $term->label(),
         ];
       }
-    } catch (\Exception $e) {
-      $this->messenger()->addError($this->t('Error loading estado terms: @message', ['@message' => $e->getMessage()]));
+    } catch (\Throwable $e) {
+      $this->messenger()->addError($this->t('Error al guardar la calificación: @message in @file:@line', [
+        '@message' => $e->getMessage(),
+        '@file' => $e->getFile(),
+        '@line' => $e->getLine(),
+      ]));
+      \Drupal::logger('zinco_front')->error('Error saving evaluation: @message in @file:@line', [
+        '@message' => $e->getMessage(),
+        '@file' => $e->getFile(),
+        '@line' => $e->getLine(),
+      ]);
     }
 
     // Get all terms from 'area_enfoque' taxonomy.
@@ -750,8 +759,12 @@ class RetosController extends ControllerBase
           ],
         ],
       ];
-    } catch (\Exception $e) {
-      $this->messenger()->addError($this->t('Error loading solution for evaluation: @message', ['@message' => $e->getMessage()]));
+    } catch (\Throwable $e) {
+      $this->messenger()->addError($this->t('Error loading solution for evaluation: @message in @file:@line', [
+        '@message' => $e->getMessage(),
+        '@file' => $e->getFile(),
+        '@line' => $e->getLine(),
+      ]));
       return [];
     }
   }

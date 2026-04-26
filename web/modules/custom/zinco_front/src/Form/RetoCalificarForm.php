@@ -252,9 +252,17 @@ class RetoCalificarForm extends FormBase
 
       $this->messenger()->addStatus($this->t('La evaluación ha sido guardada exitosamente.'));
       $form_state->setRedirect('zinco_front.reto_evaluar_list');
-    } catch (\Exception $e) {
-      $this->messenger()->addError($this->t('Error al guardar la calificación: @message', ['@message' => $e->getMessage()]));
-      \Drupal::logger('zinco_front')->error('Error saving evaluation: @message', ['@message' => $e->getMessage()]);
+    } catch (\Throwable $e) {
+      $this->messenger()->addError($this->t('Error al guardar la calificación: @message in @file:@line', [
+        '@message' => $e->getMessage(),
+        '@file' => $e->getFile(),
+        '@line' => $e->getLine(),
+      ]));
+      \Drupal::logger('zinco_front')->error('Error saving evaluation: @message in @file:@line', [
+        '@message' => $e->getMessage(),
+        '@file' => $e->getFile(),
+        '@line' => $e->getLine(),
+      ]);
     }
   }
 
