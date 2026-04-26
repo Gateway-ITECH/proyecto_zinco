@@ -222,7 +222,7 @@ class RetoCalificarForm extends FormBase
         'label' => 'Evaluación: ' . $solution_label,
         'field_solucion_evaluada' => $solution_id,
         'field_evaluador' => $current_user_id,
-        'field_retroalimentacion' => $retroalimentacion,
+        'field_comentarios_evaluacion' => $retroalimentacion,
         'field_fecha_de_evaluacion' => date('Y-m-d\TH:i:s'),
       ]);
 
