@@ -227,13 +227,16 @@ class RetoCalificarForm extends FormBase
       ]);
 
       // Handle scores if the field exists.
-      // Based on previous controller code, we might need to use paragraphs.
       if ($evaluation->hasField('field_puntuacion_de_solucion')) {
         $puntuaciones = [];
         foreach ($criterios_values as $criterio_id => $rating_id) {
+          // Load the criterion paragraph to get its name.
+          $criterion_paragraph = $this->entityTypeManager->getStorage('paragraph')->load($criterio_id);
+          $criterion_name = $criterion_paragraph ? $criterion_paragraph->get('field_nombre_criterio')->value : $criterio_id;
+
           $puntuacion_paragraph = $this->entityTypeManager->getStorage('paragraph')->create([
-            'type' => 'puntuacion_de_criterios_de_reto', // Assuming this is the bundle.
-            'field_criterio_evaluacion_reto' => $criterio_id,
+            'type' => 'puntuacion_de_criterios_de_reto',
+            'field_criterio_evaluado' => $criterion_name,
             'field_calificacion_de_solucion_a' => $rating_id,
           ]);
           $puntuacion_paragraph->save();
