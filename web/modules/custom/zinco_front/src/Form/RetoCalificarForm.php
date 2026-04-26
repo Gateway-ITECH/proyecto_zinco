@@ -54,6 +54,7 @@ class RetoCalificarForm extends FormBase
   public function buildForm(array $form, FormStateInterface $form_state, $solution_id = NULL)
   {
     $form_state->set('solution_id', $solution_id);
+    $current_user_id = \Drupal::currentUser()->id();
 
     // Load the solution.
     $solution = $this->entityTypeManager->getStorage('zinco_retos_soluciones')->load($solution_id);
@@ -73,6 +74,28 @@ class RetoCalificarForm extends FormBase
       return $form;
     }
 
+    // Check if an evaluation already exists for this solution and evaluator.
+    $existing_evaluations = $this->entityTypeManager->getStorage('zinco_retos_evaluacion')->loadByProperties([
+      'field_solucion_evaluada' => $solution_id,
+      'field_evaluador' => $current_user_id,
+    ]);
+    
+    $evaluation = !empty($existing_evaluations) ? reset($existing_evaluations) : NULL;
+    $form_state->set('evaluation_entity', $evaluation);
+
+    // Map existing scores if in edit mode.
+    $existing_scores = [];
+    if ($evaluation && $evaluation->hasField('field_puntuacion_de_solucion')) {
+      foreach ($evaluation->get('field_puntuacion_de_solucion') as $item) {
+        $p_score = $item->entity;
+        if ($p_score) {
+          $name = $p_score->get('field_criterio_evaluado')->value;
+          $score_id = $p_score->get('field_calificacion_de_solucion_a')->target_id;
+          $existing_scores[$name] = $score_id;
+        }
+      }
+    }
+
     $form['#attributes']['class'][] = 'zinco-form-premium';
 
     $form['header'] = [
@@ -80,9 +103,10 @@ class RetoCalificarForm extends FormBase
       '#attributes' => ['class' => ['evaluation-header', 'mb-5', 'p-4', 'bg-light', 'rounded', 'shadow-sm']],
     ];
 
+    $title_prefix = $evaluation ? $this->t('Editando Evaluación') : $this->t('Evaluación');
     $form['header']['title'] = [
       '#type' => 'markup',
-      '#markup' => '<h2 class="h4 text-primary mb-2">' . $this->t('Evaluación de la Solución: @title', ['@title' => $solution->label()]) . '</h2>',
+      '#markup' => '<h2 class="h4 text-primary mb-2">' . $this->t('@prefix de la Solución: @title', ['@prefix' => $title_prefix, '@title' => $solution->label()]) . '</h2>',
     ];
 
     $form['header']['reto_info'] = [
@@ -139,22 +163,21 @@ class RetoCalificarForm extends FormBase
         // Round to 2 decimal places for better display.
         $porcentaje_calculado = round($porcentaje_calculado, 2);
 
+        // Determine default value.
+        $default_val = isset($existing_scores[$nombre_criterio]) ? $existing_scores[$nombre_criterio] : NULL;
+
         $form['criterios_wrapper']['criterios'][$paragraph->id()] = [
           '#type' => 'select',
           '#title' => new FormattableMarkup('<span style="color: black; font-weight: bold;">@title</span>', ['@title' => $nombre_criterio]),
           '#description' => $descripcion_criterio . ' <br><span class="badge bg-info text-dark">' . $this->t('Peso: @peso%', ['@peso' => $porcentaje_calculado]) . '</span>',
           '#options' => $options,
           '#required' => TRUE,
+          '#default_value' => $default_val,
           '#empty_option' => $this->t('- Seleccione una calificación -'),
           '#attributes' => [
             'class' => ['form-select', 'mb-4'],
             'style' => 'max-width: 400px;',
           ],
-        ];
-
-        $form['criterios_wrapper']['criterio_id'][$paragraph->id()] = [
-          '#type' => 'hidden',
-          '#value' => $paragraph->hasField('field_criterio_evaluacion') ? $paragraph->get('field_criterio_evaluacion')->target_id : $paragraph->id(),
         ];
       }
     } else {
@@ -174,6 +197,7 @@ class RetoCalificarForm extends FormBase
       '#type' => 'textarea',
       '#title' => $this->t('Comentarios y Sugerencias'),
       '#rows' => 4,
+      '#default_value' => $evaluation ? $evaluation->get('field_comentarios_evaluacion')->value : '',
       '#placeholder' => $this->t('Escriba aquí sus comentarios sobre la solución...'),
       '#attributes' => ['class' => ['form-control']],
     ];
@@ -192,7 +216,7 @@ class RetoCalificarForm extends FormBase
 
     $form['actions']['submit'] = [
       '#type' => 'submit',
-      '#value' => $this->t('Finalizar Evaluación'),
+      '#value' => $evaluation ? $this->t('Actualizar Evaluación') : $this->t('Finalizar Evaluación'),
       '#button_type' => 'primary',
       '#attributes' => ['class' => ['btn', 'btn-primary', 'px-4']],
     ];
@@ -211,23 +235,35 @@ class RetoCalificarForm extends FormBase
     $criterios_values = $form_state->getValue('criterios');
     $retroalimentacion = $form_state->getValue('field_retroalimentacion');
     $current_user_id = \Drupal::currentUser()->id();
+    $evaluation = $form_state->get('evaluation_entity');
 
     try {
-      // Create the evaluation entity.
-      $solution = $this->entityTypeManager->getStorage('zinco_retos_soluciones')->load($solution_id);
-      $solution_label = $solution ? $solution->label() : $solution_id;
+      // Create or update the evaluation entity.
+      if (!$evaluation) {
+        $solution = $this->entityTypeManager->getStorage('zinco_retos_soluciones')->load($solution_id);
+        $solution_label = $solution ? $solution->label() : $solution_id;
+        
+        $evaluation_storage = $this->entityTypeManager->getStorage('zinco_retos_evaluacion');
+        $evaluation = $evaluation_storage->create([
+          'label' => 'Evaluación: ' . $solution_label,
+          'field_solucion_evaluada' => $solution_id,
+          'field_evaluador' => $current_user_id,
+        ]);
+      }
 
-      $evaluation_storage = $this->entityTypeManager->getStorage('zinco_retos_evaluacion');
-      $evaluation = $evaluation_storage->create([
-        'label' => 'Evaluación: ' . $solution_label,
-        'field_solucion_evaluada' => $solution_id,
-        'field_evaluador' => $current_user_id,
-        'field_comentarios_evaluacion' => $retroalimentacion,
-        'field_fecha_de_evaluacion' => date('Y-m-d\TH:i:s'),
-      ]);
+      // Update fields.
+      $evaluation->set('field_comentarios_evaluacion', $retroalimentacion);
+      $evaluation->set('field_fecha_de_evaluacion', date('Y-m-d\TH:i:s'));
 
-      // Handle scores if the field exists.
+      // Handle scores (paragraphs).
       if ($evaluation->hasField('field_puntuacion_de_solucion')) {
+        // If updating, we might want to clear old paragraphs or update them.
+        // For simplicity, we clear and recreate.
+        $old_puntuaciones = $evaluation->get('field_puntuacion_de_solucion')->referencedEntities();
+        foreach ($old_puntuaciones as $old_p) {
+          $old_p->delete();
+        }
+
         $puntuaciones = [];
         foreach ($criterios_values as $criterio_id => $rating_id) {
           // Load the criterion paragraph to get its name.
