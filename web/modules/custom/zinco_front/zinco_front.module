@@ -286,6 +286,13 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'email-reviewer-assigned',
     ],
+    'email_evaluacion_calificada' => [
+      'variables' => [
+        'variables' => [],
+        'site_name' => NULL,
+      ],
+      'template' => 'email-evaluacion-calificada',
+    ],
   ];
 }
 

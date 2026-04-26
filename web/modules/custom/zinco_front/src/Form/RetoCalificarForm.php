@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\Component\Render\FormattableMarkup;
+use Drupal\zinco_front\Service\MailService;
 
 /**
  * Formulario para calificar un reto.
@@ -23,11 +24,19 @@ class RetoCalificarForm extends FormBase
   protected $entityTypeManager;
 
   /**
+   * The mail service.
+   *
+   * @var \Drupal\zinco_front\Service\MailService
+   */
+  protected $mailService;
+
+  /**
    * Constructs a new RetoCalificarForm.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager)
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, MailService $mail_service)
   {
     $this->entityTypeManager = $entity_type_manager;
+    $this->mailService = $mail_service;
   }
 
   /**
@@ -36,7 +45,8 @@ class RetoCalificarForm extends FormBase
   public static function create(ContainerInterface $container)
   {
     return new static(
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('zinco_front.mail_service')
     );
   }
 
@@ -79,7 +89,7 @@ class RetoCalificarForm extends FormBase
       'field_solucion_evaluada' => $solution_id,
       'field_evaluador' => $current_user_id,
     ]);
-    
+
     $evaluation = !empty($existing_evaluations) ? reset($existing_evaluations) : NULL;
     $form_state->set('evaluation_entity', $evaluation);
 
@@ -242,7 +252,7 @@ class RetoCalificarForm extends FormBase
       if (!$evaluation) {
         $solution = $this->entityTypeManager->getStorage('zinco_retos_soluciones')->load($solution_id);
         $solution_label = $solution ? $solution->label() : $solution_id;
-        
+
         $evaluation_storage = $this->entityTypeManager->getStorage('zinco_retos_evaluacion');
         $evaluation = $evaluation_storage->create([
           'label' => 'Evaluación: ' . $solution_label,
@@ -287,6 +297,10 @@ class RetoCalificarForm extends FormBase
       $evaluation->save();
 
       $this->messenger()->addStatus($this->t('La evaluación ha sido guardada exitosamente.'));
+
+      // Send email notifications.
+      $this->_notifyEvaluacionCalificada($evaluation, $solution_id);
+
       $form_state->setRedirect('zinco_front.reto_evaluar_list');
     } catch (\Throwable $e) {
       $this->messenger()->addError($this->t('Error al guardar la calificación: @message in @file:@line', [
@@ -299,6 +313,97 @@ class RetoCalificarForm extends FormBase
         '@file' => $e->getFile(),
         '@line' => $e->getLine(),
       ]);
+    }
+  }
+
+  /**
+   * Sends email notifications about a new or updated evaluation.
+   *
+   * Notifies: administrators, administrador_ecosistema users, and reto organizers.
+   */
+  protected function _notifyEvaluacionCalificada($evaluation, $solution_id) {
+    try {
+      $base_url = \Drupal::request()->getSchemeAndHttpHost();
+      $date_formatter = \Drupal::service('date.formatter');
+      $current_user = \Drupal::currentUser();
+
+      // Load the solution to get reto data.
+      $solution = $this->entityTypeManager->getStorage('zinco_retos_soluciones')->load($solution_id);
+      if (!$solution) {
+        return;
+      }
+
+      $reto_label = '';
+      $reto_entity = NULL;
+      if ($solution->hasField('field_reto_asociado') && !$solution->get('field_reto_asociado')->isEmpty()) {
+        $reto_entity = $solution->get('field_reto_asociado')->entity;
+        if ($reto_entity) {
+          $reto_label = $reto_entity->label();
+        }
+      }
+
+      $variables = [
+        'reto_label' => $reto_label,
+        'solution_label' => $solution->label(),
+        'evaluator_name' => $current_user->getDisplayName(),
+        'evaluation_date' => $date_formatter->format(\Drupal::time()->getRequestTime(), 'custom', 'd/m/Y H:i'),
+        'base_url' => $base_url,
+        'solution_url' => $base_url . '/retos/evaluar/' . $solution_id,
+      ];
+
+      // Track who has been notified to avoid duplicate emails.
+      $notified_uids = [];
+
+      // 1. Notify administrators and administrador_ecosistema.
+      $admin_uids = \Drupal::entityQuery('user')
+        ->condition('status', 1)
+        ->condition('roles', ['administrator', 'administrador_ecosistema'], 'IN')
+        ->accessCheck(FALSE)
+        ->execute();
+
+      if (!empty($admin_uids)) {
+        foreach (\Drupal\user\Entity\User::loadMultiple($admin_uids) as $user) {
+          if (!in_array($user->id(), $notified_uids) && ($email = $user->getEmail())) {
+            $notified_uids[] = $user->id();
+            $variables['recipient_name'] = $user->getDisplayName();
+            $this->mailService->sendTemplatedEmail(
+              $email,
+              'Propuesta evaluada: ' . $solution->label(),
+              'email_evaluacion_calificada',
+              $variables
+            );
+          }
+        }
+      }
+
+      // 2. Notify reto organizers.
+      if ($reto_entity && $reto_entity->hasField('organizador_reto') && !$reto_entity->get('organizador_reto')->isEmpty()) {
+        $actor_ids = array_column($reto_entity->get('organizador_reto')->getValue(), 'target_id');
+
+        $organizer_uids = \Drupal::entityQuery('user')
+          ->condition('status', 1)
+          ->condition('field_actor', $actor_ids, 'IN')
+          ->accessCheck(FALSE)
+          ->execute();
+
+        if (!empty($organizer_uids)) {
+          foreach (\Drupal\user\Entity\User::loadMultiple($organizer_uids) as $user) {
+            if (!in_array($user->id(), $notified_uids) && ($email = $user->getEmail())) {
+              $notified_uids[] = $user->id();
+              $variables['recipient_name'] = $user->getDisplayName();
+              $this->mailService->sendTemplatedEmail(
+                $email,
+                'Propuesta evaluada: ' . $solution->label(),
+                'email_evaluacion_calificada',
+                $variables
+              );
+            }
+          }
+        }
+      }
+    }
+    catch (\Throwable $e) {
+      \Drupal::logger('zinco_front')->warning('Could not send evaluation notification: @message', ['@message' => $e->getMessage()]);
     }
   }
 
