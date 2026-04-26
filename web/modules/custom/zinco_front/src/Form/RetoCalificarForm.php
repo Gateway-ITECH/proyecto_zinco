@@ -151,6 +151,11 @@ class RetoCalificarForm extends FormBase
             'style' => 'max-width: 400px;',
           ],
         ];
+
+        $form['criterios_wrapper']['criterio_id'][$paragraph->id()] = [
+          '#type' => 'hidden',
+          '#value' => $paragraph->hasField('field_criterio_evaluacion') ? $paragraph->get('field_criterio_evaluacion')->target_id : $paragraph->id(),
+        ];
       }
     } else {
       $form['criterios_wrapper']['no_criteria'] = [
