@@ -12,7 +12,8 @@ use Drupal\Component\Render\FormattableMarkup;
 /**
  * Formulario para calificar un reto.
  */
-class RetoCalificarForm extends FormBase {
+class RetoCalificarForm extends FormBase
+{
 
   /**
    * The entity type manager.
@@ -24,14 +25,16 @@ class RetoCalificarForm extends FormBase {
   /**
    * Constructs a new RetoCalificarForm.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager)
+  {
     $this->entityTypeManager = $entity_type_manager;
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
+  public static function create(ContainerInterface $container)
+  {
     return new static(
       $container->get('entity_type.manager')
     );
@@ -40,14 +43,16 @@ class RetoCalificarForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormId() {
+  public function getFormId()
+  {
     return 'reto_calificar_form';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, $solution_id = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, $solution_id = NULL)
+  {
     $form_state->set('solution_id', $solution_id);
 
     // Load the solution.
@@ -129,7 +134,7 @@ class RetoCalificarForm extends FormBase {
         $nombre_criterio = $paragraph->get('field_nombre_criterio')->value;
         $descripcion_criterio = $paragraph->hasField('field_descripcion_criterio') ? $paragraph->get('field_descripcion_criterio')->value : '';
         $peso_valor = $paragraph->hasField('field_peso_criterio') ? (float) $paragraph->get('field_peso_criterio')->value : 0;
-        
+
         $porcentaje_calculado = ($total_peso > 0) ? ($peso_valor / $total_peso) * 100 : 0;
         // Round to 2 decimal places for better display.
         $porcentaje_calculado = round($porcentaje_calculado, 2);
@@ -147,8 +152,7 @@ class RetoCalificarForm extends FormBase {
           ],
         ];
       }
-    }
-    else {
+    } else {
       $form['criterios_wrapper']['no_criteria'] = [
         '#type' => 'markup',
         '#markup' => '<div class="alert alert-warning">' . $this->t('Este reto no tiene criterios de evaluación configurados.') . '</div>',
@@ -196,7 +200,8 @@ class RetoCalificarForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state)
+  {
     $solution_id = $form_state->get('solution_id');
     $criterios_values = $form_state->getValue('criterios');
     $retroalimentacion = $form_state->getValue('field_retroalimentacion');
@@ -222,9 +227,9 @@ class RetoCalificarForm extends FormBase {
         $puntuaciones = [];
         foreach ($criterios_values as $criterio_id => $rating_id) {
           $puntuacion_paragraph = $this->entityTypeManager->getStorage('paragraph')->create([
-            'type' => 'puntuacion_criterio', // Assuming this is the bundle.
-            'field_criterio' => $criterio_id,
-            'field_puntuacion' => $rating_id,
+            'type' => 'puntuacion_de_criterios_de_reto', // Assuming this is the bundle.
+            'field_criterio_evaluacion_reto' => $criterio_id,
+            'field_calificacion_de_solucion_a' => $rating_id,
           ]);
           $puntuacion_paragraph->save();
           $puntuaciones[] = [
@@ -234,13 +239,12 @@ class RetoCalificarForm extends FormBase {
         }
         $evaluation->set('field_puntuacion_de_solucion', $puntuaciones);
       }
-      
+
       $evaluation->save();
 
       $this->messenger()->addStatus($this->t('La evaluación ha sido guardada exitosamente.'));
       $form_state->setRedirect('zinco_front.reto_evaluar_list');
-    }
-    catch (\Exception $e) {
+    } catch (\Exception $e) {
       $this->messenger()->addError($this->t('Error al guardar la calificación: @message', ['@message' => $e->getMessage()]));
       \Drupal::logger('zinco_front')->error('Error saving evaluation: @message', ['@message' => $e->getMessage()]);
     }
