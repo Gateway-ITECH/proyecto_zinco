@@ -4,7 +4,7 @@ dependencies:
   module:
     - zinco_retos_innovacion
 id: zinco_retos_innovacion_delete_action
-label: 'Delete zinco retos innovacions'
+label: 'Eliminar reto'
 type: zinco_retos_innovacion
 plugin: entity:delete_action:zinco_retos_innovacion
 configuration: {  }

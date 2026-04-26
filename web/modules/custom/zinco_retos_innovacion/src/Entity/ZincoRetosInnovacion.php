@@ -27,9 +27,9 @@ use Drupal\zinco_retos_innovacion\ZincoRetosInnovacionListBuilder;
 #[ContentEntityType(
   id: 'zinco_retos_innovacion',
   label: new TranslatableMarkup('Zinco retos innovacion'),
-  label_collection: new TranslatableMarkup('Zinco retos innovacions'),
+  label_collection: new TranslatableMarkup('Retos de innovación'),
   label_singular: new TranslatableMarkup('zinco retos innovacion'),
-  label_plural: new TranslatableMarkup('zinco retos innovacions'),
+  label_plural: new TranslatableMarkup('Retos de innovación'),
   entity_keys: [
     'id' => 'id',
     'bundle' => 'bundle',
@@ -64,11 +64,11 @@ use Drupal\zinco_retos_innovacion\ZincoRetosInnovacionListBuilder;
   ],
   admin_permission: 'administer zinco_retos_innovacion types',
   bundle_entity_type: 'zinco_retos_innovacion_type',
-  bundle_label: new TranslatableMarkup('Zinco retos innovacion type'),
+  bundle_label: new TranslatableMarkup('Reto de innovación type'),
   base_table: 'zinco_retos_innovacion',
   label_count: [
-    'singular' => '@count zinco retos innovacions',
-    'plural' => '@count zinco retos innovacions',
+    'singular' => '@count Reto de innovación',
+    'plural' => '@count Retos de innovación',
   ],
   field_ui_base_route: 'entity.zinco_retos_innovacion_type.edit_form',
 )]
