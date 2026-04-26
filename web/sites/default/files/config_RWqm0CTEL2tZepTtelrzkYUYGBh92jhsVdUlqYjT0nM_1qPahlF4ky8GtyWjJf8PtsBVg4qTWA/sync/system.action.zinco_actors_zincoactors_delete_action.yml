@@ -7,7 +7,7 @@ dependencies:
 _core:
   default_config_hash: S-xzlYZaewYaOTJp6-8PL0FOxwLB0CGBeec5v6wsF9E
 id: zinco_actors_zincoactors_delete_action
-label: 'Delete zincoactorss'
+label: 'Delete Actores Zinco'
 type: zinco_actors_zincoactors
 plugin: 'entity:delete_action:zinco_actors_zincoactors'
 configuration: {  }

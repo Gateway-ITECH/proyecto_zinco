@@ -13,12 +13,14 @@ use Drupal\Core\Url;
  *
  * @see \Drupal\zinco_actors\Entity\ZincoActorsType
  */
-final class ZincoActorsTypeListBuilder extends ConfigEntityListBuilder {
+final class ZincoActorsTypeListBuilder extends ConfigEntityListBuilder
+{
 
   /**
    * {@inheritdoc}
    */
-  public function buildHeader(): array {
+  public function buildHeader(): array
+  {
     $header['label'] = $this->t('Label');
     return $header + parent::buildHeader();
   }
@@ -26,7 +28,8 @@ final class ZincoActorsTypeListBuilder extends ConfigEntityListBuilder {
   /**
    * {@inheritdoc}
    */
-  public function buildRow(EntityInterface $entity): array {
+  public function buildRow(EntityInterface $entity): array
+  {
     $row['label'] = $entity->label();
     return $row + parent::buildRow($entity);
   }
@@ -34,11 +37,12 @@ final class ZincoActorsTypeListBuilder extends ConfigEntityListBuilder {
   /**
    * {@inheritdoc}
    */
-  public function render(): array {
+  public function render(): array
+  {
     $build = parent::render();
 
     $build['table']['#empty'] = $this->t(
-      'No zincoactors types available. <a href=":link">Add zincoactors type</a>.',
+      'No hay tipos de actores disponibles. <a href=":link">Agregar tipo de actor</a>.',
       [':link' => Url::fromRoute('entity.zinco_actors_zincoactors_type.add_form')->toString()],
     );
 

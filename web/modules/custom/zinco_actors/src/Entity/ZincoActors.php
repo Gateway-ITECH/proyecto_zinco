@@ -27,9 +27,9 @@ use Drupal\zinco_actors\ZincoActorsListBuilder;
 #[ContentEntityType(
   id: 'zinco_actors_zincoactors',
   label: new TranslatableMarkup('ZincoActors'),
-  label_collection: new TranslatableMarkup('ZincoActorss'),
+  label_collection: new TranslatableMarkup('Actores Zinco'),
   label_singular: new TranslatableMarkup('zincoactors'),
-  label_plural: new TranslatableMarkup('zincoactorss'),
+  label_plural: new TranslatableMarkup('Actores Zinco'),
   entity_keys: [
     'id' => 'id',
     'bundle' => 'bundle',
@@ -67,12 +67,13 @@ use Drupal\zinco_actors\ZincoActorsListBuilder;
   bundle_label: new TranslatableMarkup('ZincoActors type'),
   base_table: 'zinco_actors_zincoactors',
   label_count: [
-    'singular' => '@count zincoactorss',
-    'plural' => '@count zincoactorss',
+    'singular' => '@count Actores Zinco',
+    'plural' => '@count Actores Zinco',
   ],
   field_ui_base_route: 'entity.zinco_actors_zincoactors_type.edit_form',
 )]
-class ZincoActors extends ContentEntityBase implements ZincoActorsInterface {
+class ZincoActors extends ContentEntityBase implements ZincoActorsInterface
+{
 
   use EntityChangedTrait;
   use EntityOwnerTrait;
@@ -80,7 +81,8 @@ class ZincoActors extends ContentEntityBase implements ZincoActorsInterface {
   /**
    * {@inheritdoc}
    */
-  public function preSave(EntityStorageInterface $storage): void {
+  public function preSave(EntityStorageInterface $storage): void
+  {
     parent::preSave($storage);
     if (!$this->getOwnerId()) {
       // If no owner has been set explicitly, make the anonymous user the owner.
@@ -91,7 +93,8 @@ class ZincoActors extends ContentEntityBase implements ZincoActorsInterface {
   /**
    * {@inheritdoc}
    */
-  public static function baseFieldDefinitions(EntityTypeInterface $entity_type): array {
+  public static function baseFieldDefinitions(EntityTypeInterface $entity_type): array
+  {
 
     $fields = parent::baseFieldDefinitions($entity_type);
 

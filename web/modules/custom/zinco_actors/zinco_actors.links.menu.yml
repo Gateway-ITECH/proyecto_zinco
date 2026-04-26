@@ -5,7 +5,7 @@ entity.zinco_actors_zincoactors_type.collection:
   route_name: entity.zinco_actors_zincoactors_type.collection
 
 entity.zinco_actors_zincoactors.collection:
-  title: 'ZincoActorss'
-  description: 'List of zincoactorss.'
+  title: 'Actores Zinco'
+  description: 'List of Actores Zinco.'
   route_name: entity.zinco_actors_zincoactors.collection
   parent: system.admin_content

@@ -7,7 +7,7 @@ dependencies:
 _core:
   default_config_hash: 4meWcDAVpVU8hleiOvBJoDletepkupr1-6Pd3eFqid4
 id: zinco_actors_zincoactors_save_action
-label: 'Save zincoactorss'
+label: 'Save Actores Zinco'
 type: zinco_actors_zincoactors
 plugin: 'entity:save_action:zinco_actors_zincoactors'
 configuration: {  }

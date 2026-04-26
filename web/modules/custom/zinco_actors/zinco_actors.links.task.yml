@@ -12,7 +12,7 @@ entity.zinco_actors_zincoactors.delete_form:
   base_route: entity.zinco_actors_zincoactors.canonical
   weight: 10
 entity.zinco_actors_zincoactors.collection:
-  title: 'ZincoActorss'
+  title: 'Actores Zinco'
   route_name: entity.zinco_actors_zincoactors.collection
   base_route: system.admin_content
   weight: 10
