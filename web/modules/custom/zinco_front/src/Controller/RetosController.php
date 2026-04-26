@@ -743,30 +743,21 @@ class RetosController extends ControllerBase
    */
   public function calificarReto($solution_id)
   {
-    try {
-      $form = $this->formBuilder->getForm('\Drupal\zinco_front\Form\RetoCalificarForm', $solution_id);
+    $form = $this->formBuilder->getForm('\Drupal\zinco_front\Form\RetoCalificarForm', $solution_id);
 
-      return [
-        '#theme' => 'zinco_reto_calificar',
-        '#form' => $form,
-        '#solution_id' => $solution_id,
-        '#cache' => [
-          'contexts' => ['url.query_args'],
+    return [
+      '#theme' => 'zinco_reto_calificar',
+      '#form' => $form,
+      '#solution_id' => $solution_id,
+      '#cache' => [
+        'contexts' => ['url.query_args'],
+      ],
+      '#attached' => [
+        'library' => [
+          'zinco_front/zinco-reto-calificar',
         ],
-        '#attached' => [
-          'library' => [
-            'zinco_front/zinco-reto-calificar',
-          ],
-        ],
-      ];
-    } catch (\Throwable $e) {
-      $this->messenger()->addError($this->t('Error loading solution for evaluation: @message in @file:@line', [
-        '@message' => $e->getMessage(),
-        '@file' => $e->getFile(),
-        '@line' => $e->getLine(),
-      ]));
-      return [];
-    }
+      ],
+    ];
   }
 
   /**
