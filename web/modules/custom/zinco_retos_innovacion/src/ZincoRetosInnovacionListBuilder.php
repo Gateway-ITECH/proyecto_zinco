@@ -43,4 +43,22 @@ final class ZincoRetosInnovacionListBuilder extends EntityListBuilder {
     return $row + parent::buildRow($entity);
   }
 
+  /**
+   * {@inheritdoc}
+   *
+   * Orders the list by creation date descending (newest first).
+   */
+  protected function getEntityIds(): array {
+    $query = $this->getStorage()->getQuery()
+      ->accessCheck(TRUE)
+      ->sort('created', 'DESC');
+
+    // Only add the pager if a limit is specified.
+    if ($this->limit) {
+      $query->pager($this->limit);
+    }
+
+    return $query->execute();
+  }
+
 }
