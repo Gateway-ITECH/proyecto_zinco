@@ -27,9 +27,9 @@ use Drupal\zinco_retos_evaluacion\ZincoRetosEvaluacionListBuilder;
 #[ContentEntityType(
   id: 'zinco_retos_evaluacion',
   label: new TranslatableMarkup('Zinco retos evaluacion'),
-  label_collection: new TranslatableMarkup('Zinco retos evaluacions'),
+  label_collection: new TranslatableMarkup('Evaluaciones de retos'),
   label_singular: new TranslatableMarkup('zinco retos evaluacion'),
-  label_plural: new TranslatableMarkup('zinco retos evaluacions'),
+  label_plural: new TranslatableMarkup('Evaluaciones de retos'),
   entity_keys: [
     'id' => 'id',
     'label' => 'label',
@@ -62,12 +62,13 @@ use Drupal\zinco_retos_evaluacion\ZincoRetosEvaluacionListBuilder;
   admin_permission: 'administer zinco_retos_evaluacion',
   base_table: 'zinco_retos_evaluacion',
   label_count: [
-    'singular' => '@count zinco retos evaluacions',
-    'plural' => '@count zinco retos evaluacions',
+    'singular' => '@count Evaluaciones de retos',
+    'plural' => '@count Evaluaciones de retos',
   ],
   field_ui_base_route: 'entity.zinco_retos_evaluacion.settings',
 )]
-class ZincoRetosEvaluacion extends ContentEntityBase implements ZincoRetosEvaluacionInterface {
+class ZincoRetosEvaluacion extends ContentEntityBase implements ZincoRetosEvaluacionInterface
+{
 
   use EntityChangedTrait;
   use EntityOwnerTrait;
@@ -75,7 +76,8 @@ class ZincoRetosEvaluacion extends ContentEntityBase implements ZincoRetosEvalua
   /**
    * {@inheritdoc}
    */
-  public function preSave(EntityStorageInterface $storage): void {
+  public function preSave(EntityStorageInterface $storage): void
+  {
     parent::preSave($storage);
     if (!$this->getOwnerId()) {
       // If no owner has been set explicitly, make the anonymous user the owner.
@@ -86,7 +88,8 @@ class ZincoRetosEvaluacion extends ContentEntityBase implements ZincoRetosEvalua
   /**
    * {@inheritdoc}
    */
-  public static function baseFieldDefinitions(EntityTypeInterface $entity_type): array {
+  public static function baseFieldDefinitions(EntityTypeInterface $entity_type): array
+  {
 
     $fields = parent::baseFieldDefinitions($entity_type);
 

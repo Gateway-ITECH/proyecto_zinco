@@ -5,7 +5,7 @@ entity.zinco_retos_evaluacion.settings:
   parent: system.admin_structure
 
 entity.zinco_retos_evaluacion.collection:
-  title: 'Zinco retos evaluacions'
-  description: 'List of zinco retos evaluacions.'
+  title: 'Evaluaciones de retos'
+  description: 'List of Evaluaciones de retos.'
   route_name: entity.zinco_retos_evaluacion.collection
   parent: system.admin_content

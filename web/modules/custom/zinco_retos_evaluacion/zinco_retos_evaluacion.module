@@ -43,7 +43,7 @@ function template_preprocess_zinco_retos_evaluacion(array &$variables): void {
 function zinco_retos_evaluacion_user_cancel($edit, UserInterface $account, $method): void {
   switch ($method) {
     case 'user_cancel_block_unpublish':
-      // Unpublish zinco retos evaluacions.
+      // Unpublish Evaluaciones de retos.
       $storage = \Drupal::entityTypeManager()->getStorage('zinco_retos_evaluacion');
       $zinco_retos_evaluacion_ids = $storage->getQuery()
         ->condition('uid', $account->id())
@@ -56,7 +56,7 @@ function zinco_retos_evaluacion_user_cancel($edit, UserInterface $account, $meth
       break;
 
     case 'user_cancel_reassign':
-      // Anonymize zinco retos evaluacions.
+      // Anonymize Evaluaciones de retos.
       $storage = \Drupal::entityTypeManager()->getStorage('zinco_retos_evaluacion');
       $zinco_retos_evaluacion_ids = $storage->getQuery()
         ->condition('uid', $account->id())
@@ -73,7 +73,7 @@ function zinco_retos_evaluacion_user_cancel($edit, UserInterface $account, $meth
  * Implements hook_ENTITY_TYPE_predelete() for user entities.
  */
 function zinco_retos_evaluacion_user_predelete(UserInterface $account): void {
-  // Delete zinco retos evaluacions that belong to this account.
+  // Delete Evaluaciones de retos that belong to this account.
   $storage = \Drupal::entityTypeManager()->getStorage('zinco_retos_evaluacion');
   $zinco_retos_evaluacion_ids = $storage->getQuery()
     ->condition('uid', $account->id())
