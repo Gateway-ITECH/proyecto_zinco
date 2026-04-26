@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\taxonomy\Entity\Term;
+use Drupal\Component\Render\FormattableMarkup;
 
 /**
  * Formulario para calificar un reto.
@@ -119,7 +120,7 @@ class RetoCalificarForm extends FormBase {
 
           $form['criterios_wrapper']['criterios'][$paragraph->id()] = [
             '#type' => 'select',
-            '#title' => $nombre_criterio,
+            '#title' => new FormattableMarkup('<span style="color: black; font-weight: bold;">@title</span>', ['@title' => $nombre_criterio]),
             '#description' => $descripcion_criterio . ($peso_criterio ? ' <br><span class="badge bg-info text-dark">' . $this->t('Peso: @peso%', ['@peso' => $peso_criterio]) . '</span>' : ''),
             '#options' => $options,
             '#required' => TRUE,
