@@ -111,26 +111,41 @@ class RetoCalificarForm extends FormBase {
         '#tree' => TRUE,
       ];
 
-      foreach ($reto->get('field_criterios_reto') as $delta => $item) {
-        $paragraph = $item->entity;
-        if ($paragraph) {
-          $nombre_criterio = $paragraph->get('field_nombre_criterio')->value;
-          $descripcion_criterio = $paragraph->hasField('field_descripcion_criterio') ? $paragraph->get('field_descripcion_criterio')->value : '';
-          $peso_criterio = $paragraph->hasField('field_peso_criterio') ? $paragraph->get('field_peso_criterio')->value : '';
+      $criterios_entities = [];
+      $total_peso = 0;
 
-          $form['criterios_wrapper']['criterios'][$paragraph->id()] = [
-            '#type' => 'select',
-            '#title' => new FormattableMarkup('<span style="color: black; font-weight: bold;">@title</span>', ['@title' => $nombre_criterio]),
-            '#description' => $descripcion_criterio . ($peso_criterio ? ' <br><span class="badge bg-info text-dark">' . $this->t('Peso: @peso%', ['@peso' => $peso_criterio]) . '</span>' : ''),
-            '#options' => $options,
-            '#required' => TRUE,
-            '#empty_option' => $this->t('- Seleccione una calificación -'),
-            '#attributes' => [
-              'class' => ['form-select', 'mb-4'],
-              'style' => 'max-width: 400px;',
-            ],
-          ];
+      // First pass: load entities and calculate total weight.
+      foreach ($reto->get('field_criterios_reto') as $item) {
+        if ($paragraph = $item->entity) {
+          $criterios_entities[] = $paragraph;
+          if ($paragraph->hasField('field_peso_criterio')) {
+            $total_peso += (float) $paragraph->get('field_peso_criterio')->value;
+          }
         }
+      }
+
+      // Second pass: build form elements with calculated percentage.
+      foreach ($criterios_entities as $paragraph) {
+        $nombre_criterio = $paragraph->get('field_nombre_criterio')->value;
+        $descripcion_criterio = $paragraph->hasField('field_descripcion_criterio') ? $paragraph->get('field_descripcion_criterio')->value : '';
+        $peso_valor = $paragraph->hasField('field_peso_criterio') ? (float) $paragraph->get('field_peso_criterio')->value : 0;
+        
+        $porcentaje_calculado = ($total_peso > 0) ? ($peso_valor / $total_peso) * 100 : 0;
+        // Round to 2 decimal places for better display.
+        $porcentaje_calculado = round($porcentaje_calculado, 2);
+
+        $form['criterios_wrapper']['criterios'][$paragraph->id()] = [
+          '#type' => 'select',
+          '#title' => new FormattableMarkup('<span style="color: black; font-weight: bold;">@title</span>', ['@title' => $nombre_criterio]),
+          '#description' => $descripcion_criterio . ' <br><span class="badge bg-info text-dark">' . $this->t('Peso: @peso%', ['@peso' => $porcentaje_calculado]) . '</span>',
+          '#options' => $options,
+          '#required' => TRUE,
+          '#empty_option' => $this->t('- Seleccione una calificación -'),
+          '#attributes' => [
+            'class' => ['form-select', 'mb-4'],
+            'style' => 'max-width: 400px;',
+          ],
+        ];
       }
     }
     else {
