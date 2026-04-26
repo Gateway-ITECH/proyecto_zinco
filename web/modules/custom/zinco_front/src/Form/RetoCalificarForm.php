@@ -204,8 +204,12 @@ class RetoCalificarForm extends FormBase {
 
     try {
       // Create the evaluation entity.
+      $solution = $this->entityTypeManager->getStorage('zinco_retos_soluciones')->load($solution_id);
+      $solution_label = $solution ? $solution->label() : $solution_id;
+
       $evaluation_storage = $this->entityTypeManager->getStorage('zinco_retos_evaluacion');
       $evaluation = $evaluation_storage->create([
+        'label' => 'Evaluación: ' . $solution_label,
         'field_solucion_evaluada' => $solution_id,
         'field_evaluador' => $current_user_id,
         'field_retroalimentacion' => $retroalimentacion,
