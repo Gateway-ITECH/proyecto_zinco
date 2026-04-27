@@ -1473,8 +1473,8 @@ class ZincoController extends ControllerBase
   /**
    * Returns the form to add a recognition for an actor bundle.
    */
-  public function addReconocimientoActorForm() {
-    $form = \Drupal::formBuilder()->getForm('\Drupal\zinco_front\Form\ZincoReconocimientoActorBundleForm');
+  public function addReconocimientoActorForm($actor_id) {
+    $form = \Drupal::formBuilder()->getForm('\Drupal\zinco_front\Form\ZincoReconocimientoActorBundleForm', $actor_id);
     return [
       '#theme' => 'zinco_reconocimiento_actor_form',
       '#form' => $form,

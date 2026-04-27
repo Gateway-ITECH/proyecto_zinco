@@ -49,8 +49,10 @@ class ZincoReconocimientoActorBundleForm extends FormBase
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state)
+  public function buildForm(array $form, FormStateInterface $form_state, $actor_id = NULL)
   {
+    $form_state->set('actor_id', $actor_id);
+
     $bundle_info = \Drupal::service('entity_type.bundle.info')->getBundleInfo('zinco_actors_zincoactors');
     $options = [];
     foreach ($bundle_info as $bundle_id => $info) {
@@ -95,11 +97,15 @@ class ZincoReconocimientoActorBundleForm extends FormBase
     $bundle = 'reconocimiento_de_actor';
     $current_user = \Drupal::currentUser();
 
-    // Obtener el actor asociado al usuario actual.
-    $user_entity = $this->entityTypeManager->getStorage('user')->load($current_user->id());
-    $actor_id = NULL;
-    if ($user_entity->hasField('field_actor') && !$user_entity->get('field_actor')->isEmpty()) {
-      $actor_id = $user_entity->get('field_actor')->target_id;
+    // Obtener el actor asociado del state del form (pasado por la URL).
+    $actor_id = $form_state->get('actor_id');
+
+    if (!$actor_id) {
+      // Fallback por si acaso (aunque la ruta lo requiere).
+      $user_entity = $this->entityTypeManager->getStorage('user')->load($current_user->id());
+      if ($user_entity->hasField('field_actor') && !$user_entity->get('field_actor')->isEmpty()) {
+        $actor_id = $user_entity->get('field_actor')->target_id;
+      }
     }
 
     $reconocimiento = $this->entityTypeManager->getStorage('zinco_reconocimientos')->create([

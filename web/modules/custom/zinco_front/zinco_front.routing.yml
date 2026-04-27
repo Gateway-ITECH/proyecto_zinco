@@ -455,9 +455,10 @@ zinco_front.reconocimiento_respond:
     reconocimiento_id: '\d+'
 
 zinco_front.reconocimiento_actor_add:
-  path: '/reconocimientos/actor/add'
+  path: '/actores/{actor_id}/reconocimientos/add'
   defaults:
     _controller: '\Drupal\zinco_front\Controller\ZincoController::addReconocimientoActorForm'
     _title: 'Nuevo Reconocimiento de Actor'
   requirements:
     _user_is_logged_in: 'TRUE'
+    actor_id: '\d+'
