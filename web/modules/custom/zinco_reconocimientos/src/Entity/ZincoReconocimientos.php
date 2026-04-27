@@ -45,6 +45,7 @@ use Drupal\zinco_reconocimientos\ZincoReconocimientosListBuilder;
       'edit' => ZincoReconocimientosForm::class,
       'delete' => ContentEntityDeleteForm::class,
       'delete-multiple-confirm' => DeleteMultipleForm::class,
+      'default' => ZincoReconocimientosForm::class,
     ],
     'route_provider' => [
       'html' => AdminHtmlRouteProvider::class,
