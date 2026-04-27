@@ -593,6 +593,8 @@ class RetosController extends ControllerBase
         }
       }
 
+      var_dump($evaluations_data);
+
       return [
         '#theme' => 'zinco_reto_solution_detail',
         '#solution' => $solution_data,
