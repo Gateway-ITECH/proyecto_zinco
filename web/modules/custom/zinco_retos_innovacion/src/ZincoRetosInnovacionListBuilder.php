@@ -45,6 +45,21 @@ final class ZincoRetosInnovacionListBuilder extends EntityListBuilder {
 
   /**
    * {@inheritdoc}
+   */
+  public function getDefaultOperations(EntityInterface $entity) {
+    $operations = parent::getDefaultOperations($entity);
+
+    $operations['resultados'] = [
+      'title' => $this->t('Ver resultados'),
+      'weight' => 20,
+      'url' => \Drupal\Core\Url::fromRoute('zinco_front.evaluaciones_reto_summary', ['reto_id' => $entity->id()]),
+    ];
+
+    return $operations;
+  }
+
+  /**
+   * {@inheritdoc}
    *
    * Orders the list by creation date descending (newest first).
    */
