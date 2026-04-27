@@ -415,6 +415,6 @@ zinco_front.actor_edit:
   path: '/profile/edit'
   defaults:
     _controller: '\Drupal\zinco_front\Controller\ActoresController::editActorForm'
-    _title: 'Editar Perfil'
+    _title: ''
   requirements:
     _user_is_logged_in: 'TRUE'
