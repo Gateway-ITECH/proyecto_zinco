@@ -977,7 +977,7 @@ class RetosController extends ControllerBase
    * @return array
    *   Un array renderizable.
    */
-  public function evaluacionesReto($reto_id) {
+  public function resultadosReto($reto_id) {
     $reto = $this->entityTypeManager->getStorage('zinco_retos_innovacion')->load($reto_id);
     if (!$reto) {
       throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();

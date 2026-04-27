@@ -390,7 +390,7 @@ zinco_front.evento_detail:
 zinco_front.evaluaciones_reto_summary:
   path: '/retos/{reto_id}/evaluaciones'
   defaults:
-    _controller: '\Drupal\zinco_front\Controller\RetosController::evaluacionesReto'
+    _controller: '\Drupal\zinco_front\Controller\RetosController::resultadosReto'
     _title: 'Resultados de Evaluaciones del Reto'
   requirements:
     _permission: 'access retos evaluacion'
