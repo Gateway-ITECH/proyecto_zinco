@@ -562,11 +562,53 @@ class RetosController extends ControllerBase
       $current_user = \Drupal::currentUser();
       $is_evaluator = in_array('evaluador_retos', $current_user->getRoles());
 
+      // Load ALL evaluations for this solution.
+      $evaluaciones_data = [];
+      $evaluacion_storage = $this->entityTypeManager->getStorage('zinco_retos_evaluacion');
+      $eval_ids = $evaluacion_storage->getQuery()
+        ->condition('field_solucion_evaluada', $solution_id)
+        ->accessCheck(FALSE)
+        ->sort('created', 'DESC')
+        ->execute();
+
+      foreach ($evaluacion_storage->loadMultiple($eval_ids) as $eval) {
+        // Get evaluator name.
+        $evaluador_name = '';
+        if ($eval->hasField('field_evaluador') && !$eval->get('field_evaluador')->isEmpty()) {
+          $evaluador_user = $eval->get('field_evaluador')->entity;
+          $evaluador_name = $evaluador_user ? $evaluador_user->getDisplayName() : '';
+        }
+
+        $eval_data = [
+          'evaluador' => $evaluador_name,
+          'comentarios' => $eval->hasField('field_comentarios_evaluacion') ? $eval->get('field_comentarios_evaluacion')->value : '',
+          'fecha' => $eval->hasField('field_fecha_de_evaluacion') ? $eval->get('field_fecha_de_evaluacion')->value : '',
+          'puntuaciones' => [],
+        ];
+
+        if ($eval->hasField('field_puntuacion_de_solucion') && !$eval->get('field_puntuacion_de_solucion')->isEmpty()) {
+          foreach ($eval->get('field_puntuacion_de_solucion')->referencedEntities() as $p) {
+            $calificacion_label = '';
+            if ($p->hasField('field_calificacion_de_solucion_a') && !$p->get('field_calificacion_de_solucion_a')->isEmpty()) {
+              $term = $p->get('field_calificacion_de_solucion_a')->entity;
+              $calificacion_label = $term ? $term->label() : '';
+            }
+            $eval_data['puntuaciones'][] = [
+              'criterio' => $p->hasField('field_criterio_evaluado') ? $p->get('field_criterio_evaluado')->value : '',
+              'calificacion' => $calificacion_label,
+            ];
+          }
+        }
+
+        $evaluaciones_data[] = $eval_data;
+      }
+
       return [
         '#theme' => 'zinco_reto_solution_detail',
         '#solution' => $solution_data,
         '#reto' => $reto_data,
         '#is_evaluator' => $is_evaluator,
+        '#evaluaciones' => $evaluaciones_data,
         '#cache' => [
           'tags' => $this->entityTypeManager->getDefinition('zinco_retos_soluciones')->getListCacheTags(),
           'contexts' => ['url', 'user.roles'],
