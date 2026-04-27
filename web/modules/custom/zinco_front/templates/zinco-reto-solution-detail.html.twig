@@ -68,6 +68,50 @@
             {% endif %}
           </div>
         {% endif %}
+
+        {% if evaluations %}
+          <div class="reto-section mt-4 evaluations-results">
+            <h3><i class="fas fa-poll"></i> Resultados de la Evaluación</h3>
+            
+            {% for evaluation in evaluations %}
+              <div class="card mb-3 evaluation-card shadow-sm border-0">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                  <span><i class="fas fa-user-check text-primary me-2"></i><strong>Evaluador:</strong> {{ evaluation.evaluator }}</span>
+                  <small class="text-muted"><i class="far fa-calendar-alt me-1"></i>{{ evaluation.date|date('d/m/Y H:i') }}</small>
+                </div>
+                <div class="card-body">
+                  {% if evaluation.scores %}
+                    <div class="table-responsive">
+                      <table class="table table-sm table-hover mb-0">
+                        <thead class="table-light">
+                          <tr>
+                            <th>Criterio</th>
+                            <th class="text-end">Calificación</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for score in evaluation.scores %}
+                            <tr>
+                              <td class="py-2">{{ score.criterion }}</td>
+                              <td class="text-end py-2"><span class="badge rounded-pill bg-info text-dark">{{ score.rating }}</span></td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  {% endif %}
+
+                  {% if evaluation.comments %}
+                    <div class="mt-3 p-3 bg-light rounded">
+                      <div class="small fw-bold text-uppercase text-muted mb-1">Comentarios y Retroalimentación:</div>
+                      <p class="mb-0">{{ evaluation.comments | nl2br }}</p>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
       </div>
 
       <div class="col-md-4">
@@ -96,71 +140,5 @@
         {% endif %}
       </div>
     </div>
-
-    {# --- Evaluation Results Section --- #}
-    {% if evaluaciones is not empty %}
-      <div class="row mt-4">
-        <div class="col-12">
-          <div class="card shadow-sm border-0">
-            <div class="card-header bg-white border-bottom py-3">
-              <h5 class="mb-0 fw-bold text-secondary">
-                <i class="fas fa-clipboard-check me-2 text-success"></i>{{ 'Resultados de Evaluación'|t }}
-                <span class="badge bg-secondary ms-2">{{ evaluaciones|length }}</span>
-              </h5>
-            </div>
-            <div class="card-body p-4">
-              {% for eval in evaluaciones %}
-                <div class="bg-light rounded p-3 mb-3">
-
-                  {# Score table #}
-                  {% if eval.puntuaciones is not empty %}
-                    <div class="table-responsive mb-3">
-                      <table class="table table-sm table-bordered mb-0">
-                        <thead class="table-light">
-                          <tr>
-                            <th><i class="fas fa-list-check me-1"></i>{{ 'Criterio'|t }}</th>
-                            <th><i class="fas fa-star me-1"></i>{{ 'Calificación'|t }}</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {% for puntuacion in eval.puntuaciones %}
-                            <tr>
-                              <td class="fw-semibold">{{ puntuacion.criterio }}</td>
-                              <td><span class="badge bg-primary">{{ puntuacion.calificacion }}</span></td>
-                            </tr>
-                          {% endfor %}
-                        </tbody>
-                      </table>
-                    </div>
-                  {% endif %}
-
-                  {# Comments #}
-                  {% if eval.comentarios %}
-                    <div class="mb-2">
-                      <small class="text-secondary fw-bold"><i class="fas fa-comment me-1"></i>{{ 'Comentarios'|t }}:</small>
-                      <p class="mb-0 text-muted small mt-1">{{ eval.comentarios }}</p>
-                    </div>
-                  {% endif %}
-
-                  {# Footer: evaluator + date #}
-                  <div class="d-flex justify-content-between align-items-center mt-2">
-                    {% if eval.evaluador %}
-                      <small class="text-secondary"><i class="fas fa-user-check me-1 text-success"></i><strong>{{ 'Evaluador'|t }}:</strong> {{ eval.evaluador }}</small>
-                    {% else %}
-                      <span></span>
-                    {% endif %}
-                    {% if eval.fecha %}
-                      <small class="text-secondary"><i class="fas fa-calendar-alt me-1"></i>{{ eval.fecha|date('d/m/Y H:i') }}</small>
-                    {% endif %}
-                  </div>
-
-                </div>
-              {% endfor %}
-            </div>
-          </div>
-        </div>
-      </div>
-    {% endif %}
-
   </div>
 </div>
