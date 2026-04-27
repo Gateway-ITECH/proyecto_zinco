@@ -423,6 +423,6 @@ zinco_front.reconocimiento_add:
   path: '/reconocimientos/add'
   defaults:
     _controller: '\Drupal\zinco_front\Controller\ZincoController::addReconocimientoForm'
-    _title: 'Solicitud de Reconocimiento'
+    _title: ''
   requirements:
     _user_is_logged_in: 'TRUE'
