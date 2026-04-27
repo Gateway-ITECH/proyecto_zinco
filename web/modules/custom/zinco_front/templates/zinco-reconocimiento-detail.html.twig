@@ -26,7 +26,7 @@
                 <span class="badge bg-white text-primary rounded-pill px-3 py-2 small fw-bold">
                   <i class="fas fa-calendar-alt me-1"></i>{{ reconocimiento.created }}
                 </span>
-                <span class="badge {{ reconocimiento.status == 'Activo' ? 'bg-success' : 'bg-secondary' }} rounded-pill px-3 py-2 small fw-bold">
+                <span class="badge {{ reconocimiento.procesada ? 'bg-success' : 'bg-warning text-dark' }} rounded-pill px-3 py-2 small fw-bold">
                   {{ reconocimiento.status }}
                 </span>
               </div>
@@ -99,9 +99,11 @@
                 <hr class="my-4">
 
                 <div class="d-grid gap-3">
-                  <a href="/reconocimientos/{{ reconocimiento.id }}/responder" class="btn btn-primary btn-lg rounded-pill shadow-sm py-3 fw-bold">
-                    <i class="fas fa-edit me-2"></i>{{ 'Registrar Respuesta'|t }}
-                  </a>
+                  {% if not reconocimiento.procesada %}
+                    <a href="/reconocimientos/{{ reconocimiento.id }}/responder" class="btn btn-primary btn-lg rounded-pill shadow-sm py-3 fw-bold">
+                      <i class="fas fa-edit me-2"></i>{{ 'Registrar Respuesta'|t }}
+                    </a>
+                  {% endif %}
                   <a href="/actores/{{ reconocimiento.actor_id }}/reconocimientos" class="btn btn-outline-secondary rounded-pill py-2 small">
                     <i class="fas fa-arrow-left me-2"></i>{{ 'Volver al listado'|t }}
                   </a>

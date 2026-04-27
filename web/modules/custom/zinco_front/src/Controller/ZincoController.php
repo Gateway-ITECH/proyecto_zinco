@@ -1418,15 +1418,18 @@ class ZincoController extends ControllerBase
       throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
     }
 
+    $has_response = $reconocimiento->hasField('field_respuesta_solicitud') && !$reconocimiento->get('field_respuesta_solicitud')->isEmpty();
+
     $data = [
       'id' => $reconocimiento->id(),
       'label' => $reconocimiento->label(),
       'created' => \Drupal::service('date.formatter')->format($reconocimiento->getCreatedTime(), 'long'),
       'solicitud' => $reconocimiento->hasField('field_solicitud_de_reconocimient') ? $reconocimiento->get('field_solicitud_de_reconocimient')->view(['label' => 'hidden']) : '',
-      'respuesta' => $reconocimiento->hasField('field_respuesta_solicitud') ? $reconocimiento->get('field_respuesta_solicitud')->view(['label' => 'hidden']) : '',
+      'respuesta' => $has_response ? $reconocimiento->get('field_respuesta_solicitud')->view(['label' => 'hidden']) : '',
       'soporte' => $reconocimiento->hasField('field_soporte_de_reconocimiento') ? $reconocimiento->get('field_soporte_de_reconocimiento')->view(['label' => 'hidden']) : '',
       'validador' => $reconocimiento->hasField('field_validado_por') && !$reconocimiento->get('field_validado_por')->isEmpty() ? $reconocimiento->get('field_validado_por')->entity->label() : 'Pendiente',
-      'status' => $reconocimiento->get('status')->value ? 'Activo' : 'Inactivo',
+      'status' => $has_response ? 'Procesada' : 'Pendiente',
+      'procesada' => $has_response,
     ];
 
     if ($reconocimiento->hasField('field_actor_asociado') && !$reconocimiento->get('field_actor_asociado')->isEmpty()) {
