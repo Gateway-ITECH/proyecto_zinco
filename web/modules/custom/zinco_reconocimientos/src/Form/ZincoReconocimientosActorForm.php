@@ -26,6 +26,10 @@ class ZincoReconocimientosActorForm extends ZincoReconocimientosForm {
       $form['field_actor_asociado']['#access'] = FALSE;
     }
 
+    if (isset($form['label'])) {
+      $form['label']['widget'][0]['value']['#title'] = $this->t('Asunto de la solicitud');
+    }
+
     return $form;
   }
 
