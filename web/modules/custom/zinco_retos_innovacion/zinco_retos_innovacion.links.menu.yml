@@ -5,7 +5,7 @@ entity.zinco_retos_innovacion_type.collection:
   route_name: entity.zinco_retos_innovacion_type.collection
 
 entity.zinco_retos_innovacion.collection:
-  title: 'Zinco retos innovacions'
-  description: 'List of zinco retos innovacions.'
+  title: 'Retos de innovación'
+  description: 'Listado de Retos de innovación.'
   route_name: entity.zinco_retos_innovacion.collection
   parent: system.admin_content
