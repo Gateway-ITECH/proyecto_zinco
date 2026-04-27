@@ -385,8 +385,15 @@ zinco_front.evento_detail:
     _permission: 'access content'
     evento_id: '\d+'
 
+zinco_front.convocatoria_detail:
+  path: '/convocatorias/{convocatoria_id}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::verConvocatoria'
+    _title: ''
+  requirements:
+    _permission: 'access content'
     convocatoria_id: '\d+'
-    
+
 zinco_front.evaluaciones_reto_summary:
   path: '/retos/{reto_id}/evaluaciones'
   defaults:
