@@ -24,7 +24,7 @@
           </button>
           <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" aria-labelledby="actorSettingsMenu">
             <li><h6 class="dropdown-header">Gestión de Perfil</h6></li>
-            <li><a class="dropdown-item py-2" href="{{ path('entity.zinco_actors_zincoactors.edit_form', {'zinco_actors_zincoactors': actor.id}) }}"><i class="fas fa-user-edit me-2 text-primary"></i>Editar Perfil</a></li>
+            <li><a class="dropdown-item py-2" href="/profile/edit"><i class="fas fa-user-edit me-2 text-primary"></i>Editar Perfil</a></li>
             <li><a class="dropdown-item py-2" href="/retos/add"><i class="fas fa-plus-circle me-2 text-success"></i>Publicar Reto</a></li>
             <li><a class="dropdown-item py-2" href="/proyectos/add"><i class="fas fa-project-diagram me-2 text-info"></i>Nuevo Proyecto</a></li>
           </ul>
@@ -152,7 +152,7 @@
               <h5 class="card-title mb-4">Acciones rápidas</h5>
               <p class="card-text"><a href="/retos/list">Mis retos de innovación</a></p>
               <p class="card-text"><a href="/proyectos/list">Mis proyectos I+D+i</a></p>
-              <p class="card-text"><a href="{{ path('entity.zinco_actors_zincoactors.edit_form', {'zinco_actors_zincoactors': actor.id}) }}">Editar mi perfil</a></p>
+              <p class="card-text"><a href="/profile/edit">Editar mi perfil</a></p>
             </div>
           </div>
           {% endif %}

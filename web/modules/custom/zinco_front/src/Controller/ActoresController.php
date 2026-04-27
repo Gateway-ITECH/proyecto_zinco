@@ -878,6 +878,44 @@ class ActoresController extends ControllerBase
     return new JsonResponse(['count' => $count]);
   }
 
+  /**
+   * Generates an actor edit form for the current user's actor.
+   *
+   * @return array
+   *   A renderable array containing the actor edit form.
+   */
+  public function editActorForm()
+  {
+    $current_user = $this->entityTypeManager->getStorage('user')->load(\Drupal::currentUser()->id());
+
+    if (!$current_user->hasField('field_actor') || $current_user->get('field_actor')->isEmpty()) {
+      $this->messenger()->addWarning($this->t('No tienes un perfil de actor asociado. Por favor, crea uno.'));
+      return $this->redirect('zinco_front.actor_categories_list');
+    }
+
+    $actor_id = $current_user->get('field_actor')->target_id;
+    $actor = $this->entityTypeManager->getStorage('zinco_actors_zincoactors')->load($actor_id);
+
+    if (!$actor) {
+      $this->messenger()->addError($this->t('No se pudo cargar tu perfil de actor.'));
+      return $this->redirect('zinco_front.actor_categories_list');
+    }
+
+    $bundle_info = $this->entityTypeBundleInfo->getBundleInfo('zinco_actors_zincoactors');
+    $bundle = $actor->bundle();
+    
+    $form = $this->entityFormBuilder->getForm($actor, 'frontend');
+
+    return [
+      '#theme' => 'zinco_actor_form_by_bundle',
+      '#actor_form' => $form,
+      '#bundle_label' => $bundle_info[$bundle]['label'] ?? $bundle,
+      '#cache' => [
+        'tags' => $actor->getCacheTags(),
+      ],
+    ];
+  }
+
 }
 
 

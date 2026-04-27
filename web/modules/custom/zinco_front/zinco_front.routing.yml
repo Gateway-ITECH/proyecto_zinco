@@ -410,3 +410,11 @@ zinco_front.tecnologias_clave_list:
     _title: 'Áreas de Enfoque'
   requirements:
     _permission: 'access content'
+
+zinco_front.actor_edit:
+  path: '/profile/edit'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ActoresController::editActorForm'
+    _title: 'Editar Perfil'
+  requirements:
+    _user_is_logged_in: 'TRUE'
