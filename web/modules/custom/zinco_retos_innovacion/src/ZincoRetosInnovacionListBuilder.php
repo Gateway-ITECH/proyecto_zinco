@@ -17,27 +17,39 @@ final class ZincoRetosInnovacionListBuilder extends EntityListBuilder {
    */
   public function render() {
     $build['filter_form'] = [
-      '#type' => 'form',
-      '#method' => 'get',
+      '#type' => 'container',
       '#attributes' => ['class' => ['form-inline', 'mb-3']],
-      'label' => [
-        '#type' => 'textfield',
-        '#title' => $this->t('Buscar por título'),
-        '#title_display' => 'invisible',
-        '#default_value' => \Drupal::request()->query->get('label') ?? '',
-        '#size' => 40,
-        '#attributes' => ['placeholder' => $this->t('Ingresa una palabra clave...')],
-      ],
-      'submit' => [
-        '#type' => 'submit',
-        '#value' => $this->t('Buscar'),
-        '#attributes' => ['class' => ['button', 'button--primary']],
-      ],
-      'reset' => [
-        '#type' => 'link',
-        '#title' => $this->t('Limpiar'),
-        '#url' => \Drupal\Core\Url::fromRoute('entity.zinco_retos_innovacion.collection'),
-        '#attributes' => ['class' => ['button']],
+      'search_form' => [
+        '#type' => 'html_tag',
+        '#tag' => 'form',
+        '#attributes' => [
+          'method' => 'get',
+          'action' => \Drupal\Core\Url::fromRoute('entity.zinco_retos_innovacion.collection')->toString(),
+        ],
+        'label' => [
+          '#type' => 'textfield',
+          '#name' => 'label',
+          '#title' => $this->t('Buscar por título'),
+          '#title_display' => 'invisible',
+          '#default_value' => \Drupal::request()->query->get('label') ?? '',
+          '#size' => 40,
+          '#attributes' => ['placeholder' => $this->t('Ingresa una palabra clave...')],
+        ],
+        'submit' => [
+          '#type' => 'html_tag',
+          '#tag' => 'input',
+          '#attributes' => [
+            'type' => 'submit',
+            'value' => $this->t('Buscar'),
+            'class' => ['button', 'button--primary'],
+          ],
+        ],
+        'reset' => [
+          '#type' => 'link',
+          '#title' => $this->t('Limpiar'),
+          '#url' => \Drupal\Core\Url::fromRoute('entity.zinco_retos_innovacion.collection'),
+          '#attributes' => ['class' => ['button']],
+        ],
       ],
     ];
     $build['table'] = parent::render();
