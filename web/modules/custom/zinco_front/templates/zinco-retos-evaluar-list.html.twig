@@ -4,13 +4,13 @@
  * Default theme implementation for a list of retos to evaluate.
  *
  * Available variables:
- * - soluciones: An array of solutions to evaluate, each with the following keys:
- *   - id: The ID of the solution.
- *   - label: The label/title of the solution.
- *   - description: The description of the solution.
- *   - authors: A comma-separated string of authors of the solution.
- *   - reto_asociado: The name of the associated reto.
- *   - evaluate_link: The link to evaluate the solution.
+ * - soluciones: An array of solutions to evaluate, each with:
+ *   - id, label, description, authors, reto_asociado, reto_asociado_id
+ *   - calificar_link: link to the rating form
+ *   - ya_calificada: boolean, TRUE if the current user has already submitted an evaluation
+ *   - evaluaciones: array of evaluation results, each with:
+ *       - label, comentarios, fecha
+ *       - puntuaciones: array of { criterio, calificacion }
  */
 #}
 <div class="zinco-retos-evaluar-list container mt-5">
@@ -23,12 +23,19 @@
     <div class="row">
       {% for solucion in soluciones %}
         <div class="col-12 mb-4">
-          <div class="card shadow-sm border-0 h-100">
+          <div class="card shadow-sm border-0">
             <div class="card-body p-4">
-              <div class="row align-items-center">
+
+              {# --- Solution Header --- #}
+              <div class="row align-items-start">
                 <div class="col-lg-8">
-                  <div class="d-flex align-items-center mb-2">
+                  <div class="d-flex align-items-center mb-2 gap-2">
                     <h5 class="card-title mb-0 fw-bold text-dark">{{ solucion.label }}</h5>
+                    {% if solucion.ya_calificada %}
+                      <span class="badge bg-success">{{ 'Evaluada'|t }}</span>
+                    {% else %}
+                      <span class="badge bg-warning text-dark">{{ 'Pendiente'|t }}</span>
+                    {% endif %}
                   </div>
                   <div class="card-text text-muted mb-3">
                     {{ solucion.description|striptags|length > 250 ? solucion.description|striptags|slice(0, 250) ~ '...' : solucion.description|striptags }}
@@ -43,11 +50,71 @@
                   </div>
                 </div>
                 <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
-                  <a href="{{ solucion.evaluate_link }}" class="btn btn-primary px-5 py-2 fw-bold shadow-sm rounded-pill">
-                    {{ 'Evaluar Solución'|t }} <i class="fas fa-chevron-right ms-2"></i>
+                  <a href="{{ solucion.calificar_link }}" class="btn btn-primary px-5 py-2 fw-bold shadow-sm rounded-pill">
+                    {% if solucion.ya_calificada %}
+                      {{ 'Editar Evaluación'|t }} <i class="fas fa-edit ms-2"></i>
+                    {% else %}
+                      {{ 'Calificar Solución'|t }} <i class="fas fa-star ms-2"></i>
+                    {% endif %}
                   </a>
                 </div>
               </div>
+
+              {# --- Evaluation Results Section --- #}
+              {% if solucion.evaluaciones is not empty %}
+                <hr class="my-4">
+                <div class="evaluacion-resultados">
+                  <h6 class="fw-bold text-secondary mb-3">
+                    <i class="fas fa-clipboard-check me-2 text-success"></i>{{ 'Resultados de la Evaluación'|t }}
+                  </h6>
+
+                  {% for eval in solucion.evaluaciones %}
+                    <div class="bg-light rounded p-3 mb-3">
+
+                      {# Score table per criterion #}
+                      {% if eval.puntuaciones is not empty %}
+                        <div class="table-responsive mb-3">
+                          <table class="table table-sm table-bordered mb-0">
+                            <thead class="table-light">
+                              <tr>
+                                <th><i class="fas fa-list-check me-1"></i>{{ 'Criterio'|t }}</th>
+                                <th><i class="fas fa-star me-1"></i>{{ 'Calificación'|t }}</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for puntuacion in eval.puntuaciones %}
+                                <tr>
+                                  <td class="fw-semibold">{{ puntuacion.criterio }}</td>
+                                  <td>
+                                    <span class="badge bg-primary">{{ puntuacion.calificacion }}</span>
+                                  </td>
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                      {% endif %}
+
+                      {# Comments #}
+                      {% if eval.comentarios %}
+                        <div class="mt-2">
+                          <small class="text-secondary fw-bold"><i class="fas fa-comment me-1"></i>{{ 'Comentarios'|t }}:</small>
+                          <p class="mb-0 text-muted small mt-1">{{ eval.comentarios }}</p>
+                        </div>
+                      {% endif %}
+
+                      {# Date #}
+                      {% if eval.fecha %}
+                        <div class="mt-2 text-end">
+                          <small class="text-secondary"><i class="fas fa-calendar-alt me-1"></i>{{ eval.fecha|date('d/m/Y H:i') }}</small>
+                        </div>
+                      {% endif %}
+
+                    </div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+
             </div>
           </div>
         </div>

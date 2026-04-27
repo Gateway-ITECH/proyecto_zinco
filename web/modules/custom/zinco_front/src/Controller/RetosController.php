@@ -708,7 +708,49 @@ class RetosController extends ControllerBase
           }
           $solucion_item['reto_asociado'] = $reto_name;
           $solucion_item['reto_asociado_id'] = $reto_id; // Add reto ID to solution data.
-          $solucion_item['evaluate_link'] = '/retos/evaluar/' . $solucion->id(); // Link to evaluate the specific solution.
+          $solucion_item['evaluate_link'] = '/retos/calificar/' . $solucion->id();
+          $solucion_item['calificar_link'] = '/retos/calificar/' . $solucion->id();
+
+          // Load evaluations for this solution submitted by the current user.
+          $evaluacion_storage = $this->entityTypeManager->getStorage('zinco_retos_evaluacion');
+          $eval_ids = $evaluacion_storage->getQuery()
+            ->condition('field_solucion_evaluada', $solucion->id())
+            ->condition('field_evaluador', $user_id)
+            ->accessCheck(FALSE)
+            ->execute();
+
+          $solucion_item['evaluaciones'] = [];
+          $solucion_item['ya_calificada'] = FALSE;
+
+          if (!empty($eval_ids)) {
+            $solucion_item['ya_calificada'] = TRUE;
+            $evaluaciones = $evaluacion_storage->loadMultiple($eval_ids);
+            foreach ($evaluaciones as $eval) {
+              $eval_data = [
+                'label' => $eval->label(),
+                'comentarios' => $eval->hasField('field_comentarios_evaluacion') ? $eval->get('field_comentarios_evaluacion')->value : '',
+                'fecha' => $eval->hasField('field_fecha_de_evaluacion') ? $eval->get('field_fecha_de_evaluacion')->value : '',
+                'puntuaciones' => [],
+              ];
+
+              // Load individual score paragraphs.
+              if ($eval->hasField('field_puntuacion_de_solucion') && !$eval->get('field_puntuacion_de_solucion')->isEmpty()) {
+                foreach ($eval->get('field_puntuacion_de_solucion')->referencedEntities() as $p) {
+                  $calificacion_label = '';
+                  if ($p->hasField('field_calificacion_de_solucion_a') && !$p->get('field_calificacion_de_solucion_a')->isEmpty()) {
+                    $term = $p->get('field_calificacion_de_solucion_a')->entity;
+                    $calificacion_label = $term ? $term->label() : '';
+                  }
+                  $eval_data['puntuaciones'][] = [
+                    'criterio' => $p->hasField('field_criterio_evaluado') ? $p->get('field_criterio_evaluado')->value : '',
+                    'calificacion' => $calificacion_label,
+                  ];
+                }
+              }
+
+              $solucion_item['evaluaciones'][] = $eval_data;
+            }
+          }
 
           $soluciones_data[] = $solucion_item;
         }
