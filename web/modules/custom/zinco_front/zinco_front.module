@@ -262,6 +262,13 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'zinco-actor-edit-form',
     ],
+    'zinco_reconocimiento_form' => [
+      'variables' => [
+        'form' => NULL,
+        'title' => NULL,
+      ],
+      'template' => 'zinco-reconocimiento-form',
+    ],
     'email_solution_validated_author' => [
       'variables' => [
         'variables' => [],

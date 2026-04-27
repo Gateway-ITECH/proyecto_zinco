@@ -1323,6 +1323,30 @@ class ZincoController extends ControllerBase
     ];
   }
 
+  /**
+   * Generates a recognition request form.
+   *
+   * @return array
+   *   A renderable array containing the recognition request form.
+   */
+  public function addReconocimientoForm() {
+    $bundle = 'reconocimiento_estandar';
+    $reconocimiento = $this->entityTypeManager()->getStorage('zinco_reconocimientos')->create([
+      'bundle' => $bundle,
+    ]);
+
+    $form = $this->entityFormBuilder()->getForm($reconocimiento, 'default');
+
+    return [
+      '#theme' => 'zinco_reconocimiento_form',
+      '#form' => $form,
+      '#title' => $this->t('Solicitud de Reconocimiento'),
+      '#cache' => [
+        'tags' => $this->entityTypeManager()->getDefinition('zinco_reconocimientos')->getListCacheTags(),
+      ],
+    ];
+  }
+
 }
 
 
