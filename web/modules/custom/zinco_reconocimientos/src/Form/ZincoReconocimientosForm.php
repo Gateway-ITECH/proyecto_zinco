@@ -10,7 +10,7 @@ use Drupal\Core\Form\FormStateInterface;
 /**
  * Form controller for the zinco reconocimientos entity edit forms.
  */
-final class ZincoReconocimientosForm extends ContentEntityForm {
+class ZincoReconocimientosForm extends ContentEntityForm {
 
   /**
    * {@inheritdoc}

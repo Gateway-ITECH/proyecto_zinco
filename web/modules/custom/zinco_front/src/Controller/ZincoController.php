@@ -1335,7 +1335,7 @@ class ZincoController extends ControllerBase
       'bundle' => $bundle,
     ]);
 
-    $form = $this->entityFormBuilder()->getForm($reconocimiento, 'default');
+    $form = $this->entityFormBuilder()->getForm($reconocimiento, 'actor');
 
     return [
       '#theme' => 'zinco_reconocimiento_form',
