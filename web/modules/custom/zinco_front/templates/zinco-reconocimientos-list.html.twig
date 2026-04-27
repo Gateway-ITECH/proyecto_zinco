@@ -55,12 +55,12 @@
                 <td class="px-4 fw-bold text-dark">{{ rec.label }}</td>
                 <td class="text-muted">{{ rec.created }}</td>
                 <td>
-                  <span class="badge {{ rec.status == 'Activo' ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary' }} rounded-pill px-3">
+                  <span class="badge {{ rec.status_class }} rounded-pill px-3">
                     {{ rec.status }}
                   </span>
                 </td>
                 <td class="text-end px-4">
-                  <a href="/zinco-reconocimientos/{{ rec.id }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                  <a href="/reconocimientos/{{ rec.id }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
                     <i class="fas fa-eye me-1"></i>{{ 'Ver'|t }}
                   </a>
                 </td>
@@ -105,4 +105,5 @@
   
   .bg-success-subtle { background-color: #d1e7dd; }
   .bg-secondary-subtle { background-color: #e2e3e5; }
+  .bg-warning-subtle { background-color: #fff3cd; }
 </style>

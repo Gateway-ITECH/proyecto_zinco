@@ -1382,11 +1382,13 @@ class ZincoController extends ControllerBase
     
     $data = [];
     foreach ($reconocimientos as $reconocimiento) {
+      $has_response = $reconocimiento->hasField('field_respuesta_solicitud') && !$reconocimiento->get('field_respuesta_solicitud')->isEmpty();
       $data[] = [
         'id' => $reconocimiento->id(),
         'label' => $reconocimiento->label(),
         'created' => \Drupal::service('date.formatter')->format($reconocimiento->getCreatedTime(), 'short'),
-        'status' => $reconocimiento->get('status')->value ? 'Activo' : 'Inactivo',
+        'status' => $has_response ? 'Procesada' : 'Pendiente',
+        'status_class' => $has_response ? 'bg-success-subtle text-success' : 'bg-warning-subtle text-warning',
       ];
     }
     
