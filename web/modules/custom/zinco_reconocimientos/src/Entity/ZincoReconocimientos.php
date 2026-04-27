@@ -190,4 +190,11 @@ class ZincoReconocimientos extends ContentEntityBase implements ZincoReconocimie
     return $fields;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getCreatedTime() {
+    return (int) $this->get('created')->value;
+  }
+
 }
