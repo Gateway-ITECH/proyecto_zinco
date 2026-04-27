@@ -453,3 +453,11 @@ zinco_front.reconocimiento_respond:
   requirements:
     _user_is_logged_in: 'TRUE'
     reconocimiento_id: '\d+'
+
+zinco_front.reconocimiento_actor_add:
+  path: '/reconocimientos/actor/add'
+  defaults:
+    _form: '\Drupal\zinco_front\Form\ZincoReconocimientoActorBundleForm'
+    _title: 'Nuevo Reconocimiento de Actor'
+  requirements:
+    _user_is_logged_in: 'TRUE'
