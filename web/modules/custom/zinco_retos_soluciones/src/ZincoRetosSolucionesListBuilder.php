@@ -58,4 +58,19 @@ final class ZincoRetosSolucionesListBuilder extends EntityListBuilder {
     return $query->execute();
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultOperations(EntityInterface $entity): array {
+    $operations = parent::getDefaultOperations($entity);
+
+    $operations['view_evaluation'] = [
+      'title' => $this->t('Ver resultados'),
+      'weight' => 20,
+      'url' => \Drupal\Core\Url::fromRoute('zinco_front.solution_detail', ['solution_id' => $entity->id()]),
+    ];
+
+    return $operations;
+  }
+
 }
