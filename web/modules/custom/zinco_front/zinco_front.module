@@ -328,6 +328,25 @@ function zinco_front_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $fo
     }
   }
 
+  // Agregar enlace de ayuda para Áreas de Enfoque en formularios de Retos.
+  if (strpos($form_id, 'zinco_retos_innovacion_') === 0) {
+    if (isset($form['area_enfoque'])) {
+      $form['area_enfoque_help_link'] = [
+        '#type' => 'link',
+        '#title' => t('Ver listado de áreas de enfoque'),
+        '#url' => \Drupal\Core\Url::fromUserInput('/admin/structure/taxonomy/manage/tecnologias_clave/overview'),
+        '#weight' => $form['area_enfoque']['#weight'] + 0.01,
+        '#attributes' => [
+          'target' => '_blank',
+          'class' => ['area-enfoque-help-link'],
+          'style' => 'display: block; margin-top: -10px; margin-bottom: 15px; font-size: 0.85em; color: #007bff; text-decoration: none;',
+        ],
+        '#prefix' => '<div class="area-enfoque-help-wrapper"><i class="fas fa-external-link-alt" style="font-size: 0.8em; margin-right: 5px;"></i>',
+        '#suffix' => '</div>',
+      ];
+    }
+  }
+
 
     // 1. Verifica que estamos en la operación 'frontend_add' de tu entidad.
     if (get_class($form_object) === 'Drupal\zinco_retos_soluciones\Form\ZincoRetosSolucionesForm' && 
