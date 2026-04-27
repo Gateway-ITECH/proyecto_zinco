@@ -103,12 +103,17 @@
                         </div>
                       {% endif %}
 
-                      {# Date #}
-                      {% if eval.fecha %}
-                        <div class="mt-2 text-end">
+                      {# Evaluator and Date footer #}
+                      <div class="d-flex justify-content-between align-items-center mt-3">
+                        {% if eval.evaluador %}
+                          <small class="text-secondary"><i class="fas fa-user-check me-1 text-success"></i><strong>{{ 'Evaluador'|t }}:</strong> {{ eval.evaluador }}</small>
+                        {% else %}
+                          <span></span>
+                        {% endif %}
+                        {% if eval.fecha %}
                           <small class="text-secondary"><i class="fas fa-calendar-alt me-1"></i>{{ eval.fecha|date('d/m/Y H:i') }}</small>
-                        </div>
-                      {% endif %}
+                        {% endif %}
+                      </div>
 
                     </div>
                   {% endfor %}

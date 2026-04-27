@@ -711,11 +711,10 @@ class RetosController extends ControllerBase
           $solucion_item['evaluate_link'] = '/retos/calificar/' . $solucion->id();
           $solucion_item['calificar_link'] = '/retos/calificar/' . $solucion->id();
 
-          // Load evaluations for this solution submitted by the current user.
+          // Load ALL evaluations for this solution (from any evaluator).
           $evaluacion_storage = $this->entityTypeManager->getStorage('zinco_retos_evaluacion');
           $eval_ids = $evaluacion_storage->getQuery()
             ->condition('field_solucion_evaluada', $solucion->id())
-            ->condition('field_evaluador', $user_id)
             ->accessCheck(FALSE)
             ->execute();
 
@@ -726,8 +725,16 @@ class RetosController extends ControllerBase
             $solucion_item['ya_calificada'] = TRUE;
             $evaluaciones = $evaluacion_storage->loadMultiple($eval_ids);
             foreach ($evaluaciones as $eval) {
+              // Get evaluator name.
+              $evaluador_name = '';
+              if ($eval->hasField('field_evaluador') && !$eval->get('field_evaluador')->isEmpty()) {
+                $evaluador_user = $eval->get('field_evaluador')->entity;
+                $evaluador_name = $evaluador_user ? $evaluador_user->getDisplayName() : '';
+              }
+
               $eval_data = [
                 'label' => $eval->label(),
+                'evaluador' => $evaluador_name,
                 'comentarios' => $eval->hasField('field_comentarios_evaluacion') ? $eval->get('field_comentarios_evaluacion')->value : '',
                 'fecha' => $eval->hasField('field_fecha_de_evaluacion') ? $eval->get('field_fecha_de_evaluacion')->value : '',
                 'puntuaciones' => [],
