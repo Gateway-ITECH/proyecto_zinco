@@ -15,6 +15,50 @@ final class ZincoActorsListBuilder extends EntityListBuilder {
   /**
    * {@inheritdoc}
    */
+  public function render() {
+    $build['filter_form'] = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['form-inline', 'mb-3']],
+      'search_form' => [
+        '#type' => 'html_tag',
+        '#tag' => 'form',
+        '#attributes' => [
+          'method' => 'get',
+          'action' => \Drupal\Core\Url::fromRoute('entity.zinco_actors_zincoactors.collection')->toString(),
+        ],
+        'label' => [
+          '#type' => 'textfield',
+          '#name' => 'label',
+          '#title' => $this->t('Buscar por nombre'),
+          '#title_display' => 'invisible',
+          '#default_value' => \Drupal::request()->query->get('label') ?? '',
+          '#size' => 40,
+          '#attributes' => ['placeholder' => $this->t('Ingresa una palabra clave...')],
+        ],
+        'submit' => [
+          '#type' => 'html_tag',
+          '#tag' => 'input',
+          '#attributes' => [
+            'type' => 'submit',
+            'value' => $this->t('Buscar'),
+            'class' => ['button', 'button--primary'],
+          ],
+        ],
+        'reset' => [
+          '#type' => 'link',
+          '#title' => $this->t('Limpiar'),
+          '#url' => \Drupal\Core\Url::fromRoute('entity.zinco_actors_zincoactors.collection'),
+          '#attributes' => ['class' => ['button']],
+        ],
+      ],
+    ];
+    $build['table'] = parent::render();
+    return $build;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function buildHeader(): array {
     $header['id'] = $this->t('ID');
     $header['label'] = $this->t('Label');    
@@ -54,6 +98,11 @@ final class ZincoActorsListBuilder extends EntityListBuilder {
     $query = $this->getStorage()->getQuery()
       ->accessCheck(TRUE)
       ->sort('created', 'DESC');
+
+    $search = \Drupal::request()->query->get('label');
+    if (!empty($search)) {
+      $query->condition('label', '%' . $search . '%', 'LIKE');
+    }
 
     if ($this->limit) {
       $query->pager($this->limit);
