@@ -1369,6 +1369,7 @@ class ZincoController extends ControllerBase
     $label_filter = $request->query->get('label');
     
     $query = \Drupal::entityTypeManager()->getStorage('zinco_reconocimientos')->getQuery()
+      ->condition('bundle', 'reconocimiento_estandar')
       ->condition('field_actor_asociado', $actor_id)
       ->sort('created', 'DESC')
       ->accessCheck(FALSE);
