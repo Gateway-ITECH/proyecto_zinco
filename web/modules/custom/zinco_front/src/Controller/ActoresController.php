@@ -615,6 +615,27 @@ class ActoresController extends ControllerBase
 
 
 
+      // Obtener reconocimientos del bundle reconocimiento_de_actor asociados a este actor.
+      $actor_data['reconocimientos_actor'] = [];
+      $query_rec = $this->entityTypeManager->getStorage('zinco_reconocimientos')->getQuery()
+        ->condition('bundle', 'reconocimiento_de_actor')
+        ->condition('field_actor_asociado', $actor_id)
+        ->condition('status', 1)
+        ->sort('created', 'DESC')
+        ->accessCheck(FALSE);
+      $rec_ids = $query_rec->execute();
+      if (!empty($rec_ids)) {
+        $rec_entities = $this->entityTypeManager->getStorage('zinco_reconocimientos')->loadMultiple($rec_ids);
+        foreach ($rec_entities as $rec) {
+          $actor_data['reconocimientos_actor'][] = [
+            'id' => $rec->id(),
+            'label' => $rec->label(),
+            'descripcion' => $rec->hasField('field_descripcion_reconocimiento') ? $rec->get('field_descripcion_reconocimiento')->value : '',
+            'fecha' => \Drupal::service('date.formatter')->format($rec->getCreatedTime(), 'short'),
+          ];
+        }
+      }
+
       return [
         '#theme' => 'zinco_actor_profile',
         '#actor' => $actor_data,
