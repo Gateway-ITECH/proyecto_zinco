@@ -431,6 +431,130 @@ class RetosController extends ControllerBase
   }
 
   /**
+   * Muestra los resultados de las evaluaciones de todas las postulaciones de un reto.
+   *
+   * @param int $reto_id
+   *   El ID del reto.
+   *
+   * @return array
+   *   Un array renderizable.
+   */
+  public function evaluacionesReto($reto_id) {
+    $reto = $this->entityTypeManager->getStorage('zinco_retos_innovacion')->load($reto_id);
+    if (!$reto) {
+      throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+    }
+
+    // Obtener criterios y sus pesos del reto.
+    $criterios_pesos = [];
+    $total_peso = 0;
+    if ($reto->hasField('field_criterios_reto')) {
+      foreach ($reto->get('field_criterios_reto') as $item) {
+        if ($p = $item->entity) {
+          $nombre = $p->get('field_nombre_criterio')->value;
+          $peso = (float) ($p->hasField('field_peso_criterio') ? $p->get('field_peso_criterio')->value : 0);
+          $criterios_pesos[$nombre] = $peso;
+          $total_peso += $peso;
+        }
+      }
+    }
+
+    // Si no hay pesos definidos o el total es 0, dar peso equitativo.
+    if ($total_peso == 0 && !empty($criterios_pesos)) {
+      $count = count($criterios_pesos);
+      foreach ($criterios_pesos as $nombre => $peso) {
+        $criterios_pesos[$nombre] = 1 / $count;
+      }
+      $total_peso = 1;
+    }
+
+    // Obtener todas las soluciones del reto.
+    $solution_ids = $this->entityTypeManager->getStorage('zinco_retos_soluciones')->getQuery()
+      ->condition('field_reto_asociado', $reto_id)
+      ->accessCheck(TRUE)
+      ->execute();
+
+    $results = [];
+    if (!empty($solution_ids)) {
+      $solutions = $this->entityTypeManager->getStorage('zinco_retos_soluciones')->loadMultiple($solution_ids);
+      foreach ($solutions as $solution) {
+        // Obtener evaluaciones de esta solución.
+        $eval_ids = $this->entityTypeManager->getStorage('zinco_retos_evaluacion')->getQuery()
+          ->condition('field_solucion_evaluada', $solution->id())
+          ->accessCheck(FALSE)
+          ->execute();
+
+        $solution_score_total = 0;
+        $eval_count = 0;
+
+        if (!empty($eval_ids)) {
+          $evaluations = $this->entityTypeManager->getStorage('zinco_retos_evaluacion')->loadMultiple($eval_ids);
+          foreach ($evaluations as $eval) {
+            $weighted_sum = 0;
+            $applied_weight_total = 0;
+
+            if ($eval->hasField('field_puntuacion_de_solucion')) {
+              foreach ($eval->get('field_puntuacion_de_solucion')->referencedEntities() as $p_score) {
+                $criterio_nombre = $p_score->get('field_criterio_evaluado')->value;
+                $rating_term = $p_score->hasField('field_calificacion_de_solucion_a') ? $p_score->get('field_calificacion_de_solucion_a')->entity : NULL;
+                
+                if ($rating_term && isset($criterios_pesos[$criterio_nombre])) {
+                  // Obtener valor numérico de la calificación.
+                  $val = 0;
+                  if ($rating_term->hasField('field_valor_calificacion')) {
+                    $val = (float) $rating_term->get('field_valor_calificacion')->value;
+                  } elseif (is_numeric($rating_term->label())) {
+                    $val = (float) $rating_term->label();
+                  } else {
+                    // Intento de extraer número del label (ej: "5 - Excelente")
+                    $label = $rating_term->label();
+                    preg_match('/(\d+(\.\d+)?)/', $label, $matches);
+                    if (!empty($matches)) {
+                      $val = (float) $matches[1];
+                    }
+                  }
+                  
+                  $peso_criterio = $criterios_pesos[$criterio_nombre];
+                  $weighted_sum += ($val * $peso_criterio);
+                  $applied_weight_total += $peso_criterio;
+                }
+              }
+            }
+
+            if ($total_peso > 0) {
+              $solution_score_total += ($weighted_sum / $total_peso);
+              $eval_count++;
+            }
+          }
+        }
+
+        $average = ($eval_count > 0) ? ($solution_score_total / $eval_count) : 0;
+
+        $results[] = [
+          'id' => $solution->id(),
+          'label' => $solution->label(),
+          'average' => round($average, 2),
+        ];
+      }
+    }
+
+    // Ordenar de mayor a menor promedio.
+    usort($results, function($a, $b) {
+      if ($a['average'] == $b['average']) return 0;
+      return ($a['average'] < $b['average']) ? 1 : -1;
+    });
+
+    return [
+      '#theme' => 'zinco_evaluaciones_reto_summary',
+      '#reto' => [
+        'id' => $reto->id(),
+        'label' => $reto->label(),
+      ],
+      '#results' => $results,
+    ];
+  }
+
+  /**
    * Returns a solution detail page.
    *
    * @param int $solution_id
@@ -637,7 +761,7 @@ class RetosController extends ControllerBase
     $entity->set('field_reto_asociado', $reto_id);
 
     // Load the 'No revisado' term from 'estados_de_postulacion_a_retos' vocabulary.
-    $term_storage = $this->entityTypeManager()->getStorage('taxonomy_term');
+    $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
     $terms = $term_storage->loadByProperties([
       'vid' => 'estados_de_postulacion_a_retos',
       'name' => 'No revisado',
@@ -839,6 +963,132 @@ class RetosController extends ControllerBase
         '#attributes' => ['class' => ['mb-4', 'text-primary', 'border-bottom', 'pb-3']],
       ],
       'form' => $form,
+    ];
+  }
+
+  //
+
+  /**
+   * Muestra los resultados de las evaluaciones de todas las postulaciones de un reto.
+   *
+   * @param int $reto_id
+   *   El ID del reto.
+   *
+   * @return array
+   *   Un array renderizable.
+   */
+  public function evaluacionesReto($reto_id) {
+    $reto = $this->entityTypeManager->getStorage('zinco_retos_innovacion')->load($reto_id);
+    if (!$reto) {
+      throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+    }
+
+    // Obtener criterios y sus pesos del reto.
+    $criterios_pesos = [];
+    $total_peso = 0;
+    if ($reto->hasField('field_criterios_reto')) {
+      foreach ($reto->get('field_criterios_reto') as $item) {
+        if ($p = $item->entity) {
+          $nombre = $p->get('field_nombre_criterio')->value;
+          $peso = (float) ($p->hasField('field_peso_criterio') ? $p->get('field_peso_criterio')->value : 0);
+          $criterios_pesos[$nombre] = $peso;
+          $total_peso += $peso;
+        }
+      }
+    }
+
+    // Si no hay pesos definidos o el total es 0, dar peso equitativo.
+    if ($total_peso == 0 && !empty($criterios_pesos)) {
+      $count = count($criterios_pesos);
+      foreach ($criterios_pesos as $nombre => $peso) {
+        $criterios_pesos[$nombre] = 1 / $count;
+      }
+      $total_peso = 1;
+    }
+
+    // Obtener todas las soluciones del reto.
+    $solution_ids = $this->entityTypeManager->getStorage('zinco_retos_soluciones')->getQuery()
+      ->condition('field_reto_asociado', $reto_id)
+      ->accessCheck(TRUE)
+      ->execute();
+
+    $results = [];
+    if (!empty($solution_ids)) {
+      $solutions = $this->entityTypeManager->getStorage('zinco_retos_soluciones')->loadMultiple($solution_ids);
+      foreach ($solutions as $solution) {
+        // Obtener evaluaciones de esta solución.
+        $eval_ids = $this->entityTypeManager->getStorage('zinco_retos_evaluacion')->getQuery()
+          ->condition('field_solucion_evaluada', $solution->id())
+          ->accessCheck(FALSE)
+          ->execute();
+
+        $solution_score_total = 0;
+        $eval_count = 0;
+
+        if (!empty($eval_ids)) {
+          $evaluations = $this->entityTypeManager->getStorage('zinco_retos_evaluacion')->loadMultiple($eval_ids);
+          foreach ($evaluations as $eval) {
+            $weighted_sum = 0;
+            $applied_weight_total = 0;
+
+            if ($eval->hasField('field_puntuacion_de_solucion')) {
+              foreach ($eval->get('field_puntuacion_de_solucion')->referencedEntities() as $p_score) {
+                $criterio_nombre = $p_score->get('field_criterio_evaluado')->value;
+                $rating_term = $p_score->hasField('field_calificacion_de_solucion_a') ? $p_score->get('field_calificacion_de_solucion_a')->entity : NULL;
+                
+                if ($rating_term && isset($criterios_pesos[$criterio_nombre])) {
+                  // Obtener valor numérico de la calificación.
+                  $val = 0;
+                  if ($rating_term->hasField('field_valor_calificacion')) {
+                    $val = (float) $rating_term->get('field_valor_calificacion')->value;
+                  } elseif (is_numeric($rating_term->label())) {
+                    $val = (float) $rating_term->label();
+                  } else {
+                    // Intento de extraer número del label (ej: "5 - Excelente")
+                    $label = $rating_term->label();
+                    preg_match('/(\d+(\.\d+)?)/', $label, $matches);
+                    if (!empty($matches)) {
+                      $val = (float) $matches[1];
+                    }
+                  }
+                  
+                  $peso_criterio = $criterios_pesos[$criterio_nombre];
+                  $weighted_sum += ($val * $peso_criterio);
+                  $applied_weight_total += $peso_criterio;
+                }
+              }
+            }
+
+            if ($total_peso > 0) {
+              $solution_score_total += ($weighted_sum / $total_peso);
+              $eval_count++;
+            }
+          }
+        }
+
+        $average = ($eval_count > 0) ? ($solution_score_total / $eval_count) : 0;
+
+        $results[] = [
+          'id' => $solution->id(),
+          'label' => $solution->label(),
+          'average' => round($average, 2),
+        ];
+      }
+    }
+
+    // Ordenar de mayor a menor promedio.
+    usort($results, function($a, $b) {
+      if ($a['average'] == $b['average']) return 0;
+      return ($a['average'] < $b['average']) ? 1 : -1;
+    });
+
+    return [
+      '#theme' => 'zinco_evaluaciones_reto_summary',
+      '#reto' => [
+        'id' => $reto->id(),
+        'label' => $reto->label(),
+      ],
+      '#results' => $results,
     ];
   }
 
