@@ -111,4 +111,19 @@ final class ZincoActorsListBuilder extends EntityListBuilder {
     return $query->execute();
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultOperations(EntityInterface $entity): array {
+    $operations = parent::getDefaultOperations($entity);
+
+    $operations['reconocimientos'] = [
+      'title' => $this->t('Reconocimientos'),
+      'weight' => 20,
+      'url' => \Drupal\Core\Url::fromRoute('zinco_front.reconocimientos_list', ['actor_id' => $entity->id()]),
+    ];
+
+    return $operations;
+  }
+
 }
