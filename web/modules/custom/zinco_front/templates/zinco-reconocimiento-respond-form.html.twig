@@ -1,0 +1,114 @@
+{#
+/**
+ * @file
+ * Template for the recognition response form.
+ *
+ * Available variables:
+ * - form: The renderable array of the response form.
+ * - label: The label of the recognition request.
+ */
+#}
+<div class="reconocimiento-respond-container container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-lg overflow-hidden" style="border-radius: 20px;">
+        <div class="card-header bg-gradient-respond py-4 px-4 text-white">
+          <div class="d-flex align-items-center justify-content-between">
+            <div>
+              <h1 class="h3 mb-1 fw-bold">{{ 'Registrar Respuesta'|t }}</h1>
+              <p class="mb-0 opacity-75 small">
+                {{ 'Solicitud:'|t }} <strong>{{ label }}</strong>
+              </p>
+            </div>
+            <div class="d-none d-md-block">
+              <i class="fas fa-comment-dots fa-3x opacity-25"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card-body p-4 p-md-5 bg-white">
+          <div class="alert alert-info border-0 rounded-4 shadow-sm mb-5 d-flex align-items-center">
+            <i class="fas fa-info-circle fa-2x me-3 text-info"></i>
+            <div>
+              {{ 'Ingresa los detalles de la respuesta. Esta información será visible para el actor solicitante.'|t }}
+            </div>
+          </div>
+
+          <div class="respond-form-wrapper">
+            {{ form }}
+          </div>
+        </div>
+
+        <div class="card-footer bg-light py-3 px-4 text-center">
+          <a href="javascript:history.back()" class="btn btn-link text-secondary text-decoration-none small">
+            <i class="fas fa-times me-1"></i>{{ 'Cancelar y volver'|t }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .bg-gradient-respond {
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+  }
+  
+  .respond-form-wrapper form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .respond-form-wrapper label {
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 0.75rem;
+    display: block;
+    font-size: 0.95rem;
+  }
+  
+  .respond-form-wrapper textarea {
+    border-radius: 12px;
+    border: 2px solid #eee;
+    padding: 1rem;
+    min-height: 200px;
+    transition: all 0.3s;
+    background-color: #fcfcfc;
+  }
+  
+  .respond-form-wrapper textarea:focus {
+    border-color: #28a745;
+    background-color: #fff;
+    box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.1);
+    outline: none;
+  }
+  
+  .respond-form-wrapper .form-actions {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .respond-form-wrapper .form-actions input[type="submit"] {
+    background-color: #28a745;
+    color: white;
+    padding: 1rem 3rem;
+    font-weight: 700;
+    border-radius: 12px;
+    border: none;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+  }
+  
+  .respond-form-wrapper .form-actions input[type="submit"]:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(40, 167, 69, 0.3);
+  }
+</style>

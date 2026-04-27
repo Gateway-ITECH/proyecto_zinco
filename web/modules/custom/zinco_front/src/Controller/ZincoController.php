@@ -1401,6 +1401,70 @@ class ZincoController extends ControllerBase
     ];
   }
 
+  /**
+   * Returns a recognition detail page.
+   *
+   * @param int $reconocimiento_id
+   *   The recognition ID.
+   *
+   * @return array
+   *   A renderable array.
+   */
+  public function verReconocimiento($reconocimiento_id) {
+    $reconocimiento = \Drupal::entityTypeManager()->getStorage('zinco_reconocimientos')->load($reconocimiento_id);
+    if (!$reconocimiento) {
+      throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+    }
+
+    $data = [
+      'id' => $reconocimiento->id(),
+      'label' => $reconocimiento->label(),
+      'created' => \Drupal::service('date.formatter')->format($reconocimiento->getCreatedTime(), 'long'),
+      'solicitud' => $reconocimiento->hasField('field_solicitud_de_reconocimient') ? $reconocimiento->get('field_solicitud_de_reconocimient')->view(['label' => 'hidden']) : '',
+      'respuesta' => $reconocimiento->hasField('field_respuesta_solicitud') ? $reconocimiento->get('field_respuesta_solicitud')->view(['label' => 'hidden']) : '',
+      'soporte' => $reconocimiento->hasField('field_soporte_de_reconocimiento') ? $reconocimiento->get('field_soporte_de_reconocimiento')->view(['label' => 'hidden']) : '',
+      'validador' => $reconocimiento->hasField('field_validado_por') && !$reconocimiento->get('field_validado_por')->isEmpty() ? $reconocimiento->get('field_validado_por')->entity->label() : 'Pendiente',
+      'status' => $reconocimiento->get('status')->value ? 'Activo' : 'Inactivo',
+    ];
+
+    if ($reconocimiento->hasField('field_actor_asociado') && !$reconocimiento->get('field_actor_asociado')->isEmpty()) {
+      $data['actor'] = $reconocimiento->get('field_actor_asociado')->entity->label();
+      $data['actor_id'] = $reconocimiento->get('field_actor_asociado')->target_id;
+    }
+
+    return [
+      '#theme' => 'zinco_reconocimiento_detail',
+      '#reconocimiento' => $data,
+      '#cache' => [
+        'tags' => $reconocimiento->getCacheTags(),
+      ],
+    ];
+  }
+
+  /**
+   * Returns the recognition response form.
+   *
+   * @param int $reconocimiento_id
+   *   The recognition ID.
+   *
+   * @return array
+   *   A renderable array.
+   */
+  public function responderReconocimientoForm($reconocimiento_id) {
+    $reconocimiento = \Drupal::entityTypeManager()->getStorage('zinco_reconocimientos')->load($reconocimiento_id);
+    if (!$reconocimiento) {
+      throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+    }
+
+    $form = $this->entityFormBuilder()->getForm($reconocimiento, 'respond');
+
+    return [
+      '#theme' => 'zinco_reconocimiento_respond_form',
+      '#form' => $form,
+      '#label' => $reconocimiento->label(),
+    ];
+  }
+
 }
 
 

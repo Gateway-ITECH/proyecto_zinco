@@ -18,6 +18,7 @@ use Drupal\user\EntityOwnerTrait;
 use Drupal\views\EntityViewsData;
 use Drupal\zinco_reconocimientos\Form\ZincoReconocimientosForm;
 use Drupal\zinco_reconocimientos\Form\ZincoReconocimientosActorForm;
+use Drupal\zinco_reconocimientos\Form\ZincoReconocimientosRespuestaForm;
 use Drupal\zinco_reconocimientos\ZincoReconocimientosInterface;
 use Drupal\zinco_reconocimientos\ZincoReconocimientosListBuilder;
 
@@ -48,6 +49,7 @@ use Drupal\zinco_reconocimientos\ZincoReconocimientosListBuilder;
       'delete-multiple-confirm' => DeleteMultipleForm::class,
       'default' => ZincoReconocimientosForm::class,
       'actor' => ZincoReconocimientosActorForm::class,
+      'respond' => ZincoReconocimientosRespuestaForm::class,
     ],
     'route_provider' => [
       'html' => AdminHtmlRouteProvider::class,

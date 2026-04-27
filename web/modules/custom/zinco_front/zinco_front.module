@@ -277,6 +277,19 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'zinco-reconocimientos-list',
     ],
+    'zinco_reconocimiento_detail' => [
+      'variables' => [
+        'reconocimiento' => NULL,
+      ],
+      'template' => 'zinco-reconocimiento-detail',
+    ],
+    'zinco_reconocimiento_respond_form' => [
+      'variables' => [
+        'form' => NULL,
+        'label' => NULL,
+      ],
+      'template' => 'zinco-reconocimiento-respond-form',
+    ],
     'email_solution_validated_author' => [
       'variables' => [
         'variables' => [],

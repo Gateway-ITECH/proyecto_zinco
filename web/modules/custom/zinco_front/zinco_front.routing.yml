@@ -435,3 +435,21 @@ zinco_front.reconocimientos_list:
   requirements:
     _permission: 'access content'
     actor_id: '\d+'
+
+zinco_front.reconocimiento_detail:
+  path: '/reconocimientos/{reconocimiento_id}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::verReconocimiento'
+    _title: 'Detalle de Solicitud'
+  requirements:
+    _permission: 'access content'
+    reconocimiento_id: '\d+'
+
+zinco_front.reconocimiento_respond:
+  path: '/reconocimientos/{reconocimiento_id}/responder'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::responderReconocimientoForm'
+    _title: 'Responder Solicitud'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+    reconocimiento_id: '\d+'
