@@ -1331,8 +1331,16 @@ class ZincoController extends ControllerBase
    */
   public function addReconocimientoForm() {
     $bundle = 'reconocimiento_estandar';
+    $current_user = \Drupal::entityTypeManager()->getStorage('user')->load(\Drupal::currentUser()->id());
+    $actor_id = NULL;
+
+    if ($current_user->hasField('field_actor') && !$current_user->get('field_actor')->isEmpty()) {
+      $actor_id = $current_user->get('field_actor')->target_id;
+    }
+
     $reconocimiento = $this->entityTypeManager()->getStorage('zinco_reconocimientos')->create([
       'bundle' => $bundle,
+      'field_actor_asociado' => $actor_id,
     ]);
 
     $form = $this->entityFormBuilder()->getForm($reconocimiento, 'actor');
@@ -1343,6 +1351,52 @@ class ZincoController extends ControllerBase
       '#title' => $this->t('Solicitud de Reconocimiento'),
       '#cache' => [
         'tags' => $this->entityTypeManager()->getDefinition('zinco_reconocimientos')->getListCacheTags(),
+      ],
+    ];
+  }
+
+  /**
+   * Returns a list of recognitions for a specific actor.
+   *
+   * @param int $actor_id
+   *   The actor ID.
+   *
+   * @return array
+   *   A renderable array.
+   */
+  public function listReconocimientosActor($actor_id) {
+    $request = \Drupal::request();
+    $label_filter = $request->query->get('label');
+    
+    $query = \Drupal::entityTypeManager()->getStorage('zinco_reconocimientos')->getQuery()
+      ->condition('field_actor_asociado', $actor_id)
+      ->sort('created', 'DESC')
+      ->accessCheck(FALSE);
+      
+    if ($label_filter) {
+      $query->condition('label', $label_filter, 'CONTAINS');
+    }
+    
+    $ids = $query->execute();
+    $reconocimientos = \Drupal::entityTypeManager()->getStorage('zinco_reconocimientos')->loadMultiple($ids);
+    
+    $data = [];
+    foreach ($reconocimientos as $reconocimiento) {
+      $data[] = [
+        'id' => $reconocimiento->id(),
+        'label' => $reconocimiento->label(),
+        'created' => \Drupal::service('date.formatter')->format($reconocimiento->getCreatedTime(), 'short'),
+        'status' => $reconocimiento->get('status')->value ? 'Activo' : 'Inactivo',
+      ];
+    }
+    
+    return [
+      '#theme' => 'zinco_reconocimientos_list',
+      '#reconocimientos' => $data,
+      '#actor_id' => $actor_id,
+      '#label_filter' => $label_filter,
+      '#cache' => [
+        'tags' => ['zinco_reconocimientos_list'],
       ],
     ];
   }

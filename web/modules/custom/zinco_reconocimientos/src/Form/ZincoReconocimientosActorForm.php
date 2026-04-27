@@ -22,6 +22,9 @@ class ZincoReconocimientosActorForm extends ZincoReconocimientosForm {
     if (isset($form['field_validado_por'])) {
       $form['field_validado_por']['#access'] = FALSE;
     }
+    if (isset($form['field_actor_asociado'])) {
+      $form['field_actor_asociado']['#access'] = FALSE;
+    }
 
     return $form;
   }
