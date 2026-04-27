@@ -215,6 +215,12 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'zinco-oportunidades',
     ],
+    'zinco_tecnologias_clave_list' => [
+      'variables' => [
+        'terms' => NULL,
+      ],
+      'template' => 'zinco-tecnologias-clave-list',
+    ],
     'zinco_user_notifications_block' => [
       'variables' => [
         'notifications' => [],
@@ -334,7 +340,7 @@ function zinco_front_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $fo
       $form['area_enfoque_help_link'] = [
         '#type' => 'link',
         '#title' => t('Ver listado de áreas de enfoque'),
-        '#url' => \Drupal\Core\Url::fromUserInput('/admin/structure/taxonomy/manage/tecnologias_clave/overview'),
+        '#url' => \Drupal\Core\Url::fromRoute('zinco_front.tecnologias_clave_list'),
         '#weight' => $form['area_enfoque']['#weight'] + 0.01,
         '#attributes' => [
           'target' => '_blank',

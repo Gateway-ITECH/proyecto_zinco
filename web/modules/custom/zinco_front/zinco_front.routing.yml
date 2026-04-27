@@ -402,3 +402,11 @@ zinco_front.evaluaciones_reto_summary:
   requirements:
     _permission: 'access content'
     reto_id: '\d+'
+
+zinco_front.tecnologias_clave_list:
+  path: '/tecnologias-clave'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::listTecnologiasClave'
+    _title: 'Áreas de Enfoque'
+  requirements:
+    _permission: 'access content'

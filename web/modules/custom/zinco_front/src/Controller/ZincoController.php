@@ -1291,6 +1291,38 @@ class ZincoController extends ControllerBase
     ];
   }
 
+  /**
+   * Returns a list of technologies key taxonomy terms.
+   *
+   * @return array
+   *   A renderable array.
+   */
+  public function listTecnologiasClave() {
+    $vocabulary_id = 'tecnologias_clave';
+    $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree($vocabulary_id, 0, NULL, TRUE);
+
+    $terms_data = [];
+    foreach ($terms as $term) {
+      $terms_data[] = [
+        'id' => $term->id(),
+        'name' => $term->label(),
+        'description' => [
+          '#type' => 'processed_text',
+          '#text' => $term->getDescription(),
+          '#format' => 'basic_html',
+        ],
+      ];
+    }
+
+    return [
+      '#theme' => 'zinco_tecnologias_clave_list',
+      '#terms' => $terms_data,
+      '#cache' => [
+        'tags' => ['taxonomy_term_list:' . $vocabulary_id],
+      ],
+    ];
+  }
+
 }
 
 
