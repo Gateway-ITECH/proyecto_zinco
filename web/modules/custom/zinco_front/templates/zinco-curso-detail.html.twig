@@ -18,44 +18,7 @@
       <div class="col-lg-10">
         <div class="card border-0 shadow-sm overflow-hidden">
           
-          {% if curso.field_flyer_publicitario and not curso.finalizado %}
-            <div class="course-detail-image">
-              <img src="{{ curso.field_flyer_publicitario }}" alt="{{ curso.title }}" class="img-fluid w-100">
-            </div>
-          {% endif %}
-
-          {% if curso.finalizado and curso.evidencias %}
-            <div class="course-evidences p-4 p-md-5 bg-light border-bottom">
-              <div id="courseEvidencesCarousel" class="carousel slide shadow-sm rounded overflow-hidden" data-bs-ride="carousel" data-bs-interval="3000">
-                {% if curso.evidencias|length > 1 %}
-                  <div class="carousel-indicators">
-                    {% for evidence in curso.evidencias %}
-                      <button type="button" data-bs-target="#courseEvidencesCarousel" data-bs-slide-to="{{ loop.index0 }}" {% if loop.first %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ loop.index }}"></button>
-                    {% endfor %}
-                  </div>
-                {% endif %}
-
-                <div class="carousel-inner">
-                  {% for evidence in curso.evidencias %}
-                    <div class="carousel-item {% if loop.first %}active{% endif %}">
-                      <img src="{{ evidence }}" class="d-block w-100" alt="Evidencia {{ loop.index }}">
-                    </div>
-                  {% endfor %}
-                </div>
-
-                {% if curso.evidencias|length > 1 %}
-                  <button class="carousel-control-prev" type="button" data-bs-target="#courseEvidencesCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Anterior</span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#courseEvidencesCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Siguiente</span>
-                  </button>
-                {% endif %}
-              </div>
-            </div>
-          {% endif %}
+          
 
           <div class="card-body p-4 p-md-5">
             <div class="mb-4">
@@ -152,6 +115,46 @@
               </a>
             </div>
           </div>
+
+          {% if curso.field_flyer_publicitario and not curso.finalizado %}
+            <div class="course-detail-image">
+              <img src="{{ curso.field_flyer_publicitario }}" alt="{{ curso.title }}" class="img-fluid w-100">
+            </div>
+          {% endif %}
+
+          {% if curso.finalizado and curso.evidencias %}
+            <div class="course-evidences p-4 p-md-5 bg-light border-bottom">
+              <div id="courseEvidencesCarousel" class="carousel slide shadow-sm rounded overflow-hidden" data-bs-ride="carousel" data-bs-interval="3000">
+                {% if curso.evidencias|length > 1 %}
+                  <div class="carousel-indicators">
+                    {% for evidence in curso.evidencias %}
+                      <button type="button" data-bs-target="#courseEvidencesCarousel" data-bs-slide-to="{{ loop.index0 }}" {% if loop.first %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ loop.index }}"></button>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+
+                <div class="carousel-inner">
+                  {% for evidence in curso.evidencias %}
+                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                      <img src="{{ evidence }}" class="d-block w-100" alt="Evidencia {{ loop.index }}">
+                    </div>
+                  {% endfor %}
+                </div>
+
+                {% if curso.evidencias|length > 1 %}
+                  <button class="carousel-control-prev" type="button" data-bs-target="#courseEvidencesCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#courseEvidencesCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                  </button>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+
         </div>
       </div>
     </div>
