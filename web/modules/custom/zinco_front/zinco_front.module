@@ -290,6 +290,13 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'zinco-reconocimiento-respond-form',
     ],
+    'zinco_reconocimiento_actor_form' => [
+      'variables' => [
+        'form' => NULL,
+        'title' => NULL,
+      ],
+      'template' => 'zinco-reconocimiento-actor-form',
+    ],
     'email_reconocimiento_nueva_solicitud' => [
       'variables' => [
         'variables' => [],

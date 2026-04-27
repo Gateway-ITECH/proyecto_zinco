@@ -1,0 +1,107 @@
+{#
+/**
+ * @file
+ * Template for the actor type recognition form.
+ *
+ * Available variables:
+ * - form: The renderable array of the recognition form.
+ * - title: The title of the page.
+ */
+#}
+<div class="reconocimiento-actor-form-container container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-lg overflow-hidden" style="border-radius: 15px;">
+        <div class="card-header bg-gradient-actor-rec py-4 px-4 text-white">
+          <div class="d-flex align-items-center justify-content-between">
+            <div>
+              <h1 class="h3 mb-1 fw-bold">{{ title }}</h1>
+              <p class="mb-0 opacity-75 small">
+                {{ 'Selecciona el tipo de actor y añade tus comentarios para el registro.'|t }}
+              </p>
+            </div>
+            <div class="d-none d-md-block">
+              <i class="fas fa-user-check fa-3x opacity-25"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card-body p-4 p-md-5 bg-white">
+          <div class="reconocimiento-form-wrapper">
+            {{ form }}
+          </div>
+        </div>
+
+        <div class="card-footer bg-light py-3 px-4 text-center">
+          <a href="javascript:history.back()" class="btn btn-link text-secondary text-decoration-none small">
+            <i class="fas fa-arrow-left me-1"></i>{{ 'Volver'|t }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .bg-gradient-actor-rec {
+    background: linear-gradient(135deg, #6610f2 0%, #4b0082 100%);
+  }
+  
+  .reconocimiento-actor-form-container .card {
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  
+  .reconocimiento-form-wrapper form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .reconocimiento-form-wrapper label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  
+  .reconocimiento-form-wrapper select,
+  .reconocimiento-form-wrapper textarea {
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .reconocimiento-form-wrapper select:focus,
+  .reconocimiento-form-wrapper textarea:focus {
+    border-color: #6610f2;
+    box-shadow: 0 0 0 0.2rem rgba(102, 16, 242, 0.25);
+    outline: none;
+  }
+  
+  .reconocimiento-form-wrapper .form-actions {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .reconocimiento-form-wrapper .form-actions input[type="submit"] {
+    background-color: #6610f2;
+    color: white;
+    padding: 0.75rem 2.5rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px rgba(102, 16, 242, 0.2);
+  }
+  
+  .reconocimiento-form-wrapper .form-actions input[type="submit"]:hover {
+    background-color: #520dc2;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(102, 16, 242, 0.3);
+  }
+</style>

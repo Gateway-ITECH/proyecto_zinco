@@ -457,7 +457,7 @@ zinco_front.reconocimiento_respond:
 zinco_front.reconocimiento_actor_add:
   path: '/reconocimientos/actor/add'
   defaults:
-    _form: '\Drupal\zinco_front\Form\ZincoReconocimientoActorBundleForm'
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::addReconocimientoActorForm'
     _title: 'Nuevo Reconocimiento de Actor'
   requirements:
     _user_is_logged_in: 'TRUE'
