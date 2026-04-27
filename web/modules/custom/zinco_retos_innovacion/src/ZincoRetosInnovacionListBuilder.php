@@ -15,6 +15,38 @@ final class ZincoRetosInnovacionListBuilder extends EntityListBuilder {
   /**
    * {@inheritdoc}
    */
+  public function render() {
+    $build['filter_form'] = [
+      '#type' => 'form',
+      '#method' => 'get',
+      '#attributes' => ['class' => ['form-inline', 'mb-3']],
+      'label' => [
+        '#type' => 'textfield',
+        '#title' => $this->t('Buscar por título'),
+        '#title_display' => 'invisible',
+        '#default_value' => \Drupal::request()->query->get('label') ?? '',
+        '#size' => 40,
+        '#attributes' => ['placeholder' => $this->t('Ingresa una palabra clave...')],
+      ],
+      'submit' => [
+        '#type' => 'submit',
+        '#value' => $this->t('Buscar'),
+        '#attributes' => ['class' => ['button', 'button--primary']],
+      ],
+      'reset' => [
+        '#type' => 'link',
+        '#title' => $this->t('Limpiar'),
+        '#url' => \Drupal\Core\Url::fromRoute('entity.zinco_retos_innovacion.collection'),
+        '#attributes' => ['class' => ['button']],
+      ],
+    ];
+    $build['table'] = parent::render();
+    return $build;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function buildHeader(): array {
     $header['id'] = $this->t('ID');
     $header['label'] = $this->t('Label');
@@ -67,6 +99,11 @@ final class ZincoRetosInnovacionListBuilder extends EntityListBuilder {
     $query = $this->getStorage()->getQuery()
       ->accessCheck(TRUE)
       ->sort('created', 'DESC');
+
+    $search = \Drupal::request()->query->get('label');
+    if (!empty($search)) {
+      $query->condition('label', '%' . $search . '%', 'LIKE');
+    }
 
     // Only add the pager if a limit is specified.
     if ($this->limit) {
