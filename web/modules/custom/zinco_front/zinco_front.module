@@ -255,6 +255,13 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'email-new-solution-notification',
     ],
+    'zinco_actor_edit_form' => [
+      'variables' => [
+        'actor_form' => NULL,
+        'bundle_label' => NULL,
+      ],
+      'template' => 'zinco-actor-edit-form',
+    ],
     'email_solution_validated_author' => [
       'variables' => [
         'variables' => [],

@@ -1,0 +1,125 @@
+{#
+/**
+ * @file
+ * Template for editing the actor profile.
+ *
+ * Available variables:
+ * - actor_form: The renderable array of the actor edit form.
+ * - bundle_label: The human-readable label of the actor bundle.
+ */
+#}
+<div class="actor-edit-form-container container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card border-0 shadow-lg overflow-hidden" style="border-radius: 15px;">
+        <div class="card-header bg-gradient-primary-green py-4 px-4 text-white">
+          <div class="d-flex align-items-center justify-content-between">
+            <div>
+              <h1 class="h3 mb-1 fw-bold">{{ 'Editar mi perfil'|t }}</h1>
+              <p class="mb-0 opacity-75 small">
+                <i class="fas fa-tag me-1"></i>{{ 'Tipo de Actor:'|t }} <strong>{{ bundle_label }}</strong>
+              </p>
+            </div>
+            <div class="d-none d-md-block">
+              <i class="fas fa-user-edit fa-3x opacity-25"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card-body p-4 p-md-5 bg-white">
+          <div class="alert alert-info border-0 shadow-sm mb-4 d-flex align-items-center" style="border-radius: 10px;">
+            <i class="fas fa-info-circle fa-lg me-3 text-info"></i>
+            <div>
+              {{ 'Mantén tu información actualizada para que otros actores del ecosistema puedan encontrarte fácilmente.'|t }}
+            </div>
+          </div>
+
+          <div class="actor-form-wrapper">
+            {{ actor_form }}
+          </div>
+        </div>
+
+        <div class="card-footer bg-light py-3 px-4 text-center">
+          <a href="/actores/mi-perfil" class="btn btn-link text-secondary text-decoration-none small">
+            <i class="fas fa-arrow-left me-1"></i>{{ 'Volver a mi perfil'|t }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .bg-gradient-primary-green {
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+  }
+  
+  .actor-edit-form-container .card {
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  
+  /* Styling Drupal form elements to look better */
+  .actor-form-wrapper form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .actor-form-wrapper .form-item {
+    margin-bottom: 0;
+  }
+  
+  .actor-form-wrapper label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  
+  .actor-form-wrapper input[type="text"],
+  .actor-form-wrapper input[type="email"],
+  .actor-form-wrapper input[type="tel"],
+  .actor-form-wrapper select,
+  .actor-form-wrapper textarea {
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    padding: 0.75rem 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  
+  .actor-form-wrapper input:focus,
+  .actor-form-wrapper textarea:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+    outline: none;
+  }
+  
+  .actor-form-wrapper .form-actions {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .actor-form-wrapper .form-actions input[type="submit"] {
+    background-color: #28a745;
+    color: white;
+    padding: 0.75rem 2.5rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 0 4px 6px rgba(40, 167, 69, 0.2);
+  }
+  
+  .actor-form-wrapper .form-actions input[type="submit"]:hover {
+    background-color: #218838;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px rgba(40, 167, 69, 0.25);
+  }
+  
+  .actor-form-wrapper .form-actions input[type="submit"]:active {
+    transform: translateY(0);
+  }
+</style>

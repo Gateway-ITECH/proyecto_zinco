@@ -907,7 +907,7 @@ class ActoresController extends ControllerBase
     $form = $this->entityFormBuilder->getForm($actor, 'frontend');
 
     return [
-      '#theme' => 'zinco_actor_form_by_bundle',
+      '#theme' => 'zinco_actor_edit_form',
       '#actor_form' => $form,
       '#bundle_label' => $bundle_info[$bundle]['label'] ?? $bundle,
       '#cache' => [
