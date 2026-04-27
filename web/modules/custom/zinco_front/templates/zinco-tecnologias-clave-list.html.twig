@@ -12,31 +12,24 @@
 #}
 <div class="tecnologias-clave-list container my-5">
   <div class="row justify-content-center">
-    <div class="col-lg-10">
+    <div class="col-lg-8">
       <div class="card border shadow-sm">
-        <div class="card-header py-3">
-          <h2 class="h4 mb-0 text-white"><i class="fas fa-microchip me-2"></i>{{ 'Áreas de Enfoque'|t }}</h2>
-        </div>
         <div class="card-body p-0">
           <div class="table-responsive">
             <table class="table table-bordered mb-0">
               <thead>
                 <tr>
-                  <th scope="col" style="width: 30%;">{{ 'Nombre'|t }}</th>
-                  <th scope="col">{{ 'Descripción'|t }}</th>
+                  <th scope="col" class="text-center">{{ 'Nombre de Áreas de Enfoque'|t }}</th>
                 </tr>
               </thead>
               <tbody>
                 {% for term in terms %}
                   <tr>
-                    <td class="fw-bold">{{ term.name }}</td>
-                    <td class="text-dark">
-                      {{ term.description }}
-                    </td>
+                    <td class="text-center fw-bold py-3">{{ term.name }}</td>
                   </tr>
                 {% else %}
                   <tr>
-                    <td colspan="2" class="text-center py-4 text-muted">
+                    <td class="text-center py-4 text-muted">
                       {{ 'No se encontraron áreas de enfoque.'|t }}
                     </td>
                   </tr>
