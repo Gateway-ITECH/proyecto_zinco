@@ -155,6 +155,7 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       'variables' => [
         'solution' => NULL,
         'reto' => NULL,
+        'evaluations' => NULL,
         'is_evaluator' => FALSE,
       ],
       'template' => 'zinco-reto-solution-detail',
