@@ -87,39 +87,28 @@ class CvlacScraperrService
         return 0;
       }
 
-      // Find the TR that contains the "Artículos" header.
-      $start_tr = $xpath->query("//tr[descendant::h3[contains(normalize-space(), 'Artículos')]]")->item(0);
+      // Following the user's specific logic:
+      // 1. Start from the h3 "Artículos".
+      // 2. Locate the parent of the parent of the parent (h3 -> td -> tr -> tbody).
+      $tbody = $xpath->query("ancestor::tbody[1]", $start_h3)->item(0);
 
-      if (!$start_tr) {
-        \Drupal::logger('cvlac_scraper')->warning('⚠️ No se encontró la fila con el encabezado "Artículos" en @url', ['@url' => $url]);
+      if (!$tbody) {
+        \Drupal::logger('cvlac_scraper')->warning('⚠️ No se encontró el elemento tbody para la sección de artículos en @url', ['@url' => $url]);
         return 0;
       }
 
-      $tr_count = 0;
-      $current_tr = $start_tr->nextSibling;
+      // 3. Count the number of TRs in that tbody.
+      // We use "./tr" to only count direct children TRs of the tbody.
+      $trs = $xpath->query("./tr", $tbody);
+      $total_trs = $trs->length;
 
-      while ($current_tr) {
-        if ($current_tr->nodeType === XML_ELEMENT_NODE) {
-          // If the sibling is a TR, count it as part of an article or check if it's the next section.
-          if ($current_tr->nodeName === 'tr') {
-            // Check if this row contains the "Libros" header to stop.
-            if ($xpath->query(".//h3[contains(normalize-space(), 'Libros')]", $current_tr)->length > 0) {
-              break;
-            }
-            $tr_count++;
-          }
-          // Fallback in case h3 is a direct sibling of the start_tr's parent (less likely).
-          elseif ($current_tr->nodeName === 'h3') {
-            if (stripos(trim($current_tr->textContent), 'Libros') !== false) {
-              break;
-            }
-          }
-        }
-        $current_tr = $current_tr->nextSibling;
-      }
+      // 4. Subtract one TR (the one containing the h3) and divide by two.
+      $article_count = ($total_trs > 0) ? (int) floor(($total_trs - 1) / 2) : 0;
 
-      // According to the user, each article uses 2 rows (header + detail).
-      $article_count = (int) floor($tr_count / 2);
+      \Drupal::logger('cvlac_scraper')->info('✅ Algoritmo aplicado: (@total - 1) / 2 = @count artículos.', [
+        '@total' => $total_trs,
+        '@count' => $article_count,
+      ]);
 
       \Drupal::logger('cvlac_scraper')->info('✅ Se detectaron @count artículos en @url', [
         '@count' => $article_count,
