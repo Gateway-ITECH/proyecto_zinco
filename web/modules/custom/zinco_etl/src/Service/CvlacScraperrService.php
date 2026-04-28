@@ -176,14 +176,13 @@ class CvlacScraperrService
     }
 
     try {
-      $query = $this->database->select('zinco_data_produccion_cientifica', 'zdpc');
+      $query = $this->database->select('data_produccion_cientifica', 'zdpc');
       $query->addExpression('COUNT(DISTINCT ID_PRODUCTO_PD)', 'total_productos');
       $query->condition('ID_PERSONA_PD', $cod_rh)
         ->condition('NME_TIPOLOGIA_PD', 'Artículos de investi');
 
-      $raw_result = $query->execute()->fetchAll();
-      var_dump($raw_result);
-      $count = !empty($raw_result) ? (int) reset($raw_result)->total_productos : 0;
+      $count = (int) $query->execute()->fetchField();
+      var_dump($count);
 
       \Drupal::logger('cvlac_scraper')->info('📦 DB: Se encontraron @count artículos para ID @id en la tabla de producción científica.', [
         '@count' => $count,
