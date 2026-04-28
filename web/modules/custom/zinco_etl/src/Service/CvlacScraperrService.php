@@ -89,7 +89,7 @@ class CvlacScraperrService
 
       // Following the user's specific logic:
       // 1. Start from the h3 "Artículos".
-      // 2. Locate the parent of the parent of the parent (h3 -> td -> tr -> tbody).
+      // 2. Locate the parent of the parent (h3 -> tr -> tbody).
       $tbody = $xpath->query("ancestor::tbody[1]", $start_h3)->item(0);
 
       if (!$tbody) {
