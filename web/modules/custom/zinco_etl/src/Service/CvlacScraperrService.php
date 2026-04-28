@@ -84,26 +84,28 @@ class CvlacScraperrService {
         return 0;
       }
 
-      $article_count = 0;
+      // In CvLAC, articles are usually listed within a single <table> following the header.
+      // Each article consists of two <tr> elements: one for the title/type and one for details.
+      $tr_count = 0;
       $current_node = $start_h3->nextSibling;
-
-      // Iterate through siblings until we find "Libros" or end of document.
       while ($current_node) {
         if ($current_node->nodeType === XML_ELEMENT_NODE) {
-          // If we find another h3, check if it's the "Libros" section.
           if ($current_node->nodeName === 'h3') {
             if (stripos(trim($current_node->textContent), 'Libros') !== false) {
               break;
             }
           }
 
-          // In CvLAC, each article entry is typically inside a <table>.
+          // If we find a table, count its rows.
           if ($current_node->nodeName === 'table') {
-            $article_count++;
+            $rows = $xpath->query('.//tr', $current_node);
+            $tr_count += $rows->length;
           }
         }
         $current_node = $current_node->nextSibling;
       }
+
+      $article_count = (int) floor($tr_count / 2);
 
       \Drupal::logger('cvlac_scraper')->info('✅ Se detectaron @count artículos en @url', [
         '@count' => $article_count,
