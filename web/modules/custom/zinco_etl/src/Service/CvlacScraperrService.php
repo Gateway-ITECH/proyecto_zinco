@@ -162,11 +162,13 @@ class CvlacScraperrService
    * @return int
    *   The number of articles found in the database.
    */
-  public function countArticlesFromDatabase(string $url): int {
+  public function countArticlesFromDatabase(string $url): int
+  {
     // Extract cod_rh from URL.
     $parsed_url = parse_url($url);
     parse_str($parsed_url['query'] ?? '', $query_params);
     $cod_rh = $query_params['cod_rh'] ?? NULL;
+    var_dump($cod_rh);
 
     if (!$cod_rh) {
       \Drupal::logger('cvlac_scraper')->warning('No se pudo extraer cod_rh de la URL: @url', ['@url' => $url]);
@@ -177,18 +179,17 @@ class CvlacScraperrService
       $query = $this->database->select('zinco_data_produccion_cientifica', 'zdpc');
       $query->addExpression('COUNT(DISTINCT ID_PRODUCTO_PD)', 'total_productos');
       $query->condition('ID_PERSONA_PD', $cod_rh)
-            ->condition('NME_TIPOLOGIA_PD', 'Artículos de investi');
+        ->condition('NME_TIPOLOGIA_PD', 'Artículos de investi');
 
       $count = (int) $query->execute()->fetchField();
-      
+
       \Drupal::logger('cvlac_scraper')->info('📦 DB: Se encontraron @count artículos para ID @id en la tabla de producción científica.', [
         '@count' => $count,
         '@id' => $cod_rh,
       ]);
 
       return $count;
-    }
-    catch (\Exception $e) {
+    } catch (\Exception $e) {
       \Drupal::logger('cvlac_scraper')->error('Error consultando base de datos: @msg', ['@msg' => $e->getMessage()]);
       return 0;
     }
