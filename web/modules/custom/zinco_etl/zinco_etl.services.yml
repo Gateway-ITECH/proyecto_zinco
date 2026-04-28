@@ -13,4 +13,4 @@ services:
     arguments: ['@config.factory', '@logger.factory', '@http_client', '@string_translation']
   zinco_etl.cvlac_scraperr:
     class: Drupal\zinco_etl\Service\CvlacScraperrService
-    arguments: ['@http_client']
+    arguments: ['@http_client', '@database']

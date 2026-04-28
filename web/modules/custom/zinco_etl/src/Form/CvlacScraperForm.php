@@ -67,18 +67,30 @@ class CvlacScraperForm extends FormBase {
       '#button_type' => 'primary',
     ];
 
-    // Show result if available in storage.
-    $result = $form_state->get('articles_found');
-    if ($result !== NULL) {
+    // Show results if available in storage.
+    $scraped_count = $form_state->get('articles_scraped');
+    $db_count = $form_state->get('articles_db');
+
+    if ($scraped_count !== NULL || $db_count !== NULL) {
       $form['result_container'] = [
         '#type' => 'container',
         '#attributes' => ['class' => ['messages', 'messages--status']],
         '#weight' => -10,
       ];
-      $form['result_container']['result'] = [
-        '#type' => 'item',
-        '#markup' => $this->t('Total de artículos detectados: <strong>@count</strong>', ['@count' => $result]),
-      ];
+
+      if ($scraped_count !== NULL) {
+        $form['result_container']['scraped'] = [
+          '#type' => 'item',
+          '#markup' => $this->t('Artículos detectados por Scraping (CvLAC en vivo): <strong>@count</strong>', ['@count' => $scraped_count]),
+        ];
+      }
+
+      if ($db_count !== NULL) {
+        $form['result_container']['db'] = [
+          '#type' => 'item',
+          '#markup' => $this->t('Artículos en Base de Datos (Convocatoria 894 de 2021): <strong>@count</strong>', ['@count' => $db_count]),
+        ];
+      }
     }
 
     return $form;
@@ -89,16 +101,23 @@ class CvlacScraperForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $url = $form_state->getValue('cvlac_url');
-    $count = $this->cvlacScraperService->countResearchArticles($url);
+    
+    // 1. Scraping en vivo.
+    $scraped_count = $this->cvlacScraperService->countResearchArticles($url);
+    
+    // 2. Consulta en base de datos.
+    $db_count = $this->cvlacScraperService->countArticlesFromDatabase($url);
 
-    if ($count === -1) {
-      $this->messenger()->addError($this->t('Hubo un error al procesar la URL. Verifique los logs para más detalles.'));
+    if ($scraped_count === -1) {
+      $this->messenger()->addError($this->t('Hubo un error al realizar el scraping de la URL.'));
     }
     else {
-      $this->messenger()->addStatus($this->t('Análisis completado con éxito.'));
-      $form_state->set('articles_found', $count);
-      $form_state->setRebuild();
+      $this->messenger()->addStatus($this->t('Análisis de CvLAC completado.'));
     }
+
+    $form_state->set('articles_scraped', $scraped_count !== -1 ? $scraped_count : 0);
+    $form_state->set('articles_db', $db_count);
+    $form_state->setRebuild();
   }
 
 }

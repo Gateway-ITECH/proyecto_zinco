@@ -6,6 +6,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use DOMDocument;
 use DOMXPath;
+use Drupal\Core\Database\Connection;
 
 /**
  * Service for scraping data from CvLAC.
@@ -21,14 +22,24 @@ class CvlacScraperrService
   protected $httpClient;
 
   /**
+   * The database connection.
+   *
+   * @var \Drupal\Core\Database\Connection
+   */
+  protected $database;
+
+  /**
    * Constructor.
    *
    * @param \GuzzleHttp\ClientInterface $http_client
    *   The Guzzle HTTP client.
+   * @param \Drupal\Core\Database\Connection $database
+   *   The database connection.
    */
-  public function __construct(ClientInterface $http_client)
+  public function __construct(ClientInterface $http_client, Connection $database)
   {
     $this->httpClient = $http_client;
+    $this->database = $database;
   }
 
   /**
@@ -139,6 +150,47 @@ class CvlacScraperrService
     } catch (\Exception $e) {
       \Drupal::logger('cvlac_scraper')->error('❌ Error inesperado al procesar CvLAC: @msg', ['@msg' => $e->getMessage()]);
       return -1;
+    }
+  }
+
+  /**
+   * Counts articles in the database for a person ID extracted from a CvLAC URL.
+   *
+   * @param string $url
+   *   The CvLAC URL containing cod_rh.
+   *
+   * @return int
+   *   The number of articles found in the database.
+   */
+  public function countArticlesFromDatabase(string $url): int {
+    // Extract cod_rh from URL.
+    $parsed_url = parse_url($url);
+    parse_str($parsed_url['query'] ?? '', $query_params);
+    $cod_rh = $query_params['cod_rh'] ?? NULL;
+
+    if (!$cod_rh) {
+      \Drupal::logger('cvlac_scraper')->warning('No se pudo extraer cod_rh de la URL: @url', ['@url' => $url]);
+      return 0;
+    }
+
+    try {
+      $query = $this->database->select('zinco_data_produccion_cientifica', 'zdpc')
+        ->condition('NME_CONVOCATORIA', 'Convocatoria 894 de 2021')
+        ->condition('ID_PERSONA_PD', $cod_rh)
+        ->countQuery();
+
+      $count = (int) $query->execute()->fetchField();
+      
+      \Drupal::logger('cvlac_scraper')->info('📦 DB: Se encontraron @count artículos para ID @id en la tabla de producción científica.', [
+        '@count' => $count,
+        '@id' => $cod_rh,
+      ]);
+
+      return $count;
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('cvlac_scraper')->error('Error consultando base de datos: @msg', ['@msg' => $e->getMessage()]);
+      return 0;
     }
   }
 
