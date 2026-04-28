@@ -168,7 +168,7 @@ class CvlacScraperrService
     $parsed_url = parse_url($url);
     parse_str($parsed_url['query'] ?? '', $query_params);
     $cod_rh = $query_params['cod_rh'] ?? NULL;
-    var_dump($cod_rh);
+    //var_dump($cod_rh);
 
     if (!$cod_rh) {
       \Drupal::logger('cvlac_scraper')->warning('No se pudo extraer cod_rh de la URL: @url', ['@url' => $url]);
@@ -182,6 +182,7 @@ class CvlacScraperrService
         ->condition('NME_TIPOLOGIA_PD', 'Artículos de investi');
 
       $count = (int) $query->execute()->fetchField();
+      var_dump($count);
 
       \Drupal::logger('cvlac_scraper')->info('📦 DB: Se encontraron @count artículos para ID @id en la tabla de producción científica.', [
         '@count' => $count,
