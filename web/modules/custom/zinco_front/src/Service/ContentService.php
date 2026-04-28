@@ -243,6 +243,11 @@ class ContentService
         [[get_class($this), 'processInnpulsaBatchItem'], ['https://source-preserve.emergent.host/api/convocatorias?active_only=true']],
         [[get_class($this), 'processIcetexBatchItem'], ['https://web.icetex.gov.co/becas/becas-para-estudios-en-el-exterior/becas-vigentes']],
         [[get_class($this), 'processColfuturoBatchItem'], ['https://www.colfuturo.org/noticias']],
+        [[get_class($this), 'processRssBatchItem'], ['https://impactotic.co/feed/']],
+        [[get_class($this), 'processRssBatchItem'], ['https://www.xataka.com/index.xml']],
+        [[get_class($this), 'processRssBatchItem'], ['https://es.wired.com/feed/rss']],
+        [[get_class($this), 'processRssBatchItem'], ['https://www.wipo.int/pressroom/en/rss.xml']],
+        [[get_class($this), 'processRssBatchItem'], ['https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/tecnologia/portada']],
       ],
       'finished' => [get_class($this), 'finishBatch'],
     ];
@@ -283,6 +288,7 @@ class ContentService
       $inn_conv_total = 0;
       $ice_conv_total = 0;
       $col_news_total = 0;
+      $rss_news_total = 0;
       foreach ($results as $res) {
         if (isset($res['type'])) {
           if ($res['type'] == 'noticias') {
@@ -306,10 +312,14 @@ class ContentService
           if ($res['type'] == 'noticias_colfuturo') {
             $col_news_total += $res['created'];
           }
+          if ($res['type'] == 'noticias_rss') {
+            $rss_news_total += $res['created'];
+          }
         }
       }
-      \Drupal::messenger()->addMessage(t('Sincronización completada. Noticias: @news, Noticias CC: @cc, Colfuturo: @col, Convocatorias Innovamos: @conv, Minciencias: @min, Innpulsa: @inn, ICETEX: @ice.', [
+      \Drupal::messenger()->addMessage(t('Sincronización completada. Noticias: @news, Noticias RSS: @rss, Noticias CC: @cc, Colfuturo: @col, Convocatorias Innovamos: @conv, Minciencias: @min, Innpulsa: @inn, ICETEX: @ice.', [
         '@news' => $news_total,
+        '@rss' => $rss_news_total,
         '@cc' => $cc_news_total,
         '@col' => $col_news_total,
         '@conv' => $conv_total,
@@ -426,6 +436,22 @@ class ContentService
       'created' => $results['created'],
     ];
     $context['message'] = t('Procesando noticias de Colfuturo...');
+    $context['finished'] = 1;
+  }
+
+  /**
+   * Batch process callback for RSS feeds.
+   */
+  public static function processRssBatchItem($url, &$context)
+  {
+    $service = \Drupal::service('zinco_front.content_service');
+    $results = $service->importNewsFromRss($url, 10);
+
+    $context['results'][] = [
+      'type' => 'noticias_rss',
+      'created' => $results['created'],
+    ];
+    $context['message'] = t('Procesando noticias desde feed RSS... @url', ['@url' => $url]);
     $context['finished'] = 1;
   }
 
@@ -1465,6 +1491,131 @@ class ContentService
       ]);
     }
     return NULL;
+  }
+
+  /**
+   * Imports news from an RSS feed.
+   *
+   * @param string $url
+   *   The RSS feed URL.
+   * @param int $limit
+   *   Maximum number of news to process.
+   *
+   * @return array
+   *   Results of the operation.
+   */
+  public function importNewsFromRss($url, $limit = 10)
+  {
+    $results = [
+      'created' => 0,
+      'errors' => [],
+    ];
+
+    try {
+      $response = $this->httpClient->request('GET', $url);
+      $xml_string = (string) $response->getBody();
+      $xml = new \SimpleXMLElement($xml_string);
+
+      // Handle RSS 2.0 (channel > item) or Atom (feed > entry)
+      $items = $xml->channel->item;
+      if (!isset($items) || count($items) === 0) {
+        $items = $xml->entry;
+      }
+
+      if (!$items) {
+        return $results;
+      }
+
+      foreach ($items as $item) {
+        if ($results['created'] >= $limit) {
+          break;
+        }
+
+        try {
+          $title = (string) $item->title;
+          $link = (string) $item->link;
+
+          // Atom links are often in attributes
+          if (empty($link) && isset($item->link['href'])) {
+            $link = (string) $item->link['href'];
+          }
+
+          if (empty($title) || empty($link)) {
+            continue;
+          }
+
+          // Check if already imported by comparing URL.
+          $existing = $this->entityTypeManager->getStorage('node')->loadByProperties([
+            'type' => 'noticia',
+            'field_leer_mas_url' => $link,
+          ]);
+
+          if (!empty($existing)) {
+            continue;
+          }
+
+          $description = (string) ($item->description ?? $item->summary ?? $item->content ?? '');
+
+          // Image extraction.
+          $img_url = '';
+          // Enclosure (RSS 2.0)
+          if (isset($item->enclosure) && isset($item->enclosure['url'])) {
+            $type = (string) ($item->enclosure['type'] ?? '');
+            if (strpos($type, 'image') !== false || empty($type)) {
+              $img_url = (string) $item->enclosure['url'];
+            }
+          }
+
+          // Media namespace (media:content / media:thumbnail)
+          if (empty($img_url)) {
+            $namespaces = $xml->getNamespaces(true);
+            if (isset($namespaces['media'])) {
+              $media = $item->children($namespaces['media']);
+              if (isset($media->content) && isset($media->content->attributes()->url)) {
+                $img_url = (string) $media->content->attributes()->url;
+              } elseif (isset($media->thumbnail) && isset($media->thumbnail->attributes()->url)) {
+                $img_url = (string) $media->thumbnail->attributes()->url;
+              }
+            }
+          }
+
+          $node_data = [
+            'type' => 'noticia',
+            'title' => $title,
+            'field_contenido_noticia' => [
+              'value' => $description,
+              'format' => 'basic_html',
+            ],
+            'field_leer_mas_url' => $link,
+            'status' => 0, // Borrador
+            'uid' => 1,
+          ];
+
+          if (!empty($img_url)) {
+            $file = $this->downloadAndCreateFile($img_url);
+            if ($file) {
+              $node_data['field_imagen_destacada'] = [
+                'target_id' => $file->id(),
+                'alt' => $title,
+              ];
+            }
+          }
+
+          $new_node = Node::create($node_data);
+          $new_node->save();
+          $results['created']++;
+
+        } catch (\Exception $e) {
+          $results['errors'][] = $e->getMessage();
+          $this->loggerFactory->get('zinco_front')->error('Error processing RSS item: @msg', ['@msg' => $e->getMessage()]);
+        }
+      }
+    } catch (\Exception $e) {
+      $results['errors'][] = $e->getMessage();
+      $this->loggerFactory->get('zinco_front')->error('RSS import failed: @msg', ['@msg' => $e->getMessage()]);
+    }
+
+    return $results;
   }
 
 }
