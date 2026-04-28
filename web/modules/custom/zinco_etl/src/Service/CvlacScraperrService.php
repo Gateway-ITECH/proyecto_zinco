@@ -174,10 +174,10 @@ class CvlacScraperrService
     }
 
     try {
-      $query = $this->database->select('zinco_data_produccion_cientifica', 'zdpc')
-        ->condition('NME_CONVOCATORIA', 'Convocatoria 894 de 2021')
-        ->condition('ID_PERSONA_PD', $cod_rh)
-        ->countQuery();
+      $query = $this->database->select('zinco_data_produccion_cientifica', 'zdpc');
+      $query->addExpression('COUNT(DISTINCT ID_PRODUCTO_PD)', 'total_productos');
+      $query->condition('ID_PERSONA_PD', $cod_rh)
+            ->condition('NME_TIPOLOGIA_PD', 'Artículos de investi');
 
       $count = (int) $query->execute()->fetchField();
       
