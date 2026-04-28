@@ -1226,6 +1226,9 @@ class ZincoController extends ControllerBase
     if ($node->hasField('field_contenido_noticia') && !$node->get('field_contenido_noticia')->isEmpty()) {
       $data['content_full'] = $node->get('field_contenido_noticia')->value;
     }
+    if ($node->hasField('field_leer_mas_url') && !$node->get('field_leer_mas_url')->isEmpty()) {
+      $data['field_leer_mas_url'] = $node->get('field_leer_mas_url')->value;
+    }
     return [
       '#theme' => 'zinco_noticia_detail',
       '#noticia' => $data,
