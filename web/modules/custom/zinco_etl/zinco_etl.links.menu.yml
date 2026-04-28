@@ -18,3 +18,10 @@ zinco_etl.gruplac_scraper_form:
   parent: zinco_etl.settings_form
   route_name: zinco_etl.gruplac_scraper_form
   weight: 30
+
+zinco_etl.cvlac_scraper_form:
+  title: 'CvLAC Scraper'
+  description: 'Count research articles from CvLAC profiles.'
+  parent: zinco_etl.settings_form
+  route_name: zinco_etl.cvlac_scraper_form
+  weight: 40

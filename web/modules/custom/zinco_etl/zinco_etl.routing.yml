@@ -21,3 +21,11 @@ zinco_etl.settings_form:
     _title: 'Zinco ETL Settings'
   requirements:
     _permission: 'administer site configuration'
+
+zinco_etl.cvlac_scraper_form:
+  path: '/admin/config/zinco-etl/cvlac-scraper'
+  defaults:
+    _form: '\Drupal\zinco_etl\Form\CvlacScraperForm'
+    _title: 'CvLAC Scraper'
+  requirements:
+    _permission: 'administer site configuration'
