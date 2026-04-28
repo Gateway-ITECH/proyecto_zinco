@@ -89,11 +89,27 @@ class CvlacScraperrService
 
       // Following the user's specific logic:
       // 1. Start from the h3 "Artículos".
-      // 2. Locate the parent of the parent (h3 -> tr -> tbody).
+      // 2. Locate the parent (h3 -> tr -> tbody).
       $tbody = $xpath->query("ancestor::tbody[1]", $start_h3)->item(0);
 
+      // Debugging hierarchy.
+      $parent = $start_h3->parentNode;
+      $grand_parent = $parent ? $parent->parentNode : NULL;
+      \Drupal::logger('cvlac_scraper')->debug('Hierarchy Debug: h3 parent is <@p>, grandparent is <@gp>', [
+        '@p' => $parent ? $parent->nodeName : 'NONE',
+        '@gp' => $grand_parent ? $grand_parent->nodeName : 'NONE',
+      ]);
+
       if (!$tbody) {
-        \Drupal::logger('cvlac_scraper')->warning('⚠️ No se encontró el elemento tbody para la sección de artículos en @url', ['@url' => $url]);
+        // Fallback: search for the nearest table if tbody is missing (DOMDocument sometimes omits it).
+        $tbody = $xpath->query("ancestor::table[1]", $start_h3)->item(0);
+        if ($tbody) {
+          \Drupal::logger('cvlac_scraper')->info('💡 No se encontró tbody, usando el ancestro table como contenedor.');
+        }
+      }
+
+      if (!$tbody) {
+        \Drupal::logger('cvlac_scraper')->warning('⚠️ No se encontró el elemento contenedor (tbody o table) para la sección de artículos en @url', ['@url' => $url]);
         return 0;
       }
 
