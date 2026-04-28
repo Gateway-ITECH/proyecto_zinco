@@ -10,7 +10,8 @@ use DOMXPath;
 /**
  * Service for scraping data from CvLAC.
  */
-class CvlacScraperrService {
+class CvlacScraperrService
+{
 
   /**
    * The HTTP client.
@@ -25,7 +26,8 @@ class CvlacScraperrService {
    * @param \GuzzleHttp\ClientInterface $http_client
    *   The Guzzle HTTP client.
    */
-  public function __construct(ClientInterface $http_client) {
+  public function __construct(ClientInterface $http_client)
+  {
     $this->httpClient = $http_client;
   }
 
@@ -38,7 +40,8 @@ class CvlacScraperrService {
    * @return int
    *   The number of research articles detected, or -1 on error.
    */
-  public function countResearchArticles(string $url): int {
+  public function countResearchArticles(string $url): int
+  {
     \Drupal::logger('cvlac_scraper')->info('🔍 Analizando CvLAC: @url', ['@url' => $url]);
 
     try {
@@ -84,27 +87,38 @@ class CvlacScraperrService {
         return 0;
       }
 
-      // In CvLAC, articles are usually listed within a single <table> following the header.
-      // Each article consists of two <tr> elements: one for the title/type and one for details.
+      // Find the TR that contains the "Artículos" header.
+      $start_tr = $xpath->query("//tr[descendant::h3[contains(normalize-space(), 'Artículos')]]")->item(0);
+
+      if (!$start_tr) {
+        \Drupal::logger('cvlac_scraper')->warning('⚠️ No se encontró la fila con el encabezado "Artículos" en @url', ['@url' => $url]);
+        return 0;
+      }
+
       $tr_count = 0;
-      $current_node = $start_h3->nextSibling;
-      while ($current_node) {
-        if ($current_node->nodeType === XML_ELEMENT_NODE) {
-          if ($current_node->nodeName === 'h3') {
-            if (stripos(trim($current_node->textContent), 'Libros') !== false) {
+      $current_tr = $start_tr->nextSibling;
+
+      while ($current_tr) {
+        if ($current_tr->nodeType === XML_ELEMENT_NODE) {
+          // If the sibling is a TR, count it as part of an article or check if it's the next section.
+          if ($current_tr->nodeName === 'tr') {
+            // Check if this row contains the "Libros" header to stop.
+            if ($xpath->query(".//h3[contains(normalize-space(), 'Libros')]", $current_tr)->length > 0) {
+              break;
+            }
+            $tr_count++;
+          }
+          // Fallback in case h3 is a direct sibling of the start_tr's parent (less likely).
+          elseif ($current_tr->nodeName === 'h3') {
+            if (stripos(trim($current_tr->textContent), 'Libros') !== false) {
               break;
             }
           }
-
-          // If we find a table, count its rows.
-          if ($current_node->nodeName === 'table') {
-            $rows = $xpath->query('.//tr', $current_node);
-            $tr_count += $rows->length;
-          }
         }
-        $current_node = $current_node->nextSibling;
+        $current_tr = $current_tr->nextSibling;
       }
 
+      // According to the user, each article uses 2 rows (header + detail).
       $article_count = (int) floor($tr_count / 2);
 
       \Drupal::logger('cvlac_scraper')->info('✅ Se detectaron @count artículos en @url', [
