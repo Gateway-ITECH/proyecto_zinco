@@ -181,8 +181,9 @@ class CvlacScraperrService
       $query->condition('ID_PERSONA_PD', $cod_rh)
         ->condition('NME_TIPOLOGIA_PD', 'Artículos de investi');
 
-      $count = (int) $query->execute()->fetchField();
-      var_dump($count);
+      $raw_result = $query->execute()->fetchAll();
+      var_dump($raw_result);
+      $count = !empty($raw_result) ? (int) reset($raw_result)->total_productos : 0;
 
       \Drupal::logger('cvlac_scraper')->info('📦 DB: Se encontraron @count artículos para ID @id en la tabla de producción científica.', [
         '@count' => $count,
