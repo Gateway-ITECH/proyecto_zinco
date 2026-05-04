@@ -29,3 +29,11 @@ zinco_etl.cvlac_scraper_form:
     _title: 'CvLAC Scraper'
   requirements:
     _permission: 'administer site configuration'
+
+zinco_etl.batch_merge_form:
+  path: '/admin/zinco/dashboard/sync'
+  defaults:
+    _form: '\Drupal\zinco_etl\Form\BatchMergeForm'
+    _title: 'Sincronización de Dashboards'
+  requirements:
+    _permission: 'administer site configuration'
