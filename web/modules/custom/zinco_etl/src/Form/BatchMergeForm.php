@@ -127,6 +127,11 @@ class BatchMergeForm extends FormBase
                 '#upload_validators' => [
                     'FileExtension' => ['extensions' => 'csv'],
                 ],
+                '#suffix' => '<div class="table-actions-links" style="margin-top: 10px; margin-bottom: 20px;">' . 
+                    $this->t('<a href="@url" target="_blank" class="button button--small">Consultar Datos</a> <a href="@export_url" class="button button--small">Descargar CSV Actual</a>', [
+                        '@url' => \Drupal\Core\Url::fromRoute('zinco_etl.table_view', ['table' => $info['table']])->toString(),
+                        '@export_url' => \Drupal\Core\Url::fromRoute('zinco_etl.table_export', ['table' => $info['table']])->toString(),
+                    ]) . '</div>',
             ];
         }
 

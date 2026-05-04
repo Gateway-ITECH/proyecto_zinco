@@ -37,3 +37,18 @@ zinco_etl.batch_merge_form:
     _title: 'Sincronización de Dashboards'
   requirements:
     _permission: 'administer site configuration'
+
+zinco_etl.table_view:
+  path: '/admin/zinco/dashboard/view/{table}'
+  defaults:
+    _controller: '\Drupal\zinco_etl\Controller\TableViewController::view'
+    _title: 'Consultar Tabla'
+  requirements:
+    _permission: 'administer site configuration'
+
+zinco_etl.table_export:
+  path: '/admin/zinco/dashboard/export/{table}'
+  defaults:
+    _controller: '\Drupal\zinco_etl\Controller\TableViewController::export'
+  requirements:
+    _permission: 'administer site configuration'
