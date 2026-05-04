@@ -119,7 +119,12 @@ class BatchMergeForm extends FormBase
         ];
 
         foreach ($this->tables as $key => $info) {
-            $form['files'][$key] = [
+            $form['files'][$key . '_group'] = [
+                '#type' => 'container',
+                '#attributes' => ['style' => 'margin-bottom: 2em; padding: 1em; border: 1px solid #eee; border-radius: 4px;'],
+            ];
+
+            $form['files'][$key . '_group'][$key] = [
                 '#type' => 'managed_file',
                 '#title' => $this->t('@title (@table)', ['@title' => $info['title'], '@table' => $info['table']]),
                 '#description' => $this->t('Upload CSV for @table. Key: @pk', ['@table' => $info['table'], '@pk' => $info['pk']]),
@@ -127,8 +132,12 @@ class BatchMergeForm extends FormBase
                 '#upload_validators' => [
                     'FileExtension' => ['extensions' => 'csv'],
                 ],
-                '#suffix' => '<div class="table-actions-links" style="margin-top: 10px; margin-bottom: 20px;">' . 
-                    $this->t('<a href="@url" target="_blank" class="button button--small">Consultar Datos</a> <a href="@export_url" class="button button--small">Descargar CSV Actual</a>', [
+            ];
+
+            $form['files'][$key . '_group']['links'] = [
+                '#type' => 'markup',
+                '#markup' => '<div class="table-actions-links" style="margin-top: 10px;">' . 
+                    $this->t('<a href="@url" target="_blank" class="button button--small" style="margin-right: 10px;">🔍 Consultar Datos</a> <a href="@export_url" class="button button--small">📥 Descargar CSV Actual</a>', [
                         '@url' => \Drupal\Core\Url::fromRoute('zinco_etl.table_view', ['table' => $info['table']])->toString(),
                         '@export_url' => \Drupal\Core\Url::fromRoute('zinco_etl.table_export', ['table' => $info['table']])->toString(),
                     ]) . '</div>',
@@ -170,15 +179,16 @@ class BatchMergeForm extends FormBase
         $delimiter = $form_state->getValue(['options', 'delimiter']);
 
         $to_process = [];
-        foreach ($files_data as $key => $file_ids) {
-            if (!empty($file_ids)) {
-                $file = File::load(reset($file_ids));
+        foreach ($this->tables as $key => $info) {
+            $group_values = $form_state->getValue(['files', $key . '_group']);
+            if (!empty($group_values[$key])) {
+                $file = File::load(reset($group_values[$key]));
                 if ($file) {
                     $to_process[] = [
                         'key' => $key,
                         'file_path' => $this->fileSystem->realpath($file->getFileUri()),
-                        'table' => $this->tables[$key]['table'],
-                        'pk' => $this->tables[$key]['pk'],
+                        'table' => $info['table'],
+                        'pk' => $info['pk'],
                     ];
                 }
             }
