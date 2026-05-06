@@ -175,45 +175,41 @@ class TableViewController extends ControllerBase
     }
 
     /**
-     * Exports zinco actors by bundle to CSV.
+     * Exports zinco actors by bundle to CSV using direct database query.
      */
     public function exportActors(string $bundle)
     {
         $response = new StreamedResponse(function () use ($bundle) {
             $handle = fopen('php://output', 'w');
-            
-            $entity_type = 'zinco_actors_zincoactors';
-            $storage = \Drupal::entityTypeManager()->getStorage($entity_type);
-            
-            // Query entities by bundle.
-            $ids = $storage->getQuery()
-                ->condition('bundle', $bundle)
-                ->accessCheck(FALSE)
-                ->execute();
-            
-            if (!empty($ids)) {
-                $entities = $storage->loadMultiple($ids);
-                $first_entity = reset($entities);
-                
-                // Get fields.
-                $field_definitions = $first_entity->getFieldDefinitions();
-                $header = [];
-                $field_names = [];
-                
-                foreach ($field_definitions as $name => $definition) {
-                    $header[] = (string) $definition->getLabel();
-                    $field_names[] = $name;
-                }
-                
-                fputcsv($handle, $header);
-                
-                foreach ($entities as $entity) {
-                    $row = [];
-                    foreach ($field_names as $name) {
-                        $value = $entity->get($name)->getString();
-                        $row[] = $value;
+            $table = 'zinco_actors_zincoactors';
+
+            if ($this->database->schema()->tableExists($table)) {
+                // Get columns from the table.
+                // We use a query to get the first row or just describe the table.
+                $columns = [];
+                try {
+                    $first_row = $this->database->query("SELECT * FROM {" . $table . "} LIMIT 1")->fetchAssoc();
+                    if ($first_row) {
+                        $columns = array_keys($first_row);
+                    } else {
+                        // Fallback: get columns from schema if table is empty.
+                        $columns = $this->database->query("DESCRIBE {" . $table . "}")->fetchAllCol();
                     }
-                    fputcsv($handle, $row);
+                } catch (\Exception $e) {
+                    // Log or handle error.
+                }
+
+                if (!empty($columns)) {
+                    fputcsv($handle, $columns);
+
+                    $query = $this->database->select($table, 't')
+                        ->fields('t')
+                        ->condition('bundle', $bundle);
+
+                    $result = $query->execute();
+                    while ($row = $result->fetchAssoc()) {
+                        fputcsv($handle, (array) $row);
+                    }
                 }
             }
             
