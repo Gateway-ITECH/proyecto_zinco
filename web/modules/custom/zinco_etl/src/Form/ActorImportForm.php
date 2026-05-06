@@ -51,6 +51,7 @@ class ActorImportForm extends FormBase
 
     /**
      * {@inheritdoc}
+     */
     public function buildForm(array $form, FormStateInterface $form_state)
     {
         $bundle_info = \Drupal::service('entity_type.bundle.info')->getBundleInfo('zinco_actors_zincoactors');
