@@ -4,11 +4,12 @@ namespace Drupal\zinco_etl\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Database\Connection;
+use Drupal\Core\Form\FormBuilderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Drupal\Core\Url;
-use Drupal\Core\Link;
+use Drupal\zinco_etl\Form\TableFilterForm;
 
 /**
  * Controller for viewing and exporting database table data.
@@ -24,11 +25,19 @@ class TableViewController extends ControllerBase
     protected $database;
 
     /**
+     * The form builder.
+     *
+     * @var \Drupal\Core\Form\FormBuilderInterface
+     */
+    protected $formBuilder;
+
+    /**
      * Constructs a new TableViewController.
      */
-    public function __construct(Connection $database)
+    public function __construct(Connection $database, FormBuilderInterface $form_builder)
     {
         $this->database = $database;
+        $this->formBuilder = $form_builder;
     }
 
     /**
@@ -37,7 +46,8 @@ class TableViewController extends ControllerBase
     public static function create(ContainerInterface $container)
     {
         return new static(
-            $container->get('database')
+            $container->get('database'),
+            $container->get('form_builder')
         );
     }
 
@@ -89,22 +99,15 @@ class TableViewController extends ControllerBase
 
         $build = [];
 
-        $reset_url = Url::fromRoute('zinco_etl.table_view', ['table' => $table])->toString();
-        $export_url = Url::fromRoute('zinco_etl.table_export', ['table' => $table], ['query' => ['search' => $search]])->toString();
-        $search_escaped = htmlspecialchars((string) $search, ENT_QUOTES, 'UTF-8');
+        // Render filter form via Form API (GET-based).
+        $build['filter_form'] = $this->formBuilder->getForm(TableFilterForm::class, $table, (string) $search);
 
-        // Build a raw HTML form so GET parameters work correctly.
-        $build['filter_form'] = [
-            '#markup' => '
-<form method="get" class="form--inline clearfix" style="margin-bottom: 1em; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-  <div class="form-item" style="margin: 0;">
-    <label for="table-search" style="margin-right: 5px;">' . $this->t('Search') . '</label>
-    <input type="text" id="table-search" name="search" value="' . $search_escaped . '" size="30" class="form-text" />
-  </div>
-  <input type="submit" value="' . $this->t('Filter') . '" class="button" />
-  <a href="' . $reset_url . '" class="button">' . $this->t('Reset') . '</a>
-  <a href="' . $export_url . '" class="button button--primary" style="margin-left: auto;">' . $this->t('Export CSV') . '</a>
-</form>',
+        // Export CSV link.
+        $build['export_link'] = [
+            '#type' => 'link',
+            '#title' => $this->t('📥 Exportar CSV'),
+            '#url' => Url::fromRoute('zinco_etl.table_export', ['table' => $table], ['query' => ['search' => $search]]),
+            '#attributes' => ['class' => ['button', 'button--primary'], 'style' => 'margin-bottom: 1em; display: inline-block;'],
         ];
 
         $build['table'] = [
