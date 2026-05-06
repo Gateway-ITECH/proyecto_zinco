@@ -174,4 +174,56 @@ class TableViewController extends ControllerBase
         return $response;
     }
 
+    /**
+     * Exports zinco actors by bundle to CSV.
+     */
+    public function exportActors(string $bundle)
+    {
+        $response = new StreamedResponse(function () use ($bundle) {
+            $handle = fopen('php://output', 'w');
+            
+            $entity_type = 'zinco_actors_zincoactors';
+            $storage = \Drupal::entityTypeManager()->getStorage($entity_type);
+            
+            // Query entities by bundle.
+            $ids = $storage->getQuery()
+                ->condition('bundle', $bundle)
+                ->accessCheck(FALSE)
+                ->execute();
+            
+            if (!empty($ids)) {
+                $entities = $storage->loadMultiple($ids);
+                $first_entity = reset($entities);
+                
+                // Get fields.
+                $field_definitions = $first_entity->getFieldDefinitions();
+                $header = [];
+                $field_names = [];
+                
+                foreach ($field_definitions as $name => $definition) {
+                    $header[] = (string) $definition->getLabel();
+                    $field_names[] = $name;
+                }
+                
+                fputcsv($handle, $header);
+                
+                foreach ($entities as $entity) {
+                    $row = [];
+                    foreach ($field_names as $name) {
+                        $value = $entity->get($name)->getString();
+                        $row[] = $value;
+                    }
+                    fputcsv($handle, $row);
+                }
+            }
+            
+            fclose($handle);
+        });
+
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="actors_' . $bundle . '_' . date('Ymd_His') . '.csv"');
+
+        return $response;
+    }
+
 }

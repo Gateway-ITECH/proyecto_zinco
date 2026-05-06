@@ -16,15 +16,11 @@ class AdminController extends ControllerBase {
    *   A render array.
    */
   public function dashboard() {
-    $tables = [
-      'data_view_investigadores' => $this->t('Investigadores'),
-      'data_grupos_investigacion' => $this->t('Grupos de Investigación'),
-      'data_instituciones_academicas' => $this->t('Instituciones Académicas'),
-      'data_programas_academicos' => $this->t('Programas Académicos'),
-      'data_organizaciones_intermedias' => $this->t('Organizaciones Intermedias'),
-      'data_entidades_gobierno' => $this->t('Entidades de Gobierno'),
-      'data_instancias_gobierno' => $this->t('Instancias de Gobierno'),
-    ];
+    $tables = [];
+    $bundle_info = \Drupal::service('entity_type.bundle.info')->getBundleInfo('zinco_actors_zincoactors');
+    foreach ($bundle_info as $bundle_id => $info) {
+      $tables[$bundle_id] = $info['label'];
+    }
 
     return [
       '#theme' => 'zinco_admin_dashboard',

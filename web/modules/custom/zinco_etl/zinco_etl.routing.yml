@@ -52,3 +52,10 @@ zinco_etl.table_export:
     _controller: '\Drupal\zinco_etl\Controller\TableViewController::export'
   requirements:
     _permission: 'administer site configuration'
+
+zinco_etl.actors_export:
+  path: '/admin/zinco/dashboard/export-actors/{bundle}'
+  defaults:
+    _controller: '\Drupal\zinco_etl\Controller\TableViewController::exportActors'
+  requirements:
+    _permission: 'administer site configuration'
