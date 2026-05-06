@@ -39,3 +39,13 @@ zinco_admin.scrape_news:
     _title: 'Sincronizar Noticias'
   requirements:
     _permission: 'access administration pages'
+
+zinco_admin.actors_export_page:
+  path: '/admin/zinco/actors-export'
+  defaults:
+    _controller: '\Drupal\zinco_admin\Controller\AdminController::actorsExportPage'
+    _title: 'Exportar Datos de Actores CTI'
+  requirements:
+    _permission: 'access zinco admin dashboard'
+  options:
+    _admin_route: TRUE

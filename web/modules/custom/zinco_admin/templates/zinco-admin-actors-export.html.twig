@@ -1,0 +1,67 @@
+{#
+/**
+ * @file
+ * Template for the actors export page.
+ */
+#}
+<div class="zinco-admin-dashboard">
+  <div class="layout-row clearfix">
+    <div class="layout-column layout-column--full">
+      <div class="panel">
+        <h3 class="panel__title">{{ title }} 🧑‍🔬</h3>
+        <div class="panel__content">
+          <div class="export-container" style="max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #eee; border-radius: 8px; background: #fff;">
+            <p>{{ 'Seleccione el tipo de actor que desea exportar. El sistema generará un archivo CSV con todos los campos configurados para ese tipo de entidad.'|t }}</p>
+            
+            <div class="form-item" style="margin-bottom: 20px;">
+              <label for="actor-type-selector" style="font-weight: bold; display: block; margin-bottom: 8px;">{{ 'Tipo de Actor'|t }}</label>
+              <select id="actor-type-selector" class="form-select" style="padding: 10px; border-radius: 4px; border: 1px solid #ccc; font-size: 16px; width: 100%;">
+                <option value="">{{ '-- Seleccionar tipo de actor --'|t }}</option>
+                {% for table, label in tables %}
+                  <option value="{{ table }}">{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div style="text-align: center;">
+              <a href="#" id="actor-export-link" class="button button--primary disabled" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; font-size: 16px; text-decoration: none; border-radius: 4px; background-color: #007bff; color: white; opacity: 0.5; pointer-events: none;">
+                <span class="icon">📥</span> {{ 'Generar y Descargar CSV'|t }}
+              </a>
+            </div>
+            
+            <div style="margin-top: 20px; font-size: 14px; color: #666;">
+              <p><strong>{{ 'Nota:'|t }}</strong> {{ 'La descarga puede tardar unos segundos dependiendo del volumen de datos.'|t }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="panel__footer" style="padding: 10px 20px; border-top: 1px solid #eee;">
+          <a href="/admin/zinco/dashboard" class="button">{{ 'Volver al Dashboard'|t }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const selector = document.getElementById('actor-type-selector');
+    const link = document.getElementById('actor-export-link');
+    
+    if (selector && link) {
+      selector.addEventListener('change', function() {
+        const table = this.value;
+        if (table) {
+          link.href = '/admin/zinco/dashboard/export-actors/' + table;
+          link.classList.remove('disabled');
+          link.style.opacity = '1';
+          link.style.pointerEvents = 'auto';
+        } else {
+          link.href = '#';
+          link.classList.add('disabled');
+          link.style.opacity = '0.5';
+          link.style.pointerEvents = 'none';
+        }
+      });
+    }
+  })();
+</script>

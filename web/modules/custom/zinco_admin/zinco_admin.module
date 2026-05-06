@@ -13,9 +13,13 @@ function zinco_admin_theme() {
     'zinco_admin_dashboard' => [
       'variables' => [
         'title' => NULL,
+      ],
+    'zinco_admin_actors_export' => [
+      'variables' => [
+        'title' => NULL,
         'tables' => [],
       ],
-      'template' => 'zinco-admin-dashboard',
+      'template' => 'zinco-admin-actors-export',
       'base hook' => 'page',
     ],
   ];

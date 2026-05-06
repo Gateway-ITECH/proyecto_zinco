@@ -51,42 +51,8 @@
               <dd class="admin-item__description">{{ 'Import CTI actor data.'|t }}</dd>
             </div>
             <div class="admin-item">
-              <dt class="admin-item__title">
-                <div class="export-container" style="display: flex; flex-direction: column; gap: 8px;">
-                  <select id="actor-type-selector" class="form-select" style="padding: 4px; border-radius: 4px; border: 1px solid #ccc; font-size: 14px; width: 100%;">
-                    <option value="">{{ '-- Seleccionar tipo de actor --'|t }}</option>
-                    {% for table, label in tables %}
-                      <option value="{{ table }}">{{ label }}</option>
-                    {% endfor %}
-                  </select>
-                  <a href="#" id="actor-export-link" class="admin-item__link disabled" style="color: #999; pointer-events: none; display: flex; align-items: center; gap: 5px;">
-                    <span class="icon">📥</span> {{ 'Exportar Datos de Actores'|t }}
-                  </a>
-                </div>
-                <script>
-                  (function() {
-                    const selector = document.getElementById('actor-type-selector');
-                    const link = document.getElementById('actor-export-link');
-                    if (selector && link) {
-                      selector.addEventListener('change', function() {
-                        const table = this.value;
-                        if (table) {
-                          link.href = '/admin/zinco/dashboard/export-actors/' + table;
-                          link.classList.remove('disabled');
-                          link.style.color = '';
-                          link.style.pointerEvents = 'auto';
-                        } else {
-                          link.href = '#';
-                          link.classList.add('disabled');
-                          link.style.color = '#999';
-                          link.style.pointerEvents = 'none';
-                        }
-                      });
-                    }
-                  })();
-                </script>
-              </dt>
-              <dd class="admin-item__description" style="margin-top: 5px;">{{ 'Export CTI actor data to CSV.'|t }}</dd>
+              <dt class="admin-item__title"><a href="/admin/zinco/actors-export" class="admin-item__link">{{ 'Exportar Datos de Actores'|t }}</a></dt>
+              <dd class="admin-item__description">{{ 'Export CTI actor data to CSV.'|t }}</dd>
             </div>
             <div class="admin-item">
               <dt class="admin-item__title"><a href="/admin/config/zinco-etl/gruplac-scraper" class="admin-item__link">{{ 'Sincronizar Datos de Actores'|t }}</a></dt>

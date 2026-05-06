@@ -16,6 +16,24 @@ class AdminController extends ControllerBase {
    *   A render array.
    */
   public function dashboard() {
+    return [
+      '#theme' => 'zinco_admin_dashboard',
+      '#title' => $this->t('Zinco Admin Dashboard'),
+      '#attached' => [
+        'library' => [
+          'zinco_admin/zinco_admin.admin_styles',
+        ],
+      ],
+    ];
+  }
+
+  /**
+   * Displays the Zinco Admin actors export page.
+   *
+   * @return array
+   *   A render array.
+   */
+  public function actorsExportPage() {
     $tables = [];
     $bundle_info = \Drupal::service('entity_type.bundle.info')->getBundleInfo('zinco_actors_zincoactors');
     foreach ($bundle_info as $bundle_id => $info) {
@@ -23,8 +41,8 @@ class AdminController extends ControllerBase {
     }
 
     return [
-      '#theme' => 'zinco_admin_dashboard',
-      '#title' => $this->t('Zinco Admin Dashboard'),
+      '#theme' => 'zinco_admin_actors_export',
+      '#title' => $this->t('Exportar Datos de Actores CTI'),
       '#tables' => $tables,
       '#attached' => [
         'library' => [
