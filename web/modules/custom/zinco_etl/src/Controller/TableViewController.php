@@ -89,23 +89,33 @@ class TableViewController extends ControllerBase
 
         $build = [];
 
-        $export_url = Url::fromRoute('zinco_etl.table_export', ['table' => $table], ['query' => $request->query->all()])->toString();
-        $reset_url = Url::fromRoute('zinco_etl.table_view', ['table' => $table])->toString();
-        $current_url = Url::fromRoute('zinco_etl.table_view', ['table' => $table])->toString();
-        $search_value = htmlspecialchars($search ?? '', ENT_QUOTES, 'UTF-8');
-
+        // Search form.
         $build['filter_form'] = [
-            '#markup' => '
-            <form method="get" action="' . $current_url . '" style="display:flex; align-items: flex-end; gap: 10px; flex-wrap: wrap; margin-bottom: 16px;">
-              <div style="display:flex; flex-direction: column;">
-                <label for="table-search" style="font-weight: bold; margin-bottom: 4px;">' . $this->t('Buscar') . '</label>
-                <input id="table-search" type="text" name="search" value="' . $search_value . '"
-                  style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; height: 34px; box-sizing: border-box; min-width: 240px;" />
-              </div>
-              <button type="submit" class="button" style="height: 34px; padding: 0 16px;">' . $this->t('Filtrar') . '</button>
-              <a href="' . $reset_url . '" class="button" style="height: 34px; padding: 0 16px; display:inline-flex; align-items:center;">' . $this->t('Restablecer') . '</a>
-              <a href="' . $export_url . '" class="button button--primary" style="height: 34px; padding: 0 16px; display:inline-flex; align-items:center; margin-left: auto;">' . $this->t('Exportar CSV') . '</a>
-            </form>',
+            '#type' => 'form',
+            '#method' => 'get',
+            '#attributes' => ['class' => ['form--inline', 'clearfix']],
+        ];
+        $build['filter_form']['search'] = [
+            '#type' => 'textfield',
+            '#title' => $this->t('Search'),
+            '#default_value' => $search,
+            '#size' => 30,
+        ];
+        $build['filter_form']['submit'] = [
+            '#type' => 'submit',
+            '#value' => $this->t('Filter'),
+        ];
+        $build['filter_form']['reset'] = [
+            '#type' => 'link',
+            '#title' => $this->t('Reset'),
+            '#url' => Url::fromRoute('zinco_etl.table_view', ['table' => $table]),
+            '#attributes' => ['class' => ['button']],
+        ];
+        $build['filter_form']['export'] = [
+            '#type' => 'link',
+            '#title' => $this->t('Export CSV'),
+            '#url' => Url::fromRoute('zinco_etl.table_export', ['table' => $table], ['query' => $request->query->all()]),
+            '#attributes' => ['class' => ['button', 'button--primary'], 'style' => 'float:right;'],
         ];
 
         $build['table'] = [
