@@ -118,9 +118,34 @@ class ActorImportService
         $field_manager = \Drupal::service('entity_field.manager');
         
         // 1. Identify the bundle.
-        $bundle = $bundle_machine_name ?: ($row['bundle'] ?? $row['Bundle'] ?? NULL);
+        // The exported CSV uses the field label as column header, which for the
+        // bundle field is "ZincoActors type". We check multiple possible keys.
+        $bundle_raw = $bundle_machine_name
+            ?: ($row['bundle'] ?? $row['Bundle'] ?? $row['ZincoActors type'] ?? NULL);
+
+        if (!$bundle_raw) {
+            $this->logger->warning('Row skipped: Missing bundle information. Expected column "ZincoActors type".');
+            return FALSE;
+        }
+
+        // Resolve label to machine name if it's not already a machine name.
+        $bundle_info = \Drupal::service('entity_type.bundle.info')->getBundleInfo($entity_type_id);
+        if (isset($bundle_info[$bundle_raw])) {
+            // Already a machine name.
+            $bundle = $bundle_raw;
+        } else {
+            // Try to match by label.
+            $bundle = NULL;
+            foreach ($bundle_info as $machine_name => $info) {
+                if ((string) $info['label'] === $bundle_raw) {
+                    $bundle = $machine_name;
+                    break;
+                }
+            }
+        }
+
         if (!$bundle) {
-            $this->logger->warning('Row skipped: Missing bundle information.');
+            $this->logger->warning('Row skipped: Could not resolve bundle "@raw" to a known actor type.', ['@raw' => $bundle_raw]);
             return FALSE;
         }
 
