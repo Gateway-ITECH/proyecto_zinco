@@ -175,41 +175,53 @@ class TableViewController extends ControllerBase
     }
 
     /**
-     * Exports zinco actors by bundle to CSV using direct database query.
+     * Exports zinco actors by bundle to CSV using the Entity API.
      */
     public function exportActors(string $bundle)
     {
         $response = new StreamedResponse(function () use ($bundle) {
             $handle = fopen('php://output', 'w');
-            $table = 'zinco_actors_zincoactors';
+            $entity_type_id = 'zinco_actors_zincoactors';
+            
+            /** @var \Drupal\Core\Entity\ContentEntityStorageInterface $storage */
+            $storage = \Drupal::entityTypeManager()->getStorage($entity_type_id);
+            
+            // Query entity IDs for the specific bundle.
+            $query = $storage->getQuery()
+                ->condition('bundle', $bundle)
+                ->accessCheck(FALSE);
+            $ids = $query->execute();
 
-            if ($this->database->schema()->tableExists($table)) {
-                // Get columns from the table.
-                // We use a query to get the first row or just describe the table.
-                $columns = [];
-                try {
-                    $first_row = $this->database->query("SELECT * FROM {" . $table . "} LIMIT 1")->fetchAssoc();
-                    if ($first_row) {
-                        $columns = array_keys($first_row);
-                    } else {
-                        // Fallback: get columns from schema if table is empty.
-                        $columns = $this->database->query("DESCRIBE {" . $table . "}")->fetchAllCol();
-                    }
-                } catch (\Exception $e) {
-                    // Log or handle error.
+            if (!empty($ids)) {
+                /** @var \Drupal\Core\Entity\EntityFieldManagerInterface $field_manager */
+                $field_manager = \Drupal::service('entity_field.manager');
+                $fields = $field_manager->getFieldDefinitions($entity_type_id, $bundle);
+
+                $header = [];
+                $field_names = [];
+                foreach ($fields as $field_name => $definition) {
+                    // Skip some internal fields if necessary, or include all.
+                    // For now, include all as requested.
+                    $header[] = (string) $definition->getLabel();
+                    $field_names[] = $field_name;
                 }
+                fputcsv($handle, $header);
 
-                if (!empty($columns)) {
-                    fputcsv($handle, $columns);
-
-                    $query = $this->database->select($table, 't')
-                        ->fields('t')
-                        ->condition('bundle', $bundle);
-
-                    $result = $query->execute();
-                    while ($row = $result->fetchAssoc()) {
-                        fputcsv($handle, (array) $row);
+                // Process in chunks to manage memory.
+                foreach (array_chunk($ids, 50) as $chunk) {
+                    $entities = $storage->loadMultiple($chunk);
+                    foreach ($entities as $entity) {
+                        $row = [];
+                        foreach ($field_names as $field_name) {
+                            try {
+                                $row[] = $entity->get($field_name)->getString();
+                            } catch (\Exception $e) {
+                                $row[] = '';
+                            }
+                        }
+                        fputcsv($handle, $row);
                     }
+                    $storage->resetCache($chunk);
                 }
             }
             
