@@ -89,33 +89,22 @@ class TableViewController extends ControllerBase
 
         $build = [];
 
-        // Search form.
+        $reset_url = Url::fromRoute('zinco_etl.table_view', ['table' => $table])->toString();
+        $export_url = Url::fromRoute('zinco_etl.table_export', ['table' => $table], ['query' => ['search' => $search]])->toString();
+        $search_escaped = htmlspecialchars((string) $search, ENT_QUOTES, 'UTF-8');
+
+        // Build a raw HTML form so GET parameters work correctly.
         $build['filter_form'] = [
-            '#type' => 'form',
-            '#method' => 'get',
-            '#attributes' => ['class' => ['form--inline', 'clearfix']],
-        ];
-        $build['filter_form']['search'] = [
-            '#type' => 'textfield',
-            '#title' => $this->t('Search'),
-            '#default_value' => $search,
-            '#size' => 30,
-        ];
-        $build['filter_form']['submit'] = [
-            '#type' => 'submit',
-            '#value' => $this->t('Filter'),
-        ];
-        $build['filter_form']['reset'] = [
-            '#type' => 'link',
-            '#title' => $this->t('Reset'),
-            '#url' => Url::fromRoute('zinco_etl.table_view', ['table' => $table]),
-            '#attributes' => ['class' => ['button']],
-        ];
-        $build['filter_form']['export'] = [
-            '#type' => 'link',
-            '#title' => $this->t('Export CSV'),
-            '#url' => Url::fromRoute('zinco_etl.table_export', ['table' => $table], ['query' => $request->query->all()]),
-            '#attributes' => ['class' => ['button', 'button--primary'], 'style' => 'float:right;'],
+            '#markup' => '
+<form method="get" class="form--inline clearfix" style="margin-bottom: 1em; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+  <div class="form-item" style="margin: 0;">
+    <label for="table-search" style="margin-right: 5px;">' . $this->t('Search') . '</label>
+    <input type="text" id="table-search" name="search" value="' . $search_escaped . '" size="30" class="form-text" />
+  </div>
+  <input type="submit" value="' . $this->t('Filter') . '" class="button" />
+  <a href="' . $reset_url . '" class="button">' . $this->t('Reset') . '</a>
+  <a href="' . $export_url . '" class="button button--primary" style="margin-left: auto;">' . $this->t('Export CSV') . '</a>
+</form>',
         ];
 
         $build['table'] = [
