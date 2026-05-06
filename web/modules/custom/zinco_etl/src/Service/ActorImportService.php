@@ -109,60 +109,83 @@ class ActorImportService
     }
 
     /**
-     * Processes a single row for import.
-     *
-     * @param array $row
-     *   The data row from CSV.
-     *
-     * @return bool
-     *   TRUE if successful.
+     * Processes a single row for import, supporting exported CSV structure.
      */
-    public function processRow(array $row)
+    public function processRow(array $row, string $bundle_machine_name = NULL)
     {
-        if (empty($row['bundle']) || empty($row['label'])) {
-            $this->logger->warning('Row skipped: Missing bundle or label.');
+        $entity_type_id = 'zinco_actors_zincoactors';
+        $storage = $this->entityTypeManager->getStorage($entity_type_id);
+        $field_manager = \Drupal::service('entity_field.manager');
+        
+        // 1. Identify the bundle.
+        $bundle = $bundle_machine_name ?: ($row['bundle'] ?? $row['Bundle'] ?? NULL);
+        if (!$bundle) {
+            $this->logger->warning('Row skipped: Missing bundle information.');
             return FALSE;
         }
 
-        $bundle = $row['bundle'];
-        // Handle pipe-separated bundle format: "bundle_name|entity_type|uuid"
-        if (strpos($bundle, '|') !== FALSE) {
-            $bundle_parts = explode('|', $bundle);
-            $bundle = $bundle_parts[0];
+        // 2. Map Labels to Machine Names if necessary.
+        $field_definitions = $field_manager->getFieldDefinitions($entity_type_id, $bundle);
+        $label_map = [];
+        foreach ($field_definitions as $name => $definition) {
+            $label_map[(string) $definition->getLabel()] = $name;
+            $label_map[$name] = $name; // Also map machine names to themselves.
         }
-        $label = $row['label'];
 
-        try {
-            $storage = $this->entityTypeManager->getStorage('zinco_actors_zincoactors');
+        $data = [];
+        foreach ($row as $key => $value) {
+            if (isset($label_map[$key])) {
+                $data[$label_map[$key]] = $value;
+            }
+        }
 
-            // Upsert logic: Search for existing entity by label and bundle.
+        // 3. Upsert logic: Try ID first, then UUID, then Label+Bundle.
+        $entity = NULL;
+        $id = $data['id'] ?? $data['ID'] ?? NULL;
+        if ($id && is_numeric($id)) {
+            $entity = $storage->load($id);
+        }
+
+        if (!$entity && !empty($data['uuid'])) {
+            $entities = $storage->loadByProperties(['uuid' => $data['uuid']]);
+            $entity = reset($entities);
+        }
+
+        if (!$entity && !empty($data['label'])) {
             $query = $storage->getQuery()
                 ->condition('bundle', $bundle)
-                ->condition('label', $label)
-                ->accessCheck(FALSE);
-
+                ->condition('label', $data['label'])
+                ->accessCheck(FALSE)
+                ->range(0, 1);
             $ids = $query->execute();
-
             if (!empty($ids)) {
-                $entity_id = reset($ids);
-                $entity = $storage->load($entity_id);
-                $this->logger->info('Updating actor: @label (@bundle)', ['@label' => $label, '@bundle' => $bundle]);
+                $entity = $storage->load(reset($ids));
+            }
+        }
+
+        try {
+            if ($entity) {
+                $this->logger->info('Updating actor: @label (@bundle)', ['@label' => $data['label'] ?? $entity->label(), '@bundle' => $bundle]);
             } else {
-                $entity = $storage->create(['bundle' => $bundle, 'label' => $label]);
-                $this->logger->info('Creating actor: @label (@bundle)', ['@label' => $label, '@bundle' => $bundle]);
+                if (empty($data['label'])) {
+                    $this->logger->warning('Row skipped: Missing label for new entity.');
+                    return FALSE;
+                }
+                $entity = $storage->create(['bundle' => $bundle, 'label' => $data['label']]);
+                $this->logger->info('Creating actor: @label (@bundle)', ['@label' => $data['label'], '@bundle' => $bundle]);
             }
 
-            // Map fields.
-            foreach ($row as $field_name => $value) {
-                // Skip metadata columns.
-                if (in_array($field_name, ['bundle'])) {
+            // 4. Map and set field values.
+            foreach ($data as $field_name => $value) {
+                // Skip read-only or internal fields.
+                if (in_array($field_name, ['id', 'uuid', 'bundle', 'created', 'changed', 'uid'])) {
                     continue;
                 }
 
                 if ($entity->hasField($field_name)) {
-                    $value = trim($value);
-                    // Requirement: if value is empty, do not alter the field.
-                    if ($value !== '' && $value !== NULL) {
+                    $value = trim((string)$value);
+                    // Skip '0' if it was added as a placeholder for empty, or just handle empty.
+                    if ($value !== '' && $value !== '0') {
                         $this->setFieldValue($entity, $field_name, $value);
                     }
                 }

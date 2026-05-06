@@ -51,13 +51,26 @@ class ActorImportForm extends FormBase
 
     /**
      * {@inheritdoc}
-     */
     public function buildForm(array $form, FormStateInterface $form_state)
     {
+        $bundle_info = \Drupal::service('entity_type.bundle.info')->getBundleInfo('zinco_actors_zincoactors');
+        $bundles = ['' => $this->t('-- Auto-detect from CSV --')];
+        foreach ($bundle_info as $bundle_id => $info) {
+            $bundles[$bundle_id] = $info['label'];
+        }
+
+        $form['bundle'] = [
+            '#type' => 'select',
+            '#title' => $this->t('Target Actor Type (Bundle)'),
+            '#description' => $this->t('If not specified in the CSV, all records will be imported as this type.'),
+            '#options' => $bundles,
+            '#default_value' => '',
+        ];
+
         $form['csv_file'] = [
             '#type' => 'managed_file',
             '#title' => $this->t('CSV File'),
-            '#description' => $this->t('Upload the CSV or Excel source file. Currently only CSV is supported.'),
+            '#description' => $this->t('Upload the CSV exported from the Zinco Actors Dashboard.'),
             '#upload_location' => 'public://import',
             '#upload_validators' => [
                 'FileExtension' => ['extensions' => 'csv'],
@@ -78,7 +91,7 @@ class ActorImportForm extends FormBase
         $form['actions']['#type'] = 'actions';
         $form['actions']['submit'] = [
             '#type' => 'submit',
-            '#value' => $this->t('Start Import'),
+            '#value' => $this->t('Start Import / Update'),
             '#button_type' => 'primary',
         ];
 
@@ -92,6 +105,7 @@ class ActorImportForm extends FormBase
     {
         $file_id = $form_state->getValue('csv_file');
         $delimiter = $form_state->getValue('delimiter');
+        $bundle = $form_state->getValue('bundle');
 
         if (!$file_id) {
             return;
@@ -111,13 +125,13 @@ class ActorImportForm extends FormBase
         }
 
         $batch_builder = (new BatchBuilder())
-            ->setTitle($this->t('Importing Actors'))
-            ->setInitMessage($this->t('Starting import...'))
+            ->setTitle($this->t('Importing/Updating Actors'))
+            ->setInitMessage($this->t('Starting batch process...'))
             ->setProgressMessage($this->t('Processed @current out of @total rows.'))
-            ->setErrorMessage($this->t('Import encountered an error.'));
+            ->setErrorMessage($this->t('Batch process encountered an error.'));
 
         foreach ($data as $row) {
-            $batch_builder->addOperation([$this, 'processBatchRow'], [$row]);
+            $batch_builder->addOperation([$this, 'processBatchRow'], [$row, $bundle]);
         }
 
         $batch_builder->setFinishCallback([$this, 'batchFinished']);
@@ -128,11 +142,11 @@ class ActorImportForm extends FormBase
     /**
      * Batch operation to process a single row.
      */
-    public static function processBatchRow($row, &$context)
+    public static function processBatchRow($row, $bundle, &$context)
     {
         /** @var \Drupal\zinco_etl\Service\ActorImportService $service */
         $service = \Drupal::service('zinco_etl.actor_import');
-        $success = $service->processRow($row);
+        $success = $service->processRow($row, $bundle);
 
         if (!isset($context['results']['processed'])) {
             $context['results']['processed'] = 0;
