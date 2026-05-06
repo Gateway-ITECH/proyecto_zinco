@@ -11,7 +11,10 @@
 function zinco_admin_theme() {
   return [
     'zinco_admin_dashboard' => [
-      'variables' => ['title' => NULL],
+      'variables' => [
+        'title' => NULL,
+        'tables' => [],
+      ],
       'template' => 'zinco-admin-dashboard',
       'base hook' => 'page',
     ],
