@@ -22,6 +22,7 @@ function zinco_admin_theme() {
       'template' => 'zinco-admin-actors-export',
       'base hook' => 'page',
     ],
+  ]
   ];
 }
 
