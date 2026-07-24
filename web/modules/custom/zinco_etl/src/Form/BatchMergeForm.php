@@ -287,7 +287,7 @@ class BatchMergeForm extends FormBase
             unset($row[$pk]); // Remove PK from fields to update, it's used in the condition.
 
             $query = $database->merge($table)
-                ->key([$pk => $pk_value])
+                ->key($pk, $pk_value)
                 ->fields($row)
                 ->execute();
 
