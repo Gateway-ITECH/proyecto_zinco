@@ -53,6 +53,30 @@ zinco_etl.table_export:
   requirements:
     _permission: 'administer site configuration'
 
+zinco_etl.record_add:
+  path: '/admin/zinco/dashboard/view/{table}/add'
+  defaults:
+    _form: '\Drupal\zinco_etl\Form\RecordForm'
+    _title: 'Agregar Registro'
+  requirements:
+    _permission: 'administer site configuration'
+
+zinco_etl.record_edit:
+  path: '/admin/zinco/dashboard/view/{table}/edit/{id}'
+  defaults:
+    _form: '\Drupal\zinco_etl\Form\RecordForm'
+    _title: 'Editar Registro'
+  requirements:
+    _permission: 'administer site configuration'
+
+zinco_etl.record_delete:
+  path: '/admin/zinco/dashboard/view/{table}/delete/{id}'
+  defaults:
+    _form: '\Drupal\zinco_etl\Form\RecordDeleteForm'
+    _title: 'Eliminar Registro'
+  requirements:
+    _permission: 'administer site configuration'
+
 zinco_etl.actors_export:
   path: '/admin/zinco/dashboard/export-actors/{bundle}'
   defaults:

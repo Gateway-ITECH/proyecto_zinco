@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Drupal\Core\Url;
 use Drupal\zinco_etl\Form\TableFilterForm;
+use Drupal\zinco_etl\ZincoEtlTableRegistry;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Controller for viewing and exporting database table data.
@@ -56,12 +58,17 @@ class TableViewController extends ControllerBase
      */
     public function view(string $table, Request $request)
     {
+        if (!ZincoEtlTableRegistry::isKnownTable($table)) {
+            throw new NotFoundHttpException();
+        }
+
         if (!$this->database->schema()->tableExists($table)) {
             return [
                 '#markup' => $this->t('Table "@table" does not exist.', ['@table' => $table]),
             ];
         }
 
+        $pk = ZincoEtlTableRegistry::getPrimaryKey($table);
         $search = $request->query->get('search');
         $limit = 50;
 
@@ -92,9 +99,42 @@ class TableViewController extends ControllerBase
 
         $result = $query->execute()->fetchAll();
 
+        $header = $columns;
+        if ($pk !== NULL) {
+            $header[] = $this->t('Acciones');
+        }
+
         $rows = [];
         foreach ($result as $record) {
-            $rows[] = (array) $record;
+            $record_array = (array) $record;
+            $cells = array_values($record_array);
+
+            if ($pk !== NULL && isset($record_array[$pk]) && $record_array[$pk] !== NULL && $record_array[$pk] !== '') {
+                $pk_value = $record_array[$pk];
+                $cells[] = [
+                    'data' => [
+                        '#type' => 'container',
+                        '#attributes' => ['style' => 'white-space: nowrap;'],
+                        'edit' => [
+                            '#type' => 'link',
+                            '#title' => $this->t('✏️ Editar'),
+                            '#url' => Url::fromRoute('zinco_etl.record_edit', ['table' => $table, 'id' => $pk_value]),
+                            '#attributes' => ['class' => ['button', 'button--small'], 'style' => 'margin-right: 6px;'],
+                        ],
+                        'delete' => [
+                            '#type' => 'link',
+                            '#title' => $this->t('🗑️ Eliminar'),
+                            '#url' => Url::fromRoute('zinco_etl.record_delete', ['table' => $table, 'id' => $pk_value]),
+                            '#attributes' => ['class' => ['button', 'button--small', 'button--danger']],
+                        ],
+                    ],
+                ];
+            }
+            elseif ($pk !== NULL) {
+                $cells[] = '';
+            }
+
+            $rows[] = $cells;
         }
 
         $build = [];
@@ -102,7 +142,16 @@ class TableViewController extends ControllerBase
         // Render filter form via Form API (GET-based).
         $build['filter_form'] = $this->formBuilder->getForm(TableFilterForm::class, $table, (string) $search);
 
-        // Export CSV link.
+        // Add / export actions.
+        if ($pk !== NULL) {
+            $build['add_link'] = [
+                '#type' => 'link',
+                '#title' => $this->t('➕ Agregar Registro'),
+                '#url' => Url::fromRoute('zinco_etl.record_add', ['table' => $table]),
+                '#attributes' => ['class' => ['button', 'button--action'], 'style' => 'margin-bottom: 1em; margin-right: 8px; display: inline-block;'],
+            ];
+        }
+
         $build['export_link'] = [
             '#type' => 'link',
             '#title' => $this->t('📥 Exportar CSV'),
@@ -112,7 +161,7 @@ class TableViewController extends ControllerBase
 
         $build['table'] = [
             '#type' => 'table',
-            '#header' => $columns,
+            '#header' => $header,
             '#rows' => $rows,
             '#empty' => $this->t('No data found.'),
         ];
@@ -129,6 +178,10 @@ class TableViewController extends ControllerBase
      */
     public function export(string $table, Request $request)
     {
+        if (!ZincoEtlTableRegistry::isKnownTable($table)) {
+            throw new NotFoundHttpException();
+        }
+
         $search = $request->query->get('search');
 
         $response = new StreamedResponse(function () use ($table, $search) {

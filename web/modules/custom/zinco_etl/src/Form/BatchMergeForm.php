@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Batch\BatchBuilder;
 use Drupal\file\Entity\File;
 use Drupal\Core\File\FileSystemInterface;
+use Drupal\zinco_etl\ZincoEtlTableRegistry;
 
 /**
  * Form for merging CSV data with database tables.
@@ -35,43 +36,7 @@ class BatchMergeForm extends FormBase
      *
      * @var array
      */
-    protected $tables = [
-        'investigadores' => [
-            'table' => 'data_investigadores',
-            'title' => 'Investigadores',
-            'pk' => 'ID_PERSONA_PR',
-        ],
-        'grupos_investigacion' => [
-            'table' => 'data_grupos_investigacion',
-            'title' => 'Grupos de Investigación',
-            'pk' => 'cod_grupo',
-        ],
-        'instituciones_academicas' => [
-            'table' => 'data_instituciones_academicas',
-            'title' => 'Instituciones Académicas',
-            'pk' => 'id',
-        ],
-        'programas_academicos' => [
-            'table' => 'data_programas_academicos',
-            'title' => 'Programas Académicos',
-            'pk' => 'id',
-        ],
-        'organizaciones_intermedias' => [
-            'table' => 'data_organizaciones_intermedias',
-            'title' => 'Organizaciones Intermedias',
-            'pk' => 'id',
-        ],
-        'entidades_gobierno' => [
-            'table' => 'data_entidades_gobierno',
-            'title' => 'Entidades de Gobierno',
-            'pk' => 'id',
-        ],
-        'instancias_gobierno' => [
-            'table' => 'data_instancias_gobierno',
-            'title' => 'Instancias de Gobierno',
-            'pk' => 'id',
-        ],
-    ];
+    protected $tables;
 
     /**
      * Constructs a new BatchMergeForm.
@@ -80,6 +45,7 @@ class BatchMergeForm extends FormBase
     {
         $this->database = $database;
         $this->fileSystem = $file_system;
+        $this->tables = ZincoEtlTableRegistry::all();
     }
 
     /**
