@@ -37,7 +37,7 @@ class BatchMergeForm extends FormBase
      */
     protected $tables = [
         'investigadores' => [
-            'table' => 'data_view_investigadores',
+            'table' => 'data_investigadores',
             'title' => 'Investigadores',
             'pk' => 'ID_PERSONA_PR',
         ],
