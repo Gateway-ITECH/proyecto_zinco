@@ -142,7 +142,9 @@ class ZincoController extends ControllerBase
 
 
     if ($formato === 'json') {
-      return new JsonResponse($data);
+      $response = new JsonResponse($data);
+      $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');
+      return $response;
     }
 
     if ($formato === 'count') {
@@ -209,7 +211,9 @@ class ZincoController extends ControllerBase
     $data = $this->dumpDataService->obtenerEntidad($entity_type_id, $query_params);
 
     if ($formato === 'json') {
-      return new JsonResponse($data);
+      $response = new JsonResponse($data);
+      $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');
+      return $response;
     }
 
     if ($formato === 'count') {
@@ -272,7 +276,9 @@ class ZincoController extends ControllerBase
     $data = $this->dumpDataService->obtenerBundle($entity_type_id, $bundle, $query_params);
 
     if ($formato === 'json') {
-      return new JsonResponse($data);
+      $response = new JsonResponse($data);
+      $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');
+      return $response;
     }
 
     return new JsonResponse(['error' => 'Invalid format or no format specified.'], 400);
@@ -298,7 +304,9 @@ class ZincoController extends ControllerBase
     //var_dump($data);
 
     if ($formato === 'json') {
-      return new JsonResponse($data);
+      $response = new JsonResponse($data);
+      $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');
+      return $response;
     }
 
     // For 'count' format, return the number of grouped results in JSON.
@@ -346,7 +354,9 @@ class ZincoController extends ControllerBase
     $data = $this->dumpDataService->obtenerTablas($tables_array, $query_params);
 
     if ($formato === 'json') {
-      return new JsonResponse($data);
+      $response = new JsonResponse($data);
+      $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');
+      return $response;
     }
 
     // If no specific format is requested or format is not 'json',
@@ -374,7 +384,9 @@ class ZincoController extends ControllerBase
     $data = $this->dumpDataService->obtenerTablasAgrupadas($tables_array, $groupColumn, $query_params);
 
     if ($formato === 'json') {
-      return new JsonResponse($data);
+      $response = new JsonResponse($data);
+      $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');
+      return $response;
     }
 
     // If no specific format is requested or format is not 'json',

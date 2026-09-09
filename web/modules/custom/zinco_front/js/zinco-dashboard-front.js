@@ -803,10 +803,9 @@
           params.append(key, filters[key]);
         }
       }
-      if (params.toString()) {
-        url += `?${params.toString()}`;
-      }
-      fetch(url)
+      params.append('_t', Date.now());
+      url += `?${params.toString()}`;
+      fetch(url, { cache: 'no-store' })
         .then(response => response.json())
         .then(data => {
           const countElement = document.getElementById(elemento);
@@ -843,10 +842,9 @@
           params.append(key, filters[key]);
         }
       }
-      if (params.toString()) {
-        url += `?${params.toString()}`;
-      }
-      fetch(url)
+      params.append('_t', Date.now());
+      url += `?${params.toString()}`;
+      fetch(url, { cache: 'no-store' })
         .then(response => response.json())
         .then(data => {
           console.log(data);
@@ -915,10 +913,9 @@
         params.append(key, filters[key]);
       }
     }
-    if (params.toString()) {
-      url += `?${params.toString()}`;
-    }
-    fetch(url)
+    params.append('_t', Date.now());
+    url += `?${params.toString()}`;
+    fetch(url, { cache: 'no-store' })
       .then(response => response.json())
       .then(data => {
         const countElement = document.getElementById(elemento);

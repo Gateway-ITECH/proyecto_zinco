@@ -335,7 +335,10 @@ class DumpDataService
       $storage = $this->entityTypeManager->getStorage($entity_type_id);
       $query = $storage->getQuery();
       $query->accessCheck(FALSE); // Disable access checks
-      $query->condition('bundle', $bundle);
+      
+      // Soportar busqueda flexible para bundle en singular y plural (ej. aceleradora y aceleradoras)
+      $bundles_to_check = array_unique([$bundle, rtrim($bundle, 's'), $bundle . 's']);
+      $query->condition('bundle', $bundles_to_check, 'IN');
       $ids = $query->execute();
       $entities = $storage->loadMultiple($ids);
 
@@ -343,51 +346,27 @@ class DumpDataService
       foreach ($entities as $entity) {
         $row = [];
         $row['label'] = $entity->get('label')->value;
-        switch ($bundle) {
-          case 'evento':
-            $row['tipo_evento'] = !empty($entity->field_tipos_de_evento->target_id) ? $this->safeGetTermName($entity->field_tipos_de_evento->target_id) : '';
-            $row['sector'] = !empty($entity->field_sector_evento->target_id) ? $this->safeGetTermName($entity->field_sector_evento->target_id) : '';
-            $row['tecnologia40'] = !empty($entity->field_tecnologia_evento->target_id) ? $this->safeGetTermName($entity->field_tecnologia_evento->target_id) : '';
-            $row['municipio'] = !empty($entity->field_municipio_evento->target_id) ? $this->safeGetTermName($entity->field_municipio_evento->target_id) : '';
-            break;
-          case 'empresa_explotadora_de_conocimie':
-          case 'startups_de_base_tecnologica':
-          case 'unidades_empresariales_de_i_d_i':
-          case 'empresas_spin_off':
-          case 'emprendimientos_dinamicos':
-          case 'fondos_de_corporate_venture':
-          case 'fondos_de_venture_capital':
-          case 'instituciones_microfinancieras':
-          case 'inversionistas_y_redes_de_invers':
-          case 'plataformas_de_crowdfunding':
-          case 'empresa_generadora_de_conocimien':
-          case 'institucion_de_educacion_superio':
-          case 'investigador':
-          case 'grupos_de_investigacion':
-          case 'centros_e_institutos_de_investig':
-          case 'centros_de_desarrollo_tecnologic':
-          case 'instancias_de_orientacion_politi':
-          case 'otri':
-          case 'parque_tecnologico':
-          case 'cati':
-          case 'centros_de_innovacion_y_producti':
-          case 'incubadora':
-          case 'centros_de_emprendimiento_ies':
-          case 'redes_de_mentores':
-          case 'aceleradora':
-          case 'entidad_gobierno':
-            $sector_tid = ($entity->hasField('sector_economico_principal') && !$entity->get('sector_economico_principal')->isEmpty())
-              ? $entity->get('sector_economico_principal')->target_id : null;
-            $row['sector'] = $sector_tid ? $this->safeGetTermName($sector_tid) : '';
+        if ($entity_type_id === 'zinco_actors_zincoactors') {
+          $sector_tid = ($entity->hasField('sector_economico_principal') && !$entity->get('sector_economico_principal')->isEmpty())
+            ? $entity->get('sector_economico_principal')->target_id : null;
+          $row['sector'] = $sector_tid ? $this->safeGetTermName($sector_tid) : '';
 
-            $muni_tid = ($entity->hasField('municipio') && !$entity->get('municipio')->isEmpty())
-              ? $entity->get('municipio')->target_id : null;
-            $row['municipio'] = $muni_tid ? $this->safeGetTermName($muni_tid) : '';
+          $muni_tid = ($entity->hasField('municipio') && !$entity->get('municipio')->isEmpty())
+            ? $entity->get('municipio')->target_id : null;
+          $row['municipio'] = $muni_tid ? $this->safeGetTermName($muni_tid) : '';
 
-            $tec_tid = ($entity->hasField('tecnologias_clave') && !$entity->get('tecnologias_clave')->isEmpty())
-              ? $entity->get('tecnologias_clave')->target_id : null;
-            $row['tecnologia40'] = $tec_tid ? $this->safeGetTermName($tec_tid) : '';
-            break;
+          $tec_tid = ($entity->hasField('tecnologias_clave') && !$entity->get('tecnologias_clave')->isEmpty())
+            ? $entity->get('tecnologias_clave')->target_id : null;
+          $row['tecnologia40'] = $tec_tid ? $this->safeGetTermName($tec_tid) : '';
+        } else {
+          switch ($bundle) {
+            case 'evento':
+              $row['tipo_evento'] = !empty($entity->field_tipos_de_evento->target_id) ? $this->safeGetTermName($entity->field_tipos_de_evento->target_id) : '';
+              $row['sector'] = !empty($entity->field_sector_evento->target_id) ? $this->safeGetTermName($entity->field_sector_evento->target_id) : '';
+              $row['tecnologia40'] = !empty($entity->field_tecnologia_evento->target_id) ? $this->safeGetTermName($entity->field_tecnologia_evento->target_id) : '';
+              $row['municipio'] = !empty($entity->field_municipio_evento->target_id) ? $this->safeGetTermName($entity->field_municipio_evento->target_id) : '';
+              break;
+          }
         }
 
         $match = TRUE;
