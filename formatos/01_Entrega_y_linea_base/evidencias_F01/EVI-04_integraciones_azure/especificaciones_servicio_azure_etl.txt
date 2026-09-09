@@ -1,6 +1,0 @@
-=== ESPECIFICACIONES DE INTEGRACIÓN AZURE Y ETL ===
-Servicio Cloud: Azure Blob Storage
-Módulo Drupal de integración: zinco_etl (Drupal\zinco_etl\Service\AzureUploaderService)
-Librería cliente Python: azure-storage-blob (Azure SDK v12)
-Propósito: Almacenamiento desacoplado y persistente de reportes PDF generados, evidencias y exportaciones masivas.
-Proceso ETL adicional: Extracción estructurada desde Gruplac/ScientI (GruplacScraperService).

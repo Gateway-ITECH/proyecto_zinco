@@ -1,0 +1,15 @@
+zinco_actors.generar_usuario:
+  path: '/admin/content/zincoactors/{actor_id}/generate-user'
+  defaults:
+    _controller: '\Drupal\zinco_actors\Controller\ZincoActorsUserController::generarUsuario'
+    _title: 'Generar usuario para actor'
+  requirements:
+    _permission: 'administer zinco_actors_zincoactors types'
+
+zinco_actors.generar_usuarios_masivo:
+  path: '/admin/content/zincoactors/generate-users-batch'
+  defaults:
+    _controller: '\Drupal\zinco_actors\Controller\ZincoActorsUserController::generarUsuariosMasivo'
+    _title: 'Generar usuarios masivamente para actores sin cuenta'
+  requirements:
+    _permission: 'administer zinco_actors_zincoactors types'

@@ -1,9 +1,0 @@
-=== RESUMEN SBOM Y DECLARACIÓN DE LICENCIAS ===
-Framework Base: Drupal Core 11.2 (Licencia GPL-2.0-or-later)
-PHP Runtime: PHP 8.4
-Drush: Drush 13.6 (Licencia GPL-2.0-or-later)
-Generador PDF: dompdf/dompdf v3.1 (Licencia LGPL-2.1)
-Cliente HTTP: guzzlehttp/guzzle v7.0 (Licencia MIT)
-Tema Base: drupal/bootstrap_barrio v5.5 (Licencia GPL-2.0-or-later)
-Módulos de datos: drupal/views_data_export, drupal/better_exposed_filters, drupal/entity_print
-Dependencias Python: azure-storage-blob, dompdf, lxml (Licencia BSD/Apache-2.0)
