@@ -52,3 +52,41 @@
 .detalle-dump-data-link:hover {
   opacity: 0.8;
 }
+
+/* Eliminar color de bordes en las pestanas del Dashboard */
+#zincoDashboardTabs,
+.nav-tabs#zincoDashboardTabs {
+  border-bottom: none !important;
+  border: none !important;
+}
+
+#zincoDashboardTabs .nav-item {
+  margin-bottom: 0;
+}
+
+#zincoDashboardTabs .nav-link,
+#zincoDashboardTabs .nav-link:hover,
+#zincoDashboardTabs .nav-link:focus,
+#zincoDashboardTabs .nav-link.active {
+  border: none !important;
+  border-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+#zincoDashboardTabs .nav-link {
+  color: #6c757d;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+#zincoDashboardTabs .nav-link:hover,
+#zincoDashboardTabs .nav-link:focus {
+  color: rgb(127, 197, 77) !important;
+}
+
+#zincoDashboardTabs .nav-link.active {
+  color: rgb(127, 197, 77) !important;
+  font-weight: 700;
+  background-color: transparent !important;
+}

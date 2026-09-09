@@ -61,12 +61,12 @@
     <div class="solution-main-column">
       
       <section class="solution-card">
-        <h3>Descripción de la Propuesta</h3>
+        <h3>Descripción de la propuesta</h3>
         {{ content.description }}
       </section>
 
       <section class="solution-card">
-        <h3>Autores / Equipo</h3>
+        <h3>Autores / equipo</h3>
         <div class="authors-list">
           {{ content.field_autores_solucion }}
         </div>
@@ -84,7 +84,7 @@
     <aside class="solution-sidebar">
       
       <div class="sidebar-block">
-        <h4>Reto Asociado</h4>
+        <h4>Reto asociado</h4>
         <div class="item">{{ content.field_reto_asociado }}</div>
       </div>
 
@@ -95,7 +95,7 @@
 
       {% if content.field_archvos_solucion|render %}
         <div class="sidebar-block docs">
-          <h4>Documentación Adjunta</h4>
+          <h4>Documentación adjunta</h4>
           {{ content.field_archvos_solucion }}
         </div>
       {% endif %}
