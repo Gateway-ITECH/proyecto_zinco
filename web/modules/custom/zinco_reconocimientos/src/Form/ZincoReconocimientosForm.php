@@ -10,7 +10,7 @@ use Drupal\Core\Form\FormStateInterface;
 /**
  * Form controller for the zinco reconocimientos entity edit forms.
  */
-final class ZincoReconocimientosForm extends ContentEntityForm {
+class ZincoReconocimientosForm extends ContentEntityForm {
 
   /**
    * {@inheritdoc}
@@ -39,9 +39,50 @@ final class ZincoReconocimientosForm extends ContentEntityForm {
         throw new \LogicException('Could not save the entity.');
     }
 
+    if ($result === SAVED_NEW) {
+      $this->notifyAdmins($this->entity);
+    }
+
     $form_state->setRedirectUrl($this->entity->toUrl());
 
     return $result;
+  }
+
+  /**
+   * Notifies administrators about a new recognition request.
+   */
+  protected function notifyAdmins($entity) {
+    $mail_service = \Drupal::service('zinco_front.mail_service');
+    $config = \Drupal::config('system.site');
+    $admin_email = $config->get('mail'); // Site mail as fallback or primary admin.
+    
+    // Get all users with administrator role.
+    $ids = \Drupal::entityQuery('user')
+      ->condition('status', 1)
+      ->condition('roles', 'administrator')
+      ->accessCheck(FALSE)
+      ->execute();
+    $admins = \Drupal::entityTypeManager()->getStorage('user')->loadMultiple($ids);
+    
+    $actor_name = 'N/A';
+    if ($entity->hasField('field_actor_asociado') && !$entity->get('field_actor_asociado')->isEmpty()) {
+      $actor_name = $entity->get('field_actor_asociado')->entity->label();
+    }
+
+    $variables = [
+      'actor_name' => $actor_name,
+      'label' => $entity->label(),
+      'detail_url' => \Drupal::token()->replace('[site:url]') . 'reconocimientos/' . $entity->id(),
+    ];
+
+    foreach ($admins as $admin) {
+      $mail_service->sendTemplatedEmail(
+        $admin->getEmail(),
+        $this->t('Nueva Solicitud de Reconocimiento: @label', ['@label' => $entity->label()]),
+        'email_reconocimiento_nueva_solicitud',
+        $variables
+      );
+    }
   }
 
 }

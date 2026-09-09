@@ -1,0 +1,129 @@
+{#
+/**
+ * @file
+ * Template for published Reto notification email for organizers.
+ */
+#}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reto de Innovación Publicado</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f9;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+        .wrapper {
+            width: 100%;
+            table-layout: fixed;
+            background-color: #f4f7f9;
+            padding-bottom: 40px;
+        }
+        .main {
+            background-color: #ffffff;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 600px;
+            border-spacing: 0;
+            color: #4a4a4a;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-top: 40px;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            padding: 40px 20px;
+            text-align: center;
+            color: #ffffff;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .content {
+            padding: 40px 30px;
+            line-height: 1.6;
+        }
+        .content h2 {
+            color: #1e3c72;
+            font-size: 18px;
+            margin-top: 0;
+        }
+        .details-box {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .details-box p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .details-box strong {
+            color: #333;
+        }
+        .button-wrapper {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .button {
+            background-color: #1e3c72;
+            color: #ffffff !important;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .footer {
+            padding: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #999999;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <table class="main">
+            <tr>
+                <td class="header">
+                    <h1>Reto Publicado</h1>
+                </td>
+            </tr>
+            <tr>
+                <td class="content">
+                    <h2>Tu Reto de Innovación ya está publicado</h2>
+                    <p>Hola {{ variables.author_name }},</p>
+                    <p>¡Buenas noticias! Tu reto de innovación ha sido aprobado y ya se encuentra publicado y visible para todos en la plataforma.</p>
+                    
+                    <div class="details-box">
+                        <p><strong>Título:</strong> {{ variables.reto_label }}</p>
+                        <p><strong>Fecha de Publicación:</strong> {{ variables.created_date }}</p>
+                    </div>
+
+                    <p>Puedes ver cómo luce tu reto haciendo clic en el siguiente botón:</p>
+                    
+                    <div class="button-wrapper">
+                        <a href="{{ variables.base_url }}{{ variables.reto_url }}" class="button">Ver Detalle del Reto</a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="footer">
+                    <p>&copy; {{ "now"|date("Y") }} {{ site_name }}. Portal de Innovación.</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

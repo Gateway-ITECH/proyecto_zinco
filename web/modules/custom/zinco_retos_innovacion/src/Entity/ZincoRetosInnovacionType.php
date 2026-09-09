@@ -17,10 +17,10 @@ use Drupal\zinco_retos_innovacion\ZincoRetosInnovacionTypeListBuilder;
  */
 #[ConfigEntityType(
   id: 'zinco_retos_innovacion_type',
-  label: new TranslatableMarkup('Zinco retos innovacion type'),
-  label_collection: new TranslatableMarkup('Zinco retos innovacion types'),
-  label_singular: new TranslatableMarkup('zinco retos innovacion type'),
-  label_plural: new TranslatableMarkup('zinco retos innovacions types'),
+  label: new TranslatableMarkup('Tipo de reto de innovación'),
+  label_collection: new TranslatableMarkup('Tipos de retos de innovación'),
+  label_singular: new TranslatableMarkup('Tipo de reto de innovación'),
+  label_plural: new TranslatableMarkup('Tipos de retos de innovación'),
   config_prefix: 'zinco_retos_innovacion_type',
   entity_keys: [
     'id' => 'id',
@@ -47,8 +47,8 @@ use Drupal\zinco_retos_innovacion\ZincoRetosInnovacionTypeListBuilder;
   admin_permission: 'administer zinco_retos_innovacion types',
   bundle_of: 'zinco_retos_innovacion',
   label_count: [
-    'singular' => '@count zinco retos innovacion type',
-    'plural' => '@count zinco retos innovacions types',
+    'singular' => '@count Tipo de reto de innovación',
+    'plural' => '@count Tipos de retos de innovación',
   ],
   config_export: [
     'id',
@@ -56,7 +56,8 @@ use Drupal\zinco_retos_innovacion\ZincoRetosInnovacionTypeListBuilder;
     'uuid',
   ],
 )]
-final class ZincoRetosInnovacionType extends ConfigEntityBundleBase {
+final class ZincoRetosInnovacionType extends ConfigEntityBundleBase
+{
 
   /**
    * The machine name of this zinco retos innovacion type.

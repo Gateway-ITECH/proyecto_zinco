@@ -28,7 +28,7 @@
               <dd class="admin-item__description">{{ 'Manage challenge evaluations.'|t }}</dd>
             </div>
             <div class="admin-item">
-              <dt class="admin-item__title"><a href="#" class="admin-item__link">{{ 'Call for Papers'|t }}</a></dt>
+              <dt class="admin-item__title"><a href="/admin/zinco/call-for-papers" class="admin-item__link">{{ 'Call for Papers'|t }}</a></dt>
               <dd class="admin-item__description">{{ 'Manage Call for Papers in the context of innovation challenges.'|t }}</dd>
             </div>
             <div class="admin-item">
@@ -47,12 +47,24 @@
               <dd class="admin-item__description">{{ 'Manage CTI actors.'|t }}</dd>
             </div>
             <div class="admin-item">
-              <dt class="admin-item__title"><a href="/admin/config/zinco-etl/gruplac-scraper" class="admin-item__link">{{ 'Importar/Exportar Datos de Actores'|t }}</a></dt>
-              <dd class="admin-item__description">{{ 'Import and export CTI actor data.'|t }}</dd>
+              <dt class="admin-item__title"><a href="/admin/config/zinco-etl/actor-import" class="admin-item__link">{{ 'Importar Datos de Actores'|t }}</a></dt>
+              <dd class="admin-item__description">{{ 'Import CTI actor data.'|t }}</dd>
+            </div>
+            <div class="admin-item">
+              <dt class="admin-item__title"><a href="/admin/zinco/actors-export" class="admin-item__link">{{ 'Exportar Datos de Actores'|t }}</a></dt>
+              <dd class="admin-item__description">{{ 'Export CTI actor data to CSV.'|t }}</dd>
+            </div>
+            <div class="admin-item">
+              <dt class="admin-item__title"><a href="/admin/config/zinco-etl/gruplac-scraper" class="admin-item__link">{{ 'Sincronizar Datos de Actores'|t }}</a></dt>
+              <dd class="admin-item__description">{{ 'Synchronize CTI actor data.'|t }}</dd>
             </div>
             <div class="admin-item">
               <dt class="admin-item__title"><a href="/admin/config/zinco-front/dashboard" class="admin-item__link">{{ 'Configuraciones de Dashboard de Actores'|t }}</a></dt>
               <dd class="admin-item__description">{{ 'Configure settings for the CTI actors dashboard.'|t }}</dd>
+            </div>
+            <div class="admin-item">
+              <dt class="admin-item__title"><a href="/admin/zinco/dashboard/sync" class="admin-item__link">{{ 'Sincronización de Dashboards'|t }}</a></dt>
+              <dd class="admin-item__description">{{ 'Merge CSV data with dashboard tables.'|t }}</dd>
             </div>
           </dl>
         </div>
@@ -75,11 +87,11 @@
         <div class="panel__content">
           <dl class="admin-list--panel admin-list">
             <div class="admin-item">
-              <dt class="admin-item__title"><a href="#" class="admin-item__link">{{ 'Gestión de Convocatorias'|t }}</a></dt>
+              <dt class="admin-item__title"><a href="/admin/content?title=&type=convocatoria&status=All" class="admin-item__link">{{ 'Gestión de Convocatorias'|t }}</a></dt>
               <dd class="admin-item__description">{{ 'Manage calls for proposals.'|t }}</dd>
             </div>
             <div class="admin-item">
-              <dt class="admin-item__title"><a href="/admin/content?title=&type=convocatoria&status=All" class="admin-item__link">{{ 'Gestión de Cursos'|t }}</a></dt>
+              <dt class="admin-item__title"><a href="/admin/content?title=&type=cursos&status=All" class="admin-item__link">{{ 'Gestión de Cursos'|t }}</a></dt>
               <dd class="admin-item__description">{{ 'Manage courses.'|t }}</dd>
             </div>
             <div class="admin-item">
@@ -87,12 +99,12 @@
               <dd class="admin-item__description">{{ 'Manage events.'|t }}</dd>
             </div>
             <div class="admin-item">
-              <dt class="admin-item__title"><a href="/admin/content?title=&type=necesidad&status=All" class="admin-item__link">{{ 'Gestión de Necesidades'|t }}</a></dt>
-              <dd class="admin-item__description">{{ 'Manage needs.'|t }}</dd>
-            </div>
-            <div class="admin-item">
               <dt class="admin-item__title"><a href="/admin/content?title=&type=noticia&status=All" class="admin-item__link">{{ 'Gestión de Noticias'|t }}</a></dt>
               <dd class="admin-item__description">{{ 'Manage news.'|t }}</dd>
+            </div>
+            <div class="admin-item">
+              <dt class="admin-item__title"><a href="/admin/zinco/scrape-news" class="admin-item__link">{{ 'Sincronizar Noticias (Unicordoba)'|t }}</a></dt>
+              <dd class="admin-item__description">{{ 'Scrape and import the latest news from Unicordoba.'|t }}</dd>
             </div>
           </dl>
         </div>
@@ -102,7 +114,7 @@
         <div class="panel__content">
           <dl class="admin-list--panel admin-list">
             <div class="admin-item">
-              <dt class="admin-item__title"><a href="#" class="admin-item__link">{{ 'Configuración de Landing Page'|t }}</a></dt>
+              <dt class="admin-item__title"><a href="/node/3/edit?destination=/admin/zinco/dashboard" class="admin-item__link">{{ 'Configuración de Landing Page'|t }}</a></dt>
               <dd class="admin-item__description">{{ 'Configure landing page settings.'|t }}</dd>
             </div>
           </dl>

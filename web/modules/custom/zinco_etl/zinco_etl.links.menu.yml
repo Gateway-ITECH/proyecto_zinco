@@ -4,3 +4,31 @@ zinco_etl.settings_form:
   parent: system.admin_config_development
   route_name: zinco_etl.settings_form
   weight: 10
+
+zinco_etl.actor_import_form:
+  title: 'Import Actors'
+  description: 'Import actors from CSV files.'
+  parent: zinco_etl.settings_form
+  route_name: zinco_etl.actor_import_form
+  weight: 20
+
+zinco_etl.gruplac_scraper_form:
+  title: 'Gruplac Scraper'
+  description: 'Scrape software data from Gruplac.'
+  parent: zinco_etl.settings_form
+  route_name: zinco_etl.gruplac_scraper_form
+  weight: 30
+
+zinco_etl.cvlac_scraper_form:
+  title: 'CvLAC Scraper'
+  description: 'Count research articles from CvLAC profiles.'
+  parent: zinco_etl.settings_form
+  route_name: zinco_etl.cvlac_scraper_form
+  weight: 40
+
+zinco_etl.batch_merge_form:
+  title: 'Sincronización de Dashboards'
+  description: 'Merge CSV data with specific database tables for dashboards.'
+  parent: zinco_etl.settings_form
+  route_name: zinco_etl.batch_merge_form
+  weight: 50

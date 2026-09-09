@@ -10,6 +10,17 @@
   color: #000;
 }
 
+.zinco-actores-list .card-text {
+  height: 48px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
 .zinco-actores-list .card-title {
   font-size: 1.25rem;
   font-weight: bold;

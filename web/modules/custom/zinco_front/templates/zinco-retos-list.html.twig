@@ -22,97 +22,108 @@
  */
 #}
 
-<div class="zinco-retos-list">  
-  <div class="row align-items-center mb-3">
-    <div class="col">
-      <h2>Retos de Innovación</h2>
-    </div>
-    <div class="col-auto">
-      <button class="btn btn-primary" id="toggle_retos_filter">{{ 'Filtros'|t }}</button>
-    </div>
-  </div>
-  <div class="row mt-4">
-    <div class="col-md-3 hidden" id="retos_filters">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title"><i class="bi bi-funnel-fill"></i> {{ 'Filtros'|t }}</h5>
-          <div class="mb-3">
-            <label for="search-filter" class="form-label">{{ 'Buscar'|t }}</label>
-            <input type="text" class="form-control" id="search-filter" placeholder="{{ 'Nombre...'|t }}">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">{{ 'Estado'|t }}</label>
-            <div class="d-flex flex-wrap gap-2">
-              {% for estado in estado_terms %}
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="{{ estado.id }}" id="estado-{{ estado.id }}">
-                  <label class="form-check-label" for="estado-{{ estado.id }}">{{ estado.label }}</label>
-                </div>
-              {% endfor %}
-            </div>
-          </div>
-          <hr>
-          <div class="mb-3">
-            <label class="form-label">{{ 'Áreas de enfoque'|t }}</label>
-            <div class="d-flex flex-wrap gap-2">
-              {% for area in area_enfoque_terms %}
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="{{ area.id }}" id="categoria-{{ area.id }}">
-                  <label class="form-check-label" for="categoria-{{ area.id }}">{{ area.label }}</label>
-                </div>
-              {% endfor %}
-            </div>
-          </div>
-          <hr>
-
-          <div class="d-flex justify-content-end gap-2 mt-3">
-            <button type="button" class="btn btn-primary" id="apply_filters">{{ 'Aplicar'|t }}</button>
-            <button type="button" class="btn btn-secondary" id="clear_filters">{{ 'Limpiar'|t }}</button>
-          </div>
+<div class="container mt-7 mb-5">
+  <div class="zinco-retos-wrapper shadow-sm p-4 bg-white rounded">
+    <div class="zinco-retos-list">  
+      <div class="row align-items-center mb-3">
+        <div class="col">
+          <h2>Retos de Innovación</h2>
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-primary" id="toggle_retos_filter">{{ 'Filtros'|t }}</button>
         </div>
       </div>
-    </div>
-    <div class="col">
-      {% if retos %}
-        {% for reto in retos %}
-          <div class="card mb-3">
+      <div class="row mt-4">
+        <div class="col-md-3 hidden" id="retos_filters">
+          <div class="card">
             <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                {# Assuming 'reto.icon' exists for the plant icon, otherwise remove or replace #}
-                {# <img src="{{ reto.icon }}" alt="Icon" class="me-2" style="width: 24px; height: 24px;"> #}
-                {% if reto.area_enfoque %}
-                  {% for area in reto.area_enfoque %}
-                    <span class="badge text-bg-secondary me-2">{{ area }}</span>
+              <h5 class="card-title"><i class="bi bi-funnel-fill"></i> {{ 'Filtros'|t }}</h5>
+              <div class="mb-3">
+                <label for="search-filter" class="form-label">{{ 'Buscar'|t }}</label>
+                <input type="text" class="form-control" id="search-filter" placeholder="{{ 'Nombre...'|t }}">
+              </div>
+              <div class="mb-3">
+                <label class="form-label">{{ 'Estado'|t }}</label>
+                <div class="d-flex flex-wrap gap-2">
+                  {% for estado in estado_terms %}
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="{{ estado.id }}" id="estado-{{ estado.id }}">
+                      <label class="form-check-label" for="estado-{{ estado.id }}">{{ estado.label }}</label>
+                    </div>
                   {% endfor %}
-                {% endif %}
-                <span class="badge text-bg-secondary">{{ reto.estado_reto_innovacion }}</span>
-              </div>
-              <h5 class="card-title"><a href="{{ reto.profile_link }}">{{ reto.label }}</a></h5>
-
-              <p class="card-text">{{ reto.description | raw }}</p>
-              <hr>
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <small class="text-muted me-3"><i class="bi bi-calendar"></i> {{ reto.days_remaining }} días restantes</small>
-                  {# Assuming 'reto.propuestas_count' exists #}
-                  <small class="text-muted me-3"><i class="bi bi-lightbulb"></i> 0 propuestas</small>
                 </div>
-                <a href="{{ reto.profile_link }}" class="btn btn-primary">Ver Detalle <i class="bi bi-arrow-right"></i></a>
               </div>
-              
+              <hr>
+              <div class="mb-3">
+                <label class="form-label">{{ 'Áreas de enfoque'|t }}</label>
+                <div class="d-flex flex-wrap gap-2">
+                  {% for area in area_enfoque_terms %}
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="{{ area.id }}" id="categoria-{{ area.id }}">
+                      <label class="form-check-label" for="categoria-{{ area.id }}">{{ area.label }}</label>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <hr>
+
+              <div class="d-flex justify-content-end gap-2 mt-3">
+                <button type="button" class="btn btn-primary" id="apply_filters">{{ 'Aplicar'|t }}</button>
+                <button type="button" class="btn btn-secondary" id="clear_filters">{{ 'Limpiar'|t }}</button>
+              </div>
             </div>
           </div>
-        {% endfor %}
-      {% else %}
-        <div class="col-12">
-          <p>No se encontraron retos de innovación.</p>
         </div>
+        <div class="col">
+          {% if retos %}
+            {% for reto in retos %}
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="d-flex align-items-center mb-2">
+                    {# Assuming 'reto.icon' exists for the plant icon, otherwise remove or replace #}
+                    {# <img src="{{ reto.icon }}" alt="Icon" class="me-2" style="width: 24px; height: 24px;"> #}
+                    {% if reto.area_enfoque %}
+                      {% for area in reto.area_enfoque %}
+                        <span class="badge text-bg-secondary me-2">{{ area }}</span>
+                      {% endfor %}
+                    {% endif %}
+                    <span class="badge text-bg-secondary">{{ reto.estado_reto_innovacion }}</span>
+                  </div>
+                  <h5 class="card-title"><a href="{{ reto.profile_link }}">{{ reto.label }}</a></h5>
+
+                  <p class="card-text">{{ reto.description | raw }}</p>
+                  <hr>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <small class="text-muted me-3">
+                        <i class="bi bi-calendar"></i> 
+                        {% if reto.days_remaining == -1 %}
+                          Reto cerrado
+                        {% else %}
+                          {{ reto.days_remaining }} días restantes
+                        {% endif %}
+                      </small>
+                      {# Display the calculated count of validated proposals #}
+                      <small class="text-muted me-3"><i class="bi bi-lightbulb"></i> {{ reto.propuestas_count }} propuestas</small>
+                    </div>
+                    <a href="{{ reto.profile_link }}" class="btn btn-primary">Ver Detalle <i class="bi bi-arrow-right"></i></a>
+                  </div>
+                  
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="col-12">
+              <p>No se encontraron retos de innovación.</p>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      {% if pager %}
+        <nav aria-label="Page navigation">
+          {{ pager }}
+        </nav>
       {% endif %}
     </div>
   </div>
-  {% if pager %}
-    <nav aria-label="Page navigation">
-      {{ pager }}
-    </nav>
-  {% endif %}
 </div>

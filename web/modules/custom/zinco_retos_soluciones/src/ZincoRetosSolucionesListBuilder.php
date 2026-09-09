@@ -15,6 +15,50 @@ final class ZincoRetosSolucionesListBuilder extends EntityListBuilder {
   /**
    * {@inheritdoc}
    */
+  public function render() {
+    $build['filter_form'] = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['form-inline', 'mb-3']],
+      'search_form' => [
+        '#type' => 'html_tag',
+        '#tag' => 'form',
+        '#attributes' => [
+          'method' => 'get',
+          'action' => \Drupal\Core\Url::fromRoute('entity.zinco_retos_soluciones.collection')->toString(),
+        ],
+        'label' => [
+          '#type' => 'textfield',
+          '#name' => 'label',
+          '#title' => $this->t('Buscar por título'),
+          '#title_display' => 'invisible',
+          '#default_value' => \Drupal::request()->query->get('label') ?? '',
+          '#size' => 40,
+          '#attributes' => ['placeholder' => $this->t('Ingresa una palabra clave...')],
+        ],
+        'submit' => [
+          '#type' => 'html_tag',
+          '#tag' => 'input',
+          '#attributes' => [
+            'type' => 'submit',
+            'value' => $this->t('Buscar'),
+            'class' => ['button', 'button--primary'],
+          ],
+        ],
+        'reset' => [
+          '#type' => 'link',
+          '#title' => $this->t('Limpiar'),
+          '#url' => \Drupal\Core\Url::fromRoute('entity.zinco_retos_soluciones.collection'),
+          '#attributes' => ['class' => ['button']],
+        ],
+      ],
+    ];
+    $build['table'] = parent::render();
+    return $build;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function buildHeader(): array {
     $header['id'] = $this->t('ID');
     $header['label'] = $this->t('Label');
@@ -41,6 +85,41 @@ final class ZincoRetosSolucionesListBuilder extends EntityListBuilder {
     $row['created']['data'] = $entity->get('created')->view(['label' => 'hidden']);
     $row['changed']['data'] = $entity->get('changed')->view(['label' => 'hidden']);
     return $row + parent::buildRow($entity);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getEntityIds() {
+    $query = $this->getStorage()->getQuery()
+      ->accessCheck(TRUE)
+      ->sort('created', 'DESC');
+
+    $search = \Drupal::request()->query->get('label');
+    if (!empty($search)) {
+      $query->condition('label', '%' . $search . '%', 'LIKE');
+    }
+
+    // Only add the pager if a limit is specified.
+    if ($this->limit) {
+      $query->pager($this->limit);
+    }
+    return $query->execute();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultOperations(EntityInterface $entity): array {
+    $operations = parent::getDefaultOperations($entity);
+
+    $operations['view_evaluation'] = [
+      'title' => $this->t('Ver resultados'),
+      'weight' => 20,
+      'url' => \Drupal\Core\Url::fromRoute('zinco_front.solution_detail', ['solution_id' => $entity->id()]),
+    ];
+
+    return $operations;
   }
 
 }

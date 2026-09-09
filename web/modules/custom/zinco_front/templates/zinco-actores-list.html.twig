@@ -10,89 +10,89 @@
  * @ingroup themeable
  */
 #}
-<h1>{{ category_name }}</h1>
-<div class="zinco-actores-list">
-  <div class="row align-items-center mb-3">
-    <div class="col">
-      <a href="/actores/busqueda/categorias" class="btn btn-secondary"><i class="fas fa-arrow-left me-2"></i>{{ 'Volver a Categorías'|t }}</a>
-    </div>
-    <div class="col-auto">
-      <button class="btn btn-primary" id="toggle_actores_filter">{{ 'Filtros'|t }}</button>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-3 hidden" id="actors_filters">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title"><i class="bi bi-funnel-fill"></i> {{ 'Filtros'|t }}</h5>
-          <div class="mb-3">
-            <label for="search-filter" class="form-label">{{ 'Buscar'|t }}</label>
-            <input type="text" class="form-control" id="search-filter" placeholder="{{ 'Nombre, especialidad...'|t }}">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">{{ 'Tipo de Actor'|t }}</label>
-            {% for bundle in bundles %}
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="{{ bundle.id }}" id="{{ bundle.id }}">
-                <label class="form-check-label" for="{{ bundle.id }}">
-                  {{ bundle.label }}
-                </label>
-              </div>
-            {% endfor %}
-            <div class="d-flex justify-content-end gap-2 mt-3">
-              <button type="button" class="btn btn-primary" id="apply_filters">{{ 'Aplicar'|t }}</button>
-              <button type="button" class="btn btn-secondary" id="clear_filters">{{ 'Limpiar'|t }}</button>
-            </div>
-          </div>
+<div class="container mt-7 mb-5">
+  <div class="zinco-actors-wrapper shadow-sm p-4 bg-white rounded">
+    <h1>{{ category_name }}</h1>
+    <div class="zinco-actores-list">
+      <div class="row align-items-center mb-3">
+        <div class="col">
+          <a href="/actores/busqueda/categorias" class="btn btn-secondary"><i class="fas fa-arrow-left me-2"></i>{{ 'Volver a Categorías'|t }}</a>
         </div>
-        
+        <div class="col-auto">
+          <button class="btn btn-primary" id="toggle_actores_filter">{{ 'Filtros'|t }}</button>
+        </div>
       </div>
-    </div>
-    <div class="col">
-      {% if actors %}
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-          {% for actor in actors %}
-            <div class="col">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="d-flex align-items-center mb-2">
-                    {# Placeholder for icon, you might use an actual icon font or SVG here #}
-                    <span class="me-2"><i class="bi bi-building"></i></span>
-                    <h5 class="card-title mb-0">{{ actor.label }}</h5>
+      <div class="row">
+        <div class="col-md-3 hidden" id="actors_filters">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"><i class="fas fa-filter"></i> {{ 'Filtros'|t }}</h5>
+              <div class="mb-3">
+                <label for="search-filter" class="form-label">{{ 'Buscar'|t }}</label>
+                <input type="text" class="form-control" id="search-filter" placeholder="{{ 'Nombre, especialidad...'|t }}">
+              </div>
+              <div class="mb-3">
+                <label class="form-label">{{ 'Tipo de Actor'|t }}</label>
+                {% for bundle in bundles %}
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="{{ bundle.id }}" id="{{ bundle.id }}">
+                    <label class="form-check-label" for="{{ bundle.id }}">
+                      {{ bundle.label }}
+                    </label>
                   </div>
-                  <span class="badge {{ actor.bundle_color }} mb-2">{{ actor.field_tipo_actor }}</span>
-                  {% if actor.description %}
-                    <p class="card-text">{{ actor.description|striptags }}</p>
-                  {% endif %}
-                  {% if actor.field_municipio %}
-                    <p class="card-text"><i class="bi bi-geo-alt-fill"></i> {{ actor.field_municipio }}</p>
-                  {% endif %}
-                  {% if actor.field_fomento %}
-                    <p class="card-text">{{ actor.field_fomento }}</p>
-                  {% endif %}
-                  {% if actor.field_website %}
-                    <p class="card-text"><i class="bi bi-globe"></i> <a href="{{ actor.field_website }}" target="_blank">Sitio web</a></p>
-                  {% endif %}
-                  {% if actor.profile_link %}
-                    <a href="{{ actor.profile_link }}" class="btn btn-primary w-100">{{ 'Ver Perfil'|t }}</a>
-                  {% endif %}
+                {% endfor %}
+                <div class="d-flex justify-content-end gap-2 mt-3">
+                  <button type="button" class="btn btn-primary" id="apply_filters">{{ 'Aplicar'|t }}</button>
+                  <button type="button" class="btn btn-secondary" id="clear_filters">{{ 'Limpiar'|t }}</button>
                 </div>
-                
-
               </div>
             </div>
-          {% endfor %}
-        </div>
-        {% if pager %}
-          <div class="row mt-4">
-            <div class="col-12 pagination-links">
-              {{ pager }}
-            </div>
           </div>
-        {% endif %}
-      {% else %}
-        <p>{{ 'No se encontraron actores.'|t }}</p>
-      {% endif %}
+        </div>
+        <div class="col">
+          {% if actors %}
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+              {% for actor in actors %}
+                <div class="col">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <div class="d-flex align-items-center mb-2">
+                        <span class="me-2"><i class="fas fa-building"></i></span>
+                        <h5 class="card-title mb-0">{{ actor.label }}</h5>
+                      </div>
+                      <span class="badge {{ actor.bundle_color }} mb-2">{{ actor.field_tipo_actor }}</span>
+                      {% if actor.description %}
+                        <div class="card-text">{{ actor.description|raw }}</div>
+                      {% endif %}
+                      {% if actor.field_municipio %}
+                        <p class="card-text"><i class="fas fa-map-marker-alt me-1"></i> {{ actor.field_municipio }}</p>
+                      {% endif %}
+                      {% if actor.field_fomento %}
+                        <p class="card-text">{{ actor.field_fomento }}</p>
+                      {% endif %}
+                      {% if actor.field_website %}
+                        <p class="card-text"><i class="fas fa-globe me-1"></i> <a href="{{ actor.field_website }}" target="_blank">Sitio web</a></p>
+                      {% endif %}
+                      {% if actor.profile_link %}
+                        <a href="{{ actor.profile_link }}" class="btn btn-primary w-100">{{ 'Ver Perfil'|t }}</a>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+            {% if pager %}
+              <div class="row mt-4">
+                <div class="col-12 pagination-links">
+                  {{ pager }}
+                </div>
+              </div>
+            {% endif %}
+          {% else %}
+            <p>{{ 'No se encontraron actores.'|t }}</p>
+          {% endif %}
+        </div>
+      </div>
     </div>
   </div>
 </div>

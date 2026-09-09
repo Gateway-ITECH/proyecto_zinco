@@ -108,6 +108,7 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       'variables' => [
         'title' => NULL,
         'fields' => NULL,
+        'show_tooltips' => FALSE,
       ],
       'template' => 'zinco-landing-page',
     ],
@@ -153,7 +154,9 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
     'zinco_reto_solution_detail' => [
       'variables' => [
         'solution' => NULL,
-        'reto' => NULL
+        'reto' => NULL,
+        'evaluations' => NULL,
+        'is_evaluator' => FALSE,
       ],
       'template' => 'zinco-reto-solution-detail',
     ],
@@ -196,6 +199,13 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       ],
       'template' => 'zinco-active-calls',
     ],
+    'zinco_evaluaciones_reto_summary' => [
+      'variables' => [
+        'reto' => NULL,
+        'results' => NULL,
+      ],
+      'template' => 'zinco-evaluaciones-reto-summary',
+    ],
     'zinco_oportunidades' => [
       'variables' => [
         'noticias' => [],
@@ -204,6 +214,154 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
         'cursos' => [],
       ],
       'template' => 'zinco-oportunidades',
+    ],
+    'zinco_tecnologias_clave_list' => [
+      'variables' => [
+        'terms' => NULL,
+      ],
+      'template' => 'zinco-tecnologias-clave-list',
+    ],
+    'zinco_user_notifications_block' => [
+      'variables' => [
+        'notifications' => [],
+      ],
+      'template' => 'zinco-user-notifications-block',
+    ],
+    'email_call_for_papers' => [
+      'variables' => [
+        'variables' => [],
+        'site_name' => NULL,
+      ],
+      'template' => 'email-call-for-papers',
+    ],
+    'email_new_reto_notification' => [
+      'variables' => [
+        'variables' => [],
+        'site_name' => NULL,
+      ],
+      'template' => 'email-new-reto-notification',
+    ],
+    'email_reto_publicado' => [
+      'variables' => [
+        'variables' => [],
+        'site_name' => NULL,
+      ],
+      'template' => 'email-reto-publicado',
+    ],
+    'email_new_solution_notification' => [
+      'variables' => [
+        'variables' => [],
+        'site_name' => NULL,
+      ],
+      'template' => 'email-new-solution-notification',
+    ],
+    'zinco_actor_edit_form' => [
+      'variables' => [
+        'actor_form' => NULL,
+        'bundle_label' => NULL,
+      ],
+      'template' => 'zinco-actor-edit-form',
+    ],
+    'zinco_reconocimiento_form' => [
+      'variables' => [
+        'form' => NULL,
+        'title' => NULL,
+      ],
+      'template' => 'zinco-reconocimiento-form',
+    ],
+    'zinco_reconocimientos_list' => [
+      'variables' => [
+        'reconocimientos' => NULL,
+        'actor_id' => NULL,
+        'label_filter' => NULL,
+      ],
+      'template' => 'zinco-reconocimientos-list',
+    ],
+    'zinco_reconocimiento_detail' => [
+      'variables' => [
+        'reconocimiento' => NULL,
+      ],
+      'template' => 'zinco-reconocimiento-detail',
+    ],
+    'zinco_reconocimiento_respond_form' => [
+      'variables' => [
+        'form' => NULL,
+        'label' => NULL,
+      ],
+      'template' => 'zinco-reconocimiento-respond-form',
+    ],
+    'zinco_reconocimiento_actor_form' => [
+      'variables' => [
+        'form' => NULL,
+        'title' => NULL,
+      ],
+      'template' => 'zinco-reconocimiento-actor-form',
+    ],
+    'email_reconocimiento_nueva_solicitud' => [
+      'variables' => [
+        'variables' => [],
+        'site_name' => NULL,
+      ],
+      'template' => 'email-reconocimiento-nueva-solicitud',
+    ],
+    'email_reconocimiento_respuesta' => [
+      'variables' => [
+        'variables' => [],
+        'site_name' => NULL,
+      ],
+      'template' => 'email-reconocimiento-respuesta',
+    ],
+    'email_solution_validated_author' => [
+      'variables' => [
+        'variables' => [],
+        'site_name' => NULL,
+      ],
+      'template' => 'email-solution-validated-author',
+    ],
+    'email_solution_validated_organizer' => [
+      'variables' => [
+        'variables' => [],
+        'site_name' => NULL,
+      ],
+      'template' => 'email-solution-validated-organizer',
+    ],
+    'zinco_curso_detail' => [
+      'variables' => [
+        'curso' => NULL,
+      ],
+      'template' => 'zinco-curso-detail',
+    ],
+    'zinco_noticia_detail' => [
+      'variables' => [
+        'noticia' => NULL,
+      ],
+      'template' => 'zinco-noticia-detail',
+    ],
+    'zinco_evento_detail' => [
+      'variables' => [
+        'evento' => NULL,
+      ],
+      'template' => 'zinco-evento-detail',
+    ],
+    'zinco_convocatoria_detail' => [
+      'variables' => [
+        'convocatoria' => NULL,
+      ],
+      'template' => 'zinco-convocatoria-detail',
+    ],
+    'email_reviewer_assigned' => [
+      'variables' => [
+        'variables' => [],
+        'site_name' => NULL,
+      ],
+      'template' => 'email-reviewer-assigned',
+    ],
+    'email_evaluacion_calificada' => [
+      'variables' => [
+        'variables' => [],
+        'site_name' => NULL,
+      ],
+      'template' => 'email-evaluacion-calificada',
     ],
   ];
 }
@@ -219,7 +377,7 @@ function zinco_front_user_update(UserInterface $account) {
 /**
  * Implements hook_form_alter().
  */
-function zinco_front_form_alter($form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+function zinco_front_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
   $form_object = $form_state->getFormObject();
 
   if ($form_id == 'user_form') {
@@ -232,6 +390,25 @@ function zinco_front_form_alter($form, \Drupal\Core\Form\FormStateInterface $for
     }
   }
 
+  // Agregar enlace de ayuda para Áreas de Enfoque en formularios de Retos.
+  if (strpos($form_id, 'zinco_retos_innovacion_') === 0) {
+    if (isset($form['area_enfoque'])) {
+      $form['area_enfoque_help_link'] = [
+        '#type' => 'link',
+        '#title' => t('Ver listado de áreas de enfoque'),
+        '#url' => \Drupal\Core\Url::fromRoute('zinco_front.tecnologias_clave_list'),
+        '#weight' => $form['area_enfoque']['#weight'] + 0.01,
+        '#attributes' => [
+          'target' => '_blank',
+          'class' => ['area-enfoque-help-link'],
+          'style' => 'display: block; margin-top: -10px; margin-bottom: 15px; font-size: 0.85em; color: #007bff; text-decoration: none;',
+        ],
+        '#prefix' => '<div class="area-enfoque-help-wrapper"><i class="fas fa-external-link-alt" style="font-size: 0.8em; margin-right: 5px;"></i>',
+        '#suffix' => '</div>',
+      ];
+    }
+  }
+
 
     // 1. Verifica que estamos en la operación 'frontend_add' de tu entidad.
     if (get_class($form_object) === 'Drupal\zinco_retos_soluciones\Form\ZincoRetosSolucionesForm' && 
@@ -241,6 +418,93 @@ function zinco_front_form_alter($form, \Drupal\Core\Form\FormStateInterface $for
         // La sintaxis '::customFrontendRedirect' indica que es un método del objeto formulario.
 
     }
+  
+
+  // Agregar botón al campo actores registrados en el tipo de contenido landing page config.
+  if (in_array($form_id, ['node_landing_page_config_form', 'node_landing_page_config_edit_form'])) {
+    if (isset($form['field_actores_registrados'])) {
+      // Creamos un contenedor para agrupar el campo y el botón de forma vertical.
+      $form['field_actores_registrados_container'] = [
+        '#type' => 'container',
+        '#attributes' => [
+          'class' => ['field-actores-registrados-container'],
+          'id' => 'field-actores-registrados-ajax-wrapper',
+        ],
+        '#weight' => $form['field_actores_registrados']['#weight'],
+      ];
+
+      // Movemos el campo dentro del contenedor con peso menor.
+      $form['field_actores_registrados_container']['field_actores_registrados'] = $form['field_actores_registrados'];
+      $form['field_actores_registrados_container']['field_actores_registrados']['#weight'] = 0;
+
+      // Agregamos un hipervínculo en vez de un botón.
+      $form['field_actores_registrados_container']['btn_gestionar_actores'] = [
+        '#type' => 'link',
+        '#title' => t('Total Actores'),
+        '#url' => \Drupal\Core\Url::fromRoute('<current>'),
+        '#weight' => 10,
+        '#attributes' => [
+          'id' => 'btn-gestionar-actores-link',
+          'class' => ['gestionar-actores-link'],
+          'style' => 'margin-top: 10px; display: inline-block; cursor: pointer; text-decoration: underline;',
+          'data-endpoint' => \Drupal\Core\Url::fromRoute('zinco_front.get_actors_count')->toString(),
+        ],
+      ];
+
+      // Eliminamos el campo del nivel superior.
+      unset($form['field_actores_registrados']);
+    }
+
+    if (isset($form['field_proyectos_activos'])) {
+      $form['field_proyectos_activos_container'] = [
+        '#type' => 'container',
+        '#attributes' => [
+          'class' => ['field-proyectos-activos-container'],
+        ],
+        '#weight' => $form['field_proyectos_activos']['#weight'],
+      ];
+
+      $form['field_proyectos_activos_container']['field_proyectos_activos'] = $form['field_proyectos_activos'];
+      $form['field_proyectos_activos_container']['field_proyectos_activos']['#weight'] = 0;
+
+      $form['field_proyectos_activos_container']['btn_gestionar_proyectos'] = [
+        '#type' => 'link',
+        '#title' => t('Total Proyectos'),
+        '#url' => \Drupal\Core\Url::fromRoute('<current>'),
+        '#weight' => 10,
+        '#attributes' => [
+          'id' => 'btn-gestionar-proyectos-link',
+          'class' => ['gestionar-actores-link'],
+          'style' => 'margin-top: 10px; display: inline-block; cursor: pointer; text-decoration: underline;',
+          'data-endpoint' => \Drupal\Core\Url::fromRoute('zinco_front.get_projects_count')->toString(),
+        ],
+      ];
+
+      unset($form['field_proyectos_activos']);
+    }
+
+    // Agregar enlace a iconos de FontAwesome para proteger campos específicos.
+    $icon_fields = [
+      'field_actores_registrados_icon',
+      'field_beneficios_centro_icon',
+      'field_beneficios_derecha_icon',
+      'field_beneficios_izq_icono',
+      'field_colaboraciones_icon',
+      'field_herramientas_centro_icon',
+      'field_herramientas_derecha_icon',
+      'field_herramientas_izq_icon',
+      'field_proyectos_activos_icon',
+    ];
+
+    foreach ($icon_fields as $field_name) {
+      if (isset($form[$field_name])) {
+        $form[$field_name]['#suffix'] = '<div class="icon-help-link" style="margin-top: 5px;"><a href="https://fontawesome.com/v5/search?ic=free-collection" target="_blank" style="text-decoration: underline; font-size: 0.9em;">' . t('Ver iconos disponibles (FontAwesome v5 Free)') . '</a></div>';
+      }
+    }
+
+    // Cargamos nuestra librería personalizada con Vanilla JS.
+    $form['#attached']['library'][] = 'zinco_front/zinco-gestionar-actores';
+  }
 }
 
 
@@ -360,3 +624,239 @@ function zinco_front_form_views_exposed_form_alter(&$form, \Drupal\Core\Form\For
   }
 }
 
+/**
+ * Implements hook_mail().
+ */
+function zinco_front_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'call_for_papers':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = $params['subject'];
+      $message['body'][] = $params['message'];
+      break;
+
+    case 'templated_email':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = $params['subject'];
+      $message['body'][] = $params['body'];
+      $message['headers']['Content-Type'] = 'text/html; charset=UTF-8';
+      break;
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_insert() for zinco_retos_innovacion.
+ */
+function zinco_front_zinco_retos_innovacion_insert(\Drupal\Core\Entity\EntityInterface $entity) {
+  _zinco_front_notify_organizers_on_publish($entity);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update() for zinco_retos_innovacion.
+ */
+function zinco_front_zinco_retos_innovacion_update(\Drupal\Core\Entity\EntityInterface $entity) {
+  // Check if status changed from false to true.
+  $original = $entity->original;
+  if ($original && !$original->get('status')->value && $entity->get('status')->value) {
+    _zinco_front_notify_organizers_on_publish($entity);
+  }
+}
+
+/**
+ * Helper function to notify organizers when a reto is published.
+ */
+function _zinco_front_notify_organizers_on_publish(\Drupal\Core\Entity\EntityInterface $entity) {
+  // Only proceed if the reto is published (status = true).
+  if (!$entity->get('status')->value) {
+    return;
+  }
+
+  if ($entity->hasField('organizador_reto') && !$entity->get('organizador_reto')->isEmpty()) {
+    $actor_ids = array_column($entity->get('organizador_reto')->getValue(), 'target_id');
+    
+    // Find users associated with these actors.
+    $query = \Drupal::entityQuery('user')
+      ->condition('status', 1)
+      ->condition('field_actor', $actor_ids, 'IN')
+      ->accessCheck(FALSE);
+    
+    $uids = $query->execute();
+    
+    if (!empty($uids)) {
+      $users = \Drupal\user\Entity\User::loadMultiple($uids);
+      $mail_service = \Drupal::service('zinco_front.mail_service');
+      $base_url = \Drupal::request()->getSchemeAndHttpHost();
+      
+      $variables = [
+        'reto_label' => $entity->label(),
+        'created_date' => \Drupal::service('date.formatter')->format(\Drupal::time()->getRequestTime(), 'custom', 'd/m/Y'),
+        'base_url' => $base_url,
+        'reto_url' => '/retos/' . $entity->id(),
+      ];
+      
+      foreach ($users as $user) {
+        if ($email = $user->getEmail()) {
+          $variables['author_name'] = $user->getDisplayName();
+          $mail_service->sendTemplatedEmail(
+            $email,
+            'Tu Reto de Innovación ha sido publicado: ' . $entity->label(),
+            'email_reto_publicado', 
+            $variables
+          );
+        }
+      }
+    }
+  }
+}
+
+
+
+/**
+ * Implements hook_ENTITY_TYPE_insert() for zinco_retos_soluciones.
+ */
+function zinco_front_zinco_retos_soluciones_insert(\Drupal\Core\Entity\EntityInterface $entity) {
+  if ($entity->hasField('field_revisores_postulacion') && !$entity->get('field_revisores_postulacion')->isEmpty()) {
+    $reviewer_ids = array_column($entity->get('field_revisores_postulacion')->getValue(), 'target_id');
+    _zinco_front_notify_reviewers_assigned($entity, $reviewer_ids);
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update() for zinco_retos_soluciones.
+ */
+function zinco_front_zinco_retos_soluciones_update(\Drupal\Core\Entity\EntityInterface $entity) {
+  $original = $entity->original;
+  // Trigger notification when status changes from false to true (validated).
+  if ($original && !$original->get('status')->value && $entity->get('status')->value) {
+    _zinco_front_notify_solution_validated($entity);
+  }
+
+  // Trigger notification when reviewers are added.
+  if ($original && $entity->hasField('field_revisores_postulacion')) {
+    $old_reviewers = array_column($original->get('field_revisores_postulacion')->getValue(), 'target_id');
+    $new_reviewers = array_column($entity->get('field_revisores_postulacion')->getValue(), 'target_id');
+    $added_reviewers = array_diff($new_reviewers, $old_reviewers);
+
+    if (!empty($added_reviewers)) {
+      _zinco_front_notify_reviewers_assigned($entity, $added_reviewers);
+    }
+  }
+}
+
+/**
+ * Helper function to notify authors and reto organizers when a solution is validated.
+ */
+function _zinco_front_notify_solution_validated(\Drupal\Core\Entity\EntityInterface $solution) {
+  $mail_service = \Drupal::service('zinco_front.mail_service');
+  $base_url = \Drupal::request()->getSchemeAndHttpHost();
+  $date_formatter = \Drupal::service('date.formatter');
+
+  // 1. Prepare common variables.
+  $reto_label = '';
+  $reto_entity = NULL;
+  if ($solution->hasField('field_reto_asociado') && !$solution->get('field_reto_asociado')->isEmpty()) {
+    $reto_entity = $solution->get('field_reto_asociado')->entity;
+    if ($reto_entity) {
+      $reto_label = $reto_entity->label();
+    }
+  }
+
+  $variables = [
+    'solution_label' => $solution->label(),
+    'reto_label' => $reto_label,
+    'validated_date' => $date_formatter->format(\Drupal::time()->getRequestTime(), 'custom', 'd/m/Y'),
+    'base_url' => $base_url,
+    'solution_url' => '/retos/detalle/' . $solution->id(),
+  ];
+
+  // 2. Notify Solution Authors.
+  if ($solution->hasField('field_autores_solucion') && !$solution->get('field_autores_solucion')->isEmpty()) {
+    $actor_ids = array_column($solution->get('field_autores_solucion')->getValue(), 'target_id');
+    $author_users = _zinco_front_get_users_from_actors($actor_ids);
+
+    foreach ($author_users as $user) {
+      if ($email = $user->getEmail()) {
+        $variables['author_name'] = $user->getDisplayName();
+        $mail_service->sendTemplatedEmail(
+          $email,
+          'Tu postulación ha sido validada: ' . $solution->label(),
+          'email_solution_validated_author',
+          $variables
+        );
+      }
+    }
+  }
+
+  // 3. Notify Reto Organizers.
+  if ($reto_entity && $reto_entity->hasField('organizador_reto') && !$reto_entity->get('organizador_reto')->isEmpty()) {
+    $reto_actor_ids = array_column($reto_entity->get('organizador_reto')->getValue(), 'target_id');
+    $organizer_users = _zinco_front_get_users_from_actors($reto_actor_ids);
+
+    foreach ($organizer_users as $user) {
+      if ($email = $user->getEmail()) {
+        $variables['author_name'] = $user->getDisplayName();
+        $mail_service->sendTemplatedEmail(
+          $email,
+          'Nueva postulación recibida para tu reto: ' . $reto_label,
+          'email_solution_validated_organizer',
+          $variables
+        );
+      }
+    }
+  }
+}
+
+/**
+ * Helper function to notify assigned reviewers.
+ */
+function _zinco_front_notify_reviewers_assigned(\Drupal\Core\Entity\EntityInterface $solution, array $reviewer_ids) {
+  if (empty($reviewer_ids)) {
+    return;
+  }
+
+  $mail_service = \Drupal::service('zinco_front.mail_service');
+  $base_url = \Drupal::request()->getSchemeAndHttpHost();
+  
+  $reto_label = '';
+  if ($solution->hasField('field_reto_asociado') && !$solution->get('field_reto_asociado')->isEmpty()) {
+    $reto_entity = $solution->get('field_reto_asociado')->entity;
+    if ($reto_entity) {
+      $reto_label = $reto_entity->label();
+    }
+  }
+
+  $variables = [
+    'solution_label' => $solution->label(),
+    'reto_label' => $reto_label,
+    'base_url' => $base_url,
+    'evaluate_url' => $base_url . '/retos/evaluar/' . $solution->id(),
+  ];
+
+  $reviewers = \Drupal\user\Entity\User::loadMultiple($reviewer_ids);
+  foreach ($reviewers as $reviewer) {
+    if ($email = $reviewer->getEmail()) {
+      $variables['reviewer_name'] = $reviewer->getDisplayName();
+      $mail_service->sendTemplatedEmail(
+        $email,
+        'Asignación como evaluador: ' . $solution->label(),
+        'email_reviewer_assigned',
+        $variables
+      );
+    }
+  }
+}
+
+/**
+ * Helper function to find users associated with actor IDs.
+ */
+function _zinco_front_get_users_from_actors(array $actor_ids) {
+  if (empty($actor_ids)) {
+    return [];
+  }
+  $query = \Drupal::entityQuery('user')
+    ->condition('status', 1)
+    ->condition('field_actor', $actor_ids, 'IN')
+    ->accessCheck(FALSE);
+  $uids = $query->execute();
+  return !empty($uids) ? \Drupal\user\Entity\User::loadMultiple($uids) : [];
+}

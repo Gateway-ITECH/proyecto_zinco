@@ -20,7 +20,7 @@ use Drupal\zinco_actors\ZincoActorsTypeListBuilder;
   label: new TranslatableMarkup('ZincoActors type'),
   label_collection: new TranslatableMarkup('ZincoActors types'),
   label_singular: new TranslatableMarkup('zincoactors type'),
-  label_plural: new TranslatableMarkup('zincoactorss types'),
+  label_plural: new TranslatableMarkup('Actores Zinco types'),
   config_prefix: 'zinco_actors_zincoactors_type',
   entity_keys: [
     'id' => 'id',
@@ -48,7 +48,7 @@ use Drupal\zinco_actors\ZincoActorsTypeListBuilder;
   bundle_of: 'zinco_actors_zincoactors',
   label_count: [
     'singular' => '@count zincoactors type',
-    'plural' => '@count zincoactorss types',
+    'plural' => '@count Actores Zinco types',
   ],
   config_export: [
     'id',
@@ -56,7 +56,8 @@ use Drupal\zinco_actors\ZincoActorsTypeListBuilder;
     'uuid',
   ],
 )]
-final class ZincoActorsType extends ConfigEntityBundleBase {
+final class ZincoActorsType extends ConfigEntityBundleBase
+{
 
   /**
    * The machine name of this zincoactors type.

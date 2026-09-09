@@ -4,7 +4,7 @@ dependencies:
   module:
     - zinco_retos_evaluacion
 id: zinco_retos_evaluacion_delete_action
-label: 'Delete zinco retos evaluacions'
+label: 'Delete Evaluaciones de retos'
 type: zinco_retos_evaluacion
 plugin: entity:delete_action:zinco_retos_evaluacion
 configuration: {  }

@@ -1,0 +1,232 @@
+{#
+/**
+ * @file
+ * Template for the Course Detail page.
+ *
+ * Available variables:
+ * - curso: Array of course data with:
+ *   - id: Node ID
+ *   - title: Course title
+ *   - description: Body content (formatted)
+ *   - field_flyer_publicitario: URL to the flyer image
+ */
+#}
+
+<section class="zinco-curso-detail py-5 mt-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card border-0 shadow-sm overflow-hidden">
+          
+          
+
+          <div class="card-body p-4 p-md-5">
+            <div class="mb-4">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="/oportunidades">Oportunidades</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Cursos</li>
+                </ol>
+              </nav>
+            </div>
+
+            {% if curso.finalizado %}
+              <div class="mb-3">
+                <span class="badge bg-success px-3 py-2 rounded-pill">Finalizado</span>
+              </div>
+            {% elseif curso.estado_curso %}
+              <div class="mb-3">
+                <span class="badge bg-primary px-3 py-2 rounded-pill">{{ curso.estado_curso }}</span>
+              </div>
+            {% endif %}
+            <h1 class="display-4 fw-bold mb-5">{{ curso.title }}</h1>
+
+            <div class="row">
+              <div class="col-lg-8">
+                <div class="course-content fs-5 text-muted mb-5">
+                  <h4 class="text-dark fw-bold mb-3">Descripción del Curso</h4>
+                  {{ curso.field_descripcion_curso|raw }}
+                </div>
+              </div>
+
+              <div class="col-lg-4">
+                <div class="course-sidebar p-4 rounded-4 bg-light border">
+                  <h4 class="fw-bold mb-4">Detalles del Curso</h4>
+                  
+                  <div class="mb-4">
+                    <label class="text-uppercase small fw-bold text-muted d-block mb-1">Entidad Certificadora</label>
+                    <div class="d-flex align-items-center">
+                      <i class="fas fa-university text-primary me-2"></i>
+                      <span class="fw-semibold">{{ curso.entidad ?: 'No especificada' }}</span>
+                    </div>
+                  </div>
+
+                  <div class="mb-4">
+                    <label class="text-uppercase small fw-bold text-muted d-block mb-1">Modalidad</label>
+                    <div class="d-flex align-items-center">
+                      <i class="fas fa-laptop-house text-primary me-2"></i>
+                      <span class="fw-semibold">{{ curso.modalidad ?: 'No especificada' }}</span>
+                    </div>
+                  </div>
+
+                  <div class="row mb-4">
+                    <div class="col-6">
+                      <label class="text-uppercase small fw-bold text-muted d-block mb-1">Duración</label>
+                      <div class="d-flex align-items-center">
+                        <i class="far fa-clock text-primary me-2"></i>
+                        <span class="fw-semibold">{{ curso.duracion ? curso.duracion ~ ' Horas' : 'N/A' }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-4">
+                    <div class="col-12 mb-3">
+                      <label class="text-uppercase small fw-bold text-muted d-block mb-1">Fecha de Inicio</label>
+                      <div class="d-flex align-items-center">
+                        <i class="far fa-calendar-alt text-primary me-2"></i>
+                        <span class="fw-semibold">{{ curso.fecha_inicio ?: 'Próximamente' }}</span>
+                      </div>
+                    </div>
+                    {% if curso.fecha_fin %}
+                    <div class="col-12">
+                      <label class="text-uppercase small fw-bold text-muted d-block mb-1">Fecha de Fin</label>
+                      <div class="d-flex align-items-center">
+                        <i class="far fa-calendar-check text-primary me-2"></i>
+                        <span class="fw-semibold">{{ curso.fecha_fin }}</span>
+                      </div>
+                    </div>
+                    {% endif %}
+                  </div>
+
+                  {% if curso.link_curso and not curso.finalizado %}
+                    <div class="mt-5">
+                      <a href="{{ curso.link_curso }}" target="_blank" class="btn btn-primary w-100 btn-lg rounded-pill shadow-sm">
+                        Ir al Curso <i class="fas fa-external-link-alt ms-2"></i>
+                      </a>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+
+            <div class="course-actions pt-5 mt-5 border-top">
+              <a href="/oportunidades" class="btn btn-outline-secondary btn-lg rounded-pill px-4">
+                <i class="fas fa-arrow-left me-2"></i> Volver a Oportunidades
+              </a>
+            </div>
+          </div>
+
+          {% if curso.field_flyer_publicitario and not curso.finalizado %}
+            <div class="course-detail-image">
+              <img src="{{ curso.field_flyer_publicitario }}" alt="{{ curso.title }}" class="img-fluid w-100">
+            </div>
+          {% endif %}
+
+          {% if curso.finalizado and curso.evidencias %}
+            <div class="course-evidences p-4 p-md-5 bg-light border-bottom">
+              <div id="courseEvidencesCarousel" class="carousel slide shadow-sm rounded overflow-hidden" data-bs-ride="carousel" data-bs-interval="3000">
+                {% if curso.evidencias|length > 1 %}
+                  <div class="carousel-indicators">
+                    {% for evidence in curso.evidencias %}
+                      <button type="button" data-bs-target="#courseEvidencesCarousel" data-bs-slide-to="{{ loop.index0 }}" {% if loop.first %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ loop.index }}"></button>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+
+                <div class="carousel-inner">
+                  {% for evidence in curso.evidencias %}
+                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                      <img src="{{ evidence }}" class="d-block w-100" alt="Evidencia {{ loop.index }}">
+                    </div>
+                  {% endfor %}
+                </div>
+
+                {% if curso.evidencias|length > 1 %}
+                  <button class="carousel-control-prev" type="button" data-bs-target="#courseEvidencesCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#courseEvidencesCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                  </button>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.zinco-curso-detail {
+  background-color: #f8fafc;
+}
+
+.course-detail-image img {
+  max-height: 500px;
+  object-fit: contain;
+  background-color: #f1f5f9;
+}
+
+#courseEvidencesCarousel {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#courseEvidencesCarousel .carousel-item img {
+  height: 450px;
+  object-fit: contain;
+  background-color: #f1f5f9; /* Subtle background for transparency/empty space */
+}
+
+#courseEvidencesCarousel .carousel-indicators {
+  bottom: -40px;
+  margin-bottom: 0;
+}
+
+#courseEvidencesCarousel .carousel-indicators [data-bs-target] {
+  background-color: #7fc54d;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  margin: 0 5px;
+}
+
+.course-evidences {
+  border-top: 1px solid #e2e8f0;
+  padding-bottom: 60px !important; /* Spacing for indicators */
+}
+
+.course-content p {
+  margin-bottom: 1.5rem;
+}
+
+.course-sidebar {
+  position: sticky;
+  top: 100px;
+}
+
+.course-sidebar label {
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+}
+
+.course-sidebar i {
+  width: 20px;
+  text-align: center;
+}
+
+.breadcrumb-item a {
+  color: #7fc54d;
+  text-decoration: none;
+}
+
+.breadcrumb-item.active {
+  color: #64748b;
+}
+</style>

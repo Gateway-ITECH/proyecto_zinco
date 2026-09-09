@@ -9,26 +9,30 @@
  *   - label: The human-readable label of the bundle.
  */
 #}
-{% if bundles %}
-  <h1>{{ category_name }}</h1>
-  <p>{{ 'Selecciona el tipo de actor para continuar con el registro'|t }}</p>
-  <div class="mb-4">
-    <a href="/actores/categorias" class="btn btn-secondary"><i class="fas fa-arrow-left me-2"></i>{{ 'Volver a Categorías'|t }}</a>
-  </div>
-  <div class="row">
-    {% for bundle in bundles %}
-      <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-        <div class="card h-100" style="min-height: 250px">
-          <div class="card-body">
-            <img src="{{ bundle.icon }}" alt="{{ bundle.label }}" class="img-fluid mb-4" style="height: 80px">
-            <h5 class="card-title mb-5" style="color: #333; min-height: 75px">{{ bundle.label }}</h5>
-            <p style="min-height: 180px">{{ bundle.description }}</p>
-            <a href="/actores/add/{{ bundle.id }}" class="btn btn-primary">{{ 'Seleccionar'|t }}</a>
-          </div>
-        </div>
+<div class="container mt-5 mb-5">
+  <div class="zinco-actor-bundles-wrapper shadow-sm p-4 bg-white rounded">
+    {% if bundles %}
+      <h1>{{ category_name }}</h1>
+      <p>{{ 'Selecciona el tipo de actor para continuar con el registro'|t }}</p>
+      <div class="mb-4">
+        <a href="/actores/categorias" class="btn btn-secondary"><i class="fas fa-arrow-left me-2"></i>{{ 'Volver a Categorías'|t }}</a>
       </div>
-    {% endfor %}
+      <div class="row">
+        {% for bundle in bundles %}
+          <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+            <div class="card h-100" style="min-height: 250px">
+              <div class="card-body">
+                <img src="{{ bundle.icon }}" alt="{{ bundle.label }}" class="img-fluid mb-4" style="height: 80px">
+                <h5 class="card-title mb-5" style="color: #333; min-height: 75px">{{ bundle.label }}</h5>
+                <p style="min-height: 180px">{{ bundle.description }}</p>
+                <a href="/actores/add/{{ bundle.id }}" class="btn btn-primary">{{ 'Seleccionar'|t }}</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>{{ 'No actor bundles found.'|t }}</p>
+    {% endif %}
   </div>
-{% else %}
-  <p>{{ 'No actor bundles found.'|t }}</p>
-{% endif %}
+</div>

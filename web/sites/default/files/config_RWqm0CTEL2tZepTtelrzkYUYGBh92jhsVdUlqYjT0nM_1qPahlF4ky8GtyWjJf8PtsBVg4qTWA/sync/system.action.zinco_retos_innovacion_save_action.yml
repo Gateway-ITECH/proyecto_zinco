@@ -7,7 +7,7 @@ dependencies:
 _core:
   default_config_hash: IHiU4tsPsARRKkYBLBk7NZl61BnXazpgGuJ1iZxDnLI
 id: zinco_retos_innovacion_save_action
-label: 'Save zinco retos innovacions'
+label: 'Guardar reto'
 type: zinco_retos_innovacion
 plugin: 'entity:save_action:zinco_retos_innovacion'
 configuration: {  }

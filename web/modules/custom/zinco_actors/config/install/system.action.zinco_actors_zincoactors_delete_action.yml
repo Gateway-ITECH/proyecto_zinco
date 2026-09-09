@@ -4,7 +4,7 @@ dependencies:
   module:
     - zinco_actors
 id: zinco_actors_zincoactors_delete_action
-label: 'Delete zincoactorss'
+label: 'Delete Actores Zinco'
 type: zinco_actors_zincoactors
 plugin: entity:delete_action:zinco_actors_zincoactors
 configuration: {  }

@@ -5,7 +5,7 @@ entity.zinco_retos_soluciones.settings:
   parent: system.admin_structure
 
 entity.zinco_retos_soluciones.collection:
-  title: 'Zinco retos solucioness'
+  title: 'Postulaciones retos'
   description: 'List of zinco retos solucioness.'
   route_name: entity.zinco_retos_soluciones.collection
   parent: system.admin_content

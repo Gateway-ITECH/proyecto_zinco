@@ -43,7 +43,7 @@ function template_preprocess_zinco_actors_zincoactors(array &$variables): void {
 function zinco_actors_user_cancel($edit, UserInterface $account, $method): void {
   switch ($method) {
     case 'user_cancel_block_unpublish':
-      // Unpublish zincoactorss.
+      // Unpublish Actores Zinco.
       $storage = \Drupal::entityTypeManager()->getStorage('zinco_actors_zincoactors');
       $zinco_actors_zincoactors_ids = $storage->getQuery()
         ->condition('uid', $account->id())
@@ -56,7 +56,7 @@ function zinco_actors_user_cancel($edit, UserInterface $account, $method): void 
       break;
 
     case 'user_cancel_reassign':
-      // Anonymize zincoactorss.
+      // Anonymize Actores Zinco.
       $storage = \Drupal::entityTypeManager()->getStorage('zinco_actors_zincoactors');
       $zinco_actors_zincoactors_ids = $storage->getQuery()
         ->condition('uid', $account->id())
@@ -73,7 +73,7 @@ function zinco_actors_user_cancel($edit, UserInterface $account, $method): void 
  * Implements hook_ENTITY_TYPE_predelete() for user entities.
  */
 function zinco_actors_user_predelete(UserInterface $account): void {
-  // Delete zincoactorss that belong to this account.
+  // Delete Actores Zinco that belong to this account.
   $storage = \Drupal::entityTypeManager()->getStorage('zinco_actors_zincoactors');
   $zinco_actors_zincoactors_ids = $storage->getQuery()
     ->condition('uid', $account->id())

@@ -1,24 +1,116 @@
 {#
 /**
  * @file
- * Default theme implementation to present a zinco retos innovacion entity.
- *
- * This template is used when viewing a canonical zinco retos innovacion page,
- *
- * Available variables:
- * - content: A list of content items. Use 'content' to print all content, or
- *   print a subset such as 'content.label'.
- * - attributes: HTML attributes for the container element.
- *
- * @see template_preprocess_zinco_retos_innovacion()
+ * Custom theme implementation for Zinco Retos Innovacion.
  */
 #}
-<article{{ attributes }}>
-  {% if view_mode != 'full' %}
-    {{ title_prefix }}
-    {{ title_suffix }}
-  {% endif %}
-  {% if content %}
-    {{- content -}}
-  {% endif %}
+<style>
+  .reto-content-layout {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.reto-main-column { flex: 2; }
+.reto-sidebar { flex: 1; }
+
+.reto-card, .sidebar-block, .reto-short-desc {
+  background: #ffffff;
+  border: 1px solid #e1e1e1;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.sidebar-block h4 {
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 8px;
+  margin-top: 0;
+}
+
+.badge-area {
+  background: #007bff;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+</style>
+<article{{ attributes.addClass('reto-innovacion-container') }}>
+
+  {# 1. ENCABEZADO PRINCIPAL #}
+  <header class="reto-header">
+    <div class="reto-meta-top">
+      <span class="badge-area">{{ content.area_enfoque[0]|render|striptags|trim }}</span>
+      <span class="badge-status {{ content.estado_reto_innovacion|render|clean_class }}">
+        {{ content.estado_reto_innovacion }}
+      </span>
+    </div>
+    
+    <h1 class="reto-title">{{ label }}</h1>
+    
+    <div class="reto-short-desc">
+      {{ content.field_descripcion_corta }}
+    </div>
+  </header>
+
+  <div class="reto-content-layout">
+    
+    {# 2. COLUMNA PRINCIPAL (Izquierda) #}
+    <div class="reto-main-column">
+      
+      <section class="reto-card">
+        <h3>Descripción Detallada</h3>
+        {{ content.description }}
+      </section>
+
+      <section class="reto-card">
+        <h3>Criterios de Evaluación</h3>
+        <div class="criterios-list">
+          {{ content.criterios_evaluacion_reto }}
+          {{ content.field_criterios_reto }}
+        </div>
+      </section>
+
+      <section class="reto-card">
+        <h3>Recompensas y Restricciones</h3>
+        <div class="highlight-box">
+          {{ content.recompensas_reto }}
+          <hr>
+          {{ content.field_requisitos_restricciones }}
+        </div>
+      </section>
+    </div>
+
+    {# 3. BARRA LATERAL (Derecha) #}
+    <aside class="reto-sidebar">
+      
+      <div class="sidebar-block">
+        <h4>Detalles del Organizador</h4>
+        <div class="item"><strong>Organizador:</strong> {{ content.organizador_reto }}</div>
+        <div class="item"><strong>Sector:</strong> {{ content.sector_economico }}</div>
+        <div class="item"><strong>Ubicación:</strong> {{ content.field_municipio }}</div>
+      </div>
+
+      <div class="sidebar-block cronograma">
+        <h4>Cronograma</h4>
+        <div class="item"><strong>Inicio:</strong> {{ content.fecha_inicio }}</div>
+        <div class="item"><strong>Fin:</strong> {{ content.fecha_fin }}</div>
+        <div class="item"><strong>Evaluación:</strong> {{ content.fecha_evaluacion }}</div>
+      </div>
+
+      {% if content.documentos_reto|render %}
+        <div class="sidebar-block docs">
+          <h4>Documentación</h4>
+          {{ content.documentos_reto }}
+        </div>
+      {% endif %}
+
+    </aside>
+  </div>
+
+  {# Imprimir campos ocultos o técnicos que sobren para evitar errores #}
+  <div style="display:none;">{{ content|without('area_enfoque', 'estado_reto_innovacion', 'field_descripcion_corta', 'description', 'criterios_evaluacion_reto', 'field_criterios_reto', 'recompensas_reto', 'field_requisitos_restricciones', 'organizador_reto', 'sector_economico', 'field_municipio', 'fecha_inicio', 'fecha_fin', 'fecha_evaluacion', 'documentos_reto', 'status', 'uid', 'created', 'visibilidad_reto', 'aprobado_por') }}</div>
+
 </article>

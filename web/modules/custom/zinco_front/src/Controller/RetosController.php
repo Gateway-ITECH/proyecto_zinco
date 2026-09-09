@@ -13,7 +13,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * Provides a ZincoFront controller for Retos.
  */
-class RetosController extends ControllerBase {
+class RetosController extends ControllerBase
+{
 
   /**
    * The entity type manager.
@@ -22,19 +23,19 @@ class RetosController extends ControllerBase {
    */
   protected $entityTypeManager;
 
- /**
-  * The request stack.
-  *
-  * @var \Symfony\Component\HttpFoundation\RequestStack
-  */
- protected $requestStack;
+  /**
+   * The request stack.
+   *
+   * @var \Symfony\Component\HttpFoundation\RequestStack
+   */
+  protected $requestStack;
 
- /**
-  * The form builder.
-  *
-  * @var \Drupal\Core\Form\FormBuilderInterface
-  */
- protected $formBuilder;
+  /**
+   * The form builder.
+   *
+   * @var \Drupal\Core\Form\FormBuilderInterface
+   */
+  protected $formBuilder;
 
   /**
    * The file URL generator.
@@ -55,7 +56,8 @@ class RetosController extends ControllerBase {
    * @param \Drupal\Core\File\FileUrlGeneratorInterface $file_url_generator
    *   The file URL generator.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $request_stack, FormBuilderInterface $form_builder, FileUrlGeneratorInterface $file_url_generator) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $request_stack, FormBuilderInterface $form_builder, FileUrlGeneratorInterface $file_url_generator)
+  {
     $this->entityTypeManager = $entity_type_manager;
     $this->requestStack = $request_stack;
     $this->formBuilder = $form_builder;
@@ -65,7 +67,8 @@ class RetosController extends ControllerBase {
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
+  public static function create(ContainerInterface $container)
+  {
     return new static(
       $container->get('entity_type.manager'),
       $container->get('request_stack'),
@@ -80,7 +83,8 @@ class RetosController extends ControllerBase {
    * @return array
    *   A renderable array.
    */
-  public function listarRetos() {
+  public function listarRetos()
+  {
     $retos = [];
     $filters_param = $this->requestStack->getCurrentRequest()->query->get('filters');
     $search_term = $this->requestStack->getCurrentRequest()->query->get('search_term');
@@ -109,6 +113,7 @@ class RetosController extends ControllerBase {
       $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
       $query = $term_storage->getQuery()
         ->condition('vid', 'estados_de_retos_de_innovacion')
+        ->condition('status', 1)
         ->accessCheck(FALSE);
       $tids = $query->execute();
       $terms = $term_storage->loadMultiple($tids);
@@ -119,8 +124,17 @@ class RetosController extends ControllerBase {
           'label' => $term->label(),
         ];
       }
-    } catch (\Exception $e) {
-      $this->messenger()->addError($this->t('Error loading estado terms: @message', ['@message' => $e->getMessage()]));
+    } catch (\Throwable $e) {
+      $this->messenger()->addError($this->t('Error al guardar la calificación: @message in @file:@line', [
+        '@message' => $e->getMessage(),
+        '@file' => $e->getFile(),
+        '@line' => $e->getLine(),
+      ]));
+      \Drupal::logger('zinco_front')->error('Error saving evaluation: @message in @file:@line', [
+        '@message' => $e->getMessage(),
+        '@file' => $e->getFile(),
+        '@line' => $e->getLine(),
+      ]);
     }
 
     // Get all terms from 'area_enfoque' taxonomy.
@@ -144,15 +158,20 @@ class RetosController extends ControllerBase {
     }
 
 
-    
+
 
     try {
       $reto_storage = $this->entityTypeManager->getStorage('zinco_retos_innovacion');
       $query = $reto_storage->getQuery();
+
+      // Ensure only visible, approved and published retos are listed.
+      $query->condition('visibilidad_reto', 1);
+      $query->exists('aprobado_por');
+      $query->condition('status', 1);
       if (!empty($filters_param)) {
         $bundle_ids = explode(',', $filters_param);
         // Assuming 'area_enfoque' is the field to filter by.
-        
+
         if (!empty($areas_enfoque_ids)) {
           $query->condition('area_enfoque', $areas_enfoque_ids, 'IN');
         }
@@ -164,6 +183,7 @@ class RetosController extends ControllerBase {
         $query->condition('label', $search_term, 'CONTAINS');
       }
 
+      $query->sort('fecha_inicio', 'DESC');
       $query->accessCheck(FALSE);
       $pager = $query->pager(9); // Display 9 retos per page.
       $reto_ids = $pager->execute();
@@ -188,8 +208,12 @@ class RetosController extends ControllerBase {
         if (!empty($reto_data['fecha_fin'])) {
           $current_date = new \DateTime();
           $end_date = new \DateTime($reto_data['fecha_fin']);
-          $interval = $current_date->diff($end_date);
-          $reto_data['days_remaining'] = $interval->days;
+          if ($current_date > $end_date) {
+            $reto_data['days_remaining'] = -1;
+          } else {
+            $interval = $current_date->diff($end_date);
+            $reto_data['days_remaining'] = $interval->days;
+          }
         } else {
           $reto_data['days_remaining'] = 0;
         }
@@ -230,11 +254,18 @@ class RetosController extends ControllerBase {
         // Generate profile link.
         $reto_data['profile_link'] = '/retos/' . $reto->id();
 
-        
+        // Calculate proposals count.
+        $soluciones_count = $this->entityTypeManager->getStorage('zinco_retos_soluciones')->getQuery()
+          ->condition('field_reto_asociado', $reto->id())
+          ->condition('status', 1)
+          ->accessCheck(FALSE)
+          ->count()
+          ->execute();
+        $reto_data['propuestas_count'] = $soluciones_count;
+
         return $reto_data;
       }, $retos);
-    }
-    catch (\Exception $e) {
+    } catch (\Exception $e) {
       $this->messenger()->addError($this->t('Error loading retos: @message', ['@message' => $e->getMessage()]));
     }
 
@@ -268,7 +299,8 @@ class RetosController extends ControllerBase {
    * @return array
    *   A renderable array.
    */
-  public function verDetalleReto($reto_id) {
+  public function verDetalleReto($reto_id)
+  {
     try {
       $reto_storage = $this->entityTypeManager->getStorage('zinco_retos_innovacion');
       $reto = $reto_storage->load($reto_id);
@@ -288,8 +320,12 @@ class RetosController extends ControllerBase {
       if (!empty($reto_data['fecha_fin'])) {
         $current_date = new \DateTime();
         $end_date = new \DateTime($reto_data['fecha_fin']);
-        $interval = $current_date->diff($end_date);
-        $reto_data['days_remaining'] = $interval->days;
+        if ($current_date > $end_date) {
+          $reto_data['days_remaining'] = -1;
+        } else {
+          $interval = $current_date->diff($end_date);
+          $reto_data['days_remaining'] = $interval->days;
+        }
       } else {
         $reto_data['days_remaining'] = 0;
       }
@@ -369,11 +405,11 @@ class RetosController extends ControllerBase {
             'label' => $solucion->label(),
             'description' => $solucion->get('description')->value,
             'author' => $solucion->getOwner()->getDisplayName(),
-            // Add other fields as needed.
+            'status' => $solucion->get('status')->value,
           ];
         }
       }
-      
+
 
       return [
         '#theme' => 'zinco_reto_detail',
@@ -388,12 +424,12 @@ class RetosController extends ControllerBase {
           ],
         ],
       ];
-    }
-    catch (\Exception $e) {
+    } catch (\Exception $e) {
       $this->messenger()->addError($this->t('Error loading reto: @message', ['@message' => $e->getMessage()]));
       return [];
     }
   }
+
 
   /**
    * Returns a solution detail page.
@@ -404,7 +440,8 @@ class RetosController extends ControllerBase {
    * @return array
    *   A renderable array.
    */
-  public function solutionDetail($solution_id) {
+  public function solutionDetail($solution_id)
+  {
     try {
       $solution_storage = $this->entityTypeManager->getStorage('zinco_retos_soluciones');
       $solution = $solution_storage->load($solution_id);
@@ -462,8 +499,12 @@ class RetosController extends ControllerBase {
           if (!empty($reto_data['fecha_fin'])) {
             $current_date = new \DateTime();
             $end_date = new \DateTime($reto_data['fecha_fin']);
-            $interval = $current_date->diff($end_date);
-            $reto_data['days_remaining'] = $interval->days;
+            if ($current_date > $end_date) {
+              $reto_data['days_remaining'] = -1;
+            } else {
+              $interval = $current_date->diff($end_date);
+              $reto_data['days_remaining'] = $interval->days;
+            }
           } else {
             $reto_data['days_remaining'] = 0;
           }
@@ -519,13 +560,53 @@ class RetosController extends ControllerBase {
         }
       }
 
+      $current_user = \Drupal::currentUser();
+      $is_evaluator = in_array('evaluador_retos', $current_user->getRoles());
+
+      // Load evaluations.
+      $evaluations_data = [];
+      $evaluation_ids = $this->entityTypeManager->getStorage('zinco_retos_evaluacion')->getQuery()
+        ->condition('field_solucion_evaluada', $solution_id)
+        ->accessCheck(FALSE)
+        ->sort('created', 'DESC')
+        ->execute();
+
+      if (!empty($evaluation_ids)) {
+        $evaluations = $this->entityTypeManager->getStorage('zinco_retos_evaluacion')->loadMultiple($evaluation_ids);
+        foreach ($evaluations as $eval) {
+          $eval_item = [
+            'evaluator' => $eval->getOwner() ? $eval->getOwner()->getDisplayName() : $this->t('Anonymous'),
+            'date' => $eval->get('field_fecha_de_evaluacion')->value,
+            'comments' => $eval->get('field_comentarios_evaluacion')->value,
+            'scores' => [],
+          ];
+
+          if ($eval->hasField('field_puntuacion_de_solucion')) {
+            foreach ($eval->get('field_puntuacion_de_solucion')->referencedEntities() as $p) {
+              $rating_term = $p->hasField('field_calificacion_de_solucion_a') ? $p->get('field_calificacion_de_solucion_a')->entity : NULL;
+              $eval_item['scores'][] = [
+                'criterion' => $p->hasField('field_criterio_evaluado') ? $p->get('field_criterio_evaluado')->value : '',
+                'rating' => $rating_term ? $rating_term->label() : 'N/A',
+              ];
+            }
+          }
+          $evaluations_data[] = $eval_item;
+        }
+      }
+
+
       return [
         '#theme' => 'zinco_reto_solution_detail',
         '#solution' => $solution_data,
         '#reto' => $reto_data,
+        '#is_evaluator' => $is_evaluator,
+        '#evaluations' => $evaluations_data,
         '#cache' => [
-          'tags' => $this->entityTypeManager->getDefinition('zinco_retos_soluciones')->getListCacheTags(),
-          'contexts' => ['url'],
+          'tags' => array_merge(
+            $this->entityTypeManager->getDefinition('zinco_retos_soluciones')->getListCacheTags(),
+            $this->entityTypeManager->getDefinition('zinco_retos_evaluacion')->getListCacheTags()
+          ),
+          'contexts' => ['url', 'user.roles'],
         ],
         '#attached' => [
           'library' => [
@@ -533,8 +614,7 @@ class RetosController extends ControllerBase {
           ],
         ],
       ];
-    }
-    catch (\Exception $e) {
+    } catch (\Exception $e) {
       $this->messenger()->addError($this->t('Error loading solution: @message', ['@message' => $e->getMessage()]));
       return [];
     }
@@ -549,7 +629,8 @@ class RetosController extends ControllerBase {
    * @return array
    *   A renderable array containing the form.
    */
-  public function submitRetoSolutionForm($reto_id) {
+  public function submitRetoSolutionForm($reto_id)
+  {
     $entity = $this->entityTypeManager()->getStorage('zinco_retos_soluciones')->create([
       'reto_id' => $reto_id,
     ]);
@@ -557,7 +638,7 @@ class RetosController extends ControllerBase {
     $entity->set('field_reto_asociado', $reto_id);
 
     // Load the 'No revisado' term from 'estados_de_postulacion_a_retos' vocabulary.
-    $term_storage = $this->entityTypeManager()->getStorage('taxonomy_term');
+    $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
     $terms = $term_storage->loadByProperties([
       'vid' => 'estados_de_postulacion_a_retos',
       'name' => 'No revisado',
@@ -573,15 +654,18 @@ class RetosController extends ControllerBase {
     $form['field_retroalimentacion']['#access'] = FALSE;
     $form['field_revisores_postulacion']['#access'] = FALSE;
     $form['field_estado_postulacion_idea']['#access'] = FALSE;
+    $form['status']['#access'] = FALSE;
+    $form['status']['#value'] = FALSE;
+    //
     $form['contextual_alert'] = [
-        '#type' => 'markup',
-        '#markup' => $this->t('<div class="alert alert-info">En caso que no encuentre el nombre del autor puede registrarlo <a href="/actores/bundles">aquí</a></div>'),
-        // Asignar un peso negativo lo coloca al principio del formulario.
-        // Los elementos del formulario principal suelen tener pesos cercanos a 0 o positivos.
-        '#weight' => 2, 
+      '#type' => 'markup',
+      '#markup' => $this->t('<div class="alert alert-info">En caso que no encuentre el nombre del autor puede registrarlo <a href="/actores/categorias">aquí</a></div>'),
+      // Asignar un peso negativo lo coloca al principio del formulario.
+      // Los elementos del formulario principal suelen tener pesos cercanos a 0 o positivos.
+      '#weight' => 2,
     ];
     //$form['#submit'][] = [$this, 'retosPropuestasSubmitHandler'];
-    
+
     return [
       '#theme' => 'zinco_reto_solution_form',
       '#form' => $form,
@@ -592,146 +676,297 @@ class RetosController extends ControllerBase {
     ];
   }
 
-   /**
-    * Returns a list of retos to evaluate.
-    *
-    * @return array
-    *   A renderable array.
-    */
-   public function listadoRetosEvaluar() {
-     $soluciones_data = [];
-     //obtener id del usuario actual
-     $current_user = \Drupal::currentUser();
-     $user_id = $current_user->id();
-     try {
-       $reto_solucion_storage = $this->entityTypeManager->getStorage('zinco_retos_soluciones');
-       $reto_innovacion_storage = $this->entityTypeManager->getStorage('zinco_retos_innovacion');
-       $actor_storage = $this->entityTypeManager->getStorage('zinco_actors_zincoactors');
-       $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
- 
-       // Get the 'En evaluación' term ID from 'estados_de_postulacion_a_retos' vocabulary.
-       $terms = $term_storage->loadByProperties([
-         'vid' => 'estados_de_postulacion_a_retos',
-         'name' => 'En revisión',
-       ]);
-       $en_evaluacion_term = reset($terms);
- 
-       if (!$en_evaluacion_term) {
-         $this->messenger()->addWarning($this->t('The "En evaluación" term was not found in the "estados_de_postulacion_a_retos" vocabulary.'));
-         return [];
-       }
- 
-       // Query zinco_retos_soluciones where the current user is a reviewer and the solution is 'En evaluación'.
-       $solucion_query = $reto_solucion_storage->getQuery()
-         ->condition('field_revisores_postulacion', $user_id, 'IN')
-         ->condition('field_estado_postulacion_idea', $en_evaluacion_term->id())
-         ->accessCheck(FALSE);
-       $solucion_ids = $solucion_query->execute();
-       
-       if (!empty($solucion_ids)) {
-         $soluciones = $reto_solucion_storage->loadMultiple($solucion_ids);
-         foreach ($soluciones as $solucion) {
-           $solucion_item = [];
-           $solucion_item['id'] = $solucion->id();
-           $solucion_item['label'] = $solucion->label();
-           $solucion_item['description'] = $solucion->hasField('description') && !$solucion->get('description')->isEmpty() ? $solucion->get('description')->value : '';
- 
-           // Get authors.
-           $authors = [];
-           if ($solucion->hasField('field_autores_solucion') && !$solucion->get('field_autores_solucion')->isEmpty()) {
-             foreach ($solucion->get('field_autores_solucion')->referencedEntities() as $actor_entity) {
-               if ($actor_entity) {
-                 $authors[] = $actor_entity->label();
-               }
-             }
-           }
-           $solucion_item['authors'] = implode(', ', $authors);
- 
-           // Get associated reto name.
-           $reto_name = '';
-           if ($solucion->hasField('field_reto_asociado') && !$solucion->get('field_reto_asociado')->isEmpty()) {
-             $reto_id = $solucion->get('field_reto_asociado')->target_id;
-             $reto_entity = $reto_innovacion_storage->load($reto_id);
-             if ($reto_entity) {
-               $reto_name = $reto_entity->label();
-             }
-           }
-           $solucion_item['reto_asociado'] = $reto_name;
-           $solucion_item['reto_asociado_id'] = $reto_id; // Add reto ID to solution data.
-           $solucion_item['evaluate_link'] = '/retos/evaluar/' . $solucion->id(); // Link to evaluate the specific solution.
- 
-           $soluciones_data[] = $solucion_item;
-         }
-       }
-     }
-     catch (\Exception $e) {
-       $this->messenger()->addError($this->t('Error loading solutions for evaluation: @message', ['@message' => $e->getMessage()]));
-     }
- 
-     return [
-       '#theme' => 'zinco_retos_evaluar_list',
-       '#soluciones' => $soluciones_data, // Pass solutions data to the Twig template.
-       '#cache' => [
-         'tags' => $this->entityTypeManager->getDefinition('zinco_retos_soluciones')->getListCacheTags(),
-         'contexts' => ['url.query_args', 'user'],
-       ],
-       '#attached' => [
-         'library' => [
-           'zinco_front/zinco-retos-evaluar-list',
-         ],
-       ],
-     ];
-   }
+  /**
+   * Returns a list of retos to evaluate.
+   *
+   * @return array
+   *   A renderable array.
+   */
+  public function listadoRetosEvaluar()
+  {
+    $soluciones_data = [];
+    //obtener id del usuario actual
+    $current_user = \Drupal::currentUser();
+    $user_id = $current_user->id();
+    try {
+      $reto_solucion_storage = $this->entityTypeManager->getStorage('zinco_retos_soluciones');
+      $reto_innovacion_storage = $this->entityTypeManager->getStorage('zinco_retos_innovacion');
+      $actor_storage = $this->entityTypeManager->getStorage('zinco_actors_zincoactors');
+      $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
 
-   /**
-    * Displays the reto solution evaluation form.
-    *
-    * @param int $solution_id
-    *   The ID of the solution to evaluate.
-    *
-    * @return array
-    *   A renderable array containing the form.
-    */
-   public function calificarReto($solution_id) {
-     try {
-       //obtener usuario actual
-        $current_user = \Drupal::currentUser();
-        $user_id = $current_user->id();
-        //obtener fecha actual y hora actual
-        $current_datetime = new \DateTime();
-        $formatted_datetime = $current_datetime->format('Y-m-d\TH:i:s');
-       //crear entidad vacia de tipo zinco_retos_evaluaciones
-       $entity = $this->entityTypeManager()->getStorage('zinco_retos_evaluacion')->create([
-         'field_solucion_evaluada' => $solution_id,
-         'field_evaluador' => $user_id
-       ]);
+      // Get the 'En evaluación' term ID from 'estados_de_postulacion_a_retos' vocabulary.
+      $terms = $term_storage->loadByProperties([
+        'vid' => 'estados_de_postulacion_a_retos',
+        'name' => 'En revisión',
+      ]);
+      $en_evaluacion_term = reset($terms);
 
-       //cargar form de entity
-        $form = $this->entityFormBuilder()->getForm($entity, 'frontend_add');
-        //ocultar campos no necesarios
-        $form['field_solucion_evaluada']['#access'] = FALSE;
-        $form['field_evaluador']['#access'] = FALSE;
-        $form['field_fecha_de_evaluacion']['#access'] = FALSE;
+      if (!$en_evaluacion_term) {
+        $this->messenger()->addWarning($this->t('The "En evaluación" term was not found in the "estados_de_postulacion_a_retos" vocabulary.'));
+        return [];
+      }
 
+      // Query zinco_retos_soluciones where the current user is a reviewer and the solution is 'En evaluación'.
+      // Only show solutions for active challenges.
+      $solucion_query = $reto_solucion_storage->getQuery()
+        ->condition('field_revisores_postulacion', $user_id, 'IN')
+        ->condition('field_estado_postulacion_idea', $en_evaluacion_term->id())
+        ->condition('field_reto_asociado.entity.status', TRUE)
+        ->accessCheck(FALSE);
+      $solucion_ids = $solucion_query->execute();
 
-       return [
-         '#theme' => 'zinco_reto_calificar',
-         '#form' => $form,
-         '#solution_id' => $solution_id,
-         '#cache' => [
-           'contexts' => ['url.query_args'],
-         ],
-         '#attached' => [
-           'library' => [
-             'zinco_front/zinco-reto-calificar',
-           ],
-         ],
-       ];
-     }
-     catch (\Exception $e) {
-       $this->messenger()->addError($this->t('Error loading solution for evaluation: @message', ['@message' => $e->getMessage()]));
-       return [];
-     }
-   }
+      if (!empty($solucion_ids)) {
+        $soluciones = $reto_solucion_storage->loadMultiple($solucion_ids);
+        foreach ($soluciones as $solucion) {
+          $solucion_item = [];
+          $solucion_item['id'] = $solucion->id();
+          $solucion_item['label'] = $solucion->label();
+          $solucion_item['description'] = $solucion->hasField('description') && !$solucion->get('description')->isEmpty() ? $solucion->get('description')->value : '';
+
+          // Get authors.
+          $authors = [];
+          if ($solucion->hasField('field_autores_solucion') && !$solucion->get('field_autores_solucion')->isEmpty()) {
+            foreach ($solucion->get('field_autores_solucion')->referencedEntities() as $actor_entity) {
+              if ($actor_entity) {
+                $authors[] = $actor_entity->label();
+              }
+            }
+          }
+          $solucion_item['authors'] = implode(', ', $authors);
+
+          // Get associated reto name.
+          $reto_name = '';
+          if ($solucion->hasField('field_reto_asociado') && !$solucion->get('field_reto_asociado')->isEmpty()) {
+            $reto_id = $solucion->get('field_reto_asociado')->target_id;
+            $reto_entity = $reto_innovacion_storage->load($reto_id);
+            if ($reto_entity) {
+              $reto_name = $reto_entity->label();
+            }
+          }
+          $solucion_item['reto_asociado'] = $reto_name;
+          $solucion_item['reto_asociado_id'] = $reto_id; // Add reto ID to solution data.
+          $solucion_item['evaluate_link'] = '/retos/evaluar/' . $solucion->id(); // Link to evaluate the specific solution.
+
+          $soluciones_data[] = $solucion_item;
+        }
+      }
+    } catch (\Exception $e) {
+      $this->messenger()->addError($this->t('Error loading solutions for evaluation: @message', ['@message' => $e->getMessage()]));
+    }
+
+    return [
+      '#theme' => 'zinco_retos_evaluar_list',
+      '#soluciones' => $soluciones_data, // Pass solutions data to the Twig template.
+      '#cache' => [
+        'tags' => $this->entityTypeManager->getDefinition('zinco_retos_soluciones')->getListCacheTags(),
+        'contexts' => ['url.query_args', 'user'],
+      ],
+      '#attached' => [
+        'library' => [
+          'zinco_front/zinco-retos-evaluar-list',
+        ],
+      ],
+    ];
+  }
+
+  /**
+   * Displays the reto solution evaluation form.
+   *
+   * @param int $solution_id
+   *   The ID of the solution to evaluate.
+   *
+   * @return array
+   *   A renderable array containing the form.
+   */
+  public function calificarReto($solution_id)
+  {
+    $form = $this->formBuilder->getForm('\Drupal\zinco_front\Form\RetoCalificarForm', $solution_id);
+
+    return [
+      '#theme' => 'zinco_reto_calificar',
+      '#form' => $form,
+      '#solution_id' => $solution_id,
+      '#cache' => [
+        'contexts' => ['url.query_args'],
+      ],
+      '#attached' => [
+        'library' => [
+          'zinco_front/zinco-reto-calificar',
+        ],
+      ],
+    ];
+  }
+
+  /**
+   * Displays the zinco_retos_innovacion entity add form for the 'reto' bundle.
+   *
+   * @return array
+   *   A renderable array containing the form.
+   */
+  public function addRetoForm()
+  {
+    $entity = $this->entityTypeManager->getStorage('zinco_retos_innovacion')->create([
+      'bundle' => 'reto',
+      'status' => FALSE,
+    ]);
+
+    // Set the current user's actor as the default organizer.
+    $current_user = \Drupal::currentUser();
+    $user_entity = \Drupal\user\Entity\User::load($current_user->id());
+    if ($user_entity && $user_entity->hasField('field_actor') && !$user_entity->get('field_actor')->isEmpty()) {
+      $actor_id = $user_entity->get('field_actor')->target_id;
+      $entity->set('organizador_reto', [$actor_id]);
+    }
+
+    $form = $this->entityFormBuilder()->getForm($entity, 'actor_add');
+
+    // Hide fields for actors.
+    $hidden_fields = ['estado_reto_innovacion', 'aprobado_por', 'organizador_reto'];
+    foreach ($hidden_fields as $field_name) {
+      if (isset($form[$field_name])) {
+        $form[$field_name]['#access'] = FALSE;
+      }
+    }
+
+    return [
+      '#type' => 'container',
+      '#attributes' => [
+        'class' => ['container', 'mt-5', 'mb-5', 'p-4', 'bg-white', 'shadow-sm', 'rounded'],
+      ],
+      'title' => [
+        '#type' => 'html_tag',
+        '#tag' => 'h2',
+        '#value' => $this->t('Publicar Nuevo Reto de Innovación'),
+        '#attributes' => ['class' => ['mb-4', 'text-primary', 'border-bottom', 'pb-3']],
+      ],
+      'form' => $form,
+    ];
+  }
+
+  //
+
+  /**
+   * Muestra los resultados de las evaluaciones de todas las postulaciones de un reto.
+   *
+   * @param int $reto_id
+   *   El ID del reto.
+   *
+   * @return array
+   *   Un array renderizable.
+   */
+  public function resultadosReto($reto_id) {
+    $reto = $this->entityTypeManager->getStorage('zinco_retos_innovacion')->load($reto_id);
+    if (!$reto) {
+      throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+    }
+
+    // Obtener criterios y sus pesos del reto.
+    $criterios_pesos = [];
+    $total_peso = 0;
+    if ($reto->hasField('field_criterios_reto')) {
+      foreach ($reto->get('field_criterios_reto') as $item) {
+        if ($p = $item->entity) {
+          $nombre = $p->get('field_nombre_criterio')->value;
+          $peso = (float) ($p->hasField('field_peso_criterio') ? $p->get('field_peso_criterio')->value : 0);
+          $criterios_pesos[$nombre] = $peso;
+          $total_peso += $peso;
+        }
+      }
+    }
+
+    // Si no hay pesos definidos o el total es 0, dar peso equitativo.
+    if ($total_peso == 0 && !empty($criterios_pesos)) {
+      $count = count($criterios_pesos);
+      foreach ($criterios_pesos as $nombre => $peso) {
+        $criterios_pesos[$nombre] = 1 / $count;
+      }
+      $total_peso = 1;
+    }
+
+    // Obtener todas las soluciones del reto.
+    $solution_ids = $this->entityTypeManager->getStorage('zinco_retos_soluciones')->getQuery()
+      ->condition('field_reto_asociado', $reto_id)
+      ->accessCheck(TRUE)
+      ->execute();
+
+    $results = [];
+    if (!empty($solution_ids)) {
+      $solutions = $this->entityTypeManager->getStorage('zinco_retos_soluciones')->loadMultiple($solution_ids);
+      foreach ($solutions as $solution) {
+        // Obtener evaluaciones de esta solución.
+        $eval_ids = $this->entityTypeManager->getStorage('zinco_retos_evaluacion')->getQuery()
+          ->condition('field_solucion_evaluada', $solution->id())
+          ->accessCheck(FALSE)
+          ->execute();
+
+        $solution_score_total = 0;
+        $eval_count = 0;
+
+        if (!empty($eval_ids)) {
+          $evaluations = $this->entityTypeManager->getStorage('zinco_retos_evaluacion')->loadMultiple($eval_ids);
+          foreach ($evaluations as $eval) {
+            $weighted_sum = 0;
+            $applied_weight_total = 0;
+
+            if ($eval->hasField('field_puntuacion_de_solucion')) {
+              foreach ($eval->get('field_puntuacion_de_solucion')->referencedEntities() as $p_score) {
+                $criterio_nombre = $p_score->get('field_criterio_evaluado')->value;
+                $rating_term = $p_score->hasField('field_calificacion_de_solucion_a') ? $p_score->get('field_calificacion_de_solucion_a')->entity : NULL;
+                
+                if ($rating_term && isset($criterios_pesos[$criterio_nombre])) {
+                  // Obtener valor numérico de la calificación.
+                  $val = 0;
+                  if ($rating_term->hasField('field_valor_calificacion')) {
+                    $val = (float) $rating_term->get('field_valor_calificacion')->value;
+                  } elseif (is_numeric($rating_term->label())) {
+                    $val = (float) $rating_term->label();
+                  } else {
+                    // Intento de extraer número del label (ej: "5 - Excelente")
+                    $label = $rating_term->label();
+                    preg_match('/(\d+(\.\d+)?)/', $label, $matches);
+                    if (!empty($matches)) {
+                      $val = (float) $matches[1];
+                    }
+                  }
+                  
+                  $peso_criterio = $criterios_pesos[$criterio_nombre];
+                  $weighted_sum += ($val * $peso_criterio);
+                  $applied_weight_total += $peso_criterio;
+                }
+              }
+            }
+
+            if ($total_peso > 0) {
+              $solution_score_total += ($weighted_sum / $total_peso);
+              $eval_count++;
+            }
+          }
+        }
+
+        $average = ($eval_count > 0) ? ($solution_score_total / $eval_count) : 0;
+
+        $results[] = [
+          'id' => $solution->id(),
+          'label' => $solution->label(),
+          'average' => round($average, 2),
+        ];
+      }
+    }
+
+    // Ordenar de mayor a menor promedio.
+    usort($results, function($a, $b) {
+      if ($a['average'] == $b['average']) return 0;
+      return ($a['average'] < $b['average']) ? 1 : -1;
+    });
+
+    return [
+      '#theme' => 'zinco_evaluaciones_reto_summary',
+      '#reto' => [
+        'id' => $reto->id(),
+        'label' => $reto->label(),
+      ],
+      '#results' => $results,
+    ];
+  }
 
 }

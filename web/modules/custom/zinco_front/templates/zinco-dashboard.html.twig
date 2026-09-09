@@ -1,13 +1,7 @@
-{#
-/**
- * @file
- * Zinco Front dashboard page.
- *
- * Available variables:
- * - test_var: A variable passed from the controller.
- */
-#}
-<div class="zinco-dashboard-header d-flex justify-content-between align-items-center mb-4">
+
+<div class="container my-5">
+  <div class="zinco-dashboard-wrapper shadow-sm p-4 bg-white rounded">
+<div class="zinco-dashboard-header d-flex justify-content-between align-items-center mb-4 mt-3">
   <div class="zinco-dashboard-title-section">
     <h1 class="h3">Dashboard centralizado</h1>
     <p class="text-muted mb-0" style="font-size: 16px">Exploración visual de la producción científica, tecnológica e innovadora de Córdoba.</p>
@@ -58,7 +52,7 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <h6 class="card-title text-muted text-uppercase mb-0"><a href="{{ path('view.listas_de_data.page_grupos_investigacion') }}" class="detalle-dump-data-link">Grupos de Investigación</a></h6>
-                    <!-- Icono para Grupos de Investigación -->
+                    <i class="fas fa-users"></i>
                   </div>
                   <h3 class="card-text mb-1" id="actores_grupos_de_investigacion_value">-</h3>
                   <!-- <p class="card-text text-success small"><span class="icon-chart-line me-1"></span>+8%<br>vs. año anterior</p> -->
@@ -70,7 +64,7 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <h6 class="card-title text-muted text-uppercase mb-0"><a href="{{ path('view.dashboard_investigadores.page_investigadores') }}" class="detalle-dump-data-link">Investigadores Reconocidos</a></h6>
-                    <!-- Icono para Investigadores Reconocidos -->
+                    <i class="fas fa-user-graduate"></i>
                   </div>
                   <h3 class="card-text mb-1" id="actores_investigadores_reconocidos_value">-</h3>
                 </div>
@@ -81,7 +75,7 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_organizaciones_intermedias.page_centros_investigacion', {'arg_0': 'Córdoba'}) }}">Centros de Investigación Activos</a></h6>
-                    <!-- Icono para Centros de Investigación Activos -->
+                    <i class="fas fa-flask"></i>
                   </div>
                   <h3 class="card-text mb-1" id="actores_centros_investigacion_value">-</h3>
                 </div>
@@ -92,7 +86,7 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_organizaciones_intermedias.page_centros_desarrollo_tecnologico', {'arg_0': 'Córdoba'}) }}">Centros de desarrollo tecnológico</a></h6>
-                    <!-- Icono para Centros de desarrollo tecnológico -->
+                    <i class="fas fa-laptop-code"></i>
                   </div>
                   <h3 class="card-text mb-1" id="actores_centros_desarrollo_tecnologico_value">-</h3>
                   <!-- <p class="card-text text-success small"><span class="icon-chart-line me-1"></span>+8%<br>vs. año anterior</p> -->
@@ -104,7 +98,7 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_organizaciones_intermedias.page_centros_innovacion', {'arg_0': 'Córdoba'}) }}">Centros de innovación</a></h6>
-                    <!-- Icono para Centros de innovación -->
+                    <i class="fas fa-lightbulb"></i>
                   </div>
                   <h3 class="card-text mb-1" id="actores_centros_innovacion_value">-</h3>
                 </div>
@@ -115,7 +109,7 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_organizaciones_intermedias.page_centros_ciencia', {'arg_0': 'Córdoba'}) }}">Centros de ciencia</a></h6>
-                    <!-- Icono para Centros de innovación -->
+                    <i class="fas fa-atom"></i>
                   </div>
                   <h3 class="card-text mb-1" id="actores_centros_ciencia_value">-</h3>
                 </div>
@@ -126,7 +120,7 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_organizaciones_intermedias.page_institutos_investigacion', {'arg_0': 'Córdoba'}) }}">Institutos de Investigación</a></h6>
-                    <!-- Icono para Centros de desarrollo tecnológico -->
+                    <i class="fas fa-university"></i>
                   </div>
                   <h3 class="card-text mb-1" id="actores_centros_institutos_value">-</h3>
                   <!-- <p class="card-text text-success small"><span class="icon-chart-line me-1"></span>+8%<br>vs. año anterior</p> -->
@@ -149,7 +143,7 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_organizaciones_intermedias.page_empresas_altamente_innovadoras', {'arg_0': 'Córdoba'}) }}">Empresas altamente innovadoras</a></h6>
-                    <!-- Icono para Centros de desarrollo tecnológico -->
+                    <i class="fas fa-building"></i>
                   </div>
                   <h3 class="card-text mb-1" id="actores_empresas_altamente_innovadoras_value">-</h3>
                   <!-- <p class="card-text text-success small"><span class="icon-chart-line me-1"></span>+8%<br>vs. año anterior</p> -->
@@ -161,7 +155,7 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_organizaciones_intermedias.page_incubadoras_empresas', {'arg_0': 'Córdoba'}) }}">Incubadoras de empresas</a></h6>
-                    <!-- Icono para Centros de desarrollo tecnológico -->
+                    <i class="fas fa-seedling"></i>
                   </div>
                   <h3 class="card-text mb-1" id="actores_empresas_incubadoras_value">-</h3>
                   <!-- <p class="card-text text-success small"><span class="icon-chart-line me-1"></span>+8%<br>vs. año anterior</p> -->
@@ -173,7 +167,7 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_organizaciones_intermedias.page_unidades_idi', {'arg_0': 'Córdoba'}) }}">Unidades Empresariales de I+D+i</a></h6>
-                    <!-- Icono para Unidades Empresariales de I+D+i -->
+                    <i class="fas fa-briefcase"></i>
                   </div>
                   <h3 class="card-text mb-1" id="empresas_unidades_idi_value">-</h3> {# Placeholder for actual number #}
                 </div>
@@ -190,7 +184,7 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_organizaciones_intermedias.page_otris', {'arg_0': 'Córdoba'}) }}">Oficinas de transferencia de resultados de investigación</a></h6>
-                    <!-- Icono para Centros de desarrollo tecnológico -->
+                    <i class="fas fa-exchange-alt"></i>
                   </div>
                   <h3 class="card-text mb-1" id="actores_organizaciones_intermedias_otri_value">-</h3>
                   <!-- <p class="card-text text-success small"><span class="icon-chart-line me-1"></span>+8%<br>vs. año anterior</p> -->
@@ -214,7 +208,7 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_entidades_gobierno.page_entidades_gobierno') }}">Entidades gobierno</a></h6>
-                    <!-- Icono para Centros de desarrollo tecnológico -->
+                    <i class="fas fa-landmark"></i>
                   </div>
                   <h3 class="card-text mb-1" id="actores_entidades_gobierno_value">-</h3>
                   <!-- <p class="card-text text-success small"><span class="icon-chart-line me-1"></span>+8%<br>vs. año anterior</p> -->
@@ -226,7 +220,7 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_instancias_orientacion_politica.page_instancias_orientacion_politica') }}">Instancias orientación política</a></h6>
-                    <!-- Icono para Centros de desarrollo tecnológico -->
+                    <i class="fas fa-gavel"></i>
                   </div>
                   <h3 class="card-text mb-1" id="actores_instancias_gobierno_value">-</h3>
                   <!-- <p class="card-text text-success small"><span class="icon-chart-line me-1"></span>+8%<br>vs. año anterior</p> -->
@@ -326,7 +320,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/89?filters=empresa_explotadora_de_conocimie">Empresas altamente innovadoras</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-building"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_empresas_altamente_innovadoras_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -337,7 +331,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/89?filters=startups_de_base_tecnologica">Startups</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-rocket"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_startups_base_tecnologica_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -348,7 +342,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/89?filters=unidades_empresariales_de_i_d_i">Unidades empresariales de I+D+I</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-briefcase"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_unidades_empresariales_idi_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -359,7 +353,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a  class="detalle-dump-data-link" href="/actores/list/89?filters=empresas_spin_off">Empresas Spin-Off</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-sync-alt"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_empresas_spin_off_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -370,7 +364,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a  class="detalle-dump-data-link" href="/actores/list/89?filters=emprendimientos_dinamicos">Empresas de base tecnológica</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-laptop"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_emprendimientos_dinamicos_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -386,7 +380,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/92?filters=fondos_de_corporate_venture">Fondos de corporate venture</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-hand-holding-usd"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_fondos_corporate_venture_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -397,7 +391,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/92?filters=fondos_de_venture_capital">Fondos de venture capital</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-money-bill-wave"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_fondos_venture_capital_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -409,7 +403,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/92?filters=instituciones_microfinancieras">Instituciones microfinancieras</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-piggy-bank"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_instituciones_microfinancieras_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -420,7 +414,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/92?filters=inversionistas_y_redes_de_invers">Inversionistas y redes de inversionistas</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-users"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_inversionistas_y_redes_de_inversionistas_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -431,7 +425,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/92?filters=plataformas_de_crowdfunding">Plataformas de Crowdfunding</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-comments-dollar"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_plataformas_crowdfunding_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -447,7 +441,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/88?filters=empresa_generadora_de_conocimien">Empresa generadora de conocimiento</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-brain"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_empresas_generadoras_de_conocimiento_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -458,7 +452,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/88?filters=institucion_de_educacion_superio">Instituciones de educación superior</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-university"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_instituciones_educacion_superior_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -469,7 +463,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/88?filters=investigador">Investigadores</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-user-tie"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_investigadores_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -480,7 +474,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/88?filters=grupos_de_investigacion">Grupos de investigación</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-microscope"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_grupos_investigacion_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -491,7 +485,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/88?filters=centros_e_institutos_de_investig">Centros e institutos de investigación</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-flask"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_centros_investigacion_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -502,7 +496,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/88?filters=centros_de_desarrollo_tecnologic">Centros de desarrollo tecnológico</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-laptop-code"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_centros_desarrollo_tecnologico_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -518,7 +512,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/87?filters=entidad_gobierno">Entidad pública de fomento a la innovación</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-landmark"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_entidad_publica_fomento_innovacion_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -529,7 +523,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/87?filters=instancias_de_orientacion_politi">Instancias de orientación política hacia la innovación y el emprendimiento</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-gavel"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_instancias_orientacion_politica_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -545,7 +539,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/90?filters=otri">Oficinas de transferencia tecnológica (OTRI's)</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-exchange-alt"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_oficinas_transferencia_tecnologica_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -556,7 +550,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/90?filters=parque_tecnologico">Parque tecnológico</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-tree"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_parque_tecnologico_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -567,7 +561,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/90?filters=cati">Centro de apoyo a la tecnología y la innovación (CATIs)</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-life-ring"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_catis_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -578,7 +572,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/90?filters=centros_de_innovacion_y_producti">Centros de innovación y productividad</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-industry"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_centros_innovacion_productividad_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -594,7 +588,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/91?filters=incubadora">Incubadoras de empresas de base tecnológica</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-seedling"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_incubadoras_empresas_base_tecnologica_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -605,7 +599,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/91?filters=centros_de_emprendimiento_ies">Centros de emprendimiento IES</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-graduation-cap"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_centros_emprendimiento_ies_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -616,7 +610,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/91?filters=redes_de_mentores">Redes de mentores</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-handshake"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_redes_mentores_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -627,7 +621,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="/actores/list/91?filters=aceleradoras">Aceleradoras</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-fast-forward"></i>
                       </div>
                       <h3 class="card-text mb-1" id="zinco_actores_aceleradoras_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -683,7 +677,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_instituciones_academicas.page_instituciones_academicas') }}">Número de Universidades</a></h6>
-                        <!-- Icono para Número de Universidades -->
+                        <i class="fas fa-university"></i>
                       </div>
                       <h3 class="card-text mb-1" id="formacion_universidades_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -694,7 +688,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_programas_academicos.page_programas_academicos') }}">Número de Programas Ofertados</a></h6>
-                        <!-- Icono para Número de Programas Ofertados -->
+                        <i class="fas fa-list-ul"></i>
                       </div>
                       <h3 class="card-text mb-1" id="formacion_programas_academicos_value">-</h3> {# Placeholder for actual number #}
                     </div>
@@ -840,7 +834,7 @@
               <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                   <h6 class="card-title text-muted text-uppercase mb-0"><a href="/retos/list?filters=estado-34">Retos Abiertos</a></h6>
-                  <!-- Icono para Número de Retos Abiertos -->
+                  <i class="fas fa-door-open"></i>
                 </div>
                 <h3 class="card-text mb-1" id="retos_abiertos_value">-</h3> {# Placeholder for actual number #}
               </div>
@@ -851,7 +845,7 @@
               <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                   <h6 class="card-title text-muted text-uppercase mb-0"><a href="/retos/list?filters=estado-35">Retos en Evaluación</a></h6>
-                  <!-- Icono para Número de Retos en Evaluación -->
+                  <i class="fas fa-clipboard-check"></i>
                 </div>
                 <h3 class="card-text mb-1" id="retos_en_evaluacion_value">-</h3> {# Placeholder for actual number #}
               </div>
@@ -862,7 +856,7 @@
               <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                   <h6 class="card-title text-muted text-uppercase mb-0"><a href="/retos/list?filters=estado-41">Retos Finalizados</a></h6>
-                  <!-- Icono para Número de Retos Finalizados -->
+                  <i class="fas fa-flag-checkered"></i>
                 </div>
                 <h3 class="card-text mb-1" id="retos_finalizados_value">-</h3> {# Placeholder for actual number #}
               </div>
@@ -957,7 +951,7 @@
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-entity-link" href="/data/proyectos_idi?field_municipio_proyecto_target_id=All&field_sector_economico_proyecto_target_id=All&field_tecnologia_principal_proye_target_id=All&field_estado_proyecto_target_id=47">Número de Proyectos Propuestos</a></h6>
-                <!-- Icono para Número de Proyectos Propuestos -->
+                <i class="fas fa-lightbulb"></i>
               </div>
               <h3 class="card-text mb-1" id="proyectos_propuestos_value">-</h3> {# Placeholder for actual number #}
             </div>
@@ -968,7 +962,7 @@
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-entity-link" href="/data/proyectos_idi?field_municipio_proyecto_target_id=All&field_sector_economico_proyecto_target_id=All&field_tecnologia_principal_proye_target_id=All&field_estado_proyecto_target_id=48">Número de Proyectos en Ejecución</a></h6>
-                <!-- Icono para Número de Proyectos en Ejecución -->
+                <i class="fas fa-tasks"></i>
               </div>
               <h3 class="card-text mb-1" id="proyectos_ejecucion_value">-</h3> {# Placeholder for actual number #}
             </div>
@@ -979,7 +973,7 @@
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-entity-link" href="/data/proyectos_idi?field_municipio_proyecto_target_id=All&field_sector_economico_proyecto_target_id=All&field_tecnologia_principal_proye_target_id=All&field_estado_proyecto_target_id=49">Número de Proyectos Finalizados</a></h6>
-                <!-- Icono para Número de Proyectos Finalizados -->
+                <i class="fas fa-check-double"></i>
               </div>
               <h3 class="card-text mb-1" id="proyectos_finalizados_value">-</h3> {# Placeholder for actual number #}
             </div>
@@ -1078,7 +1072,7 @@
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.articulos_de_investigacion.page_articulos_investigacion') }}">Artículos de Investigación</a></h6>
-                <!-- Icono para Artículos de Investigación -->
+                <i class="fas fa-file-alt"></i>
               </div>
               <h3 class="card-text mb-1" id="articulos_investigacion_value">-</h3> {# Placeholder for actual number #}
             </div>
@@ -1089,7 +1083,7 @@
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_patentes.page_patentes') }}">Patentes</a></h6>
-                <!-- Icono para Patentes -->
+                <i class="fas fa-certificate"></i>
               </div>
               <h3 class="card-text mb-1" id="patentes_value">-</h3> {# Placeholder for actual number #}
             </div>
@@ -1100,7 +1094,7 @@
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_productos_tecnologicos.page_productos_tecnologicos') }}">Productos Tecnológicos</a></h6>
-                <!-- Icono para Productos Tecnológicos -->
+                <i class="fas fa-box"></i>
               </div>
               <h3 class="card-text mb-1" id="productos_tecnologicos_value">-</h3> {# Placeholder for actual number #}
             </div>
@@ -1111,7 +1105,7 @@
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <h6 class="card-title text-muted text-uppercase mb-0"><a class="detalle-dump-data-link" href="{{ path('view.dashboard_consultorias.page_consultorias') }}">Consultorías</a></h6>
-                <!-- Icono para Consultorías -->
+                <i class="fas fa-user-tie"></i>
               </div>
               <h3 class="card-text mb-1" id="consultorias_value">-</h3> {# Placeholder for actual number #}
             </div>
@@ -1189,7 +1183,7 @@
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <h6 class="card-title text-muted text-uppercase mb-0"><a href="{{ path('view.dashboard_registros_software.page_registros_software') }}">Registros de Software</a></h6>
-                <!-- Icono para Registros de Software -->
+                <i class="fas fa-code"></i>
               </div>
               <h3 class="card-text mb-1" id="registros_software_value">-</h3> {# Placeholder for actual number #}
             </div>
@@ -1200,7 +1194,7 @@
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <h6 class="card-title text-muted text-uppercase mb-0"><a href="/data/proyectos_software?field_estado_software_target_id=105&field_municipio_software_target_id=All&field_sector_economico_software_target_id=All&field_tecnologia_clave_software_target_id=All">Software Activos</a></h6>
-                <!-- Icono para Software Activos -->
+                <i class="fas fa-check-circle"></i>
               </div>
               <h3 class="card-text mb-1" id="software_activos_value">-</h3> {# Placeholder for actual number #}
             </div>
@@ -1211,7 +1205,7 @@
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <h6 class="card-title text-muted text-uppercase mb-0"><a href="/data/proyectos_software?field_estado_software_target_id=56&field_municipio_software_target_id=All&field_sector_economico_software_target_id=All&field_tecnologia_clave_software_target_id=All">Software en Desarrollo</a></h6>
-                <!-- Icono para Software en Desarrollo -->
+                <i class="fas fa-cog"></i>
               </div>
               <h3 class="card-text mb-1" id="software_desarrollo_value">-</h3> {# Placeholder for actual number #}
             </div>
@@ -1223,7 +1217,7 @@
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <h6 class="card-title text-muted text-uppercase mb-0"><a href="/data/proyectos_software?field_estado_software_target_id=57&field_municipio_software_target_id=All&field_sector_economico_software_target_id=All&field_tecnologia_clave_software_target_id=All">Software Finalizados</a></h6>
-                <!-- Icono para Software Finalizados -->
+                <i class="fas fa-flag-checkered"></i>
               </div>
               <h3 class="card-text mb-1" id="software_finalizado_value">-</h3> {# Placeholder for actual number #}
             </div>
@@ -1234,7 +1228,7 @@
               <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                   <h6 class="card-title text-muted text-uppercase mb-0"><a href="{{ path('view.dashboard_recursos_software.page_recursos_software') }}">Recursos Captados (COP)</a></h6>
-                  <!-- Icono para Recursos Captados -->
+                  <i class="fas fa-coins"></i>
                 </div>
                 <h3 class="card-text mb-1" id="software_recursos_captados_value">-</h3> {# Placeholder for actual amount #}
               </div>
@@ -1245,7 +1239,7 @@
               <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                   <h6 class="card-title text-muted text-uppercase mb-0"><a href="{{ path('view.dashboard_eventos.page_eventos') }}">Número de Eventos</a></h6>
-                  <!-- Icono para Número de Eventos -->
+                  <i class="fas fa-calendar-alt"></i>
                 </div>
                 <h3 class="card-text mb-1" id="software_eventos_value">-</h3> {# Placeholder for actual number #}
               </div>
@@ -1292,4 +1286,7 @@
 
   
 
+  </div>
+</div>
+  </div>
 </div>

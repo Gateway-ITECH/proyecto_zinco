@@ -1,0 +1,114 @@
+{#
+/**
+ * @file
+ * Template for listing recognition requests.
+ *
+ * Available variables:
+ * - reconocimientos: List of recognitions.
+ * - actor_id: The ID of the actor.
+ * - label_filter: The current label filter.
+ */
+#}
+<div class="reconocimientos-list-container container my-5">
+  <div class="card border-0 shadow-sm" style="border-radius: 15px; overflow: hidden;">
+    <div class="card-header bg-white py-4 px-4 border-bottom-0">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <h1 class="h3 mb-0 fw-bold text-dark">
+          <i class="fas fa-certificate text-warning me-2"></i>{{ 'Mis Solicitudes de Reconocimiento'|t }}
+        </h1>
+        <div class="d-flex gap-2">
+          <a href="/reconocimientos/add" class="btn btn-success rounded-pill px-4">
+            <i class="fas fa-plus me-2"></i>{{ 'Nueva Solicitud'|t }}
+          </a>
+          <a href="/actores/{{ actor_id }}/reconocimientos/add" class="btn btn-primary rounded-pill px-4">
+            <i class="fas fa-user-check me-2"></i>{{ 'Nuevo Reconocimiento'|t }}
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body px-4">
+      <!-- Search Filter -->
+      <form method="get" class="mb-4 bg-light p-3 rounded-3">
+        <div class="row g-3 align-items-end">
+          <div class="col-md-9">
+            <label for="label-filter" class="form-label small fw-bold text-muted">{{ 'Filtrar por nombre'|t }}</label>
+            <input type="text" name="label" id="label-filter" class="form-control border-0 shadow-sm" 
+                   placeholder="{{ 'Nombre del reconocimiento...'|t }}" value="{{ label_filter }}">
+          </div>
+          <div class="col-md-3">
+            <button type="submit" class="btn btn-primary w-100 shadow-sm">
+              <i class="fas fa-search me-2"></i>{{ 'Buscar'|t }}
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead class="bg-gradient-header text-white">
+            <tr>
+              <th scope="col" class="py-3 px-4">{{ 'Nombre'|t }}</th>
+              <th scope="col" class="py-3">{{ 'Fecha de Creación'|t }}</th>
+              <th scope="col" class="py-3">{{ 'Estado'|t }}</th>
+              <th scope="col" class="py-3 text-end px-4">{{ 'Acciones'|t }}</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white">
+            {% for rec in reconocimientos %}
+              <tr>
+                <td class="px-4 fw-bold text-dark">{{ rec.label }}</td>
+                <td class="text-muted">{{ rec.created }}</td>
+                <td>
+                  <span class="badge {{ rec.status_class }} rounded-pill px-3">
+                    {{ rec.status }}
+                  </span>
+                </td>
+                <td class="text-end px-4">
+                  <a href="/reconocimientos/{{ rec.id }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                    <i class="fas fa-eye me-1"></i>{{ 'Ver'|t }}
+                  </a>
+                </td>
+              </tr>
+            {% else %}
+              <tr>
+                <td colspan="4" class="text-center py-5 text-muted">
+                  <i class="fas fa-folder-open fa-3x mb-3 opacity-25"></i>
+                  <p class="mb-0">{{ 'No se encontraron solicitudes de reconocimiento.'|t }}</p>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .bg-gradient-header {
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+  }
+  
+  .reconocimientos-list-container .table thead th {
+    border: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+  }
+  
+  .reconocimientos-list-container .table tbody tr {
+    transition: background-color 0.2s;
+  }
+  
+  .reconocimientos-list-container .table tbody td {
+    border-color: #f8f9fa;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  
+  .bg-success-subtle { background-color: #d1e7dd; }
+  .bg-secondary-subtle { background-color: #e2e3e5; }
+  .bg-warning-subtle { background-color: #fff3cd; }
+</style>

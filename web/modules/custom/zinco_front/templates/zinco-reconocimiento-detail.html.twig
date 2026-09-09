@@ -1,0 +1,138 @@
+{#
+/**
+ * @file
+ * Template for viewing recognition request detail.
+ *
+ * Available variables:
+ * - reconocimiento: Array of recognition data.
+ */
+#}
+<div class="reconocimiento-detail-container container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card border-0 shadow-lg overflow-hidden" style="border-radius: 20px;">
+        <!-- Header -->
+        <div class="card-header bg-gradient-detail py-4 px-4 text-white position-relative">
+          <div class="d-flex align-items-center justify-content-between">
+            <div>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-2">
+                  <li class="breadcrumb-item"><a href="/actores/{{ reconocimiento.actor_id }}/reconocimientos" class="text-white opacity-75 text-decoration-none small">{{ 'Listado'|t }}</a></li>
+                  <li class="breadcrumb-item active text-white small" aria-current="page">{{ 'Detalle'|t }}</li>
+                </ol>
+              </nav>
+              <h1 class="h2 mb-0 fw-bold">{{ reconocimiento.label }}</h1>
+              <div class="mt-2 d-flex align-items-center gap-3">
+                <span class="badge bg-white text-primary rounded-pill px-3 py-2 small fw-bold">
+                  <i class="fas fa-calendar-alt me-1"></i>{{ reconocimiento.created }}
+                </span>
+                <span class="badge {{ reconocimiento.procesada ? 'bg-success' : 'bg-warning text-dark' }} rounded-pill px-3 py-2 small fw-bold">
+                  {{ reconocimiento.status }}
+                </span>
+              </div>
+            </div>
+            <div class="d-none d-md-block">
+              <i class="fas fa-medal fa-4x opacity-25"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body p-4 p-md-5 bg-white">
+          <div class="row g-5">
+            <!-- Left Column: Solicitud -->
+            <div class="col-md-7">
+              <div class="section-card mb-5">
+                <h3 class="h5 border-bottom pb-3 mb-4 text-primary fw-bold">
+                  <i class="fas fa-paper-plane me-2"></i>{{ 'Información de la Solicitud'|t }}
+                </h3>
+                <div class="solicitud-content p-4 bg-light rounded-4 shadow-sm">
+                  {{ reconocimiento.solicitud }}
+                </div>
+                
+                {% if reconocimiento.soporte %}
+                  <div class="mt-4 p-3 border border-dashed rounded-3 d-flex align-items-center">
+                    <i class="fas fa-file-download fa-2x text-info me-3"></i>
+                    <div>
+                      <div class="fw-bold small">{{ 'Soporte Adjunto'|t }}</div>
+                      {{ reconocimiento.soporte }}
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="section-card">
+                <h3 class="h5 border-bottom pb-3 mb-4 text-success fw-bold">
+                  <i class="fas fa-reply me-2"></i>{{ 'Respuesta de la Solicitud'|t }}
+                </h3>
+                {% if reconocimiento.respuesta %}
+                  <div class="respuesta-content p-4 border border-success border-opacity-25 rounded-4 bg-success bg-opacity-10 shadow-sm italic">
+                    {{ reconocimiento.respuesta }}
+                  </div>
+                {% else %}
+                  <div class="alert alert-warning border-0 rounded-4 shadow-sm d-flex align-items-center">
+                    <i class="fas fa-hourglass-half me-3 fa-lg"></i>
+                    <div>{{ 'Esta solicitud aún no tiene una respuesta registrada.'|t }}</div>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- Right Column: Meta Info & Actions -->
+            <div class="col-md-5">
+              <div class="card bg-light border-0 rounded-4 p-4 sticky-top" style="top: 2rem;">
+                <h4 class="h6 fw-bold text-muted mb-4 text-uppercase letter-spacing-1">{{ 'Detalles del Proceso'|t }}</h4>
+                
+                <div class="mb-4">
+                  <label class="text-muted small d-block mb-1">{{ 'Actor Solicitante'|t }}</label>
+                  <div class="fw-bold text-dark h6">
+                    <i class="fas fa-user-circle me-2 text-primary"></i>{{ reconocimiento.actor|default('N/A') }}
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <label class="text-muted small d-block mb-1">{{ 'Validado por'|t }}</label>
+                  <div class="fw-bold text-dark h6">
+                    <i class="fas fa-user-shield me-2 text-info"></i>{{ reconocimiento.validador }}
+                  </div>
+                </div>
+
+                <hr class="my-4">
+
+                <div class="d-grid gap-3">
+                  {% if not reconocimiento.procesada %}
+                    <a href="/reconocimientos/{{ reconocimiento.id }}/responder" class="btn btn-primary btn-lg rounded-pill shadow-sm py-3 fw-bold">
+                      <i class="fas fa-edit me-2"></i>{{ 'Registrar Respuesta'|t }}
+                    </a>
+                  {% endif %}
+                  <a href="/actores/{{ reconocimiento.actor_id }}/reconocimientos" class="btn btn-outline-secondary rounded-pill py-2 small">
+                    <i class="fas fa-arrow-left me-2"></i>{{ 'Volver al listado'|t }}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .bg-gradient-detail {
+    background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+  }
+  
+  .letter-spacing-1 { letter-spacing: 1px; }
+  
+  .solicitud-content, .respuesta-content {
+    line-height: 1.8;
+    color: #444;
+  }
+  
+  .border-dashed { border-style: dashed !important; }
+  
+  .section-card h3 {
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+  }
+</style>

@@ -11,8 +11,7 @@
 }
 
 /* Hide animated elements by default until they are triggered */
-[data-animate],
-.animate__animated {
+[data-animate]:not(.animate__animated) {
   opacity: 0;
 }
 
@@ -71,18 +70,20 @@
 }
 
 .zinco-number-card.card {
-  border: 1px solid rgb(187, 242, 148);
-  /* Slightly lighter dark blue border */
+  border: 1px solid rgb(127, 197, 77);
+  /* Green border */
   border-radius: 12px;
-  background: rgb(127, 197, 77);
-  /* Darker blue background for cards */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  background: transparent;
+  /* Transparent background */
+  box-shadow: none;
+  /* Remove default shadow */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .zinco-number-card.card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 25px rgba(127, 197, 77, 0.2);
+  /* Subtle green shadow on hover */
 }
 
 .zinco-number-icon img {
@@ -94,14 +95,14 @@
 }
 
 .zinco-number-icon i {
-  color: #fff;
-  /* Teal color for icons */
+  color: rgb(127, 197, 77);
+  /* Green color for icons */
 }
 
 .zinco-number-description.card-text {
   font-size: 1.1rem;
-  color: #fff;
-  /* Slightly darker light gray for description */
+  color: rgb(127, 197, 77);
+  /* Green color for description */
   margin-bottom: 10px;
 }
 
@@ -109,7 +110,7 @@
   font-size: 3rem;
   /* Large font size for numbers */
   font-weight: 700;
-  color: #fff;
+  color: rgb(127, 197, 77);
   /* Green color for numbers */
 }
 
@@ -127,11 +128,11 @@
 
 .zinco-benefit-card.card {
   border: 1px solid rgb(127, 197, 77);
-  /* Slightly lighter dark blue border */
+  /* Green border */
   border-radius: 12px;
-  background: rgb(127, 197, 77);
-  /* Darker blue background for cards */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  background: transparent;
+  /* Transparent background */
+  box-shadow: none;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   padding: 1.5rem;
   text-align: left;
@@ -139,26 +140,27 @@
 
 .zinco-benefit-card.card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 25px rgba(127, 197, 77, 0.2);
 }
 
 .zinco-benefit-icon {
-  color: #fff;
-  /* Teal color for icons */
+  color: rgb(127, 197, 77);
+  /* Green color for icons */
   font-size: 300%;
   /* 300% increased size */
   margin-bottom: 1rem;
 }
 
 .zinco-benefit-title {
-  color: #fff;
+  color: rgb(127, 197, 77);
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 0.75rem;
 }
 
 .zinco-benefit-description {
-  color: #fff;
+  color: #555;
+  /* Darker gray for readability on white */
   font-size: 1rem;
   line-height: 1.5;
 }
@@ -195,11 +197,11 @@
 
 .zinco-tool-card.card {
   border: 1px solid rgb(127, 197, 77);
-  /* Slightly lighter dark blue border */
+  /* Green border */
   border-radius: 12px;
-  background: rgb(127, 197, 77);
-  /* Darker blue background for cards */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  background: transparent;
+  /* Transparent background */
+  box-shadow: none;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   padding: 1.5rem;
   text-align: left;
@@ -207,26 +209,27 @@
 
 .zinco-tool-card.card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 25px rgba(127, 197, 77, 0.2);
 }
 
 .zinco-tool-icon {
-  color: #fff;
-  /* Teal color for icons */
+  color: rgb(127, 197, 77);
+  /* Green color for icons */
   font-size: 300%;
   /* 300% increased size */
   margin-bottom: 1rem;
 }
 
 .zinco-tool-title {
-  color: #fff;
+  color: rgb(127, 197, 77);
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 0.75rem;
 }
 
 .zinco-tool-description {
-  color: #fff;
+  color: #555;
+  /* Darker gray for readability on white */
   font-size: 1rem;
   line-height: 1.5;
 }
@@ -326,7 +329,6 @@
 #quienes-somos,
 #nuestros-objetivos {
   padding: 60px 60px;
-  background-color: #f8f9fa;
   /* Light background for sections */
   color: #333;
 }
@@ -394,4 +396,31 @@
 
 .quienes-somos-content p {
   text-align: center;
+}
+
+#researchCarousel {
+  top: -100px;
+  position: relative;
+  z-index: 1;
+}
+
+#data-rain-canvas {
+  position: absolute;
+  top: -100px; /* Match carousel position */
+  left: 0;
+  width: 100%;
+  height: calc(100vh + 100px);
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+#researchCarousel .carousel-caption {
+  z-index: 15;
+}
+
+#researchCarousel .carousel-control-prev,
+#researchCarousel .carousel-control-next,
+#researchCarousel .carousel-indicators {
+  z-index: 20;
 }

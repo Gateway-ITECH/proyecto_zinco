@@ -4,6 +4,169 @@
  * Subtheme specific CSS.
  */
 
+/* ============================================================
+   Navbar – sticky + scroll effect
+   ============================================================ */
+nav.navbar {
+  transition: background-color 0.35s ease, box-shadow 0.35s ease, padding 0.35s ease;
+  background-color: rgba(0, 0, 0, 0.70);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: none;
+}
+
+/**
+ * State applied by JS (global.js) once the page scrolls past 50 px.
+ * The navbar becomes fully opaque with a stronger shadow.
+ */
+nav.navbar.scrolled {}
+
+/* Logo shrink on scroll */
+.navbar-brand img {
+  max-height: 70px;
+  width: auto;
+  transition: max-height 0.35s ease;
+}
+
+nav.navbar.scrolled .navbar-brand img {
+  max-height: 40px;
+}
+
+/* ============================================================
+   Research Carousel
+   ============================================================ */
+#researchCarousel {
+  position: relative;
+  overflow: hidden;
+}
+
+#researchCarousel .carousel-item {
+  height: 100vh;
+  min-height: 500px;
+  background-color: #000;
+}
+
+#researchCarousel .carousel-item img {
+  object-fit: cover;
+  opacity: 0.65;
+  /* Darken for text readability */
+  transition: transform 10s linear;
+}
+
+#researchCarousel .carousel-item.active img {
+  transform: scale(1.1);
+}
+
+#researchCarousel .carousel-caption {
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  text-align: center;
+  z-index: 10;
+  padding-bottom: 5rem;
+}
+
+#researchCarousel .carousel-caption h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 4.5rem;
+  letter-spacing: -2px;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+#researchCarousel .carousel-caption p {
+  font-family: 'Open Sans', sans-serif;
+  max-width: 800px;
+  margin: 1.5rem auto;
+  opacity: 0.9;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  #researchCarousel .carousel-caption h1 {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  #researchCarousel .carousel-caption h1 {
+    font-size: 2.2rem;
+  }
+
+  #researchCarousel .carousel-caption p {
+    font-size: 1.1rem;
+  }
+}
+
+/* ============================================================ */
+
+/* ============================================================
+   Section Titles (Modern Style)
+   ============================================================ */
+.modern-title-container {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.modern-title {
+  text-transform: uppercase;
+  font-family: 'Space Grotesk', sans-serif !important;
+  color: #1e293b;
+  font-weight: 700;
+  display: inline-block;
+  position: relative;
+  padding-bottom: 15px;
+  letter-spacing: 0.05em;
+  font-size: 1.75rem;
+}
+
+.modern-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  right: 20%;
+  height: 3px;
+  background-color: #7fc54d;
+  border-radius: 2px;
+}
+
+.modern-subtitle {
+  color: #64748b;
+  font-size: 1.1rem;
+  margin-top: 1.25rem;
+  max-width: 750px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* ============================================================ */
+
+/* Navbar links – white text */
+nav.navbar .nav-link,
+nav.navbar .nav-item a {
+  color: #ffffff !important;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+nav.navbar .nav-link:hover,
+nav.navbar .nav-item a:hover {
+  color: #ffffff !important;
+  opacity: 0.75;
+}
+
+/* Toggler icon white */
+nav.navbar .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+nav.navbar .navbar-toggler-icon {
+  filter: invert(1);
+}
+
+/* ============================================================ */
+
 .chart-card-height {
   min-height: 450px;
   /* Adjust this value as needed to match the height of the other card */
@@ -100,7 +263,8 @@ body {
   /*display: none;*/
 }
 
-.detalle-dump-data .view-header p {
+.detalle-dump-data .view-header p,
+.caja-herramientas .view-header p {
   margin-top: 10px;
   text-align: center;
 }
@@ -276,13 +440,15 @@ body {
 }
 
 /* Link field (Ver herramienta) */
-.caja-herramientas-list .views-field-view-node {
+.caja-herramientas-list .views-field-view-node,
+.views-field.views-field-nid {
   margin-top: auto;
   /* Push to bottom */
   padding-bottom: 2rem;
 }
 
-.caja-herramientas-list .views-field-view-node a {
+.caja-herramientas-list .views-field-view-node a,
+.views-field.views-field-nid a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -296,7 +462,8 @@ body {
   transition: all 0.2s ease;
 }
 
-.caja-herramientas-list .views-field-view-node a:hover {
+.caja-herramientas-list .views-field-view-node a:hover,
+.views-field.views-field-nid a:hover {
   background-color: #0284c7;
   color: #ffffff;
   box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
@@ -593,4 +760,153 @@ body {
 
 .table h4.label {
   color: #000000 !important;
+}
+
+/* Custom spacing utilities */
+.mt-7 {
+  margin-top: 5rem !important;
+}
+
+.mt-9 {
+  margin-top: 7rem !important;
+}
+
+/* Datetime field */
+.datetime {
+  font-style: italic;
+  font-size: 0.82rem;
+}
+
+#content {
+  margin-top: 100px;
+}
+
+#researchCarousel {
+  margin-top: -100px;
+}
+
+article>header em {
+  display: none;
+}
+
+.views-field-field-imagen-destacada {
+  padding: 0 !important;
+}
+
+.views-field-field-imagen-destacada img {
+  width: 100%;
+  height: 240px;
+  display: block;
+  object-fit: cover;
+}
+
+/* Button style for views-field-nid elements */
+.views-field.views-field-nid .field-content a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background-color: #7fc54d;
+  color: #ffffff;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.views-field.views-field-nid .field-content a:hover {
+  background-color: #5a9331;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Navbar Shadow and Loading Animation */
+.navbar {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+  position: relative;
+  z-index: 1030;
+}
+
+.navbar::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  width: 0;
+  background: linear-gradient(90deg, #28a745, #99ff99);
+  animation: navbarLoadLine 1.5s ease-in-out forwards;
+  z-index: 1031;
+}
+
+@keyframes navbarLoadLine {
+  0% {
+    width: 0;
+  }
+
+  100% {
+    width: 100%;
+  }
+}
+
+/* Page Title Block Adjustments */
+#block-bootstrap-barrio-subtheme-page-title {
+  text-align: center;
+  margin-top: 2.5rem;
+  margin-bottom: 3.5rem;
+}
+
+#block-bootstrap-barrio-subtheme-page-title h1 {
+  font-family: 'Open Sans', sans-serif;
+  /* Matching the clean sans-serif in the image */
+  font-weight: 700;
+  /* fw-bold */
+  color: #343a40;
+  /* Dark grey */
+  font-size: 3.5rem;
+  /* display-4 */
+  letter-spacing: -0.01em;
+  margin-bottom: 0;
+  display: block;
+  line-height: 1.2;
+}
+
+/* Dashboard Tabs Styling */
+#zincoDashboardTabs.nav-tabs {
+  border-bottom: 3px solid #ffc107;
+  gap: 8px;
+  margin-top: 2rem;
+}
+
+#zincoDashboardTabs .nav-link {
+  background-color: #7fc54d;
+  color: #ffffff !important;
+  border: 3px solid #ffc107;
+  border-bottom: none;
+  border-radius: 12px 12px 0 0;
+  font-weight: 700;
+  padding: 12px 24px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  opacity: 0.9;
+}
+
+#zincoDashboardTabs .nav-link:hover {
+  background-color: #5a9331;
+  opacity: 1;
+  transform: translateY(-3px);
+  color: #ffffff !important;
+}
+
+#zincoDashboardTabs .nav-link.active {
+  background-color: #5a9331;
+  opacity: 1;
+  border-bottom: 3px solid #5a9331;
+  margin-bottom: -3px;
+  box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
 }

@@ -213,7 +213,7 @@ zinco_front.reto_detail:
   path: '/retos/{reto_id}'
   defaults:
     _controller: '\Drupal\zinco_front\Controller\RetosController::verDetalleReto'
-    _title: 'Detalle del Reto'
+    _title: ''
   requirements:
     _permission: 'access content'
     reto_id: '\d+'
@@ -223,7 +223,7 @@ zinco_front.reto_solution_form:
   defaults:
      _controller: '\Drupal\zinco_front\Controller\RetosController::submitRetoSolutionForm'
   requirements:
-     _permission: 'access content'
+     _user_is_logged_in: 'TRUE'
      reto_id: '\d+'
 
 zinco_front.reto_evaluar_list:
@@ -243,11 +243,20 @@ zinco_front.solution_detail:
     _permission: 'access retos evaluacion'
     solution_id: '\d+'
 
+zinco_front.solution_public_detail:
+  path: '/retos/detalle/{solution_id}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\RetosController::solutionDetail'
+    _title: 'Detalle de la Solución'
+  requirements:
+    _permission: 'access content'
+    solution_id: '\d+'
+
 zinco_front.reto_calificar:
   path: '/retos/calificar/{solution_id}'
   defaults:
     _controller: '\Drupal\zinco_front\Controller\RetosController::calificarReto'
-    _title: ''
+    _title: 'Calificar Postulación'
   requirements:
     _permission: 'access retos evaluacion'
     solution_id: '\d+'
@@ -282,7 +291,6 @@ zinco_front.actor_busqueda_categories_list:
   path: '/actores/busqueda/categorias'
   defaults:
     _controller: '\Drupal\zinco_front\Controller\ActoresController::listarCategoriasBusquedaActores'
-    _title: 'Categorías de Actores'
   requirements:
     _permission: 'access content'
 
@@ -295,6 +303,7 @@ zinco_front.perfil:
   requirements:
     _permission: 'access content'
 
+
 zinco_front.oportunidades:
   path: '/oportunidades'
   defaults:
@@ -302,3 +311,154 @@ zinco_front.oportunidades:
     _title: ''
   requirements:
     _permission: 'access content'
+
+zinco_front.get_actors_count:
+  path: '/actores/count'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ActoresController::getActorsCount'
+  requirements:
+    _permission: 'access content'
+
+zinco_front.get_projects_count:
+  path: '/actores/projects-count'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ActoresController::getProjectsCount'
+  requirements:
+    _permission: 'access content'
+
+zinco_front.call_for_papers:
+  path: '/admin/zinco/call-for-papers'
+  defaults:
+    _form: '\Drupal\zinco_front\Form\CallForPapersForm'
+    _title: 'Call for Papers'
+  requirements:
+    _permission: 'access administration pages'
+
+zinco_front.send_call_for_papers:
+  path: '/admin/zinco/call-for-papers/send'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::sendCallForPapers'
+  requirements:
+    _permission: 'access administration pages'
+  methods: [POST]
+
+zinco_front.get_reto_suggestion:
+  path: '/admin/zinco/call-for-papers/suggest/{reto_id}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::getRetoSuggestion'
+  requirements:
+    _permission: 'access administration pages'
+  methods: [GET]
+
+zinco_front.add_reto_form:
+  path: '/retos/add'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\RetosController::addRetoForm'
+    _title: 'Publicar Reto'
+  requirements:
+    _role: 'actor_registrado'
+
+zinco_front.curso_detail:
+  path: '/cursos/{curso_id}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::verCurso'
+    _title: ''
+  requirements:
+    _permission: 'access content'
+    curso_id: '\d+'
+
+zinco_front.noticia_detail:
+  path: '/noticias/{noticia_id}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::verNoticia'
+    _title: ''
+  requirements:
+    _permission: 'access content'
+    noticia_id: '\d+'
+
+zinco_front.evento_detail:
+  path: '/eventos/{evento_id}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::verEvento'
+    _title: ''
+  requirements:
+    _permission: 'access content'
+    evento_id: '\d+'
+
+zinco_front.convocatoria_detail:
+  path: '/convocatorias/{convocatoria_id}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::verConvocatoria'
+    _title: ''
+  requirements:
+    _permission: 'access content'
+    convocatoria_id: '\d+'
+
+zinco_front.evaluaciones_reto_summary:
+  path: '/retos/{reto_id}/evaluaciones'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\RetosController::resultadosReto'
+    _title: 'Resultados de Evaluaciones del Reto'
+  requirements:
+    _permission: 'access content'
+    reto_id: '\d+'
+
+zinco_front.tecnologias_clave_list:
+  path: '/tecnologias-clave'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::listTecnologiasClave'
+    _title: 'Áreas de Enfoque'
+  requirements:
+    _permission: 'access content'
+
+zinco_front.actor_edit:
+  path: '/profile/edit'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ActoresController::editActorForm'
+    _title: ''
+  requirements:
+    _user_is_logged_in: 'TRUE'
+
+zinco_front.reconocimiento_add:
+  path: '/reconocimientos/add'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::addReconocimientoForm'
+    _title: ''
+  requirements:
+    _user_is_logged_in: 'TRUE'
+
+zinco_front.reconocimientos_list:
+  path: '/actores/{actor_id}/reconocimientos'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::listReconocimientosActor'
+    _title: 'Solicitudes de Reconocimiento'
+  requirements:
+    _permission: 'access content'
+    actor_id: '\d+'
+
+zinco_front.reconocimiento_detail:
+  path: '/reconocimientos/{reconocimiento_id}'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::verReconocimiento'
+    _title: 'Detalle de Solicitud'
+  requirements:
+    _permission: 'access content'
+    reconocimiento_id: '\d+'
+
+zinco_front.reconocimiento_respond:
+  path: '/reconocimientos/{reconocimiento_id}/responder'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::responderReconocimientoForm'
+    _title: 'Responder Solicitud'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+    reconocimiento_id: '\d+'
+
+zinco_front.reconocimiento_actor_add:
+  path: '/actores/{actor_id}/reconocimientos/add'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::addReconocimientoActorForm'
+    _title: 'Nuevo Reconocimiento de Actor'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+    actor_id: '\d+'

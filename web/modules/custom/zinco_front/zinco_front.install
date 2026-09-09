@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Zinco Front module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function zinco_front_schema() {
+  $schema['zinco_notifications'] = [
+    'description' => 'Stores notifications for users.',
+    'fields' => [
+      'id' => [
+        'description' => 'The primary identifier for a notification.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'notification' => [
+        'description' => 'The notification message text.',
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => TRUE,
+      ],
+      'created' => [
+        'description' => 'The Unix timestamp when the notification was created.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'uid_sender' => [
+        'description' => 'The user ID of the sender.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'uid_receiver' => [
+        'description' => 'The user ID of the receiver.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'receiver' => ['uid_receiver'],
+      'created' => ['created'],
+    ],
+  ];
+
+  return $schema;
+}
+
+/**
+ * Create the zinco_notifications table.
+ */
+function zinco_front_update_10001() {
+  $schema = zinco_front_schema();
+  if (!\Drupal::database()->schema()->tableExists('zinco_notifications')) {
+    \Drupal::database()->schema()->createTable('zinco_notifications', $schema['zinco_notifications']);
+    return t('Table zinco_notifications has been created.');
+  }
+}

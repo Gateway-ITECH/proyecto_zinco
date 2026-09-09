@@ -15,6 +15,50 @@ final class ZincoActorsListBuilder extends EntityListBuilder {
   /**
    * {@inheritdoc}
    */
+  public function render() {
+    $build['filter_form'] = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['form-inline', 'mb-3']],
+      'search_form' => [
+        '#type' => 'html_tag',
+        '#tag' => 'form',
+        '#attributes' => [
+          'method' => 'get',
+          'action' => \Drupal\Core\Url::fromRoute('entity.zinco_actors_zincoactors.collection')->toString(),
+        ],
+        'label' => [
+          '#type' => 'textfield',
+          '#name' => 'label',
+          '#title' => $this->t('Buscar por nombre'),
+          '#title_display' => 'invisible',
+          '#default_value' => \Drupal::request()->query->get('label') ?? '',
+          '#size' => 40,
+          '#attributes' => ['placeholder' => $this->t('Ingresa una palabra clave...')],
+        ],
+        'submit' => [
+          '#type' => 'html_tag',
+          '#tag' => 'input',
+          '#attributes' => [
+            'type' => 'submit',
+            'value' => $this->t('Buscar'),
+            'class' => ['button', 'button--primary'],
+          ],
+        ],
+        'reset' => [
+          '#type' => 'link',
+          '#title' => $this->t('Limpiar'),
+          '#url' => \Drupal\Core\Url::fromRoute('entity.zinco_actors_zincoactors.collection'),
+          '#attributes' => ['class' => ['button']],
+        ],
+      ],
+    ];
+    $build['table'] = parent::render();
+    return $build;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function buildHeader(): array {
     $header['id'] = $this->t('ID');
     $header['label'] = $this->t('Label');    
@@ -43,6 +87,43 @@ final class ZincoActorsListBuilder extends EntityListBuilder {
     $row['created']['data'] = $entity->get('created')->view(['label' => 'hidden']);
     $row['changed']['data'] = $entity->get('changed')->view(['label' => 'hidden']);
     return $row + parent::buildRow($entity);
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * Orders the list by creation date descending (newest first).
+   */
+  protected function getEntityIds(): array {
+    $query = $this->getStorage()->getQuery()
+      ->accessCheck(TRUE)
+      ->sort('created', 'DESC');
+
+    $search = \Drupal::request()->query->get('label');
+    if (!empty($search)) {
+      $query->condition('label', '%' . $search . '%', 'LIKE');
+    }
+
+    if ($this->limit) {
+      $query->pager($this->limit);
+    }
+
+    return $query->execute();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultOperations(EntityInterface $entity): array {
+    $operations = parent::getDefaultOperations($entity);
+
+    $operations['reconocimientos'] = [
+      'title' => $this->t('Reconocimientos'),
+      'weight' => 20,
+      'url' => \Drupal\Core\Url::fromRoute('zinco_front.reconocimientos_list', ['actor_id' => $entity->id()]),
+    ];
+
+    return $operations;
   }
 
 }

@@ -1,0 +1,133 @@
+{#
+/**
+ * @file
+ * Template for the Evento Detail page.
+ */
+#}
+<section class="zinco-evento-detail py-5 mt-5">
+  <div class="container">
+    <div class="row">
+      
+      <div class="col-lg-8">
+        <div class="card border-0 shadow-sm overflow-hidden rounded-4 mb-4">
+          <div class="card-body p-4 p-md-5">
+            <div class="mb-4">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                  <li class="breadcrumb-item"><a href="/oportunidades">Oportunidades</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Eventos</li>
+                </ol>
+              </nav>
+            </div>
+
+            <h1 class="display-4 fw-bold mb-4 text-dark">{{ evento.title }}</h1>
+
+            <div class="evento-content fs-5 text-secondary lh-lg mb-0">
+              <h4 class="text-dark fw-bold mb-3 border-bottom pb-2">Agenda y Detalles</h4>
+              {{ evento.content_full|raw }}
+            </div>
+          </div>
+        </div>
+        
+        <div class="evento-actions pt-2">
+          <a href="/oportunidades" class="btn btn-outline-secondary btn-lg rounded-pill px-4 hover-shadow">
+            <i class="fas fa-arrow-left me-2"></i> Volver a Oportunidades
+          </a>
+        </div>
+      </div>
+
+      <div class="col-lg-4 mt-4 mt-lg-0">
+        <div class="evento-sidebar p-4 rounded-4 bg-white border shadow-sm sticky-sidebar">
+          <h4 class="fw-bold mb-4 border-bottom pb-2">Información del Evento</h4>
+          
+          <div class="evento-date-block text-center bg-light rounded-4 p-4 mb-4 border">
+            {% if evento.date_month and evento.date_day %}
+              <div class="text-uppercase fw-bold text-danger mb-1">{{ evento.date_month }}</div>
+              <div class="display-3 fw-bold text-dark lh-1 mb-1">{{ evento.date_day }}</div>
+              <div class="text-muted fw-semibold">{{ evento.date_year }}</div>
+            {% else %}
+              <div class="text-muted fw-semibold py-3">{{ evento.date_full ?: 'Fecha no especificada' }}</div>
+            {% endif %}
+          </div>
+
+          <div class="mb-4">
+            <label class="text-uppercase small fw-bold text-muted d-block mb-2">Ubicación / Lugar</label>
+            <div class="d-flex">
+              <div class="icon-circle bg-light text-primary me-3 flex-shrink-0">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div class="fw-semibold align-self-center text-dark">
+                {{ evento.location ?: 'Por definir' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="text-uppercase small fw-bold text-muted d-block mb-2">Añadir al Calendario</label>
+            <div class="d-flex gap-2">
+              <a href="{{ evento.google_calendar_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary rounded-pill w-100"><i class="fab fa-google me-1"></i> Google</a>
+              <a href="{{ evento.outlook_calendar_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-info rounded-pill w-100"><i class="fab fa-microsoft me-1"></i> Outlook</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+.zinco-evento-detail {
+  background-color: #f8fafc;
+  min-height: 80vh;
+}
+
+.sticky-sidebar {
+  position: sticky;
+  top: 100px;
+}
+
+.evento-content p {
+  margin-bottom: 1.5rem;
+  color: #475569;
+}
+
+.icon-circle {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.breadcrumb-item a {
+  color: #7fc54d;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.breadcrumb-item a:hover {
+  color: #619a3b;
+}
+
+.text-primary {
+  color: #7fc54d !important;
+}
+.btn-outline-primary {
+  color: #7fc54d;
+  border-color: #7fc54d;
+}
+.btn-outline-primary:hover {
+  background-color: #7fc54d;
+  color: white;
+}
+
+.hover-shadow:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
+}
+</style>

@@ -10,183 +10,186 @@
  * - cursos: Array of course items.
  */
 #}
+<div class="container mt-7 mb-5">
+  <div class="zinco-oportunidades-wrapper shadow-sm p-4 bg-white rounded">
+    <div class="zinco-oportunidades-page">
+      <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold">Oportunidades</h1>
+        <p class="lead text-muted">Explora las últimas noticias, eventos, convocatorias y cursos de nuestra plataforma.</p>
+      </div>
 
-<div class="zinco-oportunidades-page">
-  <div class="container py-5">
-    <div class="text-center mb-5">
-      <h1 class="display-4 fw-bold">Oportunidades</h1>
-      <p class="lead text-muted">Explora las últimas noticias, eventos, convocatorias y cursos de nuestra plataforma.</p>
+      {# Convocatorias Section #}
+      {% if convocatorias %}
+        <section class="mb-5">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="h2 mb-0"><i class="fas fa-bullhorn me-2 text-primary"></i>Convocatorias</h2>
+            <a href="/convocatorias" class="btn btn-outline-primary btn-sm">Ver todas</a>
+          </div>
+          <div class="row g-4">
+            {% for call in convocatorias %}
+              <div class="col-12 col-md-6 col-lg-4">
+                <article class="call-card call-{{ call.urgency_class }}">
+                  <a href="/convocatorias/{{ call.id }}" class="call-card-link">
+                    <div class="call-card-header">
+                      <div class="call-status-badge">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Vigente</span>
+                      </div>
+                      {% if call.closing_day %}
+                        <div class="call-closing-date">
+                          <span class="closing-day">{{ call.closing_day }}</span>
+                          <span class="closing-month">{{ call.closing_month }}</span>
+                          <span class="closing-year">{{ call.closing_year }}</span>
+                        </div>
+                      {% endif %}
+                    </div>
+                    <div class="call-card-body">
+                      {% if call.urgency_label %}
+                        <div class="call-urgency-label urgency-{{ call.urgency_class }}">
+                          <i class="far fa-clock"></i>
+                          <span>{{ call.urgency_label }}</span>
+                        </div>
+                      {% endif %}
+                      <h3 class="call-card-title">{{ call.title }}</h3>
+                      {% if call.category %}
+                        <div class="call-card-type">
+                          <i class="fas fa-tag"></i>
+                          <span>{{ call.category }}</span>
+                        </div>
+                      {% endif %}
+                      {% if call.description %}
+                        <p class="call-card-description">{{ call.description }}</p>
+                      {% endif %}
+                      <span class="call-card-read-more">Ver detalles <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                  </a>
+                </article>
+              </div>
+            {% endfor %}
+          </div>
+        </section>
+        <hr class="my-5">
+      {% endif %}
+
+      {# Cursos Section #}
+      {% if cursos %}
+        <section class="mb-5">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="h2 mb-0"><i class="fas fa-graduation-cap me-2 text-primary"></i>Cursos</h2>
+            <a href="/cursos" class="btn btn-outline-primary btn-sm">Ver todos</a>
+          </div>
+          <div class="row g-4">
+            {% for course in cursos %}
+              <div class="col-12 col-md-6 col-lg-4">
+                <article class="news-card">
+                  <a href="{{ course.url }}" class="news-card-link">
+                    {% if course.field_flyer_publicitario %}
+                      <div class="news-card-image">
+                        <img src="{{ course.field_flyer_publicitario }}" alt="{{ course.title }}" loading="lazy">
+                      </div>
+                    {% else %}
+                      <div class="news-card-image news-card-image-placeholder">
+                        <i class="fas fa-graduation-cap"></i>
+                      </div>
+                    {% endif %}
+                    <div class="news-card-body">
+                      <h3 class="news-card-title">{{ course.title }}</h3>
+                      {% if course.description %}
+                        <p class="news-card-excerpt">{{ course.description }}</p>
+                      {% endif %}
+                      <span class="news-card-read-more">Ver curso <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                  </a>
+                </article>
+              </div>
+            {% endfor %}
+          </div>
+        </section>
+        <hr class="my-5">
+      {% endif %}
+
+      {# Eventos Section #}
+      {% if eventos %}
+        <section class="mb-5">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="h2 mb-0"><i class="fas fa-calendar-alt me-2 text-primary"></i>Eventos</h2>
+            <a href="/eventos" class="btn btn-outline-primary btn-sm">Ver todos</a>
+          </div>
+          <div class="row g-4">
+            {% for event in eventos %}
+              <div class="col-12 col-md-6 col-lg-4">
+                <article class="event-card">
+                  <a href="/eventos/{{ event.id }}" class="event-card-link">
+                    <div class="event-card-header">
+                      {% if event.date_day %}
+                        <div class="event-date-badge">
+                          <span class="event-date-day">{{ event.date_day }}</span>
+                          <span class="event-date-month">{{ event.date_month }}</span>
+                          <span class="event-date-year">{{ event.date_year }}</span>
+                        </div>
+                      {% endif %}
+                    </div>
+                    <div class="event-card-body">
+                      <h3 class="event-card-title">{{ event.title }}</h3>
+                      {% if event.location %}
+                        <div class="event-card-location">
+                          <i class="fas fa-map-marker-alt"></i>
+                          <span>{{ event.location }}</span>
+                        </div>
+                      {% endif %}
+                      {% if event.description %}
+                        <p class="event-card-description">{{ event.description }}</p>
+                      {% endif %}
+                      <span class="event-card-read-more">Ver detalles <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                  </a>
+                </article>
+              </div>
+            {% endfor %}
+          </div>
+        </section>
+        <hr class="my-5">
+      {% endif %}
+
+      {# Noticias Section #}
+      {% if noticias %}
+        <section class="mb-5">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="h2 mb-0"><i class="fas fa-newspaper me-2 text-primary"></i>Noticias</h2>
+            <a href="/noticias" class="btn btn-outline-primary btn-sm">Ver todas</a>
+          </div>
+          <div class="row g-4">
+            {% for item in noticias %}
+              <div class="col-12 col-md-6 col-lg-4">
+                <article class="news-card">
+                  <a href="/noticias/{{ item.id }}" class="news-card-link">
+                    {% if item.image_url %}
+                      <div class="news-card-image">
+                        <img src="{{ item.image_url }}" alt="{{ item.title }}" loading="lazy">
+                      </div>
+                    {% else %}
+                      <div class="news-card-image news-card-image-placeholder">
+                        <i class="fas fa-newspaper"></i>
+                      </div>
+                    {% endif %}
+                    <div class="news-card-body">
+                      <div class="news-card-date">
+                        <i class="far fa-calendar-alt"></i>
+                        
+                      </div>
+                      <h3 class="news-card-title">{{ item.title }}</h3>
+                      {% if item.excerpt %}
+                        <p class="news-card-excerpt">{{ item.excerpt }}</p>
+                      {% endif %}
+                      <span class="news-card-read-more">Leer más <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                  </a>
+                </article>
+              </div>
+            {% endfor %}
+          </div>
+        </section>
+      {% endif %}
     </div>
-
-    {# Convocatorias Section #}
-    {% if convocatorias %}
-      <section class="mb-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h2 class="h2 mb-0"><i class="fas fa-bullhorn me-2 text-primary"></i>Convocatorias</h2>
-          <a href="/convocatorias" class="btn btn-outline-primary btn-sm">Ver todas</a>
-        </div>
-        <div class="row g-4">
-          {% for call in convocatorias %}
-            <div class="col-12 col-md-6 col-lg-4">
-              <article class="call-card call-{{ call.urgency_class }}">
-                <a href="{{ call.url }}" class="call-card-link">
-                  <div class="call-card-header">
-                    <div class="call-status-badge">
-                      <i class="fas fa-check-circle"></i>
-                      <span>Vigente</span>
-                    </div>
-                    {% if call.closing_day %}
-                      <div class="call-closing-date">
-                        <span class="closing-day">{{ call.closing_day }}</span>
-                        <span class="closing-month">{{ call.closing_month }}</span>
-                      </div>
-                    {% endif %}
-                  </div>
-                  <div class="call-card-body">
-                    {% if call.urgency_label %}
-                      <div class="call-urgency-label urgency-{{ call.urgency_class }}">
-                        <i class="far fa-clock"></i>
-                        <span>{{ call.urgency_label }}</span>
-                      </div>
-                    {% endif %}
-                    <h3 class="call-card-title">{{ call.title }}</h3>
-                    {% if call.category %}
-                      <div class="call-card-type">
-                        <i class="fas fa-tag"></i>
-                        <span>{{ call.category }}</span>
-                      </div>
-                    {% endif %}
-                    {% if call.description %}
-                      <p class="call-card-description">{{ call.description }}</p>
-                    {% endif %}
-                    <span class="call-card-read-more">Ver detalles <i class="fas fa-arrow-right"></i></span>
-                  </div>
-                </a>
-              </article>
-            </div>
-          {% endfor %}
-        </div>
-      </section>
-      <hr class="my-5">
-    {% endif %}
-
-    {# Cursos Section #}
-    {% if cursos %}
-      <section class="mb-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h2 class="h2 mb-0"><i class="fas fa-graduation-cap me-2 text-primary"></i>Cursos</h2>
-          <a href="/cursos" class="btn btn-outline-primary btn-sm">Ver todos</a>
-        </div>
-        <div class="row g-4">
-          {% for course in cursos %}
-            <div class="col-12 col-md-6 col-lg-4">
-              <article class="news-card">
-                <a href="{{ course.url }}" class="news-card-link">
-                  {% if course.image_url %}
-                    <div class="news-card-image">
-                      <img src="{{ course.image_url }}" alt="{{ course.title }}" loading="lazy">
-                    </div>
-                  {% else %}
-                    <div class="news-card-image news-card-image-placeholder">
-                      <i class="fas fa-graduation-cap"></i>
-                    </div>
-                  {% endif %}
-                  <div class="news-card-body">
-                    <h3 class="news-card-title">{{ course.title }}</h3>
-                    {% if course.description %}
-                      <p class="news-card-excerpt">{{ course.description }}</p>
-                    {% endif %}
-                    <span class="news-card-read-more">Ver curso <i class="fas fa-arrow-right"></i></span>
-                  </div>
-                </a>
-              </article>
-            </div>
-          {% endfor %}
-        </div>
-      </section>
-      <hr class="my-5">
-    {% endif %}
-
-    {# Eventos Section #}
-    {% if eventos %}
-      <section class="mb-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h2 class="h2 mb-0"><i class="fas fa-calendar-alt me-2 text-primary"></i>Eventos</h2>
-          <a href="/eventos" class="btn btn-outline-primary btn-sm">Ver todos</a>
-        </div>
-        <div class="row g-4">
-          {% for event in eventos %}
-            <div class="col-12 col-md-6 col-lg-4">
-              <article class="event-card">
-                <a href="{{ event.url }}" class="event-card-link">
-                  <div class="event-card-header">
-                    {% if event.date_day %}
-                      <div class="event-date-badge">
-                        <span class="event-date-day">{{ event.date_day }}</span>
-                        <span class="event-date-month">{{ event.date_month }}</span>
-                      </div>
-                    {% endif %}
-                  </div>
-                  <div class="event-card-body">
-                    <h3 class="event-card-title">{{ event.title }}</h3>
-                    {% if event.location %}
-                      <div class="event-card-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>{{ event.location }}</span>
-                      </div>
-                    {% endif %}
-                    {% if event.description %}
-                      <p class="event-card-description">{{ event.description }}</p>
-                    {% endif %}
-                    <span class="event-card-read-more">Ver detalles <i class="fas fa-arrow-right"></i></span>
-                  </div>
-                </a>
-              </article>
-            </div>
-          {% endfor %}
-        </div>
-      </section>
-      <hr class="my-5">
-    {% endif %}
-
-    {# Noticias Section #}
-    {% if noticias %}
-      <section class="mb-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h2 class="h2 mb-0"><i class="fas fa-newspaper me-2 text-primary"></i>Noticias</h2>
-          <a href="/noticias" class="btn btn-outline-primary btn-sm">Ver todas</a>
-        </div>
-        <div class="row g-4">
-          {% for item in noticias %}
-            <div class="col-12 col-md-6 col-lg-4">
-              <article class="news-card">
-                <a href="{{ item.url }}" class="news-card-link">
-                  {% if item.image_url %}
-                    <div class="news-card-image">
-                      <img src="{{ item.image_url }}" alt="{{ item.title }}" loading="lazy">
-                    </div>
-                  {% else %}
-                    <div class="news-card-image news-card-image-placeholder">
-                      <i class="fas fa-newspaper"></i>
-                    </div>
-                  {% endif %}
-                  <div class="news-card-body">
-                    <div class="news-card-date">
-                      <i class="far fa-calendar-alt"></i>
-                      <span>{{ item.date }}</span>
-                    </div>
-                    <h3 class="news-card-title">{{ item.title }}</h3>
-                    {% if item.excerpt %}
-                      <p class="news-card-excerpt">{{ item.excerpt }}</p>
-                    {% endif %}
-                    <span class="news-card-read-more">Leer más <i class="fas fa-arrow-right"></i></span>
-                  </div>
-                </a>
-              </article>
-            </div>
-          {% endfor %}
-        </div>
-      </section>
-    {% endif %}
   </div>
 </div>

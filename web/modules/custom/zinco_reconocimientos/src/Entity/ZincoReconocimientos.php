@@ -17,6 +17,8 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\user\EntityOwnerTrait;
 use Drupal\views\EntityViewsData;
 use Drupal\zinco_reconocimientos\Form\ZincoReconocimientosForm;
+use Drupal\zinco_reconocimientos\Form\ZincoReconocimientosActorForm;
+use Drupal\zinco_reconocimientos\Form\ZincoReconocimientosRespuestaForm;
 use Drupal\zinco_reconocimientos\ZincoReconocimientosInterface;
 use Drupal\zinco_reconocimientos\ZincoReconocimientosListBuilder;
 
@@ -45,6 +47,9 @@ use Drupal\zinco_reconocimientos\ZincoReconocimientosListBuilder;
       'edit' => ZincoReconocimientosForm::class,
       'delete' => ContentEntityDeleteForm::class,
       'delete-multiple-confirm' => DeleteMultipleForm::class,
+      'default' => ZincoReconocimientosForm::class,
+      'actor' => ZincoReconocimientosActorForm::class,
+      'respond' => ZincoReconocimientosRespuestaForm::class,
     ],
     'route_provider' => [
       'html' => AdminHtmlRouteProvider::class,
@@ -185,6 +190,13 @@ class ZincoReconocimientos extends ContentEntityBase implements ZincoReconocimie
       ->setDescription(t('The time that the zinco reconocimientos was last edited.'));
 
     return $fields;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCreatedTime() {
+    return (int) $this->get('created')->value;
   }
 
 }

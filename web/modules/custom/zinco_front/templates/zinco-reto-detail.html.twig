@@ -17,7 +17,7 @@
             <li class="breadcrumb-item active" aria-current="page">{{ reto.label }}</li>
           </ol>
         </nav>
-        <h1 class="reto-title">{{ reto.label }}</h1>
+        <h1 class="reto-title-detail">{{ reto.label }}</h1>
         <p class="reto-subtitle">{{ reto.descripcion_corta }}</p>
 
         <div class="reto-section">
@@ -41,6 +41,7 @@
       </div>
 
       <div class="col-md-4">
+        {% if reto.estado_reto_innovacion != 'Cumplido' %}
         <div class="card mb-4">
           <div class="card-body">
             <h5 class="card-title">¿Listo para innovar?</h5>
@@ -48,6 +49,7 @@
             <a href="/retos/{{ reto.id }}/solution/add" class="btn btn-primary btn-block"><i class="fas fa-lightbulb"></i> Envía tu propuesta</a>
           </div>
         </div>
+        {% endif %}
 
         <div class="card mb-4">
           <div class="card-body">
@@ -77,12 +79,14 @@
         <div class="card-deck">
           {% if reto.soluciones %}
             {% for solucion in reto.soluciones %}
-              <div class="card mb-3">
-                <div class="card-body">
-                  <h5 class="card-title">{{ solucion.label }}</h5>
-                  <p class="card-text">{{ solucion.description }}</p>
+              {% if solucion.status %}
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ solucion.label }}</h5>
+                    <p class="card-text">{{ solucion.description | raw }}</p>
+                  </div>
                 </div>
-              </div>
+              {% endif %}
             {% endfor %}
           {% else %}
             <p>No se han recibido propuestas para este reto aún.</p>

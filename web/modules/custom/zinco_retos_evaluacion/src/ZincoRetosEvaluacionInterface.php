@@ -9,8 +9,9 @@ use Drupal\Core\Entity\EntityChangedInterface;
 use Drupal\user\EntityOwnerInterface;
 
 /**
- * Provides an interface defining a zinco retos evaluacion entity type.
+ * Provides an interface defining a Evaluación de retos entity type.
  */
-interface ZincoRetosEvaluacionInterface extends ContentEntityInterface, EntityOwnerInterface, EntityChangedInterface {
+interface ZincoRetosEvaluacionInterface extends ContentEntityInterface, EntityOwnerInterface, EntityChangedInterface
+{
 
 }

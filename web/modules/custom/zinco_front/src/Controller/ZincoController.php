@@ -13,6 +13,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Drupal\views\Views;
+use Drupal\Core\Url;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\RedirectCommand;
 
 /**
  * Provides a ZincoController.
@@ -262,7 +266,9 @@ class ZincoController extends ControllerBase
    */
   public function dumpEntityBundle(string $entity_type_id, string $bundle, ?string $formato)
   {
+    //obtener query params
     $query_params = \Drupal::request()->query->all();
+
     $data = $this->dumpDataService->obtenerBundle($entity_type_id, $bundle, $query_params);
 
     if ($formato === 'json') {
@@ -633,6 +639,10 @@ class ZincoController extends ControllerBase
   {
     //obtener entidad tipo nodo con id 3
     $entity = \Drupal::entityTypeManager()->getStorage('node')->load(3);
+
+    // Obtener configuración de tooltips.
+    $config = \Drupal::config('zinco_front.dashboard.settings');
+    $show_tooltips = $config->get('show_tooltips') ?: FALSE;
     //obtener campo field_actores_registrados
     $field_actores_registrados = $entity->get('field_actores_registrados')->value;
     //obtener campo field_actores_registrados_icon
@@ -659,6 +669,8 @@ class ZincoController extends ControllerBase
     $field_beneficios_izq_titulo = $entity->get('field_beneficios_izq_titulo')->value;
     //obtener campo field_beneficios_title
     $field_beneficios_title = $entity->get('field_beneficios_title')->value;
+    //obtener campo field_beneficios_descripcion
+    $field_beneficios_descripcion = $entity->get('field_beneficios_descripcion')->value;
     //obtener campo field_colaboraciones_facilitadas
     $field_colaboraciones_facilitadas = $entity->get('field_colaboraciones_facilitadas')->value;
     //obtener campo field_colaboraciones_icon
@@ -701,6 +713,8 @@ class ZincoController extends ControllerBase
     $field_herramientas_izq_titulo = $entity->get('field_herramientas_izq_titulo')->value;
     //obtener campo field_herramientas_titulo
     $field_herramientas_titulo = $entity->get('field_herramientas_titulo')->value;
+    //obtener campo field_herramientas_descripcion
+    $field_herramientas_descripcion = $entity->get('field_herramientas_descripcion')->value;
     //obtener campo field_proyectos_activos
     $field_proyectos_activos = $entity->get('field_proyectos_activos')->value;
     //obtener campo field_proyectos_icon
@@ -709,6 +723,8 @@ class ZincoController extends ControllerBase
     $field_proyectos_activos_label = $entity->get('field_proyectos_activos_label')->value;
     //obtener campo field_data_clave_titulo
     $field_data_clave_titulo = $entity->get('field_data_clave_titulo')->value;
+    //obtener campo field_data_clave_descripcion
+    $field_data_clave_descripcion = $entity->get('field_data_clave_descripcion')->value;
     //obtener campo field_logos_cooperantes el cual es de tipo imagen y obtener la url de la imagen
     $field_logos_cooperantes = $entity->get('field_logos_cooperantes')->entity->getFileUri();
     //validar si existe alguna imagen
@@ -719,8 +735,16 @@ class ZincoController extends ControllerBase
 
 
 
+    // Obtener las definiciones de campos para extraer los labels.
+    $field_definitions = \Drupal::service('entity_field.manager')->getFieldDefinitions('node', $entity->bundle());
+    $labels = [];
+    foreach ($field_definitions as $field_name => $definition) {
+      $labels[$field_name] = $definition->getLabel();
+    }
+
     //agrupar los campos en un array para pasarlos a la plantilla 
     $fields = [
+      'labels' => $labels,
       'field_actores_registrados' => $field_actores_registrados,
       'field_actores_registrados_icon' => $field_actores_registrados_icon,
       'field_actores_registrados_label' => $field_actores_registrados_label,
@@ -734,6 +758,7 @@ class ZincoController extends ControllerBase
       'field_beneficios_izq_icono' => $field_beneficios_izq_icono,
       'field_beneficios_izq_titulo' => $field_beneficios_izq_titulo,
       'field_beneficios_title' => $field_beneficios_title,
+      'field_beneficios_descripcion' => $field_beneficios_descripcion,
       'field_colaboraciones_facilitadas' => $field_colaboraciones_facilitadas,
       'field_colaboraciones_icon' => $field_colaboraciones_icon,
       'field_colaboraciones_title' => $field_colaboraciones_title,
@@ -755,19 +780,23 @@ class ZincoController extends ControllerBase
       'field_herramientas_izq_icon' => $field_herramientas_izq_icon,
       'field_herramientas_izq_titulo' => $field_herramientas_izq_titulo,
       'field_herramientas_titulo' => $field_herramientas_titulo,
+      'field_herramientas_descripcion' => $field_herramientas_descripcion,
       'field_proyectos_activos' => $field_proyectos_activos,
       'field_proyectos_activos_icon' => $field_proyectos_activos_icon,
       'field_proyectos_activos_label' => $field_proyectos_activos_label,
       'field_data_clave_titulo' => $field_data_clave_titulo,
+      'field_data_clave_descripcion' => $field_data_clave_descripcion,
       'field_logos_cooperantes_url' => $field_logos_cooperantes_url,
+      'show_tooltips' => $show_tooltips,
     ];
 
 
     return [
       '#theme' => 'zinco_landing_page',
       '#fields' => $fields,
+      '#show_tooltips' => $show_tooltips,
       '#cache' => [
-        'tags' => ['node_list'],
+        'tags' => ['node_list', 'config:zinco_front.dashboard.settings'],
       ],
       '#attached' => [
         'library' => [
@@ -806,7 +835,7 @@ class ZincoController extends ControllerBase
         ],
       ],
       '#cache' => [
-        'tags' => ['node_list'],
+        'tags' => ['node_list', 'config:zinco_front.dashboard.settings'],
       ],
     ];
   }
@@ -874,6 +903,8 @@ class ZincoController extends ControllerBase
           $data['date_day'] = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'd');
           $data['date_month'] = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'M');
           $data['date_year'] = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'Y');
+          $data['date_calendar_start'] = gmdate('Ymd\THis\Z', $timestamp);
+          $data['date_calendar_end'] = gmdate('Ymd\THis\Z', $timestamp + 3600);
         }
         if ($node->hasField('field_lugar_del_evento') && !$node->get('field_lugar_del_evento')->isEmpty()) {
           $data['location'] = $node->get('field_lugar_del_evento')->value;
@@ -893,6 +924,7 @@ class ZincoController extends ControllerBase
           $data['closing_date'] = \Drupal::service('date.formatter')->format($closing_timestamp, 'custom', 'd/m/Y');
           $data['closing_day'] = \Drupal::service('date.formatter')->format($closing_timestamp, 'custom', 'd');
           $data['closing_month'] = \Drupal::service('date.formatter')->format($closing_timestamp, 'custom', 'M');
+          $data['closing_year'] = \Drupal::service('date.formatter')->format($closing_timestamp, 'custom', 'Y');
 
           $days_remaining = floor(($closing_timestamp - \Drupal::time()->getRequestTime()) / 86400);
           $data['days_remaining'] = $days_remaining;
@@ -911,12 +943,12 @@ class ZincoController extends ControllerBase
         }
         break;
 
-      case 'curso':
-        // Generic fields for curso
-        if ($node->hasField('field_imagen_destacada') && !$node->get('field_imagen_destacada')->isEmpty()) {
-          $file = $node->get('field_imagen_destacada')->entity;
+      case 'cursos':
+        $data['url'] = Url::fromRoute('zinco_front.curso_detail', ['curso_id' => $node->id()])->toString();
+        if ($node->hasField('field_flyer_publicitario') && !$node->get('field_flyer_publicitario')->isEmpty()) {
+          $file = $node->get('field_flyer_publicitario')->entity;
           if ($file) {
-            $data['image_url'] = $this->fileUrlGenerator->generateAbsoluteString($file->getFileUri());
+            $data['field_flyer_publicitario'] = $this->fileUrlGenerator->generateAbsoluteString($file->getFileUri());
           }
         }
         if ($node->hasField('body') && !$node->get('body')->isEmpty()) {
@@ -928,5 +960,541 @@ class ZincoController extends ControllerBase
 
     return $data;
   }
+
+  /**
+   * AJAX callback to send Call for Papers.
+   */
+  public function sendCallForPapers(Request $request)
+  {
+    $logger = \Drupal::logger('zinco_debug');
+    $logger->info('ZincoController: sendCallForPapers iniciado (AJAX).');
+
+    $message = $request->request->get('message');
+    if (empty($message)) {
+      $logger->warning('ZincoController: Intento de envío sin mensaje.');
+      return new JsonResponse(['success' => false, 'message' => 'El mensaje es requerido.'], 400);
+    }
+
+    // Get all user input to pass to the view if needed.
+    $input = $request->request->all();
+
+    // Try to get UIDs from the request first (passed from JS).
+    $uids = $request->request->all('uids');
+    $logger->info('ZincoController: UIDs recibidos desde el frontend: @count', ['@count' => count($uids)]);
+
+    if (empty($uids)) {
+      $logger->info('ZincoController: No se recibieron UIDs del frontend, ejecutando vista de respaldo.');
+      $view_id = 'selector_de_receptores';
+      $display_id = 'embed_receptors_selector';
+      $view = Views::getView($view_id);
+      $uids = [];
+
+      if ($view) {
+        $view->setDisplay($display_id);
+        if (!empty($input)) {
+          $view->setExposedInput($input);
+        }
+        $view->execute();
+        $logger->info('ZincoController: Vista ejecutada. Resultados: @count', ['@count' => count($view->result)]);
+
+        foreach ($view->result as $row) {
+          if (isset($row->uid)) {
+            $uids[] = $row->uid;
+          } elseif (isset($row->_entity) && $row->_entity->getEntityTypeId() === 'user') {
+            $uids[] = $row->_entity->id();
+          }
+        }
+      } else {
+        $logger->error('ZincoController: No se pudo cargar la vista @view.', ['@view' => $view_id]);
+      }
+    }
+
+    $logger->info('ZincoController: Total de UIDs a procesar: @count', ['@count' => count($uids)]);
+
+    if (empty($uids)) {
+      return new JsonResponse(['success' => false, 'message' => 'No se encontraron usuarios para enviar el mensaje con los filtros aplicados.'], 400);
+    }
+
+    $batch = [
+      'title' => $this->t('Enviando Call for Papers...'),
+      'operations' => [],
+      'init_message' => $this->t('Iniciando proceso de envío masivo.'),
+      'progress_message' => $this->t('Enviando notificación @current de @total.'),
+      'error_message' => $this->t('Ocurrió un error durante el proceso.'),
+      'finished' => ['\Drupal\zinco_front\Form\CallForPapersForm', 'batchFinished'],
+    ];
+
+    // Chunk uids to process in batches of 20.
+    $chunks = array_chunk($uids, 20);
+    $logger->info('ZincoController: Inicializando batch con @count operaciones.', ['@count' => count($chunks)]);
+
+    $sender_uid = $this->currentUser()->id();
+    foreach ($chunks as $chunk) {
+      $batch['operations'][] = [
+        ['\Drupal\zinco_front\Form\CallForPapersForm', 'processBatchNotifications'],
+        [$chunk, $message, $sender_uid],
+      ];
+    }
+
+    batch_set($batch);
+
+    // batch_process() prepares the batch and returns a redirect response.
+    $redirect = batch_process(Url::fromRoute('zinco_front.call_for_papers')->toString());
+
+    if ($redirect instanceof \Symfony\Component\HttpFoundation\RedirectResponse) {
+      return new JsonResponse([
+        'success' => true,
+        'redirect' => $redirect->getTargetUrl(),
+      ]);
+    }
+
+    return new JsonResponse(['success' => true]);
+  }
+
+  /**
+   * AJAX callback to get a suggested message based on a challenge.
+   */
+  public function getRetoSuggestion($reto_id)
+  {
+    if (!$reto_id) {
+      return new JsonResponse(['success' => false, 'message' => 'ID de reto no proporcionado.'], 400);
+    }
+
+    try {
+      $reto = \Drupal::entityTypeManager()->getStorage('zinco_retos_innovacion')->load($reto_id);
+      if (!$reto) {
+        return new JsonResponse(['success' => false, 'message' => 'Reto no encontrado.'], 404);
+      }
+
+      $title = $reto->label();
+      $description = '';
+      if ($reto->hasField('description') && !$reto->get('description')->isEmpty()) {
+        $description = strip_tags($reto->get('description')->value ?? '');
+      }
+
+      $municipio = '';
+      if ($reto->hasField('field_municipio') && !$reto->get('field_municipio')->isEmpty()) {
+        $municipio_entity = $reto->get('field_municipio')->entity;
+        if ($municipio_entity) {
+          $municipio = $municipio_entity->label();
+        }
+      }
+
+      $organizadores = [];
+      if ($reto->hasField('organizador_reto') && !$reto->get('organizador_reto')->isEmpty()) {
+        foreach ($reto->get('organizador_reto')->referencedEntities() as $org_entity) {
+          $organizadores[] = $org_entity->label();
+        }
+      }
+      $organizador_str = implode(', ', $organizadores);
+
+      $recompensas = '';
+      if ($reto->hasField('recompensas_reto') && !$reto->get('recompensas_reto')->isEmpty()) {
+        $recompensas = strip_tags($reto->get('recompensas_reto')->value ?? '');
+      }
+
+      $fecha_inicio = $reto->hasField('fecha_inicio') ? $reto->get('fecha_inicio')->value : '';
+      $fecha_fin = $reto->hasField('fecha_fin') ? $reto->get('fecha_fin')->value : '';
+      $fecha_eval = $reto->hasField('fecha_evaluacion') ? $reto->get('fecha_evaluacion')->value : '';
+
+      $message = "¡Nuevo Reto de Innovación: $title!\n\n";
+      if ($description) {
+        $message .= "Descripción: $description\n\n";
+      }
+      if ($organizador_str) {
+        $message .= "Organizado por: $organizador_str\n";
+      }
+      if ($municipio) {
+        $message .= "Ubicación: $municipio\n";
+      }
+      if ($recompensas) {
+        $message .= "Recompensas: $recompensas\n";
+      }
+
+      if ($fecha_inicio || $fecha_fin || $fecha_eval) {
+        $message .= "\nFechas clave:\n";
+        if ($fecha_inicio)
+          $message .= "- Inicio: $fecha_inicio\n";
+        if ($fecha_fin)
+          $message .= "- Fin: $fecha_fin\n";
+        if ($fecha_eval)
+          $message .= "- Evaluación: $fecha_eval\n";
+      }
+
+      $reto_url = $reto->toUrl('canonical', ['absolute' => TRUE])->toString();
+      $message .= "\nPuedes ver más detalles del reto en: $reto_url\n";
+      $message .= "\nTe invitamos a participar y proponer tu solución.";
+
+      return new JsonResponse([
+        'success' => true,
+        'suggestion' => $message,
+      ]);
+    } catch (\Exception $e) {
+      return new JsonResponse([
+        'success' => false,
+        'message' => $e->getMessage(),
+      ], 500);
+    }
+  }
+
+  /**
+   * Returns a course detail page.
+   *
+   * @param int $curso_id
+   *   The ID of the course node.
+   *
+   * @return array
+   *   A renderable array.
+   */
+  public function verCurso($curso_id)
+  {
+    $node = \Drupal::entityTypeManager()->getStorage('node')->load($curso_id);
+    if (!$node || $node->bundle() !== 'cursos') {
+      throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+    }
+
+    $data = $this->formatNodeForCard($node);
+    if ($node->hasField('body') && !$node->get('body')->isEmpty()) {
+      $data['description'] = $node->get('body')->value;
+    }
+
+    // New fields for finished courses.
+    $data['finalizado'] = $node->hasField('field_finalizado') ? $node->get('field_finalizado')->value : FALSE;
+    $data['evidencias'] = [];
+    if ($node->hasField('field_evidencias_curso') && !$node->get('field_evidencias_curso')->isEmpty()) {
+      foreach ($node->get('field_evidencias_curso') as $item) {
+        if ($file = $item->entity) {
+          $data['evidencias'][] = $this->fileUrlGenerator->generateAbsoluteString($file->getFileUri());
+        }
+      }
+    }
+
+    // Additional course metadata.
+    $data['duracion'] = $node->hasField('field_duracion_horas') ? $node->get('field_duracion_horas')->value : NULL;
+    $data['entidad'] = $node->hasField('field_entidad_que_certifica') ? $node->get('field_entidad_que_certifica')->value : NULL;
+    $data['modalidad'] = NULL;
+    if ($node->hasField('field_modalidad_del_curso') && !$node->get('field_modalidad_del_curso')->isEmpty()) {
+      if ($term = $node->get('field_modalidad_del_curso')->entity) {
+        $data['modalidad'] = $term->label();
+      }
+    }
+
+    $data['estado_curso'] = NULL;
+    if ($node->hasField('field_estado_curso') && !$node->get('field_estado_curso')->isEmpty()) {
+      if ($term_estado = $node->get('field_estado_curso')->entity) {
+        $data['estado_curso'] = $term_estado->label();
+      }
+    }
+
+    if ($node->hasField('field_fecha_inicio') && !$node->get('field_fecha_inicio')->isEmpty()) {
+      $data['fecha_inicio'] = \Drupal::service('date.formatter')->format(strtotime($node->get('field_fecha_inicio')->value), 'custom', 'd/m/Y');
+    }
+    if ($node->hasField('field_fecha_fin') && !$node->get('field_fecha_fin')->isEmpty()) {
+      $data['fecha_fin'] = \Drupal::service('date.formatter')->format(strtotime($node->get('field_fecha_fin')->value), 'custom', 'd/m/Y');
+    }
+    if ($node->hasField('field_link_del_curso') && !$node->get('field_link_del_curso')->isEmpty()) {
+      $data['link_curso'] = $node->get('field_link_del_curso')->uri;
+    }
+
+    if ($node->hasField('field_descripcion_curso') && !$node->get('field_descripcion_curso')->isEmpty()) {
+      $data['field_descripcion_curso'] = $node->get('field_descripcion_curso')->value;
+    }
+
+    return [
+      '#theme' => 'zinco_curso_detail',
+      '#curso' => $data,
+      '#attached' => [
+        'library' => [
+          'zinco_front/zinco-landing-page',
+        ],
+      ],
+      '#cache' => [
+        'tags' => $node->getCacheTags(),
+      ],
+    ];
+  }
+
+  /**
+   * Returns a noticia detail page.
+   */
+  public function verNoticia($noticia_id)
+  {
+    $node = \Drupal::entityTypeManager()->getStorage('node')->load($noticia_id);
+    if (!$node || $node->bundle() !== 'noticia') {
+      throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+    }
+    $data = $this->formatNodeForCard($node);
+    if ($node->hasField('field_contenido_noticia') && !$node->get('field_contenido_noticia')->isEmpty()) {
+      $data['content_full'] = $node->get('field_contenido_noticia')->value;
+    }
+    if ($node->hasField('field_leer_mas_url') && !$node->get('field_leer_mas_url')->isEmpty()) {
+      $data['field_leer_mas_url'] = $node->get('field_leer_mas_url')->value;
+    }
+    return [
+      '#theme' => 'zinco_noticia_detail',
+      '#noticia' => $data,
+      '#attached' => ['library' => ['zinco_front/zinco-landing-page']],
+      '#cache' => ['tags' => $node->getCacheTags()],
+    ];
+  }
+
+  /**
+   * Returns an evento detail page.
+   */
+  public function verEvento($evento_id)
+  {
+    $node = \Drupal::entityTypeManager()->getStorage('node')->load($evento_id);
+    if (!$node || $node->bundle() !== 'evento') {
+      throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+    }
+    $data = $this->formatNodeForCard($node);
+    if ($node->hasField('field_agenda_evento') && !$node->get('field_agenda_evento')->isEmpty()) {
+      $data['content_full'] = $node->get('field_agenda_evento')->value;
+    }
+
+    // Calendar Links
+    $title = urlencode($node->getTitle());
+    $description = urlencode(strip_tags($data['content_full'] ?? ''));
+    $location = urlencode($data['location'] ?? '');
+
+    $start = $data['date_calendar_start'] ?? gmdate('Ymd\THis\Z');
+    $end = $data['date_calendar_end'] ?? gmdate('Ymd\THis\Z', time() + 3600);
+
+    $data['google_calendar_url'] = "https://calendar.google.com/calendar/render?action=TEMPLATE&text={$title}&dates={$start}/{$end}&details={$description}&location={$location}";
+    $data['outlook_calendar_url'] = "https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&subject={$title}&body={$description}&location={$location}&startdt={$start}&enddt={$end}";
+    return [
+      '#theme' => 'zinco_evento_detail',
+      '#evento' => $data,
+      '#attached' => ['library' => ['zinco_front/zinco-landing-page']],
+      '#cache' => ['tags' => $node->getCacheTags()],
+    ];
+  }
+
+  /**
+   * Returns a convocatoria detail page.
+   */
+  public function verConvocatoria($convocatoria_id)
+  {
+    $node = \Drupal::entityTypeManager()->getStorage('node')->load($convocatoria_id);
+    if (!$node || $node->bundle() !== 'convocatoria') {
+      throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+    }
+    $data = $this->formatNodeForCard($node);
+    if ($node->hasField('body') && !$node->get('body')->isEmpty()) {
+      $data['content_full'] = $node->get('body')->value;
+    }
+    if ($node->hasField('field_mas_informacion') && !$node->get('field_mas_informacion')->isEmpty()) {
+      $data['field_mas_informacion'] = $node->get('field_mas_informacion')->value;
+    }
+    if ($node->hasField('field_publico_objetivo') && !$node->get('field_publico_objetivo')->isEmpty()) {
+      $data['field_publico_objetivo'] = $node->get('field_publico_objetivo')->value;
+    }
+    return [
+      '#theme' => 'zinco_convocatoria_detail',
+      '#convocatoria' => $data,
+      '#attached' => ['library' => ['zinco_front/zinco-landing-page']],
+      '#cache' => ['tags' => $node->getCacheTags()],
+    ];
+  }
+
+  /**
+   * Returns a list of technologies key taxonomy terms.
+   *
+   * @return array
+   *   A renderable array.
+   */
+  public function listTecnologiasClave()
+  {
+    $vocabulary_id = 'tecnologias_clave';
+    $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree($vocabulary_id, 0, NULL, TRUE);
+
+    $terms_data = [];
+    foreach ($terms as $term) {
+      $terms_data[] = [
+        'id' => $term->id(),
+        'name' => $term->label(),
+        'description' => [
+          '#type' => 'processed_text',
+          '#text' => $term->getDescription(),
+          '#format' => 'basic_html',
+        ],
+      ];
+    }
+
+    return [
+      '#theme' => 'zinco_tecnologias_clave_list',
+      '#terms' => $terms_data,
+      '#cache' => [
+        'tags' => ['taxonomy_term_list:' . $vocabulary_id],
+      ],
+    ];
+  }
+
+  /**
+   * Generates a recognition request form.
+   *
+   * @return array
+   *   A renderable array containing the recognition request form.
+   */
+  public function addReconocimientoForm()
+  {
+    $bundle = 'reconocimiento_estandar';
+    $current_user = \Drupal::entityTypeManager()->getStorage('user')->load(\Drupal::currentUser()->id());
+    $actor_id = NULL;
+
+    if ($current_user->hasField('field_actor') && !$current_user->get('field_actor')->isEmpty()) {
+      $actor_id = $current_user->get('field_actor')->target_id;
+    }
+
+    $reconocimiento = $this->entityTypeManager()->getStorage('zinco_reconocimientos')->create([
+      'bundle' => $bundle,
+      'field_actor_asociado' => $actor_id,
+    ]);
+
+    $form = $this->entityFormBuilder()->getForm($reconocimiento, 'actor');
+
+    return [
+      '#theme' => 'zinco_reconocimiento_form',
+      '#form' => $form,
+      '#title' => $this->t('Solicitud de Reconocimiento'),
+      '#cache' => [
+        'tags' => $this->entityTypeManager()->getDefinition('zinco_reconocimientos')->getListCacheTags(),
+      ],
+    ];
+  }
+
+  /**
+   * Returns a list of recognitions for a specific actor.
+   *
+   * @param int $actor_id
+   *   The actor ID.
+   *
+   * @return array
+   *   A renderable array.
+   */
+  public function listReconocimientosActor($actor_id)
+  {
+    $request = \Drupal::request();
+    $label_filter = $request->query->get('label');
+
+    $query = \Drupal::entityTypeManager()->getStorage('zinco_reconocimientos')->getQuery()
+      ->condition('bundle', 'reconocimiento_estandar')
+      ->condition('field_actor_asociado', $actor_id)
+      ->sort('created', 'DESC')
+      ->accessCheck(FALSE);
+
+    if ($label_filter) {
+      $query->condition('label', $label_filter, 'CONTAINS');
+    }
+
+    $ids = $query->execute();
+    $reconocimientos = \Drupal::entityTypeManager()->getStorage('zinco_reconocimientos')->loadMultiple($ids);
+
+    $data = [];
+    foreach ($reconocimientos as $reconocimiento) {
+      $has_response = $reconocimiento->hasField('field_respuesta_solicitud') && !$reconocimiento->get('field_respuesta_solicitud')->isEmpty();
+      $data[] = [
+        'id' => $reconocimiento->id(),
+        'label' => $reconocimiento->label(),
+        'created' => \Drupal::service('date.formatter')->format($reconocimiento->getCreatedTime(), 'short'),
+        'status' => $has_response ? 'Procesada' : 'Pendiente',
+        'status_class' => $has_response ? 'bg-success-subtle text-success' : 'bg-warning-subtle text-warning',
+      ];
+    }
+
+    return [
+      '#theme' => 'zinco_reconocimientos_list',
+      '#reconocimientos' => $data,
+      '#actor_id' => $actor_id,
+      '#label_filter' => $label_filter,
+      '#cache' => [
+        'tags' => ['zinco_reconocimientos_list'],
+      ],
+    ];
+  }
+
+  /**
+   * Returns a recognition detail page.
+   *
+   * @param int $reconocimiento_id
+   *   The recognition ID.
+   *
+   * @return array
+   *   A renderable array.
+   */
+  public function verReconocimiento($reconocimiento_id)
+  {
+    $reconocimiento = \Drupal::entityTypeManager()->getStorage('zinco_reconocimientos')->load($reconocimiento_id);
+    if (!$reconocimiento) {
+      throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+    }
+
+    $has_response = $reconocimiento->hasField('field_respuesta_solicitud') && !$reconocimiento->get('field_respuesta_solicitud')->isEmpty();
+
+    $data = [
+      'id' => $reconocimiento->id(),
+      'label' => $reconocimiento->label(),
+      'created' => \Drupal::service('date.formatter')->format($reconocimiento->getCreatedTime(), 'long'),
+      'solicitud' => $reconocimiento->hasField('field_solicitud_de_reconocimient') ? $reconocimiento->get('field_solicitud_de_reconocimient')->view(['label' => 'hidden']) : '',
+      'respuesta' => $has_response ? $reconocimiento->get('field_respuesta_solicitud')->view(['label' => 'hidden']) : '',
+      'soporte' => $reconocimiento->hasField('field_soporte_de_reconocimiento') ? $reconocimiento->get('field_soporte_de_reconocimiento')->view(['label' => 'hidden']) : '',
+      'validador' => $reconocimiento->hasField('field_validado_por') && !$reconocimiento->get('field_validado_por')->isEmpty() ? $reconocimiento->get('field_validado_por')->entity->label() : 'Pendiente',
+      'status' => $has_response ? 'Procesada' : 'Pendiente',
+      'procesada' => $has_response,
+    ];
+
+    if ($reconocimiento->hasField('field_actor_asociado') && !$reconocimiento->get('field_actor_asociado')->isEmpty()) {
+      $data['actor'] = $reconocimiento->get('field_actor_asociado')->entity->label();
+      $data['actor_id'] = $reconocimiento->get('field_actor_asociado')->target_id;
+    }
+
+    return [
+      '#theme' => 'zinco_reconocimiento_detail',
+      '#reconocimiento' => $data,
+      '#cache' => [
+        'tags' => $reconocimiento->getCacheTags(),
+      ],
+    ];
+  }
+
+  /**
+   * Returns the recognition response form.
+   *
+   * @param int $reconocimiento_id
+   *   The recognition ID.
+   *
+   * @return array
+   *   A renderable array.
+   */
+  public function responderReconocimientoForm($reconocimiento_id)
+  {
+    $reconocimiento = \Drupal::entityTypeManager()->getStorage('zinco_reconocimientos')->load($reconocimiento_id);
+    if (!$reconocimiento) {
+      throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+    }
+
+    $form = $this->entityFormBuilder()->getForm($reconocimiento, 'respond');
+
+    return [
+      '#theme' => 'zinco_reconocimiento_respond_form',
+      '#form' => $form,
+      '#label' => $reconocimiento->label(),
+    ];
+  }
+
+  /**
+   * Returns the form to add a recognition for an actor bundle.
+   */
+  public function addReconocimientoActorForm($actor_id)
+  {
+    $form = \Drupal::formBuilder()->getForm('\Drupal\zinco_front\Form\ZincoReconocimientoActorBundleForm', $actor_id);
+    return [
+      '#theme' => 'zinco_reconocimiento_actor_form',
+      '#form' => $form,
+      '#title' => $this->t('Nuevo Reconocimiento de Actor'),
+    ];
+  }
+
 }
+
 

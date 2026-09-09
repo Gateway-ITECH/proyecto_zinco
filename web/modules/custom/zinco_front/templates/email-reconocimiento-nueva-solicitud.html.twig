@@ -1,0 +1,35 @@
+{#
+/**
+ * @file
+ * Template for new recognition request notification to admins.
+ *
+ * Available variables:
+ * - variables: Array of data (actor_name, label, detail_url).
+ * - site_name: The name of the site.
+ */
+#}
+<div style="font-family: sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; border: 1px solid #eee; border-radius: 10px; overflow: hidden;">
+  <div style="background-color: #28a745; padding: 20px; text-align: center; color: white;">
+    <h1 style="margin: 0; font-size: 24px;">{{ 'Nueva Solicitud de Reconocimiento'|t }}</h1>
+    <p style="margin: 5px 0 0; opacity: 0.8;">{{ site_name }}</p>
+  </div>
+  
+  <div style="padding: 30px;">
+    <p>{{ 'Se ha registrado una nueva solicitud de reconocimiento en la plataforma.'|t }}</p>
+    
+    <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+      <p style="margin: 0 0 10px;"><strong>{{ 'Actor:'|t }}</strong> {{ variables.actor_name }}</p>
+      <p style="margin: 0 0 10px;"><strong>{{ 'Nombre del Reconocimiento:'|t }}</strong> {{ variables.label }}</p>
+    </div>
+    
+    <div style="text-align: center; margin-top: 30px;">
+      <a href="{{ variables.detail_url }}" style="background-color: #007bff; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
+        {{ 'Ver Detalle de la Solicitud'|t }}
+      </a>
+    </div>
+  </div>
+  
+  <div style="background-color: #f1f1f1; padding: 15px; text-align: center; font-size: 12px; color: #777;">
+    <p style="margin: 0;">&copy; {{ "now"|date("Y") }} {{ site_name }}. {{ 'Todos los derechos reservados.'|t }}</p>
+  </div>
+</div>

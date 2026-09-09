@@ -4,7 +4,7 @@ dependencies:
   module:
     - zinco_retos_evaluacion
 id: zinco_retos_evaluacion_save_action
-label: 'Save zinco retos evaluacions'
+label: 'Save Evaluaciones de retos'
 type: zinco_retos_evaluacion
 plugin: entity:save_action:zinco_retos_evaluacion
 configuration: {  }

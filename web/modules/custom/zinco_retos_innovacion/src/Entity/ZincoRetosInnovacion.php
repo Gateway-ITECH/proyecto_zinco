@@ -16,6 +16,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\user\EntityOwnerTrait;
 use Drupal\views\EntityViewsData;
+use Drupal\zinco_retos_innovacion\Form\ZincoRetosInnovacionActorForm;
 use Drupal\zinco_retos_innovacion\Form\ZincoRetosInnovacionForm;
 use Drupal\zinco_retos_innovacion\ZincoRetosInnovacionInterface;
 use Drupal\zinco_retos_innovacion\ZincoRetosInnovacionListBuilder;
@@ -26,9 +27,9 @@ use Drupal\zinco_retos_innovacion\ZincoRetosInnovacionListBuilder;
 #[ContentEntityType(
   id: 'zinco_retos_innovacion',
   label: new TranslatableMarkup('Zinco retos innovacion'),
-  label_collection: new TranslatableMarkup('Zinco retos innovacions'),
+  label_collection: new TranslatableMarkup('Retos de innovación'),
   label_singular: new TranslatableMarkup('zinco retos innovacion'),
-  label_plural: new TranslatableMarkup('zinco retos innovacions'),
+  label_plural: new TranslatableMarkup('Retos de innovación'),
   entity_keys: [
     'id' => 'id',
     'bundle' => 'bundle',
@@ -41,8 +42,10 @@ use Drupal\zinco_retos_innovacion\ZincoRetosInnovacionListBuilder;
     'list_builder' => ZincoRetosInnovacionListBuilder::class,
     'views_data' => EntityViewsData::class,
     'form' => [
+      'default' => ZincoRetosInnovacionForm::class,
       'add' => ZincoRetosInnovacionForm::class,
       'edit' => ZincoRetosInnovacionForm::class,
+      'actor_add' => ZincoRetosInnovacionActorForm::class,
       'delete' => ContentEntityDeleteForm::class,
       'delete-multiple-confirm' => DeleteMultipleForm::class,
     ],
@@ -61,15 +64,16 @@ use Drupal\zinco_retos_innovacion\ZincoRetosInnovacionListBuilder;
   ],
   admin_permission: 'administer zinco_retos_innovacion types',
   bundle_entity_type: 'zinco_retos_innovacion_type',
-  bundle_label: new TranslatableMarkup('Zinco retos innovacion type'),
+  bundle_label: new TranslatableMarkup('Reto de innovación type'),
   base_table: 'zinco_retos_innovacion',
   label_count: [
-    'singular' => '@count zinco retos innovacions',
-    'plural' => '@count zinco retos innovacions',
+    'singular' => '@count Reto de innovación',
+    'plural' => '@count Retos de innovación',
   ],
   field_ui_base_route: 'entity.zinco_retos_innovacion_type.edit_form',
 )]
-class ZincoRetosInnovacion extends ContentEntityBase implements ZincoRetosInnovacionInterface {
+class ZincoRetosInnovacion extends ContentEntityBase implements ZincoRetosInnovacionInterface
+{
 
   use EntityChangedTrait;
   use EntityOwnerTrait;
@@ -77,7 +81,8 @@ class ZincoRetosInnovacion extends ContentEntityBase implements ZincoRetosInnova
   /**
    * {@inheritdoc}
    */
-  public function preSave(EntityStorageInterface $storage): void {
+  public function preSave(EntityStorageInterface $storage): void
+  {
     parent::preSave($storage);
     if (!$this->getOwnerId()) {
       // If no owner has been set explicitly, make the anonymous user the owner.
@@ -88,7 +93,8 @@ class ZincoRetosInnovacion extends ContentEntityBase implements ZincoRetosInnova
   /**
    * {@inheritdoc}
    */
-  public static function baseFieldDefinitions(EntityTypeInterface $entity_type): array {
+  public static function baseFieldDefinitions(EntityTypeInterface $entity_type): array
+  {
 
     $fields = parent::baseFieldDefinitions($entity_type);
 
@@ -111,7 +117,7 @@ class ZincoRetosInnovacion extends ContentEntityBase implements ZincoRetosInnova
     $fields['status'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Status'))
       ->setDefaultValue(TRUE)
-      ->setSetting('on_label', 'Enabled')
+      ->setSetting('on_label', 'Publicado')
       ->setDisplayOptions('form', [
         'type' => 'boolean_checkbox',
         'settings' => [
@@ -297,7 +303,7 @@ class ZincoRetosInnovacion extends ContentEntityBase implements ZincoRetosInnova
       ])
       ->setDisplayConfigurable('view', TRUE);
 
-  
+
 
     $fields['organizador_reto'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Organizador del reto'))

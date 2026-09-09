@@ -5,28 +5,110 @@
  *
  * Available variables:
  * - content: A renderable array of content.
+ * - show_tooltips: Boolean to enable/disable tooltips.
  *
  * @see template_preprocess_zinco_landing_page()
  *
  * @ingroup themeable
  */
 #}
+
+<!-- Debug: show_tooltips is {{ show_tooltips ? 'TRUE' : 'FALSE' }} -->
+<!-- Debug: Label field_data_clave_titulo is '{{ fields.labels.field_data_clave_titulo }}' -->
+{% macro tooltip(show, label) %}
+  {% if show and label %}
+    data-bs-toggle="tooltip" data-bs-trigger="hover focus click" title="{{ label }}"
+  {% endif %}
+{% endmacro %}
 <div class="zinco-landing-page">
-  <div class="row w-100 m-0">
-    <div class="col-12 hero-section">
-      <h1 class="hero-title animate__animated animate__fadeInDown">
-        {{ fields.field_hero_section_title ? fields.field_hero_section_title : 'No hay data' }}
-      </h1>
-      <p class="hero-subtitle animate__animated animate__fadeInUp" style="animation-delay: 0.5s;">
-        {{ fields.field_hero_section_description ? fields.field_hero_section_description : 'No hay data' }}
-      </p>
-      <a href="{{ fields.field_hero_section_link ? fields.field_hero_section_link : '#' }}" class="hero-button animate__animated animate__zoomIn" style="animation-delay: 1s;" id="hero-button">{{ fields.field_hero_section_button_label ? fields.field_hero_section_button_label : 'No hay data' }}</a>
+  <!-- Data Rain Background Effect -->
+  <!-- <canvas id="data-rain-canvas"></canvas> -->
+  
+  <div class="container-fluid p-0">
+    <div id="researchCarousel" class="carousel slide carousel-fade vh-100" data-bs-ride="carousel">
+      <!-- Indicators -->
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#researchCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#researchCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#researchCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#researchCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#researchCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+      </div>
+
+      <!-- Carousel Content -->
+      <div class="carousel-inner h-100">
+        <!-- Slide 1: Investigación -->
+        <div class="carousel-item active h-100">
+          <img src="/themes/contrib/bootstrap_barrio/subtheme/images/AGO_1269.jpeg" class="d-block w-100 h-100 object-fit-cover" alt="Laboratorio de Investigación">
+          <div class="carousel-caption d-flex flex-column justify-content-center h-100">
+            <h1 class="animate__animated animate__fadeInDown fw-bold">Laboratorios de Vanguardia</h1>
+            <p class="animate__animated animate__fadeInUp fs-4">Impulsando la ciencia en Córdoba con tecnología de punta para el mundo.</p>
+            <div class="mt-4">
+              <a href="#quienes-somos" class="hero-button animate__animated animate__zoomIn">Descubrir Más</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2: Datos -->
+        <div class="carousel-item h-100">
+          <img src="/themes/contrib/bootstrap_barrio/subtheme/images/AGO_1277.jpeg" class="d-block w-100 h-100 object-fit-cover" alt="Big Data">
+          <div class="carousel-caption d-flex flex-column justify-content-center h-100">
+            <h1 class="animate__animated animate__fadeInDown fw-bold">Big Data y Analítica</h1>
+            <p class="animate__animated animate__fadeInUp fs-4">Transformamos datos complejos en conocimiento estratégico para el territorio.</p>
+          </div>
+        </div>
+
+        <!-- Slide 3: Colaboración -->
+        <div class="carousel-item h-100">
+          <img src="/themes/contrib/bootstrap_barrio/subtheme/images/AGO_3056.jpeg" class="d-block w-100 h-100 object-fit-cover" alt="Colaboración">
+          <div class="carousel-caption d-flex flex-column justify-content-center h-100">
+            <h1 class="animate__animated animate__fadeInDown fw-bold">Colaboración Global</h1>
+            <p class="animate__animated animate__fadeInUp fs-4">Conectando mentes brillantes para resolver los desafíos regionales con innovación.</p>
+          </div>
+        </div>
+
+        <!-- Slide 4: Innovación -->
+        <div class="carousel-item h-100">
+          <img src="/themes/contrib/bootstrap_barrio/subtheme/images/AGO_3074.jpeg" class="d-block w-100 h-100 object-fit-cover" alt="Innovación">
+          <div class="carousel-caption d-flex flex-column justify-content-center h-100">
+            <h1 class="animate__animated animate__fadeInDown fw-bold">Ecosistemas de Innovación</h1>
+            <p class="animate__animated animate__fadeInUp fs-4">Un espacio vibrante donde las ideas disruptivas se convierten en realidades tangibles.</p>
+          </div>
+        </div>
+
+        <!-- Slide 5: Territorio -->
+        <div class="carousel-item h-100">
+          <img src="/themes/contrib/bootstrap_barrio/subtheme/images/AGO_3170.jpeg" class="d-block w-100 h-100 object-fit-cover" alt="Territorio">
+          <div class="carousel-caption d-flex flex-column justify-content-center h-100">
+            <h1 class="animate__animated animate__fadeInDown fw-bold">Transformación Territorial</h1>
+            <p class="animate__animated animate__fadeInUp fs-4">Llevando el desarrollo digital y la ciencia a cada rincón del departamento de Córdoba.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#researchCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#researchCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Siguiente</span>
+      </button>
     </div>
   </div>
-  <section id="quienes-somos" class="container my-5">
-    <div class="row">
-      <div class="col-12 ">
-        <h2 class="text-center" data-animate="fadeInDown">¿Quienes somos?</h2>
+
+
+
+
+
+  <section id="quienes-somos" class="container my-5 py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="modern-title-container" data-animate="fadeInDown">
+          <h2 class="modern-title">¿Quienes somos?</h2>
+          <p class="modern-subtitle">Transformamos el territorio a través del conocimiento, la innovación y la tecnología.</p>
+        </div>
         <div class="quienes-somos-content">
           <p data-animate="fadeInUp" data-delay="100">ZINCO (Zona de Innovación de Córdoba) es la plataforma oficial de articulación del Ecosistema de Ciencia, Tecnología e Innovación (CTeI) soportado en transformación digital e industrias 4.0 del departamento de Córdoba.</p>
           <p data-animate="fadeInUp" data-delay="200">Concebida y desarrollada en el marco del proyecto “Fortalecimiento del Sistema Territorial de Ciencia, Tecnología e Innovación del Departamento de Córdoba, soportado en Transformación Digital e Industrias 4.0”, ZINCO se constituye en un instrumento estratégico para la coordinación, integración y dinamización de las capacidades científicas, tecnológicas y de innovación del territorio.</p>
@@ -35,21 +117,25 @@
       </div>
     </div>
   </section>
-  <section class="zinco-numbers-section">
-    <div class="row w-100 m-0">
-      <div class="col-12">
-        <h2 class="zinco-numbers-title text-center my-4" data-animate="fadeInDown">{{ fields.field_data_clave_titulo ? fields.field_data_clave_titulo : 'No hay data' }}</h2>
+  <section class="zinco-numbers-section py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <div class="modern-title-container" data-animate="fadeInDown">
+            <h2 class="modern-title" {{ _self.tooltip(show_tooltips, fields.labels.field_data_clave_titulo) | raw }}>{{ fields.field_data_clave_titulo ? fields.field_data_clave_titulo : 'Data Clave' }}</h2>
+            <p class="modern-subtitle" {{ _self.tooltip(show_tooltips, fields.labels.field_data_clave_descripcion) | raw }}>{{ fields.field_data_clave_descripcion ? fields.field_data_clave_descripcion : 'Cifras e indicadores que reflejan el impacto de la innovación en nuestro departamento.' }}</p>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="row w-100 m-0 justify-content-center">
+      <div class="row justify-content-center">
       <div class="col-12 col-md-4 mb-4">
         <div class="card h-100 text-center zinco-number-card" data-animate="fadeInUp" data-delay="100">
           <div class="card-body d-flex flex-column align-items-center justify-content-center">
             <div class="zinco-number-icon mb-3">
-              <i class="{{ fields.field_actores_registrados_icon ? fields.field_actores_registrados_icon : 'fas fa-users fa-3x' }}"></i>
+              <i class="{{ fields.field_actores_registrados_icon ? fields.field_actores_registrados_icon : 'fas fa-users fa-3x' }}" {{ _self.tooltip(show_tooltips, fields.labels.field_actores_registrados_icon) | raw }}></i>
             </div>
-            <p class="card-text zinco-number-description">{{ fields.field_actores_registrados_label ? fields.field_actores_registrados_label : 'No hay data' }}</p>
-            <span class="zinco-number-value display-4 fw-bold zinco-counter" data-count="{{ fields.field_actores_registrados ? fields.field_actores_registrados : 999 }}">0</span>
+            <p class="card-text zinco-number-description" {{ _self.tooltip(show_tooltips, fields.labels.field_actores_registrados_label) | raw }}>{{ fields.field_actores_registrados_label ? fields.field_actores_registrados_label : 'No hay data' }}</p>
+            <span class="zinco-number-value display-4 fw-bold zinco-counter" {{ _self.tooltip(show_tooltips, fields.labels.field_actores_registrados) | raw }} data-count="{{ fields.field_actores_registrados ? fields.field_actores_registrados : 999 }}">0</span>
           </div>
         </div>
       </div>
@@ -57,10 +143,10 @@
         <div class="card h-100 text-center zinco-number-card" data-animate="fadeInUp" data-delay="200">
           <div class="card-body d-flex flex-column align-items-center justify-content-center">
             <div class="zinco-number-icon mb-3">
-              <i class="{{ fields.field_proyectos_activos_icon ? fields.field_proyectos_activos_icon : 'fas fa-users fa-3x' }}"></i>
+              <i class="{{ fields.field_proyectos_activos_icon ? fields.field_proyectos_activos_icon : 'fas fa-users fa-3x' }}" {{ _self.tooltip(show_tooltips, fields.labels.field_proyectos_activos_icon) | raw }}></i>
             </div>
-            <p class="card-text zinco-number-description">{{ fields.field_proyectos_activos_label ? fields.field_proyectos_activos_label : 'No hay data' }}</p>
-            <span class="zinco-number-value display-4 fw-bold zinco-counter" data-count="{{ fields.field_proyectos_activos ? fields.field_proyectos_activos : 999 }}">0</span>
+            <p class="card-text zinco-number-description" {{ _self.tooltip(show_tooltips, fields.labels.field_proyectos_activos_label) | raw }}>{{ fields.field_proyectos_activos_label ? fields.field_proyectos_activos_label : 'No hay data' }}</p>
+            <span class="zinco-number-value display-4 fw-bold zinco-counter" {{ _self.tooltip(show_tooltips, fields.labels.field_proyectos_activos) | raw }} data-count="{{ fields.field_proyectos_activos ? fields.field_proyectos_activos : 999 }}">0</span>
           </div>
         </div>
       </div>
@@ -68,19 +154,23 @@
         <div class="card h-100 text-center zinco-number-card" data-animate="fadeInUp" data-delay="300">
           <div class="card-body d-flex flex-column align-items-center justify-content-center">
             <div class="zinco-number-icon mb-3">
-              <i class="{{ fields.field_colaboraciones_icon ? fields.field_colaboraciones_icon : 'fas fa-users fa-3x' }}"></i>
+              <i class="{{ fields.field_colaboraciones_icon ? fields.field_colaboraciones_icon : 'fas fa-users fa-3x' }}" {{ _self.tooltip(show_tooltips, fields.labels.field_colaboraciones_icon) | raw }}></i>
             </div>
-            <p class="card-text zinco-number-description">{{ fields.field_colaboraciones_title ? fields.field_colaboraciones_title : 'No hay data' }}</p>
-            <span class="zinco-number-value display-4 fw-bold zinco-counter" data-count="{{ fields.field_colaboraciones_facilitadas ? fields.field_colaboraciones_facilitadas : 999 }}">0</span>+
+            <p class="card-text zinco-number-description" {{ _self.tooltip(show_tooltips, fields.labels.field_colaboraciones_title) | raw }}>{{ fields.field_colaboraciones_title ? fields.field_colaboraciones_title : 'No hay data' }}</p>
+            <span class="zinco-number-value display-4 fw-bold zinco-counter" {{ _self.tooltip(show_tooltips, fields.labels.field_colaboraciones_facilitadas) | raw }} data-count="{{ fields.field_colaboraciones_facilitadas ? fields.field_colaboraciones_facilitadas : 999 }}">0</span>+
           </div>
         </div>
       </div>
     </div>
-  </section>
-  <section id="nuestros-objetivos" class="container my-5">
-    <div class="row">
-      <div class="col-12 text-center">
-        <h2 data-animate="fadeInDown">Nuestros Objetivos Clave</h2>
+  </div>
+</section>
+  <section id="nuestros-objetivos" class="container my-5 py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="modern-title-container" data-animate="fadeInDown">
+          <h2 class="modern-title">Nuestros Objetivos Clave</h2>
+          <p class="modern-subtitle">La hoja de ruta para fortalecer el ecosistema de ciencia, tecnología e innovación.</p>
+        </div>
         <ul class="list-unstyled text-start">
           <li data-animate="fadeInUp" data-delay="100">
             <i class="fas fa-eye me-4 fa-3x"></i>
@@ -116,16 +206,19 @@
   </section>
   <section class="zinco-benefits-section py-5">
     <div class="container">
-      <h2 class="text-center mb-5 zinco-benefits-title" data-animate="fadeInDown">{{ fields.field_beneficios_title ? fields.field_beneficios_title : 'No hay data' }}</h2>
+      <div class="modern-title-container" data-animate="fadeInDown">
+        <h2 class="modern-title" {{ _self.tooltip(show_tooltips, fields.labels.field_beneficios_title) | raw }}>{{ fields.field_beneficios_title ? fields.field_beneficios_title : 'Beneficios' }}</h2>
+        <p class="modern-subtitle" {{ _self.tooltip(show_tooltips, fields.labels.field_beneficios_descripcion) | raw }}>{{ fields.field_beneficios_descripcion ? fields.field_beneficios_descripcion : 'Ventajas competitivas y oportunidades para los actores del territorio.' }}</p>
+      </div>
       <div class="row justify-content-center">
         <div class="col-12 col-md-6 col-lg-4 mb-4">
           <div class="card h-100 zinco-benefit-card" data-animate="fadeInUp" data-delay="100">
             <div class="card-body">
               <div class="zinco-benefit-icon mb-3">
-                <i class="{{ fields.field_beneficios_izq_icono ? fields.field_beneficios_izq_icono : 'fas fa-users fa-3x' }}"></i>
+                <i class="{{ fields.field_beneficios_izq_icono ? fields.field_beneficios_izq_icono : 'fas fa-users fa-3x' }}" {{ _self.tooltip(show_tooltips, fields.labels.field_beneficios_izq_icono) | raw }}></i>
               </div>
-              <h3 class="card-title zinco-benefit-title">{{ fields.field_beneficios_izq_titulo ? fields.field_beneficios_izq_titulo : 'No hay data' }}</h3>
-              <p class="card-text zinco-benefit-description">{{ fields.field_beneficios_izq_descripcion ? fields.field_beneficios_izq_descripcion : 'No hay data' }}</p>
+              <h3 class="card-title zinco-benefit-title" {{ _self.tooltip(show_tooltips, fields.labels.field_beneficios_izq_titulo) | raw }}>{{ fields.field_beneficios_izq_titulo ? fields.field_beneficios_izq_titulo : 'No hay data' }}</h3>
+              <p class="card-text zinco-benefit-description" {{ _self.tooltip(show_tooltips, fields.labels.field_beneficios_izq_descripcion) | raw }}>{{ fields.field_beneficios_izq_descripcion ? fields.field_beneficios_izq_descripcion : 'No hay data' }}</p>
             </div>
           </div>
         </div>
@@ -133,10 +226,10 @@
           <div class="card h-100 zinco-benefit-card" data-animate="fadeInUp" data-delay="200">
             <div class="card-body">
               <div class="zinco-benefit-icon mb-3">
-                <i class="{{ fields.field_beneficios_centro_icon ? fields.field_beneficios_centro_icon : 'fas fa-users fa-3x' }}"></i>
+                <i class="{{ fields.field_beneficios_centro_icon ? fields.field_beneficios_centro_icon : 'fas fa-users fa-3x' }}" {{ _self.tooltip(show_tooltips, fields.labels.field_beneficios_centro_icon) | raw }}></i>
               </div>
-              <h3 class="card-title zinco-benefit-title">{{ fields.field_beneficios_centro_titulo ? fields.field_beneficios_centro_titulo : 'No hay data' }}</h3>
-              <p class="card-text zinco-benefit-description">{{ fields.field_beneficios_centro_descripcion ? fields.field_beneficios_centro_descripcion : 'No hay data' }}</p>
+              <h3 class="card-title zinco-benefit-title" {{ _self.tooltip(show_tooltips, fields.labels.field_beneficios_centro_titulo) | raw }}>{{ fields.field_beneficios_centro_titulo ? fields.field_beneficios_centro_titulo : 'No hay data' }}</h3>
+              <p class="card-text zinco-benefit-description" {{ _self.tooltip(show_tooltips, fields.labels.field_beneficios_centro_descripc) | raw }}>{{ fields.field_beneficios_centro_descripcion ? fields.field_beneficios_centro_descripcion : 'No hay data' }}</p>
             </div>
           </div>
         </div>
@@ -144,10 +237,10 @@
           <div class="card h-100 zinco-benefit-card" data-animate="fadeInUp" data-delay="300">
             <div class="card-body">
               <div class="zinco-benefit-icon mb-3">
-                <i class="{{ fields.field_beneficios_derecha_icon ? fields.field_beneficios_derecha_icon : 'fas fa-users fa-3x' }}"></i>
+                <i class="{{ fields.field_beneficios_derecha_icon ? fields.field_beneficios_derecha_icon : 'fas fa-users fa-3x' }}" {{ _self.tooltip(show_tooltips, fields.labels.field_beneficios_derecha_icon) | raw }}></i>
               </div>
-              <h3 class="card-title zinco-benefit-title">{{ fields.field_beneficios_derecha_titulo ? fields.field_beneficios_derecha_titulo : 'No hay data' }}</h3>
-              <p class="card-text zinco-benefit-description">{{ fields.field_beneficios_derecha_descripcion ? fields.field_beneficios_derecha_descripcion : 'No hay data' }}</p>
+              <h3 class="card-title zinco-benefit-title" {{ _self.tooltip(show_tooltips, fields.labels.field_beneficios_derecha_titulo) | raw }}>{{ fields.field_beneficios_derecha_titulo ? fields.field_beneficios_derecha_titulo : 'No hay data' }}</h3>
+              <p class="card-text zinco-benefit-description" {{ _self.tooltip(show_tooltips, fields.labels.field_beneficios_derecha_descrip) | raw }}>{{ fields.field_beneficios_derecha_descripcion ? fields.field_beneficios_derecha_descripcion : 'No hay data' }}</p>
             </div>
           </div>
         </div>
@@ -157,16 +250,19 @@
   </section>
   <section class="zinco-tools-section py-5">
     <div class="container">
-      <h2 class="text-center mb-5 zinco-tools-title" data-animate="fadeInDown">{{ fields.field_herramientas_titulo ? fields.field_herramientas_titulo : 'No hay data' }}</h2>
+      <div class="modern-title-container" data-animate="fadeInDown">
+        <h2 class="modern-title" {{ _self.tooltip(show_tooltips, fields.labels.field_herramientas_titulo) | raw }}>{{ fields.field_herramientas_titulo ? fields.field_herramientas_titulo : 'Herramientas' }}</h2>
+        <p class="modern-subtitle" {{ _self.tooltip(show_tooltips, fields.labels.field_herramientas_descripcion) | raw }}>{{ fields.field_herramientas_descripcion ? fields.field_herramientas_descripcion : 'Recursos digitales diseñados para potenciar la gestión del conocimiento.' }}</p>
+      </div>
       <div class="row justify-content-center">
         <div class="col-12 col-md-6 col-lg-4 mb-4">
           <div class="card h-100 zinco-tool-card" data-animate="fadeInUp" data-delay="100">
             <div class="card-body">
               <div class="zinco-tool-icon mb-3">
-                <i class="{{ fields.field_herramientas_izq_icon ? fields.field_herramientas_izq_icon : 'fas fa-users fa-3x' }}"></i> {# Icon for Dynamic Actor Directory #}
+                <i class="{{ fields.field_herramientas_izq_icon ? fields.field_herramientas_izq_icon : 'fas fa-users fa-3x' }}" {{ _self.tooltip(show_tooltips, fields.labels.field_herramientas_izq_icon) | raw }}></i> {# Icon for Dynamic Actor Directory #}
               </div>
-              <h3 class="card-title zinco-tool-title">{{ fields.field_herramientas_izq_titulo ? fields.field_herramientas_izq_titulo : 'No hay data' }}</h3>
-              <p class="card-text zinco-tool-description">{{ fields.field_herramientas_izq_descripcion ? fields.field_herramientas_izq_descripcion : 'No hay data' }}</p>
+              <h3 class="card-title zinco-tool-title" {{ _self.tooltip(show_tooltips, fields.labels.field_herramientas_izq_titulo) | raw }}>{{ fields.field_herramientas_izq_titulo ? fields.field_herramientas_izq_titulo : 'No hay data' }}</h3>
+              <p class="card-text zinco-tool-description" {{ _self.tooltip(show_tooltips, fields.labels.field_herramientas_izq_descripci) | raw }}>{{ fields.field_herramientas_izq_descripcion ? fields.field_herramientas_izq_descripcion : 'No hay data' }}</p>
             </div>
           </div>
         </div>
@@ -174,10 +270,10 @@
           <div class="card h-100 zinco-tool-card" data-animate="fadeInUp" data-delay="200">
             <div class="card-body">
               <div class="zinco-tool-icon mb-3">
-                <i class="{{ fields.field_herramientas_centro_icon ? fields.field_herramientas_centro_icon : 'fas fa-users fa-3x' }}"></i> {# Icon for Opportunity Manager #}
+                <i class="{{ fields.field_herramientas_centro_icon ? fields.field_herramientas_centro_icon : 'fas fa-users fa-3x' }}" {{ _self.tooltip(show_tooltips, fields.labels.field_herramientas_centro_icon) | raw }}></i> {# Icon for Opportunity Manager #}
               </div>
-              <h3 class="card-title zinco-tool-title">{{ fields.field_herramientas_centro_titulo ? fields.field_herramientas_centro_titulo : 'No hay data' }}</h3>
-              <p class="card-text zinco-tool-description">{{ fields.field_herramientas_centro_descripcion ? fields.field_herramientas_centro_descripcion : 'No hay data' }}</p>
+              <h3 class="card-title zinco-tool-title" {{ _self.tooltip(show_tooltips, fields.labels.field_herramientas_centro_titulo) | raw }}>{{ fields.field_herramientas_centro_titulo ? fields.field_herramientas_centro_titulo : 'No hay data' }}</h3>
+              <p class="card-text zinco-tool-description" {{ _self.tooltip(show_tooltips, fields.labels.field_herramientas_centro_descri) | raw }}>{{ fields.field_herramientas_centro_descripcion ? fields.field_herramientas_centro_descripcion : 'No hay data' }}</p>
             </div>
           </div>
         </div>
@@ -185,10 +281,10 @@
           <div class="card h-100 zinco-tool-card" data-animate="fadeInUp" data-delay="300">
             <div class="card-body">
               <div class="zinco-tool-icon mb-3">
-                <i class="{{ fields.field_herramientas_derecha_icon ? fields.field_herramientas_derecha_icon : 'fas fa-users fa-3x' }}"></i> {# Icon for CTI Capability Visualizer #}
+                <i class="{{ fields.field_herramientas_derecha_icon ? fields.field_herramientas_derecha_icon : 'fas fa-users fa-3x' }}" {{ _self.tooltip(show_tooltips, fields.labels.field_herramientas_derecha_icon) | raw }}></i> {# Icon for CTI Capability Visualizer #}
               </div>
-              <h3 class="card-title zinco-tool-title">{{ fields.field_herramientas_derecha_titulo ? fields.field_herramientas_derecha_titulo : 'No hay data' }}</h3>
-              <p class="card-text zinco-tool-description">{{ fields.field_herramientas_derecha_descripcion ? fields.field_herramientas_derecha_descripcion : 'No hay data' }}</p>
+              <h3 class="card-title zinco-tool-title" {{ _self.tooltip(show_tooltips, fields.labels.field_herramientas_derecha_titulo) | raw }}>{{ fields.field_herramientas_derecha_titulo ? fields.field_herramientas_derecha_titulo : 'No hay data' }}</h3>
+              <p class="card-text zinco-tool-description" {{ _self.tooltip(show_tooltips, fields.labels.field_herramientas_derecha_descr) | raw }}>{{ fields.field_herramientas_derecha_descripcion ? fields.field_herramientas_derecha_descripcion : 'No hay data' }}</p>
             </div>
           </div>
         </div>
@@ -199,9 +295,11 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-12 col-lg-8 text-center">
-          <h2 class="mb-4 zinco-cta-title" data-animate="zoomIn">{{ fields.field_cta_titulo ? fields.field_cta_titulo : 'No hay data' }}</h2>
-          <p class="mb-5 zinco-cta-description" data-animate="fadeInUp" data-delay="150">{{ fields.field_cta_descripcion ? fields.field_cta_descripcion : 'No hay data' }}</p>
-          <a href="{{ fields.field_cta_enlace_button ? fields.field_cta_enlace_button : '#' }}" class="hero-button zinco-cta-button" data-animate="pulse" data-delay="300">{{ fields.field_cta_label_button ? fields.field_cta_label_button : 'No hay data' }}</a>
+          <div class="modern-title-container" data-animate="zoomIn">
+            <h2 class="modern-title" {{ _self.tooltip(show_tooltips, fields.labels.field_cta_titulo) | raw }}>{{ fields.field_cta_titulo ? fields.field_cta_titulo : 'Únete a ZINCO' }}</h2>
+            <p class="modern-subtitle" {{ _self.tooltip(show_tooltips, fields.labels.field_cta_descripcion) | raw }}>{{ fields.field_cta_descripcion ? fields.field_cta_descripcion : 'Forma parte del ecosistema de innovación más dinámico de la región.' }}</p>
+          </div>
+          <a href="{{ fields.field_cta_enlace_button ? fields.field_cta_enlace_button : '#' }}" class="hero-button zinco-cta-button mt-4" data-animate="pulse" data-delay="300" {{ _self.tooltip(fields.show_tooltips, fields.labels.field_cta_label_button ~ ' / ' ~ fields.labels.field_cta_enlace_button) | raw }}>{{ fields.field_cta_label_button ? fields.field_cta_label_button : 'Registrarse ahora' }}</a>
         </div>
       </div>
     </div>

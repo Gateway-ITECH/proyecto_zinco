@@ -11,6 +11,7 @@ use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\File\FileSystemInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Provides a ZincoFront controller for Actores.
@@ -188,7 +189,7 @@ class ActoresController extends ControllerBase
         $bundle_id = $actor->bundle();
         $bundle_entity = $this->entityTypeManager->getStorage('zinco_actors_zincoactors_type')->load($bundle_id);
         $bundle_label = $bundle_entity ? $bundle_entity->label() : $bundle_id;
-        $actor_data['field_tipo_actor'] = (strlen($bundle_label) > 10) ? substr($bundle_label, 0, 10) . '...' : $bundle_label;
+        $actor_data['field_tipo_actor'] = $bundle_label;
         $actor_data['bundle_color'] = $bundle_colors[$bundle_id] ?? 'text-bg-secondary';
 
         // Get the label of the 'municipio' taxonomy term.
@@ -614,6 +615,27 @@ class ActoresController extends ControllerBase
 
 
 
+      // Obtener reconocimientos del bundle reconocimiento_de_actor asociados a este actor.
+      $actor_data['reconocimientos_actor'] = [];
+      $query_rec = $this->entityTypeManager->getStorage('zinco_reconocimientos')->getQuery()
+        ->condition('bundle', 'reconocimiento_de_actor')
+        ->condition('field_actor_asociado', $actor_id)
+        ->condition('status', 1)
+        ->sort('created', 'DESC')
+        ->accessCheck(FALSE);
+      $rec_ids = $query_rec->execute();
+      if (!empty($rec_ids)) {
+        $rec_entities = $this->entityTypeManager->getStorage('zinco_reconocimientos')->loadMultiple($rec_ids);
+        foreach ($rec_entities as $rec) {
+          $actor_data['reconocimientos_actor'][] = [
+            'id' => $rec->id(),
+            'label' => $rec->label(),
+            'descripcion' => $rec->hasField('field_descripcion_reconocimiento') ? $rec->get('field_descripcion_reconocimiento')->value : '',
+            'fecha' => \Drupal::service('date.formatter')->format($rec->getCreatedTime(), 'short'),
+          ];
+        }
+      }
+
       return [
         '#theme' => 'zinco_actor_profile',
         '#actor' => $actor_data,
@@ -849,6 +871,68 @@ class ActoresController extends ControllerBase
       '#bundle_label' => $bundle_info[$bundle]['label'],
       '#cache' => [
         'tags' => $this->entityTypeManager->getDefinition('zinco_actors_zincoactors')->getListCacheTags(),
+      ],
+    ];
+  }
+
+  /**
+   * Returns the count of actors for AJAX request.
+   */
+  public function getActorsCount() {
+    $query = $this->entityTypeManager->getStorage('zinco_actors_zincoactors')->getQuery()
+      ->accessCheck(FALSE)
+      ->count();
+    $count = $query->execute();
+
+    return new JsonResponse(['count' => $count]);
+  }
+
+  /**
+   * Returns the count of projects for AJAX request.
+   */
+  public function getProjectsCount() {
+    $query = $this->entityTypeManager->getStorage('zinco_proyectos_idi')->getQuery()
+      ->accessCheck(FALSE)
+      ->count();
+    $count = $query->execute();
+
+    return new JsonResponse(['count' => $count]);
+  }
+
+  /**
+   * Generates an actor edit form for the current user's actor.
+   *
+   * @return array
+   *   A renderable array containing the actor edit form.
+   */
+  public function editActorForm()
+  {
+    $current_user = $this->entityTypeManager->getStorage('user')->load(\Drupal::currentUser()->id());
+
+    if (!$current_user->hasField('field_actor') || $current_user->get('field_actor')->isEmpty()) {
+      $this->messenger()->addWarning($this->t('No tienes un perfil de actor asociado. Por favor, crea uno.'));
+      return $this->redirect('zinco_front.actor_categories_list');
+    }
+
+    $actor_id = $current_user->get('field_actor')->target_id;
+    $actor = $this->entityTypeManager->getStorage('zinco_actors_zincoactors')->load($actor_id);
+
+    if (!$actor) {
+      $this->messenger()->addError($this->t('No se pudo cargar tu perfil de actor.'));
+      return $this->redirect('zinco_front.actor_categories_list');
+    }
+
+    $bundle_info = $this->entityTypeBundleInfo->getBundleInfo('zinco_actors_zincoactors');
+    $bundle = $actor->bundle();
+    
+    $form = $this->entityFormBuilder->getForm($actor, 'frontend');
+
+    return [
+      '#theme' => 'zinco_actor_edit_form',
+      '#actor_form' => $form,
+      '#bundle_label' => $bundle_info[$bundle]['label'] ?? $bundle,
+      '#cache' => [
+        'tags' => $actor->getCacheTags(),
       ],
     ];
   }

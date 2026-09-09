@@ -1,0 +1,112 @@
+((Drupal, once) => {
+  Drupal.behaviors.zincoSendCallForPapers = {
+    attach: function (context) {
+      const elements = once('zinco-send-call-for-papers', '#btn-enviar-masivo', context);
+      // Add event listener for challenge selection to suggest a message.
+      const retoSelect = document.getElementById('edit-reto-innovacion');
+      if (retoSelect) {
+        retoSelect.addEventListener('change', (e) => {
+          const retoId = e.target.value;
+          if (!retoId) return;
+
+          // Fetch the suggestion from the controller.
+          // Note: The path is hardcoded or could be passed via data attribute.
+          const suggestUrl = `/admin/zinco/call-for-papers/suggest/${retoId}`;
+
+          fetch(suggestUrl)
+            .then(response => response.json())
+            .then(data => {
+              if (data.success && data.suggestion) {
+                const messageField = document.getElementById('edit-message');
+                if (messageField) {
+                  messageField.value = data.suggestion;
+                }
+              }
+            })
+            .catch(error => {
+              console.error('Error fetching reto suggestion:', error);
+            });
+        });
+      }
+
+      elements.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+
+          const endpoint = btn.getAttribute('data-endpoint');
+          const form = document.getElementById('zinco-front-call-for-papers-form');
+          if (!form) {
+            console.error('Form #zinco-front-call-for-papers-form not found.');
+            return;
+          }
+
+          // Collect form data using FormData.
+          const formData = new FormData(form);
+          const messageField = document.getElementById('edit-message');
+          if (messageField) {
+            formData.set('message', messageField.value);
+          }
+
+          // Extract UIDs from the visible table results.
+          const uids = [];
+          const rows = document.querySelectorAll('.view-id-selector_de_receptores table tbody tr');
+          rows.forEach(row => {
+            // Looking for the ID in the "Ver detalle" link or similar.
+            const link = row.querySelector('a[href*="/edit"]');
+            if (link) {
+              const match = link.href.match(/\/(\d+)\//);
+              if (match) {
+                uids.push(match[1]);
+              }
+            }
+          });
+
+          if (uids.length > 0) {
+            uids.forEach(uid => formData.append('uids[]', uid));
+          }
+
+          console.log('Datos enviados en FormData:');
+          for (let [key, value] of formData.entries()) {
+            console.log(key, value);
+          }
+
+          // Disable button and show processing state.
+          btn.disabled = true;
+          const originalValue = btn.value;
+          btn.value = 'Procesando...';
+
+          fetch(endpoint, {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest'
+            }
+          })
+            .then(response => {
+              if (!response.ok) {
+                return response.json().then(err => { throw err; });
+              }
+              return response.json();
+            })
+            .then(data => {
+              if (data.success && data.redirect) {
+                // Redirect to the batch processing page.
+                window.location.href = data.redirect;
+              } else {
+                alert('Error: ' + (data.message || 'Ocurrió un error inesperado.'));
+                btn.disabled = false;
+                btn.value = originalValue;
+              }
+            })
+            .catch(error => {
+              console.error('Error during mass message submission:', error);
+              const errorMsg = error && error.message ? error.message : 'Error en la petición.';
+              alert('Error: ' + errorMsg);
+              btn.disabled = false;
+              btn.value = originalValue;
+            });
+        });
+      });
+    }
+  };
+})(Drupal, once);

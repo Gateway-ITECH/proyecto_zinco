@@ -11,12 +11,19 @@
 function zinco_admin_theme() {
   return [
     'zinco_admin_dashboard' => [
-      'variables' => ['title' => NULL],
+      'variables' => [
+        'title' => NULL,
+      ],
       'template' => 'zinco-admin-dashboard',
+      'base hook' => 'page',
+    ],
+    'zinco_admin_actors_export' => [
+      'variables' => [
+        'title' => NULL,
+        'tables' => [],
+      ],
+      'template' => 'zinco-admin-actors-export',
       'base hook' => 'page',
     ],
   ];
 }
-
-
- //
