@@ -1,0 +1,15 @@
+_core:
+  default_config_hash: ijfbzDTN4CbE7Sr-6ubWzy_t1vH4OtU1doNCLssVz-4
+langcode: es
+uuid: 3b6f0238-5ce2-434c-94b6-455904ebb5f8
+name: 'Plataforma Zinco'
+mail: soporte@gatewayit.co
+slogan: ''
+page:
+  403: ''
+  404: ''
+  front: /dashboard
+admin_compact_mode: false
+weight_select_max: 100
+default_langcode: es
+mail_notification: null

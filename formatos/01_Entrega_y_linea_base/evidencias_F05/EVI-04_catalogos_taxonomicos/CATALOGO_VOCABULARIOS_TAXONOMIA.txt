@@ -1,0 +1,27 @@
+=== CATÁLOGO DE VOCABULARIOS DE TAXONOMÍA AS-BUILT (25 VOCABULARIOS) ===
+
+- cargos_representantes_legales       : Cargos representantes legales
+- categorias_de_caja_de_herramient    : Categorías de caja de herramientas CTI
+- categorias_grupos_de_investigaci    : Categorías grupos de investigación
+- ciiu_colombia                       : CIIU Colombia
+- criterios_evaluacion_retos          : Criterios evaluación retos
+- divipola                            : Divipola
+- estados_de_acreditacion_de_ies      : Estados de acreditación de IES
+- estados_de_necesidad                : Estados de necesidad
+- estados_de_postulacion_a_retos      : Estados de postulación a retos
+- estados_de_retos_de_innovacion      : Estados de retos de innovación
+- estados_proyectos                   : Estados proyectos
+- lineas_de_investigacion             : Líneas de investigación
+- niveles_de_gobierno                 : Niveles de gobierno
+- opciones_de_evaluacion_de_postul    : Opciones de evaluación de postulaciones de retos
+- tags                                : Etiquetas
+- tecnologias_clave                   : Tecnologías Clave
+- tipos_de_caracter_academico         : Tipos de caracter académico
+- tipos_de_convocatorias              : Tipos de convocatorias
+- tipos_de_entidades_gubernamental    : Tipos de entidades gubernamentales
+- tipos_de_evento                     : Tipos de evento
+- tipos_de_formacion                  : Tipos de formación
+- tipos_de_generadores_de_conocimi    : Tipos de generadores de conocimiento
+- tipos_de_ies                        : Tipos de IES
+- tipos_de_modalidad_de_cursos        : Tipos de modalidad de cursos
+- tipos_de_necesidad                  : Tipos de necesidad

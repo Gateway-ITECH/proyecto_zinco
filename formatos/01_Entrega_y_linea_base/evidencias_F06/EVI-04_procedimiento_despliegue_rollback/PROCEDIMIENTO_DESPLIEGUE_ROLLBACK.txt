@@ -1,0 +1,31 @@
+=== PROCEDIMIENTO ESTANDARIZADO DE DESPLIEGUE Y PLAN DE ROLLBACK ===
+Proyecto: Plataforma Zinco (Ecosistema CTeI UNICOR)
+
+1. PROCEDIMIENTO DE DESPLIEGUE (PASO A PASO):
+   Paso 1: Clonar el repositorio oficial:
+           git clone git@github.com:Gateway-ITECH/proyecto_zinco.git -b main
+   Paso 2: Cambiar al commit verificado de línea base:
+           git checkout 0ac18a2238232be53c2564b4a12ba6d12ffea9cd
+   Paso 3: Instalar dependencias deterministas:
+           composer install --no-dev --optimize-autoloader
+   Paso 4: Iniciar servicios contenerizados:
+           lando start
+   Paso 5: Importar último volcado consistente de base de datos MySQL.
+   Paso 6: Aplicar sincronización de configuración:
+           lando drush cim -y
+   Paso 7: Reconstruir cachés y verificar estado:
+           lando drush cr && lando drush status
+
+2. PLAN DE ROLLBACK (REVERSIÓN INMEDIATA ANTE FALLAS):
+   Criterio de activación: Excepciones críticas en watchdog, fallo de conexión a BD o inconsistencia funcional.
+   Paso 1: Detener tráfico web temporalmente (modo mantenimiento):
+           lando drush state:set system.maintenance_mode 1 --input-format=integer
+   Paso 2: Revertir código fuente al commit previo estable:
+           git checkout <commit_anterior_estable>
+   Paso 3: Restaurar la base de datos previa al despliegue:
+           gunzip < /app/backups/backup_pre_despliegue.sql.gz | mysql -h database -u drupal11 -pdrupal11 drupal11
+   Paso 4: Sincronizar configuraciones correspondientes al commit previo:
+           lando drush cim -y
+   Paso 5: Limpiar caché y deshabilitar modo mantenimiento:
+           lando drush cr && lando drush state:set system.maintenance_mode 0 --input-format=integer
+   Paso 6: Validar acceso en https://zincowsl-app.lndo.site

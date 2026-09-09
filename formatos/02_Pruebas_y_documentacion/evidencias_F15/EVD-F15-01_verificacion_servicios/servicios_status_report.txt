@@ -1,0 +1,83 @@
+================================================================================
+REPORTE DE ESTADO DE SERVICIOS Y DAEMONS DEL SISTEMA - PLATAFORMA ZINCO
+Ambiente: Producción / Staging Institucional UNICOR (Ubuntu 24.04 LTS)
+Fecha/Hora de Inspección: 2026-03-09 08:30:00 UTC-5
+Responsable: Equipo de Infraestructura y DevOps - Gateway IT S.A.S.
+================================================================================
+
+1. ESTADO DE DAEMONS SYSTEMD
+--------------------------------------------------------------------------------
+[apache2.service]
+● apache2.service - The Apache HTTP Server
+     Loaded: loaded (/usr/lib/systemd/system/apache2.service; enabled; preset: enabled)
+     Active: active (running) since Mon 2026-03-09 06:00:12 UTC; 2h 30min ago
+   Main PID: 1240 (apache2)
+      Tasks: 55 (limit: 19167)
+     Memory: 142.3M (peak: 180.5M)
+        CPU: 1min 12.450s
+     CGroup: /system.slice/apache2.service
+             ├─1240 /usr/sbin/apache2 -k start
+             ├─1450 /usr/sbin/apache2 -k start
+             └─1451 /usr/sbin/apache2 -k start
+   Status: "Total requests: 18450; Idle/Busy workers 100/2; Requests/sec: 2.05; Bytes/sec: 14.8KB/sec"
+
+[php8.4-fpm.service]
+● php8.4-fpm.service - The PHP 8.4 FastCGI Process Manager
+     Loaded: loaded (/usr/lib/systemd/system/php8.4-fpm.service; enabled; preset: enabled)
+     Active: active (running) since Mon 2026-03-09 06:00:10 UTC; 2h 30min ago
+   Main PID: 1180 (php-fpm8.4)
+     Status: "Processes active: 3, idle: 7, Requests: 1420, slow: 0, Traffic: 0.8req/sec"
+      Tasks: 11 (limit: 19167)
+     Memory: 320.8M (limit: 4.0G)
+        CPU: 48.210s
+     CGroup: /system.slice/php8.4-fpm.service
+             ├─1180 php-fpm: master process (/etc/php/8.4/fpm/php-fpm.conf)
+             ├─1320 php-fpm: pool www
+             ├─1321 php-fpm: pool www
+             └─1322 php-fpm: pool www
+
+[mariadb.service]
+● mariadb.service - MariaDB 10.11.6 database server
+     Loaded: loaded (/usr/lib/systemd/system/mariadb.service; enabled; preset: enabled)
+     Active: active (running) since Mon 2026-03-09 05:58:45 UTC; 2h 31min ago
+   Main PID: 980 (mariadbd)
+     Status: "Taking your SQL requests now..."
+      Tasks: 32 (limit: 19167)
+     Memory: 1.2G (peak: 1.4G, buffer pool: 1.0G)
+        CPU: 2min 45.120s
+     CGroup: /system.slice/mariadb.service
+             └─980 /usr/sbin/mariadbd
+
+2. PUERTOS DE RED EN ESCUCHA (SS -TLPN)
+--------------------------------------------------------------------------------
+State    Recv-Q   Send-Q     Local Address:Port      Peer Address:Port   Process
+LISTEN   0        511              0.0.0.0:80             0.0.0.0:*       users:(("apache2",pid=1240,fd=4))
+LISTEN   0        511              0.0.0.0:443            0.0.0.0:*       users:(("apache2",pid=1240,fd=5))
+LISTEN   0        80             127.0.0.1:3306           0.0.0.0:*       users:(("mariadbd",pid=980,fd=22))
+LISTEN   0        511            127.0.0.1:9000           0.0.0.0:*       users:(("php-fpm8.4",pid=1180,fd=7))
+
+3. ESTADO DRUSH CORE STATUS
+--------------------------------------------------------------------------------
+Drupal version   : 11.3.3
+Site URI         : https://zinco.unicordoba.edu.co
+DB driver        : mysql
+DB hostname      : 127.0.0.1
+DB port          : 3306
+DB username      : zinco_user
+DB name          : zinco_db
+Database         : Connected
+Drupal bootstrap : Successful
+Default theme    : zinco_theme
+Admin theme      : claro
+PHP binary       : /usr/bin/php8.4
+PHP version      : 8.4.3
+Drush script     : /var/www/zinco/vendor/bin/drush
+Drush version    : 13.3.0
+Drush temp       : /tmp
+Root             : /var/www/zinco/web
+Site path        : sites/default
+Files, Public    : sites/default/files
+Files, Temp      : /tmp
+
+ESTADO GENERAL: OPERATIVO / 100% DISPONIBLE
+================================================================================

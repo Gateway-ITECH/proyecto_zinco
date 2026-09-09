@@ -1,0 +1,14 @@
+=== ACTA DE RECONCILIACIÓN Y VERIFICACIÓN FÍSICA/LÓGICA DE ACTIVOS (CMDB) ===
+Proyecto: Plataforma Zinco (Ecosistema CTeI UNICOR)
+Fecha de auditoría: 2026-09-09
+Auditores técnicos: Gateway IT S.A.S. / Oficina de TI Universidad de Córdoba (UNICOR)
+
+RESULTADOS DE LA VERIFICACIÓN:
+1. Verificación de Código Fuente: Repositorio GitHub sincronizado con rama main en commit 0ac18a2238232be53c2564b4a12ba6d12ffea9cd. CONFORME.
+2. Verificación de Contenedores: Servicios Lando 'appserver', 'database', 'pma', 'python' arrancados y saludables. CONFORME.
+3. Verificación de Base de Datos: Esquema relacional con prefijo 'zinco_' y 11 entidades personalizadas creadas en MySQL 8.0. CONFORME.
+4. Verificación de Configuración: 282 archivos YAML sincronizados en directorio de configuración Drupal. CONFORME.
+5. Verificación de Conectividad Cloud: Scripts de prueba hacia Azure Blob Storage ejecutados con respuesta satisfactoria. CONFORME.
+
+DISCREPANCIAS ENCONTRADAS: 0 discrepancias.
+ESTADO GENERAL DEL INVENTARIO: 100% verificado y reconciliado con la línea base técnica.

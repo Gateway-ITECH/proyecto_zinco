@@ -1,0 +1,19 @@
+=== FICHA TÉCNICA DE CONTENEDORES Y SERVICIOS DOCKER (LANDO) ===
+Nombre aplicación: zinco-wsl
+Proxy URL: https://zincowsl-app.lndo.site
+Servicios Orquestados:
+1. appserver:
+   - Imagen/Tipo: Apache 2.4 / PHP 8.4 (Debian base)
+   - Memoria asignada: 512MB
+   - Extensiones: gd, mbstring, pdo_mysql, curl, dom, xml
+   - Variables de entorno: XDEBUG_MODE=debug,develop
+2. database:
+   - Imagen/Tipo: MySQL 8.0 Community
+   - Puerto interno: 3306
+   - Healthcheck: mysql --defaults-extra-file=/app/.lando/mysql/healthcheck.cnf --silent --execute 'SHOW DATABASES;'
+3. pma:
+   - Imagen/Tipo: phpMyAdmin 5.2
+   - Enlace: Hosts directos a 'database'
+4. python:
+   - Imagen/Tipo: Python 3.11
+   - Automatización de build: pip install --no-cache-dir -r requirements.txt

@@ -1,0 +1,41 @@
+================================================================================
+DIAGRAMA DE FLUJO: MANTENIMIENTO CORRECTIVO DE SOFTWARE ZINCO
+Alineacion: ISO/IEC/IEEE 14764:2022
+================================================================================
+
+[Radicacion Ticket Jira / Alerta]
+               │
+               ▼
+   [Triaje Nivel 1: Severidad]
+               │
+   ┌───────────┴───────────┐
+   ▼                       ▼
+[Sev 1: Critica]     [Sev 2/3/4: No Critica]
+(SLA: 4h objetivo)   (SLA: 24h a 5 dias)
+   │                       │
+   └───────────┬───────────┘
+               │
+               ▼
+[Aislamiento en Lando / Reproduccion Local]
+               │
+               ▼
+[Creacion Rama Git: hotfix/<ticket>]
+               │
+               ▼
+[Desarrollo de Parche + Revision de Pares]
+               │
+               ▼
+[Despliegue y Pruebas en Staging UNICOR]
+               │
+               ▼
+[Conformidad Tecnica de Supervision UNICOR]
+               │
+               ▼
+[Merge a Main + Tag Git v1.0.X-patch]
+               │
+               ▼
+[Despliegue Asistido en Produccion]
+               │
+               ▼
+[Validacion HTTP 200 + Cierre Formal Ticket]
+================================================================================

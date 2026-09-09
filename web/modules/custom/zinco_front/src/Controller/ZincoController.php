@@ -262,7 +262,8 @@ class ZincoController extends ControllerBase
    */
   public function dumpEntityBundle(string $entity_type_id, string $bundle, ?string $formato)
   {
-    $data = $this->dumpDataService->obtenerBundle($entity_type_id, $bundle);
+    $query_params = \Drupal::request()->query->all();
+    $data = $this->dumpDataService->obtenerBundle($entity_type_id, $bundle, $query_params);
 
     if ($formato === 'json') {
       return new JsonResponse($data);

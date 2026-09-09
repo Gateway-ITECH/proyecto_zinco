@@ -1,0 +1,22 @@
+=== PLAN Y BITÁCORA DE SESIONES DE PRUEBAS TÉCNICAS ===
+Proyecto: Plataforma Zinco (Ecosistema CTeI UNICOR)
+Periodo de ejecución de pruebas: 2026-02-15 al 2026-09-09
+Marco Metodológico: ISO/IEC/IEEE 29119-3:2021 (Software Testing Documentation)
+
+1. OBJETIVO DE LAS PRUEBAS:
+Validar integralmente las funcionalidades, integraciones cloud, seguridad y rendimiento de la Plataforma Zinco
+en conformidad con los 115 requerimientos funcionales del prototipo v1.0.
+
+2. AMBIENTES DE EJECUCIÓN UTILIZADOS:
+- Ambiente Local Contenerizado Lando v3: zincowsl-app.lndo.site (Pruebas unitarias y funcionales tempranas).
+- Ambiente de Staging / Pre-producción UNICOR: zinco-staging.unicordoba.edu.co (Pruebas de integración, rendimiento y aceptación).
+- NOTA TÉCNICA: No se cuenta con un ambiente UAT dedicado e independiente en la infraestructura universitaria.
+
+3. REGISTRO CRONOLÓGICO DE SESIONES:
+- Sesión 01 (2026-02-18): Pruebas de instalación, bootstrapping de Drupal 11 y conectividad MariaDB.
+- Sesión 02 (2026-02-25): Pruebas de integración con Azure Blob Storage ('test_azure_connection.py').
+- Sesión 03 (2026-03-02): Pruebas de ingesta ETL de GrupLAC y parsing DOM/XPath ('GruplacScraperService').
+- Sesión 04 (2026-03-06): Pruebas de renderizado de reportes ejecutivos en PDF ('PdfGeneratorService').
+- Sesión 05 (2026-03-10): Pruebas del módulo de Open Innovation (banco de retos, postulación y scoring).
+- Sesión 06 (2026-03-15): Pruebas de búsqueda facetada y navegación de perfiles de la quíntuple hélice.
+- Sesión 07 (2026-09-09): Sesión final de pruebas de no regresión y validación funcional formal en Staging.

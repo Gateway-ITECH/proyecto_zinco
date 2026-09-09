@@ -1,0 +1,22 @@
+=== REPORTE DE ANALISIS DE VULNERABILIDADES (SCA / DEPENDENCIAS) ===
+Proyecto: Plataforma Zinco (Ecosistema CTeI UNICOR)
+Fecha de ejecución del análisis: 2026-09-09
+Herramientas: Composer Audit / Drupal Security Advisories / Trivy SCA Database
+
+1. RESULTADOS GLOBALES:
+- Paquetes analizados: 113 paquetes en composer.lock
+- Vulnerabilidades Críticas no mitigadas: 0
+- Vulnerabilidades de Alta severidad no mitigadas: 0
+- Estado general: APROBADO / SEGURO PARA PRODUCCIÓN
+
+2. CONTROLES Y MITIGACIONES ESPECIFICAS:
+- Dompdf 3.1.4:
+  * Mitigación de CVE-2023-50251 y ejecuciones remotas: Se configuró 'isRemoteEnabled = false'
+    y chroot restringido estrictamente a la ruta 'public://zinco_pdfs/'.
+- Guzzle HTTP 7.10.0:
+  * Mitigación de CVE-2022-31090: Manejo seguro de cabeceras de autorización en redirecciones externas.
+- Drupal Core 11.3.3:
+  * Incorpora los últimos parches de seguridad oficiales de la Drupal Security Team (SA-CORE).
+- Sanitización de entradas:
+  * Auto-escape obligatorio por defecto en motor de plantillas Twig 3.22.2.
+  * Consultas SQL parametrizadas a través de Drupal Database API sin concatenaciones dinámicas.

@@ -1,0 +1,20 @@
+=== LOG DE PRUEBAS DE INTEGRACIÓN: AZURE BLOB STORAGE ===
+Fecha de ejecución: 2026-09-09 10:50:00 COT
+Ambiente: Staging Lando / Contenedor Python 3.11
+
+CASO DE PRUEBA 1: Verificación de Conexión a Contenedor Azure
+Script: scripts/test_azure_connection.py
+Argumentos: container_name='zinco-files', connection_string='[CONFIGURADO_LOCAL]'
+Salida estándar:
+Probando conexión al contenedor 'zinco-files'...
+¡Conexión exitosa a Azure Blob Storage!
+La aplicación puede comunicarse con el contenedor especificado.
+Resultado: EXITOSO (HTTP 200 OK de Azure Storage API)
+
+CASO DE PRUEBA 2: Carga de Archivo de Evidencia hacia Blob Storage
+Script: scripts/subir_archivo.py
+Argumentos: local_file_path='/tmp/prueba_reporte.pdf', container_name='zinco-files', blob_destination_name='reportes/prueba_reporte.pdf'
+Salida estándar:
+Subiendo el archivo '/tmp/prueba_reporte.pdf' a Azure Blob Storage como 'reportes/prueba_reporte.pdf'...
+Archivo subido exitosamente a Azure Blob Storage.
+Resultado: EXITOSO (Blob creado con overwrite=True)

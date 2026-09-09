@@ -1,0 +1,14 @@
+=== REPOSITORIO GIT - CORTE DE LÍNEA BASE (HEAD) ===
+Repositorio: git@github.com:Gateway-ITECH/proyecto_zinco.git
+Rama: main
+Commit: 0ac18a2238232be53c2564b4a12ba6d12ffea9cd
+
+commit 0ac18a2238232be53c2564b4a12ba6d12ffea9cd
+Author: Camilo Cervantes <cacesa8931@gmail.com>
+Date:   Tue Feb 24 02:14:42 2026 -0500
+
+    ajuste bug exportar datos
+
+ .../zinco_front/src/Controller/ZincoController.php |  12 +-
+ .../zinco_front/src/Service/DumpDataService.php    | 675 +++++++++------------
+ 2 files changed, 308 insertions(+), 379 deletions(-)

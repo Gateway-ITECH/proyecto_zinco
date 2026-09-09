@@ -1,0 +1,14 @@
+================================================================================
+MANIFIESTO DE SUMAS CRIPTOGRAFICAS SHA-256 - EVIDENCIAS COPIAS DE SEGURIDAD F25
+Plataforma Zinco - Universidad de Cordoba / Gateway IT S.A.S.
+Fecha de Generacion: 2026-03-09
+================================================================================
+
+3bfd55df9bc609fbdc2d84ea379f235d5b39c2554d879695cc26164022426fbb  EVD-F25-01_politica_procedimiento_respaldo/politica_procedimiento_copias_seguridad.md
+c96ac67ffb74880b9c4fbb74b23484bb76ba1295a6a951065d7e227bccc310ea  EVD-F25-02_script_motor_respaldo_zinco/zinco-backup-engine.sh
+06fed0525eef6cd2258ad075eefc35431e5cf498957b595c09b4bee461e8f1c1  EVD-F25-03_bitacora_ejecucion_respaldos/backup_execution_log.txt
+ae823e16a950d903fe7952a30ba37b2c7344f324f8c9d6ff9c8d80529819d843  EVD-F25-04_script_restauracion_verificacion/zinco-restore-engine.sh
+be97d465efcfb56ff48dc5172de078fbbf68cd91cb95e53e119bc171614d602c  EVD-F25-05_simulacro_restauracion_staging/reporte_simulacro_restauracion_staging.txt
+0b3746e6c801cb3c332536fd805eb87dfa1579fa5d07517b73605528f5db92a7  EVD-F25-06_retencion_inmutabilidad_azure/politica_retencion_inmutabilidad_azure.md
+
+Total archivos verificados: 6

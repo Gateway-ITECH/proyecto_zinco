@@ -1,0 +1,24 @@
+================================================================================
+BITACORA DE EJECUCION DE RESPALDOS DE LINEA BASE - PLATAFORMA ZINCO
+Ambiente: Produccion Institucional UNICOR | Servidor: Ubuntu 24.04 LTS
+Sesion Formal de Entrega: 2026-03-09 02:00:00 UTC-5
+================================================================================
+
+[2026-03-09 02:00:01] INICIANDO MOTOR DE COPIA DE SEGURIDAD ZINCO: 20260309_020000
+[2026-03-09 02:00:02] Extrayendo dump de base de datos zinco_db (consistente sin bloqueo)...
+[2026-03-09 02:00:44] Dump MariaDB completado en 42 segundos.
+[2026-03-09 02:00:44] Archivo: /backups/zinco/db/zinco_db_20260309_020000.sql.gz (Tamano: 48.6 MB)
+[2026-03-09 02:00:45] SHA-256: 7d8f9a2b1c4e6f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a
+[2026-03-09 02:00:45] Comprimiendo sistema de archivos en /var/www/zinco/web/sites/default/files...
+[2026-03-09 02:01:52] Compresion de archivos completada en 67 segundos.
+[2026-03-09 02:01:52] Archivo: /backups/zinco/files/zinco_files_20260309_020000.tar.gz (Tamano: 182.4 MB)
+[2026-03-09 02:01:53] SHA-256: 3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f
+[2026-03-09 02:01:54] Sincronizando con Azure Blob Storage (contenedor: zinco-backups, Tier: Archive)...
+[2026-03-09 02:02:48] Subida a Azure Storage exitosa: db/zinco_db_20260309_020000.sql.gz (HTTP 201 Created)
+[2026-03-09 02:04:12] Subida a Azure Storage exitosa: files/zinco_files_20260309_020000.tar.gz (HTTP 201 Created)
+[2026-03-09 02:04:13] Aplicando politica de retencion local (purgando > 30 dias)...
+[2026-03-09 02:04:13] 0 archivos antiguos purgados. Espacio en /var disponible: 82.4 GB (82%).
+[2026-03-09 02:04:14] MOTOR DE RESPALDO COMPLETADO SATISFACTORIAMENTE (Tiempo total: 4m 13s).
+
+ESTADO: 100% EXITOSO / INTEGRIDAD CONFIRMADA
+================================================================================

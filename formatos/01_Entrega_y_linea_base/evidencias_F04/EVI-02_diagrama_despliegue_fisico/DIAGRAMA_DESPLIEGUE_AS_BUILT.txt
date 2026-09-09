@@ -1,0 +1,30 @@
+=== ARQUITECTURA FÍSICA Y DE DESPLIEGUE AS-BUILT ===
+Proyecto: Plataforma Zinco (Ecosistema CTeI UNICOR)
+Ambiente: Desarrollo / Staging Contenerizado (Lando / Docker / WSL2)
+
+1. TOPOLOGÍA DE INFRAESTRUCTURA:
+[ Host Local / WSL2: Ubuntu 24.04 ]
+  ├── Proxy Inverso Lando (Puertos 80/443 SSL) -> zincowsl-app.lndo.site
+  │     │
+  │     ├── [ Contenedor: appserver ]
+  │     │     - Servidor Web: Apache 2.4
+  │     │     - Runtime: PHP 8.4 (512MB RAM, extensiones: gd, mbstring, pdo_mysql)
+  │     │     - Raíz Web: /app/web (Drupal 11.2)
+  │     │
+  │     ├── [ Contenedor: database ]
+  │     │     - Motor: MySQL 8.0 Community
+  │     │     - Puerto interno: 3306 (database:3306)
+  │     │     - Base de datos: drupal11 (prefijo: zinco_)
+  │     │     - Healthcheck activo: mysql --silent -e 'SHOW DATABASES;'
+  │     │
+  │     ├── [ Contenedor: pma ]
+  │     │     - phpMyAdmin 5.2 (Gestión visual de base de datos)
+  │     │     - Enlace interno a contenedor 'database'
+  │     │
+  │     └── [ Contenedor: python ]
+  │           - Runtime: Python 3.11
+  │           - Paquetes: azure-storage-blob, dompdf, lxml
+  │
+  └── [ Almacenamiento Externo Cloud ]
+        └── Microsoft Azure Blob Storage (HTTPS TLS 1.3)
+              └── Contenedor de blobs: zinco-files (PDFs, certificados, evidencias)

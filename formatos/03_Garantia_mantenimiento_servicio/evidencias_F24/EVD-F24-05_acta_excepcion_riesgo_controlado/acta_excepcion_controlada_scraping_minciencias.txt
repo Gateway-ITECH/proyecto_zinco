@@ -1,0 +1,44 @@
+================================================================================
+ACTA DE EXCEPCION TECNICA Y CONTROL COMPENSATORIO DE SEGURIDAD
+Componente: Modulo Custom gruplac_scraper (Ingesta Minciencias ScienTI)
+Contrato: BPIN 2023000100045 - Universidad de Cordoba & Gateway IT S.A.S.
+Fecha de Emision: 2026-03-09
+================================================================================
+
+1. DESCRIPCION DE LA EXCEPCION ARQUITECTONICA
+--------------------------------------------------------------------------------
+Para el cumplimiento de los requerimientos de sincronizacion de grupos de
+investigacion de Cordoba (RF-ETL-001 a RF-ETL-008), la plataforma Zinco requiere
+consultar periodicamente la informacion cientifica del portal publico ScienTI
+Minciencias (GrupLAC).
+
+Dado que el Ministerio de Ciencia, Tecnologia e Innovacion (Minciencias) NO dispone
+actualmente de un endpoint de API REST publica autenticada ni de un servicio web
+abierto para consumo institucional directo, la extraccion de datos debe realizarse
+mediante tecnicas controladas de Web Scraping sobre el HTML publico.
+
+2. EVALUACION DE RIESGOS ASOCIADOS
+--------------------------------------------------------------------------------
+- Riesgo 1: Variacion imprevista en la estructura DOM del portal externo.
+- Riesgo 2: Bloqueo temporal por tasa de consultas (Rate Limiting de Minciencias).
+- Riesgo 3: Inyeccion indirecta de caracteres anomalos desde el HTML remoto.
+
+3. CONTROLES COMPENSATORIOS DE SEGURIDAD IMPLEMENTADOS
+--------------------------------------------------------------------------------
+Para mitigar integralmente los riesgos expuestos, se implementaron los siguientes
+controles en el modulo 'gruplac_scraper':
+1. Saneamiento estricto de entradas: Limpieza y normalizacion UTF-8 de todo texto
+   extraido antes de persistir en MariaDB, previniendo ataques de tipo Stored XSS.
+2. Cliente HTTP Guzzle con validacion de certificados TLS institucionales y
+   timeout estricto fijado en 15 segundos para evitar bloqueos por denial-of-service.
+3. Procesamiento en segundo plano (asincrono): La ingesta se delega a colas de Drupal
+   (QueueWorker) ejecutadas en cron nocturno, aislando el impacto sobre los usuarios.
+4. Politica de Fallback: En caso de indisponibilidad de ScienTI, la plataforma sirve
+   los datos historicos cacheados en MariaDB sin degradar la navegacion.
+
+4. DECISION DEL COMITE TECNICO
+--------------------------------------------------------------------------------
+El comite tecnico conformado por la Supervision TIC de la Universidad de Cordoba y
+la Direccion de Proyectos de Gateway IT S.A.S. APRUEBA formalmente la excepcion
+tecnica con vigencia de 1 ano o hasta que Minciencias provea un API REST oficial.
+================================================================================

@@ -1,0 +1,22 @@
+=== EVIDENCIA DE TITULARIDAD, DERECHOS PATRIMONIALES Y LICENCIAS ===
+Proyecto: Plataforma Zinco (Ecosistema CTeI UNICOR)
+Fecha: 2026-09-09
+
+1. TITULARIDAD DE LA PLATAFORMA:
+- Entidad Titular y Propietaria: Universidad de Córdoba (UNICOR)
+- Contratista Desarrollador: Gateway IT S.A.S. (NIT 901.328.775-1)
+- Objeto Contractual: Desarrollo, implementación y entrega técnica de la Plataforma Zinco
+  para el Ecosistema de Ciencia, Tecnología e Innovación (CTeI).
+- Cesión de Derechos Patrimoniales: Gateway IT S.A.S. transfiere a la Universidad de Córdoba
+  la totalidad de los derechos patrimoniales sobre el código fuente custom, bases de datos,
+  configuraciones y artefactos de arquitectura desarrollados para el proyecto.
+
+2. CUMPLIMIENTO LEGAL DE LICENCIAS DE TERCEROS:
+- Todos los componentes incorporados en el proyecto son compatibles con el licenciamiento
+  general del aplicativo bajo GPL-2.0-or-later:
+  * Componentes MIT y BSD: Licencias permisivas compatibles sin restricciones de enlace.
+  * Componentes LGPL-2.1 (Dompdf): Empleado como biblioteca vinculada dinámicamente vía Composer
+    sin modificación de su código interno, cumpliendo plenamente con la Sección 6 de la LGPL.
+  * Componentes Apache-2.0: Compatibles con las directivas de interoperabilidad del sistema.
+- No existen dependencias con licencias restrictivas, privativas no autorizadas ni de código cerrado
+  que impidan la libre operación, evolución o mantenimiento por parte de UNICOR.

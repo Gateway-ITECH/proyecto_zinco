@@ -1,0 +1,19 @@
+=== PLAN DE CONTINUIDAD, DISPONIBILIDAD Y RESPALDO AS-BUILT ===
+Proyecto: Plataforma Zinco (Ecosistema CTeI UNICOR)
+
+1. TIEMPOS OBJETIVO DE RECUPERACIÓN:
+   - RTO (Recovery Time Objective): Menor a 2 horas (tiempo requerido para provisión de contenedor y restauración de BD).
+   - RPO (Recovery Point Objective): Menor a 24 horas (máxima pérdida admisible equivalente al ciclo de backup diario).
+
+2. ESTRATEGIA DE COPIAS DE SEGURIDAD (BACKUP):
+   - Base de Datos MySQL: Respaldo diario automatizado mediante mysqldump con compresión gzip (drupal11_YYYYMMDD.sql.gz).
+   - Archivos de Configuración: 100% versionados en Git y exportados en Drupal Config Sync (282 archivos YAML).
+   - Archivos de Usuarios y Blobs: Almacenados con replicación local redundante (LRS) en Azure Blob Storage.
+   - Repositorio de Código: Copia remota completa en GitHub (git@github.com:Gateway-ITECH/proyecto_zinco.git).
+
+3. PROCEDIMIENTO DE RECUPERACIÓN ANTE FALLAS:
+   a) Clonar repositorio git en commit de entrega (0ac18a2).
+   b) Iniciar orquestación contenerizada con 'lando start'.
+   c) Importar último backup consistente de base de datos MySQL.
+   d) Ejecutar sincronización de configuración con 'drush cim -y'.
+   e) Reconstruir caché del sistema con 'drush cr' y verificar conectividad Azure con test_azure_connection.py.

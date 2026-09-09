@@ -1,0 +1,19 @@
+=== MAPA DE RELACIONES Y DEPENDENCIAS ENTRE ELEMENTOS DE CONFIGURACIÓN ===
+Proyecto: Plataforma Zinco (Ecosistema CTeI UNICOR)
+Fecha de corte: 2026-09-09
+
+1. RELACIONES DIRECTAS:
+   [CI-01: Plataforma Zinco Core]
+      ├── Depende de (Runtime): [CI-03: Apache 2.4 / PHP 8.4] (Tipo: Crítica / Hosting de aplicación)
+      ├── Depende de (Persistencia): [CI-02: MySQL 8.0] (Tipo: Crítica / Conexión PDO a base de datos)
+      ├── Depende de (Configuración): [CI-07: Drupal Sync YAML] (Tipo: Esencial / Esquemas de entidades y vistas)
+      ├── Se integra con (Archivos): [CI-05: Azure Blob Storage] (Tipo: Funcional / Almacenamiento desacoplado)
+      ├── Invoca procesos de (ETL): [CI-04: Python ETL Service] (Tipo: Operativa / Scraping Gruplac y exportaciones)
+      └── Versionado en: [CI-06: Repositorio GitHub] (Tipo: Trazabilidad / Control de cambios de código)
+
+2. MATRIZ DE IMPACTO DE FALLAS:
+   - Falla en CI-02 (MySQL): Indisponibilidad total del aplicativo (Error 500 / Error al conectar con base de datos). Severidad: Crítica.
+   - Falla en CI-03 (Apache/PHP): Detención total de peticiones HTTP/HTTPS (Conexión rechazada / 502/504). Severidad: Crítica.
+   - Falla en CI-05 (Azure Blob): Pérdida de acceso a descarga y subida de archivos pesados y PDFs generados. Funcionalidad base opera en modo degradado. Severidad: Media.
+   - Falla en CI-04 (Python ETL): Imposibilidad de actualizar datos masivos de Gruplac y generación de ciertos reportes PDF. La plataforma web sigue operativa. Severidad: Baja/Media.
+   - Falla en CI-07 (Config Sync): Bloqueo en despliegues automatizados entre ambientes si hay divergencia de esquemas. Severidad: Media.

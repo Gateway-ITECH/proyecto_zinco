@@ -273,11 +273,26 @@ class DumpDataService
             $row['tecnologia40'] = !empty($entity->field_tecnologia_clave_startup->target_id) ? $this->safeGetTermName($entity->field_tecnologia_clave_startup->target_id) : '';
             $row['municipio'] = !empty($entity->field_municipio_startup->target_id) ? $this->safeGetTermName($entity->field_municipio_startup->target_id) : '';
             break;
+          case 'zinco_actors_zincoactors':
+            $row['label'] = $entity->label();
+            $row['bundle'] = $entity->bundle();
+            $sector_tid = ($entity->hasField('sector_economico_principal') && !$entity->get('sector_economico_principal')->isEmpty())
+              ? $entity->get('sector_economico_principal')->target_id : null;
+            $row['sector'] = $sector_tid ? $this->safeGetTermName($sector_tid) : '';
+
+            $muni_tid = ($entity->hasField('municipio') && !$entity->get('municipio')->isEmpty())
+              ? $entity->get('municipio')->target_id : null;
+            $row['municipio'] = $muni_tid ? $this->safeGetTermName($muni_tid) : '';
+
+            $tec_tid = ($entity->hasField('tecnologias_clave') && !$entity->get('tecnologias_clave')->isEmpty())
+              ? $entity->get('tecnologias_clave')->target_id : null;
+            $row['tecnologia40'] = $tec_tid ? $this->safeGetTermName($tec_tid) : '';
+            break;
         }
 
         $match = TRUE;
         foreach ($filters as $filter_key => $filter_value) {
-          if (isset($row[$filter_key]) && $row[$filter_key] != $filter_value) {
+          if ($filter_value !== '' && $filter_value !== null && isset($row[$filter_key]) && $row[$filter_key] != $filter_value) {
             $match = FALSE;
             break;
           }
@@ -360,20 +375,24 @@ class DumpDataService
           case 'centros_de_emprendimiento_ies':
           case 'redes_de_mentores':
           case 'aceleradora':
-            $row['sector'] = $this->safeGetTermName($entity->sector_economico_principal->target_id);
-            $row['tecnologia40'] = $this->safeGetTermName($entity->tecnologias_clave->target_id);
-            $row['municipio'] = $this->safeGetTermName($entity->municipio->target_id);
-            break;
           case 'entidad_gobierno':
-            $row['sector'] = $this->safeGetTermName($entity->sector_economico_principal->target_id);
-            $row['tecnologia40'] = $this->safeGetTermName($entity->tecnologias_clave->target_id);
-            $row['municipio'] = $this->safeGetTermName($entity->municipio->target_id);
+            $sector_tid = ($entity->hasField('sector_economico_principal') && !$entity->get('sector_economico_principal')->isEmpty())
+              ? $entity->get('sector_economico_principal')->target_id : null;
+            $row['sector'] = $sector_tid ? $this->safeGetTermName($sector_tid) : '';
+
+            $muni_tid = ($entity->hasField('municipio') && !$entity->get('municipio')->isEmpty())
+              ? $entity->get('municipio')->target_id : null;
+            $row['municipio'] = $muni_tid ? $this->safeGetTermName($muni_tid) : '';
+
+            $tec_tid = ($entity->hasField('tecnologias_clave') && !$entity->get('tecnologias_clave')->isEmpty())
+              ? $entity->get('tecnologias_clave')->target_id : null;
+            $row['tecnologia40'] = $tec_tid ? $this->safeGetTermName($tec_tid) : '';
             break;
         }
 
         $match = TRUE;
         foreach ($filters as $filter_key => $filter_value) {
-          if (isset($row[$filter_key]) && $row[$filter_key] != $filter_value) {
+          if ($filter_value !== '' && $filter_value !== null && isset($row[$filter_key]) && $row[$filter_key] != $filter_value) {
             $match = FALSE;
             break;
           }

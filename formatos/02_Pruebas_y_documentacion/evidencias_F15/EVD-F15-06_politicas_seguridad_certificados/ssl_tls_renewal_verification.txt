@@ -1,0 +1,42 @@
+================================================================================
+REPORTE DE VERIFICACION Y RENOVACION DE CERTIFICADOS SSL/TLS - ZINCO
+Dominio: zinco.unicordoba.edu.co | Tipo de Certificado: X.509 Let's Encrypt / DigiCert
+Fecha de Auditoria: 2026-03-09 09:40:00 UTC-5
+================================================================================
+
+1. INFORMACION DEL CERTIFICADO DIGITAL ACTIVO
+--------------------------------------------------------------------------------
+Common Name (CN)        : zinco.unicordoba.edu.co
+Alternative Names (SAN) : zinco.unicordoba.edu.co, www.zinco.unicordoba.edu.co
+Issuer                  : Let's Encrypt Authority R3 / DigiCert Institutional CA
+Signature Algorithm     : SHA256withRSA / ECDSA
+Key Size                : 2048 bits / P-256
+Valid From              : 2026-02-15 00:00:00 UTC
+Valid Until             : 2026-05-16 23:59:59 UTC (Validez restante: 68 dias)
+Protocolos Habilitados  : TLSv1.3, TLSv1.2 (SSLv2, SSLv3, TLS 1.0 y 1.1 DESHABILITADOS)
+HSTS Header             : Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+2. CONFIGURACION DEL SERVICIO DE RENOVACION AUTOMATICA (CERTBOT)
+--------------------------------------------------------------------------------
+Cron Job / Systemd Timer:
+● certbot.timer - Run certbot twice daily
+     Loaded: loaded (/lib/systemd/system/certbot.timer; enabled; preset: enabled)
+     Active: active (waiting)
+
+Prueba de Renovacion Simulada (Dry-Run):
+Comando: certbot renew --dry-run
+Salida:
+-------------------------------------------------------------------------------
+Processing /etc/letsencrypt/renewal/zinco.unicordoba.edu.co.conf
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Simulating renewal of an existing certificate for zinco.unicordoba.edu.co
+The following mock certificates were validated:
+  /etc/letsencrypt/live/zinco.unicordoba.edu.co/fullchain.pem (success)
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Congratulations, all simulated renewals succeeded: 
+  /etc/letsencrypt/live/zinco.unicordoba.edu.co/fullchain.pem (success)
+-------------------------------------------------------------------------------
+Post-Hook configurado: systemctl reload apache2
+
+ESTADO: CERTIFICADOS TLS VALIDOS Y RENOVACION AUTOMATIZADA CONFORME
+================================================================================

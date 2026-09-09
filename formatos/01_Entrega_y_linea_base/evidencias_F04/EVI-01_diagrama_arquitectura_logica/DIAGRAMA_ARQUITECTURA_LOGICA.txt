@@ -1,0 +1,64 @@
+=== ARQUITECTURA LÓGICA AS-BUILT — PLATAFORMA ZINCO ===
+Proyecto: Plataforma Zinco (Ecosistema CTeI UNICOR)
+Versión: 1.0 (Línea Base As-Built)
+Fecha de corte: 2026-09-09
+
+1. DIAGRAMA DE CAPAS (C4 MODEL):
++-------------------------------------------------------------------------------+
+|                             CAPA DE PRESENTACIÓN                              |
+|   - Subtema Custom: bootstrap_barrio_subtheme (Bootstrap 5.5 responsive)      |
+|   - Plantillas Twig: layout modular de perfiles, retos, dashboard y listas    |
+|   - Frontend Assets: Vanilla JS y CSS desacoplados por funcionalidad          |
++-------------------------------------------------------------------------------+
+                                      |
+                                      v
++-------------------------------------------------------------------------------+
+|                       CAPA DE APLICACIÓN Y NEGOCIO                            |
+|   - Drupal Core 11.2 (Routing, Controllers, Form API, Blocks, Entity API)    |
+|   - 16 Módulos Personalizados Zinco:                                          |
+|       * Núcleo & Frontend: zinco_front, zinco_admin                           |
+|       * Actores CTeI: zinco_actors, zinco_actors_categories, zinco_ctei_actores|
+|       * Retos de Innovación: zinco_retos_innovacion, zinco_retos_soluciones,   |
+|                              zinco_retos_evaluacion                           |
+|       * I+D+i & Software: zinco_proyectos_idi, zinco_proyectos_software,       |
+|                           zinco_software_recursos,                            |
+|                           zinco_software_recursos_obtenidos,                  |
+|                           zinco_producto_servicio, zinco_reconocimientos,     |
+|                           zinco_grupos_investigacion                          |
+|       * ETL & Integración: zinco_etl                                          |
++-------------------------------------------------------------------------------+
+                                      |
+                                      v
++-------------------------------------------------------------------------------+
+|                         CAPA DE SERVICIOS E INTEGRACIÓN                       |
+|   - AzureUploaderService: Carga desacoplada de reportes y archivos a Azure    |
+|   - GruplacScraperService: Extracción HTML estructurado desde ScientI/GrupLAC  |
+|   - PdfGeneratorService: Renderizado y exportación de fichas con Dompdf       |
+|   - DumpDataService: Motor de exportación masiva estructurada                 |
++-------------------------------------------------------------------------------+
+                                      |
+                                      v
++-------------------------------------------------------------------------------+
+|                         CAPA DE DATOS Y PERSISTENCIA                          |
+|   - Motor Relacional MySQL 8.0 (Prefijo zinco_*, tablas transaccionales)     |
+|   - Drupal Configuration Sync (282 archivos YAML sincronizados)               |
+|   - Almacenamiento desacoplado de Blobs: Azure Blob Storage (zinco-files)     |
++-------------------------------------------------------------------------------+
+
+2. DIAGRAMA MERMAID:
+```mermaid
+graph TD
+    Client[Navegador Cliente HTTPS] --> Proxy[Lando Proxy / Apache 2.4]
+    Proxy --> Drupal[Drupal 11 Core / PHP 8.4]
+    subgraph Modulos_Zinco [16 Módulos Custom Zinco]
+        Drupal --> Front[zinco_front & zinco_admin]
+        Drupal --> Actores[zinco_actors & categories]
+        Drupal --> Retos[zinco_retos_innovacion & soluciones & eval]
+        Drupal --> IDi[zinco_proyectos_idi & software & grupos]
+        Drupal --> ETL[zinco_etl & scrapers]
+    end
+    ETL --> Azure[Azure Blob Storage Cloud]
+    ETL --> Gruplac[Minciencias GrupLAC]
+    Drupal --> MySQL[(Base de Datos MySQL 8.0)]
+    Drupal --> Sync[(Config Sync YAML 282 archivos)]
+```

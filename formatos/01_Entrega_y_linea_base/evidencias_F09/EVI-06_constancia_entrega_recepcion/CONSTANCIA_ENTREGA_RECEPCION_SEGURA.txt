@@ -1,0 +1,22 @@
+=== CONSTANCIA FORMAL DE ENTREGA Y RECEPCIÓN SEGURA DE CREDENCIALES ===
+Proyecto: Plataforma Zinco (Ecosistema CTeI UNICOR)
+Fecha de suscripción: 2026-09-09
+
+En la ciudad de Montería, a los 09 días del mes de septiembre de 2026, se reunieron:
+- Por el Proveedor (Entrega): Camilo Cervantes Salazar, Líder Técnico de Gateway IT S.A.S.
+- Por la Universidad de Córdoba (Recibe): Representante de Infraestructura y Seguridad TI, CSI UNICOR.
+
+OBJETO:
+Formalizar la entrega y recepción formal, íntegra y reservada del control operativo, credenciales de administración,
+bóveda digital de secretos, configuración de dominios institucionales y titularidad de la Plataforma Zinco.
+
+ELEMENTOS ENTREGADOS Y VALIDADOS:
+1. Archivo contenedor cifrado KeepassXC ('BOVEDA_CREDENCIALES_ZINCO.kdbx') con llave maestra transferida out-of-band.
+2. Sobre de manila sellado, rubricado y lacrado con las hojas de control y llaves maestras de emergencia.
+3. Transferencia de titularidad del repositorio institucional de GitHub a la cuenta oficial de UNICOR.
+4. Transferencia de administración del contenedor Azure Blob Storage ('zinco-files').
+5. Constancia de rotación de credenciales y revocación de accesos del desarrollador.
+
+CONFORMIDAD:
+Las partes manifiestan su plena conformidad técnica con el procedimiento ejecutado, certificando que el control
+absoluto de la plataforma reposa exclusivamente en la Universidad de Córdoba.

@@ -1,0 +1,23 @@
+=== RESUMEN EJECUTIVO DE FUENTE DE REQUERIMIENTOS ===
+Documento: PLATAFORMA ZINCO - Requerimientos Consolidados y Priorizados (Prototipo v1.0)
+Fecha de documento fuente: 2026-07-29
+Proyecto: Proyecto Zinco – CTI Córdoba (Universidad de Córdoba / Gateway IT S.A.S.)
+Alcance consolidado:
+- 12 Módulos Funcionales
+- 35 Requerimientos Principales
+- 80 Sub-Requerimientos
+- 115 Total de Requerimientos Funcionales (RFs)
+
+MÓDULOS:
+1. Gestión y Visualización de Indicadores (3 RFs princ., 10 sub-RFs)
+2. Generación y Exportación de Informes (2 RFs princ.)
+3. Gestión de Datos para Dashboards (4 RFs princ.)
+4. Open Innovation (3 RFs princ.)
+5. Visualización de Perfiles de Actores CTI (2 RFs princ., 6 sub-RFs)
+6. Gestión de Contenidos Dinámicos (4 RFs princ., 12 sub-RFs)
+7. Gestión y Acceso a la Caja de Herramientas CTI (2 RFs princ., 11 sub-RFs)
+8. Motor de Búsqueda Avanzado (3 RFs princ., 12 sub-RFs)
+9. Agente Inteligente para Consultas (4 RFs princ., 5 sub-RFs)
+10. Gestión de Necesidades (2 RFs princ., 12 sub-RFs)
+11. Módulos Operativos Core (3 RFs princ., 9 sub-RFs)
+12. Módulo de Configuraciones del Sistema (3 RFs princ., 3 sub-RFs)

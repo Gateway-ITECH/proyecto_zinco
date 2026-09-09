@@ -1,0 +1,58 @@
+=== ESQUEMA DE TABLAS SQL Y DEFINICIÓN DE ENTIDADES CUSTOM (MYSQL 8.0) ===
+Base de Datos: drupal11
+Prefijo: zinco_
+Cotejamiento: utf8mb4_spanish_ci
+Motor: InnoDB
+
+TABLAS MAESTRAS IMPLEMENTADAS:
+1. zinco_actors_zincoactors:
+   - id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY
+   - uuid VARCHAR(128) NOT NULL UNIQUE
+   - bundle VARCHAR(32) NOT NULL
+   - label VARCHAR(255) NOT NULL
+   - municipio INT(10) UNSIGNED (FK a taxonomy_term_field_data)
+   - sector_economico_principal INT(10) UNSIGNED (FK a taxonomy_term_field_data)
+   - tecnologias_clave INT(10) UNSIGNED (FK a taxonomy_term_field_data)
+   - sitio_web VARCHAR(255) NULL
+   - email VARCHAR(255) NULL
+   - telefono VARCHAR(255) NULL
+   - imagen_perfil INT(10) UNSIGNED NULL
+   - description LONGTEXT NULL
+   - uid INT(10) UNSIGNED NOT NULL
+   - status TINYINT(1) DEFAULT 1
+   - created INT(11) NOT NULL
+   - changed INT(11) NOT NULL
+
+2. zinco_retos_innovacion:
+   - id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY
+   - uuid VARCHAR(128) NOT NULL UNIQUE
+   - label VARCHAR(255) NOT NULL (Título del Reto)
+   - fecha_inicio DATETIME NULL
+   - fecha_fin DATETIME NULL
+   - estado_reto_innovacion INT(10) UNSIGNED (FK Taxonomy)
+   - area_enfoque INT(10) UNSIGNED (FK Taxonomy)
+   - sector_economico INT(10) UNSIGNED (FK Taxonomy)
+   - organizador_reto INT(10) UNSIGNED (FK User/Actor)
+   - visibilidad_reto TINYINT(1) DEFAULT 1
+   - criterios_evaluacion_reto INT(10) UNSIGNED (FK Taxonomy)
+   - recompensas_reto LONGTEXT NULL
+   - documentos_reto INT(10) UNSIGNED (FK file_managed)
+   - description LONGTEXT NULL
+   - uid INT(10) UNSIGNED NOT NULL
+   - status TINYINT(1) DEFAULT 1
+   - created INT(11) NOT NULL
+   - changed INT(11) NOT NULL
+
+3. zinco_retos_soluciones:
+   - id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY
+   - uuid VARCHAR(128) NOT NULL UNIQUE
+   - label VARCHAR(255) NOT NULL
+   - description LONGTEXT NULL
+   - uid INT(10) UNSIGNED NOT NULL
+   - status TINYINT(1) DEFAULT 1
+   - created INT(11) NOT NULL
+   - changed INT(11) NOT NULL
+
+4. zinco_retos_evaluacion, zinco_proyectos_idi, zinco_proyectos_software,
+   zinco_software_recursos, zinco_producto_servicio, zinco_reconocimientos,
+   zinco_grupos_investigacion, zinco_actors_categories.

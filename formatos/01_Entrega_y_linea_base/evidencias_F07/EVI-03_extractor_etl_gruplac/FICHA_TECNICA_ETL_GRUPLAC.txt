@@ -1,0 +1,12 @@
+=== ESPECIFICACIÓN TÉCNICA: EXTRACTOR ETL MINCIENCIAS GRUPLAC ===
+Servicio: Extracción estructurada desde la plataforma ScienTI / GrupLAC
+Clase de servicio: Drupal\zinco_etl\Service\GruplacScraperService
+Formulario de administración: Drupal\zinco_etl\Form\GruplacScraperForm
+Cliente HTTP: Guzzle Client (GuzzleHttp\ClientInterface)
+Motor de parseo: DOMDocument y DOMXPath nativo PHP
+Parámetros del proceso:
+- Timeout de solicitud: 15 segundos
+- User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) Zinco-Crawler/1.0
+- Método: extraerYContarTd(string $url, int $table_number = 49)
+- Datos extraídos: Tablas de líneas de investigación, integrantes y productos científicos de grupos en Córdoba.
+- Log de eventos: Canal 'gruplac_scraper' en Drupal Watchdog

@@ -1,0 +1,14 @@
+================================================================================
+MANIFIESTO DE SUMAS CRIPTOGRAFICAS SHA-256 - EVIDENCIAS SEGURIDAD Y PARCHES F24
+Plataforma Zinco - Universidad de Cordoba / Gateway IT S.A.S.
+Fecha de Generacion: 2026-03-09
+================================================================================
+
+eef6e16e3db74720e6d4a2056b90a606653551e60da2238c04322c9cb589c63a  EVD-F24-01_politica_gestion_parches/politica_gestion_parches_vulnerabilidades.md
+3b158bf40032ba570a709ae3c84079e96dd2708594c1c61f314cd415d164c6d0  EVD-F24-02_auditoria_composer_audit/reporte_composer_audit_linea_base.txt
+eee482aa3e135e4f20cb4a78a0efd7dcc0eb7e3909db6a6ede7224cc0dd2c7d4  EVD-F24-03_endurecimiento_cabeceras_http/reporte_endurecimiento_cabeceras_tls.txt
+8c0e4662360a25c42b08a17b6c7ee0ed15e5266ae40ed14c7b38511cd8377167  EVD-F24-04_matriz_cvss_registro_hallazgos/matriz_cvss_registro_vulnerabilidades.md
+bd972acbb8df95450096192e0deeb13d35191b3bffc1636f808f97bb8a4524de  EVD-F24-05_acta_excepcion_riesgo_controlado/acta_excepcion_controlada_scraping_minciencias.txt
+3a98060905eabfaad529be6f099e3b8f2cbc27c5d7f2ba79ef331fbe80308e38  EVD-F24-06_reescaneo_certificacion_seguridad/certificacion_reescaneo_seguridad_cierre.txt
+
+Total archivos verificados: 6

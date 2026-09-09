@@ -1,0 +1,17 @@
+=== MATRIZ DE PROTOCOLOS, SEGURIDAD Y MECANISMOS DE FALLBACK ===
+Proyecto: Plataforma Zinco (Ecosistema CTeI UNICOR)
+
+1. SERVICIOS EXTERNOS E INTERFACES:
++------------------------+---------------+--------------------+------------------+------------------------------+
+| SERVICIO / API         | PROTOCOLO     | AUTENTICACIÓN      | TIMEOUT / REINT. | MECANISMO DE FALLBACK        |
++------------------------+---------------+--------------------+------------------+------------------------------+
+| Azure Blob Storage     | HTTPS TLS 1.3 | SAS / Conn String  | 30s / 3 reint.   | Almacenamiento local temporal|
+| Minciencias GrupLAC    | HTTPS TLS 1.2 | Público (Sin auth) | 15s / 2 reint.   | Uso de última copia en caché |
+| Servidor SMTP UNICOR   | SMTP STARTTLS | User/Password TLS  | 20s / 3 reint.   | Spooling en base de datos    |
+| API Exportación Zinco  | HTTPS TLS 1.3 | Sesión RBAC Drupal | 60s / Sin reint. | Notificación de error HTTP   |
++------------------------+---------------+--------------------+------------------+------------------------------+
+
+2. GESTIÓN DE INCIDENCIAS Y ESCALAMIENTO:
+- Fallo nivel 1: Activación automática de fallback local sin interrupción de la interfaz de usuario.
+- Fallo nivel 2: Registro en log de error en Drupal watchdog.
+- Fallo nivel 3: Si la indisponibilidad externa excede 1 hora, notificación automática a soporte@gatewayit.co y TI UNICOR.

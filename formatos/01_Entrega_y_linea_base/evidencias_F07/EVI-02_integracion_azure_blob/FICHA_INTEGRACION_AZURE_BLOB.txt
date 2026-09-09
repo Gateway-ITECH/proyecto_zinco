@@ -1,0 +1,11 @@
+=== ESPECIFICACIÓN TÉCNICA DE INTEGRACIÓN: AZURE BLOB STORAGE ===
+Servicio: Microsoft Azure Blob Storage
+Módulo Drupal: zinco_etl (Servicio AzureUploaderService)
+SDK Cliente: azure-storage-blob v12 (Python) / Azure REST API
+Contenedor: zinco-files / reportes-pdf
+Protocolo: HTTPS sobre TLS 1.3
+Autenticación: Connection String con Shared Access Signature (SAS)
+Propósito: Persistencia y distribución desacoplada de documentos, reportes PDF de retos y fotos de perfil.
+Parámetros de configuración (zinco_etl.settings):
+- azure_blob_connection_string: [PROTEGIDO - Inyectado en runtime]
+- azure_blob_container_name: zinco-files

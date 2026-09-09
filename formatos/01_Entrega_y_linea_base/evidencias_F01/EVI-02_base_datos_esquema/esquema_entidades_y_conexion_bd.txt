@@ -1,0 +1,19 @@
+=== CONFIGURACIÓN Y ESQUEMA DE BASE DE DATOS ===
+Motor: MySQL 8.0 / MariaDB
+Base de datos: drupal11
+Prefijo de tablas: zinco_
+Nivel de aislamiento: READ COMMITTED
+Host Lando: database:3306
+
+--- Entidades Personalizadas Implementadas ---
+- ZincoActors (Entidad principal de actores del ecosistema CTeI)
+- ZincoActorsCategories (Categorización taxonómica de actores)
+- ZincoGruposInvestigacion (Grupos Minciencias / ScientI)
+- ZincoProyectosSoftware (Catálogo de proyectos y desarrollo tecnológico)
+- ZincoSoftwareRecursos (Recursos y requerimientos tecnológicos)
+- ZincoProyectosIdi (Proyectos de I+D+i en ejecución y finalizados)
+- ZincoProductoServicio (Portafolio y oferta de productos y servicios CTeI)
+- ZincoReconocimientos (Premios, reconocimientos y validaciones)
+- ZincoRetosInnovacion (Banco de retos de innovación abierta)
+- ZincoRetosSoluciones (Propuestas de solución a retos)
+- ZincoRetosEvaluacion (Criterios y matrices de evaluación técnica)

@@ -1,0 +1,18 @@
+=== ACTA DE CIERRE TÉCNICO Y CONFORMIDAD DE PRUEBAS EN STAGING ===
+Proyecto: Plataforma Zinco (Ecosistema CTeI UNICOR)
+Fecha: 2026-09-09
+
+En la ciudad de Montería, a los 09 días del mes de septiembre de 2026, se reunieron los delegados de:
+- Gateway IT S.A.S. (Líder Técnico de Desarrollo)
+- Universidad de Córdoba (Supervisión Técnica de TI y Delegación Funcional CTeI)
+
+DECLARACIONES:
+1. Que se revisaron los resultados de las pruebas funcionales de los 12 módulos y 115 requerimientos.
+2. Que se verificó el cierre del 100% de los defectos identificados en las bitácoras de desarrollo.
+3. Que se deja constancia de la no disponibilidad de un ambiente UAT dedicado, habiéndose realizado
+   la totalidad de las pruebas de aceptación técnica en el ambiente institucional de Staging.
+4. Que la plataforma presenta un comportamiento estable, seguro y conforme con los requerimientos.
+
+CONCLUSIÓN:
+Se declara formalmente CERRADA la etapa de ejecución de pruebas y UAT equivalente en Staging,
+otorgando concepto FAVORABLE para la puesta en producción del sistema.

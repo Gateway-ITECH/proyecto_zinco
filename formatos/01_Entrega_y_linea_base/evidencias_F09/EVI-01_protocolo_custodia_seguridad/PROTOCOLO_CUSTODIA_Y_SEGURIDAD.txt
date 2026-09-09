@@ -1,0 +1,21 @@
+=== PROTOCOLO DE CLASIFICACIÓN, CUSTODIA Y TRANSFERENCIA SEGURA ===
+Proyecto: Plataforma Zinco (Ecosistema CTeI UNICOR)
+Fecha de formalización: 2026-09-09
+Marco Regulatorio: Acuerdo 062 de 2021 (UNICOR), Ley 1712 de 2014, ISO/IEC 27001:2022
+
+1. NIVEL DE CLASIFICACIÓN DE LA INFORMACIÓN:
+- Clasificación: Información Clasificada y Reservada — Nivel 3 (Secreto Institucional).
+- Acceso: Restringido exclusivamente al personal técnico autorizado de la Universidad de Córdoba
+  y al Líder Técnico del Contratista durante la fase formal de entrega.
+- Prohibición expresa: Queda prohibida la reproducción no autorizada, divulgación pública o consignación
+  de contraseñas en texto claro en repositorios abiertos o canales no cifrados.
+
+2. CUSTODIOS INSTITUCIONALES:
+- Custodio Principal: Centro de Servicios Informáticos (CSI) / Oficina de TI — Universidad de Córdoba.
+- Responsable de Custodia: Administrador de Redes y Seguridad Informática UNICOR.
+- Custodio Saliente (Proveedor): Camilo Cervantes Salazar — Líder Técnico, Gateway IT S.A.S.
+
+3. CANALES SEGUROS Y PROCEDIMIENTO DE TRASLADO:
+- Canal Digital Primario: Bóveda de contraseñas cifrada AES-256 (KDBX) con derivación de llave Argon2id.
+- Llave Maestra (Master Key): Transferida en sesión presencial segura mediante canal fuera de banda.
+- Respaldo Físico: Sobre sellado, firmado en bordes y lacrado, depositado en la caja de seguridad del CSI UNICOR.

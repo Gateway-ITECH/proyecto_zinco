@@ -1,0 +1,31 @@
+=== REGISTRO DE DEFECTOS DETECTADOS, CORRECCIONES Y REPRUEBAS ===
+Proyecto: Plataforma Zinco (Ecosistema CTeI UNICOR)
+Fecha de corte: 2026-09-09
+
+1. DEF-ZINCO-01: Desbordamiento de Tablas Extensas en Renderizado Dompdf
+- Severidad: Media
+- Síntoma: Tablas con más de 8 columnas excedían el ancho de página en orientación vertical.
+- Corrección: Implementación de orientación horizontal automática y reglas CSS 'table-layout: fixed'.
+- Reprueba: 100% Exitosa. No regresión verificada en todos los reportes.
+- Estado: CERRADO.
+
+2. DEF-ZINCO-02: Timeout en Scraping de GrupLAC ante Alta Concurrencia
+- Severidad: Media
+- Síntoma: Fallas intermitentes de lectura HTTP por lentitud temporal en servidores Minciencias.
+- Corrección: Incremento de timeout a 15s y activación de fallback transparente a última copia local en MariaDB.
+- Reprueba: 100% Exitosa. El usuario no percibe interrupción ante caídas externas.
+- Estado: CERRADO.
+
+3. DEF-ZINCO-03: Desalineación de Filtros Expuestos en Pantallas Móviles
+- Severidad: Baja
+- Síntoma: En pantallas de 375px los botones de filtro se superponían con el contenedor de resultados.
+- Corrección: Ajuste de media queries y flexbox en el subtema 'zinco_theme' basado en Bootstrap Barrio.
+- Reprueba: 100% Exitosa en auditoría móvil Google Chrome.
+- Estado: CERRADO.
+
+4. DEF-ZINCO-04: Notificaciones por Correo Clasificadas como Correo No Deseado
+- Severidad: Baja
+- Síntoma: Notificaciones salientes transaccionales no autenticadas en servidor de prueba.
+- Corrección: Integración con servidor SMTP institucional UNICOR mediante STARTTLS en puerto 587.
+- Reprueba: 100% Exitosa. Entrega inmediata en bandeja de entrada verificada.
+- Estado: CERRADO.
