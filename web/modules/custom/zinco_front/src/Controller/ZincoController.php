@@ -142,7 +142,9 @@ class ZincoController extends ControllerBase
 
 
     if ($formato === 'json') {
-      return new JsonResponse($data);
+      $response = new JsonResponse($data);
+      $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');
+      return $response;
     }
 
     if ($formato === 'count') {
@@ -209,7 +211,9 @@ class ZincoController extends ControllerBase
     $data = $this->dumpDataService->obtenerEntidad($entity_type_id, $query_params);
 
     if ($formato === 'json') {
-      return new JsonResponse($data);
+      $response = new JsonResponse($data);
+      $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');
+      return $response;
     }
 
     if ($formato === 'count') {
@@ -272,7 +276,9 @@ class ZincoController extends ControllerBase
     $data = $this->dumpDataService->obtenerBundle($entity_type_id, $bundle, $query_params);
 
     if ($formato === 'json') {
-      return new JsonResponse($data);
+      $response = new JsonResponse($data);
+      $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');
+      return $response;
     }
 
     return new JsonResponse(['error' => 'Invalid format or no format specified.'], 400);
@@ -298,7 +304,9 @@ class ZincoController extends ControllerBase
     //var_dump($data);
 
     if ($formato === 'json') {
-      return new JsonResponse($data);
+      $response = new JsonResponse($data);
+      $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');
+      return $response;
     }
 
     // For 'count' format, return the number of grouped results in JSON.
@@ -346,7 +354,9 @@ class ZincoController extends ControllerBase
     $data = $this->dumpDataService->obtenerTablas($tables_array, $query_params);
 
     if ($formato === 'json') {
-      return new JsonResponse($data);
+      $response = new JsonResponse($data);
+      $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');
+      return $response;
     }
 
     // If no specific format is requested or format is not 'json',
@@ -374,7 +384,9 @@ class ZincoController extends ControllerBase
     $data = $this->dumpDataService->obtenerTablasAgrupadas($tables_array, $groupColumn, $query_params);
 
     if ($formato === 'json') {
-      return new JsonResponse($data);
+      $response = new JsonResponse($data);
+      $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');
+      return $response;
     }
 
     // If no specific format is requested or format is not 'json',
@@ -1217,7 +1229,8 @@ class ZincoController extends ControllerBase
   /**
    * Returns a noticia detail page.
    */
-  public function verNoticia($noticia_id) {
+  public function verNoticia($noticia_id)
+  {
     $node = \Drupal::entityTypeManager()->getStorage('node')->load($noticia_id);
     if (!$node || $node->bundle() !== 'noticia') {
       throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
@@ -1240,7 +1253,8 @@ class ZincoController extends ControllerBase
   /**
    * Returns an evento detail page.
    */
-  public function verEvento($evento_id) {
+  public function verEvento($evento_id)
+  {
     $node = \Drupal::entityTypeManager()->getStorage('node')->load($evento_id);
     if (!$node || $node->bundle() !== 'evento') {
       throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
@@ -1249,15 +1263,15 @@ class ZincoController extends ControllerBase
     if ($node->hasField('field_agenda_evento') && !$node->get('field_agenda_evento')->isEmpty()) {
       $data['content_full'] = $node->get('field_agenda_evento')->value;
     }
-    
+
     // Calendar Links
     $title = urlencode($node->getTitle());
     $description = urlencode(strip_tags($data['content_full'] ?? ''));
     $location = urlencode($data['location'] ?? '');
-    
+
     $start = $data['date_calendar_start'] ?? gmdate('Ymd\THis\Z');
     $end = $data['date_calendar_end'] ?? gmdate('Ymd\THis\Z', time() + 3600);
-    
+
     $data['google_calendar_url'] = "https://calendar.google.com/calendar/render?action=TEMPLATE&text={$title}&dates={$start}/{$end}&details={$description}&location={$location}";
     $data['outlook_calendar_url'] = "https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&subject={$title}&body={$description}&location={$location}&startdt={$start}&enddt={$end}";
     return [
@@ -1271,7 +1285,8 @@ class ZincoController extends ControllerBase
   /**
    * Returns a convocatoria detail page.
    */
-  public function verConvocatoria($convocatoria_id) {
+  public function verConvocatoria($convocatoria_id)
+  {
     $node = \Drupal::entityTypeManager()->getStorage('node')->load($convocatoria_id);
     if (!$node || $node->bundle() !== 'convocatoria') {
       throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
@@ -1300,7 +1315,8 @@ class ZincoController extends ControllerBase
    * @return array
    *   A renderable array.
    */
-  public function listTecnologiasClave() {
+  public function listTecnologiasClave()
+  {
     $vocabulary_id = 'tecnologias_clave';
     $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree($vocabulary_id, 0, NULL, TRUE);
 
@@ -1332,7 +1348,8 @@ class ZincoController extends ControllerBase
    * @return array
    *   A renderable array containing the recognition request form.
    */
-  public function addReconocimientoForm() {
+  public function addReconocimientoForm()
+  {
     $bundle = 'reconocimiento_estandar';
     $current_user = \Drupal::entityTypeManager()->getStorage('user')->load(\Drupal::currentUser()->id());
     $actor_id = NULL;
@@ -1367,23 +1384,24 @@ class ZincoController extends ControllerBase
    * @return array
    *   A renderable array.
    */
-  public function listReconocimientosActor($actor_id) {
+  public function listReconocimientosActor($actor_id)
+  {
     $request = \Drupal::request();
     $label_filter = $request->query->get('label');
-    
+
     $query = \Drupal::entityTypeManager()->getStorage('zinco_reconocimientos')->getQuery()
       ->condition('bundle', 'reconocimiento_estandar')
       ->condition('field_actor_asociado', $actor_id)
       ->sort('created', 'DESC')
       ->accessCheck(FALSE);
-      
+
     if ($label_filter) {
       $query->condition('label', $label_filter, 'CONTAINS');
     }
-    
+
     $ids = $query->execute();
     $reconocimientos = \Drupal::entityTypeManager()->getStorage('zinco_reconocimientos')->loadMultiple($ids);
-    
+
     $data = [];
     foreach ($reconocimientos as $reconocimiento) {
       $has_response = $reconocimiento->hasField('field_respuesta_solicitud') && !$reconocimiento->get('field_respuesta_solicitud')->isEmpty();
@@ -1395,7 +1413,7 @@ class ZincoController extends ControllerBase
         'status_class' => $has_response ? 'bg-success-subtle text-success' : 'bg-warning-subtle text-warning',
       ];
     }
-    
+
     return [
       '#theme' => 'zinco_reconocimientos_list',
       '#reconocimientos' => $data,
@@ -1416,7 +1434,8 @@ class ZincoController extends ControllerBase
    * @return array
    *   A renderable array.
    */
-  public function verReconocimiento($reconocimiento_id) {
+  public function verReconocimiento($reconocimiento_id)
+  {
     $reconocimiento = \Drupal::entityTypeManager()->getStorage('zinco_reconocimientos')->load($reconocimiento_id);
     if (!$reconocimiento) {
       throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
@@ -1459,7 +1478,8 @@ class ZincoController extends ControllerBase
    * @return array
    *   A renderable array.
    */
-  public function responderReconocimientoForm($reconocimiento_id) {
+  public function responderReconocimientoForm($reconocimiento_id)
+  {
     $reconocimiento = \Drupal::entityTypeManager()->getStorage('zinco_reconocimientos')->load($reconocimiento_id);
     if (!$reconocimiento) {
       throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
@@ -1477,7 +1497,8 @@ class ZincoController extends ControllerBase
   /**
    * Returns the form to add a recognition for an actor bundle.
    */
-  public function addReconocimientoActorForm($actor_id) {
+  public function addReconocimientoActorForm($actor_id)
+  {
     $form = \Drupal::formBuilder()->getForm('\Drupal\zinco_front\Form\ZincoReconocimientoActorBundleForm', $actor_id);
     return [
       '#theme' => 'zinco_reconocimiento_actor_form',

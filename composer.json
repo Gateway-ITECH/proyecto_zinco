@@ -27,6 +27,8 @@
         "drupal/devel_entity_updates": "^5.0",
         "drupal/entity_print": "^2.18",
         "drupal/login_redirect_per_role": "^1.11",
+        "drupal/mailsystem": "^4.5",
+        "drupal/mimemail": "^2.0",
         "drupal/paragraphs": "^1.19",
         "drupal/registration_role": "^2.0",
         "drupal/smtp": "^1.4",

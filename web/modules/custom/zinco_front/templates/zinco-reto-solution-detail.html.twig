@@ -27,7 +27,7 @@
         {% if solution.authors %}
           <div class="card mb-4">
             <div class="card-body">
-              <h5 class="card-title">Autores de la Solución</h5>
+              <h5 class="card-title">Autores de la solución</h5>
               <ul class="list-group list-group-flush">
                 {% for author in solution.authors %}
                   <li class="list-group-item"><i class="fas fa-user"></i> <a href="{{ author.profile_link }}">{{ author.name }}</a></li>
@@ -38,13 +38,13 @@
         {% endif %}
 
         <div class="reto-section">
-          <h3>Descripción de la Solución</h3>
+          <h3>Descripción de la solución</h3>
           <p>{{ solution.description | raw }}</p>
         </div>
 
         {% if reto.id %}
           <div class="reto-section mt-4">
-            <h2>Reto Asociado: <a href="/retos/{{ reto.id }}">{{ reto.label }}</a></h2>
+            <h2>Reto asociado: <a href="/retos/{{ reto.id }}">{{ reto.label }}</a></h2>
             <p class="reto-subtitle">{{ reto.descripcion_corta }}</p>
 
             <div class="card mb-4">
@@ -61,7 +61,7 @@
             {% if reto.estado_reto_innovacion %}
               <div class="card mb-4">
                 <div class="card-body">
-                  <h5 class="card-title">Fase Actual</h5>
+                  <h5 class="card-title">Fase actual</h5>
                   <span class="badge bg-primary"><i class="{{ reto.estado_icono }}"></i> {{ reto.estado_reto_innovacion }}</span>
                 </div>
               </div>
@@ -71,7 +71,7 @@
 
         {% if evaluations %}
           <div class="reto-section mt-4 evaluations-results">
-            <h3><i class="fas fa-poll"></i> Resultados de la Evaluación</h3>
+            <h3><i class="fas fa-poll"></i> Resultados de la evaluación</h3>
             
             {% for evaluation in evaluations %}
               <div class="card mb-3 evaluation-card shadow-sm border-0">
@@ -103,7 +103,7 @@
 
                   {% if evaluation.comments %}
                     <div class="mt-3 p-3 bg-light rounded">
-                      <div class="small fw-bold text-uppercase text-muted mb-1">Comentarios y Retroalimentación:</div>
+                      <div class="small fw-bold text-muted mb-1">Comentarios y retroalimentación:</div>
                       <p class="mb-0">{{ evaluation.comments | nl2br }}</p>
                     </div>
                   {% endif %}
@@ -129,7 +129,7 @@
         {% if solution.files %}
           <div class="card mb-4">
             <div class="card-body">
-              <h5 class="card-title">Archivos Adjuntos</h5>
+              <h5 class="card-title">Archivos adjuntos</h5>
               <ul class="list-group list-group-flush">
                 {% for file in solution.files %}
                   <li class="list-group-item"><a href="{{ file.url }}" target="_blank"><i class="fas fa-file-alt"></i> {{ file.filename }}</a></li>

@@ -599,6 +599,11 @@
       loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_redes_mentores_entidad, card_actores_zinco_redes_mentores_bundle, card_actores_zinco_redes_mentores_elemento, card_actores_zinco_redes_mentores_filters),
       loadBundleData(municipio, sector, tecnologias40, card_actores_zinco_aceleradoras_entidad, card_actores_zinco_aceleradoras_bundle, card_actores_zinco_aceleradoras_elemento, card_actores_zinco_aceleradoras_filters),
 
+      // Estadisticas graficas de la pestaña de Actores Zinco
+      loadEntityGroupedData(municipio, sector, tecnologias40, 'zinco_actors_zincoactors', 'zinco_actores_sector_economico_grouped_data', 'sector', {}),
+      loadEntityGroupedData(municipio, sector, tecnologias40, 'zinco_actors_zincoactors', 'zinco_actores_municipio_grouped_data', 'municipio', {}),
+      loadEntityGroupedData(municipio, sector, tecnologias40, 'zinco_actors_zincoactors', 'zinco_actores_tecnologias40_grouped_data', 'tecnologia40', {}),
+
       // pestaña de formacion
       loadData(municipio, sector, tecnologias40, card_universidades_tabla, card_universidades_elemento),
       loadData(municipio, sector, tecnologias40, card_programas_ofertados_tabla, card_programas_ofertados_elemento),
@@ -798,10 +803,9 @@
           params.append(key, filters[key]);
         }
       }
-      if (params.toString()) {
-        url += `?${params.toString()}`;
-      }
-      fetch(url)
+      params.append('_t', Date.now());
+      url += `?${params.toString()}`;
+      fetch(url, { cache: 'no-store' })
         .then(response => response.json())
         .then(data => {
           const countElement = document.getElementById(elemento);
@@ -838,10 +842,9 @@
           params.append(key, filters[key]);
         }
       }
-      if (params.toString()) {
-        url += `?${params.toString()}`;
-      }
-      fetch(url)
+      params.append('_t', Date.now());
+      url += `?${params.toString()}`;
+      fetch(url, { cache: 'no-store' })
         .then(response => response.json())
         .then(data => {
           console.log(data);
@@ -910,10 +913,9 @@
         params.append(key, filters[key]);
       }
     }
-    if (params.toString()) {
-      url += `?${params.toString()}`;
-    }
-    fetch(url)
+    params.append('_t', Date.now());
+    url += `?${params.toString()}`;
+    fetch(url, { cache: 'no-store' })
       .then(response => response.json())
       .then(data => {
         const countElement = document.getElementById(elemento);

@@ -44,17 +44,17 @@
             <div class="row">
               <div class="col-lg-8">
                 <div class="course-content fs-5 text-muted mb-5">
-                  <h4 class="text-dark fw-bold mb-3">Descripción del Curso</h4>
+                  <h4 class="text-dark fw-bold mb-3">Descripción del curso</h4>
                   {{ curso.field_descripcion_curso|raw }}
                 </div>
               </div>
 
               <div class="col-lg-4">
                 <div class="course-sidebar p-4 rounded-4 bg-light border">
-                  <h4 class="fw-bold mb-4">Detalles del Curso</h4>
+                  <h4 class="fw-bold mb-4">Detalles del curso</h4>
                   
                   <div class="mb-4">
-                    <label class="text-uppercase small fw-bold text-muted d-block mb-1">Entidad Certificadora</label>
+                    <label class="small fw-bold text-muted d-block mb-1">Entidad certificadora</label>
                     <div class="d-flex align-items-center">
                       <i class="fas fa-university text-primary me-2"></i>
                       <span class="fw-semibold">{{ curso.entidad ?: 'No especificada' }}</span>
@@ -62,7 +62,7 @@
                   </div>
 
                   <div class="mb-4">
-                    <label class="text-uppercase small fw-bold text-muted d-block mb-1">Modalidad</label>
+                    <label class="small fw-bold text-muted d-block mb-1">Modalidad</label>
                     <div class="d-flex align-items-center">
                       <i class="fas fa-laptop-house text-primary me-2"></i>
                       <span class="fw-semibold">{{ curso.modalidad ?: 'No especificada' }}</span>
@@ -71,7 +71,7 @@
 
                   <div class="row mb-4">
                     <div class="col-6">
-                      <label class="text-uppercase small fw-bold text-muted d-block mb-1">Duración</label>
+                      <label class="small fw-bold text-muted d-block mb-1">Duración</label>
                       <div class="d-flex align-items-center">
                         <i class="far fa-clock text-primary me-2"></i>
                         <span class="fw-semibold">{{ curso.duracion ? curso.duracion ~ ' Horas' : 'N/A' }}</span>
@@ -81,7 +81,7 @@
 
                   <div class="row mb-4">
                     <div class="col-12 mb-3">
-                      <label class="text-uppercase small fw-bold text-muted d-block mb-1">Fecha de Inicio</label>
+                      <label class="small fw-bold text-muted d-block mb-1">Fecha de inicio</label>
                       <div class="d-flex align-items-center">
                         <i class="far fa-calendar-alt text-primary me-2"></i>
                         <span class="fw-semibold">{{ curso.fecha_inicio ?: 'Próximamente' }}</span>
@@ -89,7 +89,7 @@
                     </div>
                     {% if curso.fecha_fin %}
                     <div class="col-12">
-                      <label class="text-uppercase small fw-bold text-muted d-block mb-1">Fecha de Fin</label>
+                      <label class="small fw-bold text-muted d-block mb-1">Fecha de fin</label>
                       <div class="d-flex align-items-center">
                         <i class="far fa-calendar-check text-primary me-2"></i>
                         <span class="fw-semibold">{{ curso.fecha_fin }}</span>
