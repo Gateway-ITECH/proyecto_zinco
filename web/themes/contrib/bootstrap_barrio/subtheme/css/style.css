@@ -109,14 +109,14 @@ nav.navbar.scrolled .navbar-brand img {
 }
 
 .modern-title {
-  text-transform: uppercase;
+  text-transform: none;
   font-family: 'Space Grotesk', sans-serif !important;
   color: #1e293b;
   font-weight: 700;
   display: inline-block;
   position: relative;
   padding-bottom: 15px;
-  letter-spacing: 0.05em;
+  letter-spacing: normal;
   font-size: 1.75rem;
 }
 

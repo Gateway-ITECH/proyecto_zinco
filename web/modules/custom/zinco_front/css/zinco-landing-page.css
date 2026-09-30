@@ -1,3 +1,22 @@
+.zinco-landing-page .modern-title,
+.zinco-landing-page .modern-subtitle,
+.zinco-landing-page h1,
+.zinco-landing-page h2,
+.zinco-landing-page h3,
+.zinco-landing-page h4,
+.zinco-landing-page h5,
+.zinco-landing-page h6,
+.zinco-landing-page .hero-title,
+.zinco-landing-page .hero-subtitle,
+.zinco-landing-page .zinco-numbers-title,
+.zinco-landing-page .zinco-benefits-title,
+.zinco-landing-page .zinco-benefit-title,
+.zinco-landing-page .zinco-tools-title,
+.zinco-landing-page .zinco-tool-title,
+.zinco-landing-page .zinco-cta-title {
+  text-transform: none;
+}
+
 .hero-section {
   text-align: center;
   padding: 100px 0;
