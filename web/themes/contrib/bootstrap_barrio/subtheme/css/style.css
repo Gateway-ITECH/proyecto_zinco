@@ -19,7 +19,14 @@ nav.navbar {
  * State applied by JS (global.js) once the page scrolls past 50 px.
  * The navbar becomes fully opaque with a stronger shadow.
  */
-nav.navbar.scrolled {}
+nav.navbar.scrolled {
+  background-color: rgba(18, 22, 28, 0.96);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
 
 /* Logo shrink on scroll */
 .navbar-brand img {
@@ -823,11 +830,24 @@ article>header em {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
-/* Navbar Shadow and Loading Animation */
+/* Navbar Shadow and Loading Animation (default static on standard pages) */
 .navbar {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
   position: relative;
   z-index: 1030;
+}
+
+/* En landing page: la barra persigue el scroll */
+body.is-landing-page nav.navbar,
+body.path-landing nav.navbar,
+body:has(.zinco-landing-page) nav.navbar,
+nav.navbar.navbar-landing {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  z-index: 1030 !important;
 }
 
 .navbar::after {

@@ -59,6 +59,25 @@
             // Initialize scroll animations.
             animateOnScroll();
 
+            // Sticky / scroll navbar behavior specifically for landing page
+            const landingNavbar = document.querySelector('nav.navbar');
+            if (landingNavbar) {
+                document.body.classList.add('is-landing-page');
+                landingNavbar.classList.add('navbar-landing');
+
+                const handleLandingNavbarScroll = function () {
+                    if (window.scrollY > 50) {
+                        landingNavbar.classList.add('scrolled');
+                    } else {
+                        landingNavbar.classList.remove('scrolled');
+                    }
+                };
+
+                window.addEventListener('scroll', handleLandingNavbarScroll, { passive: true });
+                handleLandingNavbarScroll();
+            }
+
+
             // Initialize Bootstrap tooltips.
             if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
                 const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
