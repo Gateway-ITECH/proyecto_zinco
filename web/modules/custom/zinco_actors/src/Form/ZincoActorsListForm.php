@@ -37,7 +37,11 @@ class ZincoActorsListForm extends FormBase {
       $users = User::loadMultiple($user_ids);
       foreach ($users as $u) {
         if ($u->hasField('field_actor') && !$u->get('field_actor')->isEmpty()) {
-          $assigned[] = (int) $u->get('field_actor')->target_id;
+          foreach ($u->get('field_actor')->getValue() as $item) {
+            if (!empty($item['target_id'])) {
+              $assigned[] = (int) $item['target_id'];
+            }
+          }
         }
       }
     }
@@ -200,7 +204,11 @@ class ZincoActorsListForm extends FormBase {
         $users = User::loadMultiple($uids_query);
         foreach ($users as $u) {
           if ($u->hasField('field_actor') && !$u->get('field_actor')->isEmpty()) {
-            $actor_user_map[(int) $u->get('field_actor')->target_id] = $u;
+            foreach ($u->get('field_actor')->getValue() as $item) {
+              if (!empty($item['target_id'])) {
+                $actor_user_map[(int) $item['target_id']] = $u;
+              }
+            }
           }
         }
       }

@@ -108,9 +108,18 @@ function _zinco_actors_assign_actor_to_user(EntityInterface $entity): void {
       /** @var \Drupal\user\Entity\User $account */
       $account = User::load($current_user->id());
       if ($account && $account->hasRole('actor_registrado')) {
-        if ($account->hasField('field_actor') && $account->get('field_actor')->isEmpty()) {
-          $account->set('field_actor', $entity->id());
-          $account->save();
+        if ($account->hasField('field_actor')) {
+          $actor_id = (int) $entity->id();
+          $existing_ids = [];
+          foreach ($account->get('field_actor')->getValue() as $item) {
+            if (!empty($item['target_id'])) {
+              $existing_ids[] = (int) $item['target_id'];
+            }
+          }
+          if (!in_array($actor_id, $existing_ids, TRUE)) {
+            $account->get('field_actor')->appendItem(['target_id' => $actor_id]);
+            $account->save();
+          }
         }
       }
     }

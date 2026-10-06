@@ -89,8 +89,11 @@ class ZincoActorsUserController extends ControllerBase {
       if ($existing_user) {
         $updated = FALSE;
         if ($existing_user->hasField('field_actor')) {
-          $existing_user->set('field_actor', $actor->id());
-          $updated = TRUE;
+          $existing_actor_ids = array_column($existing_user->get('field_actor')->getValue(), 'target_id');
+          if (!in_array($actor->id(), $existing_actor_ids)) {
+            $existing_user->get('field_actor')->appendItem(['target_id' => $actor->id()]);
+            $updated = TRUE;
+          }
         }
         if (!$existing_user->hasRole('actor_registrado')) {
           $existing_user->addRole('actor_registrado');

@@ -4,52 +4,30 @@ declare(strict_types=1);
 
 namespace Drupal\zinco_actors\Form;
 
-use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Form controller for the zincoactors entity edit forms.
+ * Form controller for the zincoactors entity frontend forms.
  */
-final class ZincoActorsFormFrontend extends ContentEntityForm
-{
+class ZincoActorsFormFrontend extends ZincoActorsForm {
 
   /**
    * {@inheritdoc}
    */
-  public function save(array $form, FormStateInterface $form_state): int
-  {
+  public function save(array $form, FormStateInterface $form_state): int {
     $result = parent::save($form, $form_state);
-
-    $message_args = ['%label' => $this->entity->toLink()->toString()];
-    $logger_args = [
-      '%label' => $this->entity->label(),
-      'link' => $this->entity->toLink($this->t('View'))->toString(),
-    ];
-
-    switch ($result) {
-      case SAVED_NEW:
-        $this->messenger()->addStatus($this->t('New zincoactors %label has been created.', $message_args));
-        $this->logger('zinco_actors')->notice('New zincoactors %label has been created.', $logger_args);
-        break;
-
-      case SAVED_UPDATED:
-        $this->messenger()->addStatus($this->t('The zincoactors %label has been updated.', $message_args));
-        $this->logger('zinco_actors')->notice('The zincoactors %label has been updated.', $logger_args);
-        break;
-
-      default:
-        throw new \LogicException('Could not save the entity.');
-    }
 
     $current_user = \Drupal::currentUser();
     if ($current_user->isAuthenticated()) {
       $account = \Drupal\user\Entity\User::load($current_user->id());
       if ($account && $account->hasRole('actor_registrado')) {
         $form_state->setRedirect('zinco_front.actor_profile', ['actor_id' => $this->entity->id()]);
-      } else {
+      }
+      else {
         $form_state->setRedirectUrl($this->entity->toUrl());
       }
-    } else {
+    }
+    else {
       $form_state->setRedirectUrl($this->entity->toUrl());
     }
 

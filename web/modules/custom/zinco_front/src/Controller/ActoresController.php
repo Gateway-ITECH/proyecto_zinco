@@ -604,12 +604,18 @@ class ActoresController extends ControllerBase
         }
       }
 
-      //si el id de actor del usuario logueado es igual al id del actor que se esta viendo, agregar una bandera acciones_rapidas en true
+      // Si el actor que se está viendo pertenece al usuario logueado (soporta cardinalidad múltiple en field_actor o propietario)
       $actor_data['acciones_rapidas'] = false;
+      $current_user_actor_ids = [];
       if ($current_user->hasField('field_actor') && !$current_user->get('field_actor')->isEmpty()) {
-        if ($actor->id() == $current_user->get('field_actor')->target_id) {
-          $actor_data['acciones_rapidas'] = true;
+        foreach ($current_user->get('field_actor')->getValue() as $item) {
+          if (!empty($item['target_id'])) {
+            $current_user_actor_ids[] = (int) $item['target_id'];
+          }
         }
+      }
+      if (in_array((int) $actor->id(), $current_user_actor_ids, TRUE) || (int) $actor->getOwnerId() === (int) $current_user->id()) {
+        $actor_data['acciones_rapidas'] = true;
       }
 
 
@@ -914,7 +920,21 @@ class ActoresController extends ControllerBase
       return $this->redirect('zinco_front.actor_categories_list');
     }
 
-    $actor_id = $current_user->get('field_actor')->target_id;
+    $user_actor_ids = [];
+    foreach ($current_user->get('field_actor')->getValue() as $item) {
+      if (!empty($item['target_id'])) {
+        $user_actor_ids[] = (int) $item['target_id'];
+      }
+    }
+
+    $requested_id = (int) \Drupal::request()->query->get('actor_id');
+    if ($requested_id && (in_array($requested_id, $user_actor_ids, TRUE) || $current_user->hasRole('administrator'))) {
+      $actor_id = $requested_id;
+    }
+    else {
+      $actor_id = reset($user_actor_ids);
+    }
+
     $actor = $this->entityTypeManager->getStorage('zinco_actors_zincoactors')->load($actor_id);
 
     if (!$actor) {
