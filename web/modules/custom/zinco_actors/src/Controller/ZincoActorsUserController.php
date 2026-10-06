@@ -29,6 +29,15 @@ class ZincoActorsUserController extends ControllerBase {
   public function generarUsuario(Request $request, $actor_id): RedirectResponse {
     $destination = $request->query->get('destination') ?: Url::fromRoute('entity.zinco_actors_zincoactors.collection')->toString();
 
+    $current_user = $this->currentUser();
+    $admin_info = [
+      'uid' => (int) $current_user->id(),
+      'name' => $current_user->getAccountName() ?: 'Anónimo',
+      'email' => $current_user->getEmail() ?: 'Sin email',
+      'ip' => $request->getClientIp() ?: 'Desconocida',
+    ];
+    $logger = \Drupal::logger('zinco_actors_mail');
+
     $actor_storage = $this->entityTypeManager()->getStorage('zinco_actors_zincoactors');
     /** @var \Drupal\zinco_actors\ZincoActorsInterface|null $actor */
     $actor = $actor_storage->load($actor_id);
@@ -45,6 +54,13 @@ class ZincoActorsUserController extends ControllerBase {
         '%label' => $actor->label(),
         '@id' => $actor->id(),
       ]));
+      $logger->warning('GENERACIÓN INDIVIDUAL OMITIDA - Actor "@label" (ID: @id) no tiene correo electrónico configurado. Operador: @admin_name (UID: @admin_uid, IP: @admin_ip)', [
+        '@label' => $actor->label(),
+        '@id' => $actor->id(),
+        '@admin_name' => $admin_info['name'],
+        '@admin_uid' => $admin_info['uid'],
+        '@admin_ip' => $admin_info['ip'],
+      ]);
       return new RedirectResponse($destination);
     }
 
@@ -55,6 +71,14 @@ class ZincoActorsUserController extends ControllerBase {
         '%email' => $email,
         '%label' => $actor->label(),
       ]));
+      $logger->warning('GENERACIÓN INDIVIDUAL OMITIDA - El correo "@email" del actor "@label" (ID: @id) no tiene formato válido. Operador: @admin_name (UID: @admin_uid, IP: @admin_ip)', [
+        '@email' => $email,
+        '@label' => $actor->label(),
+        '@id' => $actor->id(),
+        '@admin_name' => $admin_info['name'],
+        '@admin_uid' => $admin_info['uid'],
+        '@admin_ip' => $admin_info['ip'],
+      ]);
       return new RedirectResponse($destination);
     }
 
@@ -86,6 +110,20 @@ class ZincoActorsUserController extends ControllerBase {
 
         // Enviar correo de restablecimiento/confirmacion de contraseña
         _user_mail_notify('password_reset', $existing_user);
+
+        $logger->info(
+          'CORREO ENVIADO INDIVIDUAL (Restablecimiento) - Destinatario: @to_mail | Tipo: password_reset | Descripción: Enlace de un solo uso para restablecer/fijar contraseña de cuenta existente vinculada a actor | Actor: "@actor_label" (ID: @actor_id) | Usuario Drupal: "@username" (UID: @uid) | Operador: @admin_name (UID: @admin_uid, IP: @admin_ip)',
+          [
+            '@to_mail' => $email,
+            '@actor_label' => $actor->label(),
+            '@actor_id' => $actor->id(),
+            '@username' => $existing_user->getAccountName(),
+            '@uid' => $existing_user->id(),
+            '@admin_name' => $admin_info['name'],
+            '@admin_uid' => $admin_info['uid'],
+            '@admin_ip' => $admin_info['ip'],
+          ]
+        );
 
         $this->messenger()->addStatus($this->t('El actor "%label" fue vinculado con la cuenta existente "%username" (@email). Se ha enviado un correo para confirmar y establecer la contraseña.', [
           '%label' => $actor->label(),
@@ -126,6 +164,20 @@ class ZincoActorsUserController extends ControllerBase {
         // Send official Drupal welcome notification with one-time login link to set password.
         _user_mail_notify('register_no_approval_required', $new_user);
 
+        $logger->info(
+          'CORREO ENVIADO INDIVIDUAL (Bienvenida y Activación) - Destinatario: @to_mail | Tipo: register_no_approval_required | Descripción: Notificación de bienvenida y enlace único para establecer contraseña de la nueva cuenta de actor | Actor: "@actor_label" (ID: @actor_id) | Nuevo Usuario: "@username" (UID: @uid) | Operador: @admin_name (UID: @admin_uid, IP: @admin_ip)',
+          [
+            '@to_mail' => $email,
+            '@actor_label' => $actor->label(),
+            '@actor_id' => $actor->id(),
+            '@username' => $new_user->getAccountName(),
+            '@uid' => $new_user->id(),
+            '@admin_name' => $admin_info['name'],
+            '@admin_uid' => $admin_info['uid'],
+            '@admin_ip' => $admin_info['ip'],
+          ]
+        );
+
         $this->messenger()->addStatus($this->t('Se ha creado con éxito el usuario "%username" para el actor "%label" y se ha enviado el correo a @email con el enlace para confirmar su contraseña.', [
           '%username' => $username,
           '%label' => $actor->label(),
@@ -133,7 +185,19 @@ class ZincoActorsUserController extends ControllerBase {
         ]));
       }
     }
-    catch (\Exception $e) {
+    catch (\Throwable $e) {
+      $logger->error(
+        'ERROR EN GENERACIÓN INDIVIDUAL - Actor "@label" (ID: @id, Email: @email): @message | Operador: @admin_name (UID: @admin_uid, IP: @admin_ip)',
+        [
+          '@label' => $actor->label(),
+          '@id' => $actor->id(),
+          '@email' => $email,
+          '@message' => $e->getMessage(),
+          '@admin_name' => $admin_info['name'],
+          '@admin_uid' => $admin_info['uid'],
+          '@admin_ip' => $admin_info['ip'],
+        ]
+      );
       $this->messenger()->addError($this->t('Ocurrió un error al procesar el usuario para el actor "%label": @message', [
         '%label' => $actor->label(),
         '@message' => $e->getMessage(),
@@ -143,7 +207,7 @@ class ZincoActorsUserController extends ControllerBase {
     return new RedirectResponse($destination);
   }
 
-    /**
+  /**
    * Redirects legacy requests to the secure confirmation form.
    *
    * @param \Symfony\Component\HttpFoundation\Request $request

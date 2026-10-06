@@ -8,3 +8,7 @@ services:
     arguments: ['@zinco_actors.batch_processor']
     tags:
       - { name: drush.command }
+
+  logger.channel.zinco_actors_mail:
+    parent: logger.channel_base
+    arguments: ['zinco_actors_mail']
