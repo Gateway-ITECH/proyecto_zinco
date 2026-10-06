@@ -119,17 +119,13 @@ class ZincoActors extends ContentEntityBase implements ZincoActorsInterface
 
 
     $fields['municipio'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Municipio'))
+      ->setLabel(t('Municipio actividad'))
+      ->setDescription(t('Municipio de Córdoba en el cual opera un proyecto, trabaja o reside.'))
       ->setSetting('target_type', 'taxonomy_term')
       ->setSetting('handler_settings', ['target_bundles' => ['divipola' => 'divipola']])
       ->setDisplayOptions('form', [
-        'type' => 'entity_reference_autocomplete',
+        'type' => 'options_select',
         'weight' => -3,
-        'settings' => [
-          'match_operator' => 'CONTAINS',
-          'size' => 60,
-          'placeholder' => '',
-        ],
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('view', [

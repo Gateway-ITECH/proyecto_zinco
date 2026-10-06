@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\zinco_actors\Form;
 
 use Drupal\Core\Entity\ContentEntityForm;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
@@ -15,7 +16,133 @@ class ZincoActorsForm extends ContentEntityForm {
   /**
    * {@inheritdoc}
    */
+  public function form(array $form, FormStateInterface $form_state): array {
+    $form = parent::form($form, $form_state);
+
+    if (isset($form['municipio'])) {
+      $current_tid = '';
+      if ($this->entity->hasField('municipio') && !$this->entity->get('municipio')->isEmpty()) {
+        $current_tid = (int) $this->entity->get('municipio')->target_id;
+      }
+
+      $municipios_options = $this->getCordobaMunicipiosOptions();
+
+      $weight = -3;
+      if (isset($form['municipio']['#weight'])) {
+        $weight = $form['municipio']['#weight'];
+      }
+      elseif (isset($form['municipio']['widget']['#weight'])) {
+        $weight = $form['municipio']['widget']['#weight'];
+      }
+
+      // Ocultar el widget original para que no interfiera.
+      $form['municipio']['#access'] = FALSE;
+
+      // Crear el campo selector con el nombre, ayuda y opciones de Córdoba.
+      $form['municipio_actividad'] = [
+        '#type' => 'select',
+        '#title' => $this->t('Municipio actividad'),
+        '#description' => $this->t('Municipio de Córdoba en el cual opera un proyecto, trabaja o reside.'),
+        '#options' => ['' => $this->t('- Seleccione un municipio -')] + $municipios_options,
+        '#default_value' => $current_tid,
+        '#weight' => $weight,
+        '#required' => $form['municipio']['widget']['#required'] ?? FALSE,
+      ];
+
+      // Registrar entity builder para transferir el valor al campo municipio de la entidad.
+      $form['#entity_builders'][] = '::buildMunicipioActividad';
+    }
+
+    return $form;
+  }
+
+  /**
+   * Entity builder callback for 'municipio_actividad'.
+   */
+  public function buildMunicipioActividad(string $entity_type_id, EntityInterface $entity, array &$form, FormStateInterface $form_state): void {
+    if ($form_state->hasValue('municipio_actividad')) {
+      $selected_tid = $form_state->getValue('municipio_actividad');
+      if (!empty($selected_tid)) {
+        $entity->set('municipio', (int) $selected_tid);
+      }
+      else {
+        $entity->set('municipio', NULL);
+      }
+    }
+  }
+
+  /**
+   * Helper method to get the child municipality terms of Córdoba from divipola.
+   *
+   * @return array
+   *   Array of municipality names keyed by taxonomy term ID.
+   */
+  protected function getCordobaMunicipiosOptions(): array {
+    $options = [];
+    $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
+
+    // Buscar el término padre 'Córdoba' en el vocabulario 'divipola'.
+    $query = $term_storage->getQuery()
+      ->condition('vid', 'divipola')
+      ->condition('name', ['Córdoba', 'Cordoba', 'CORDOBA', 'CÓRDOBA'], 'IN')
+      ->accessCheck(FALSE);
+    $parent_tids = $query->execute();
+
+    if (empty($parent_tids)) {
+      $query = $term_storage->getQuery()
+        ->condition('vid', 'divipola')
+        ->condition('name', 'Cordoba', 'CONTAINS')
+        ->accessCheck(FALSE);
+      $parent_tids = $query->execute();
+    }
+
+    if (!empty($parent_tids)) {
+      $parent_tid = (int) reset($parent_tids);
+
+      // Cargar los términos hijos del departamento de Córdoba.
+      $children = $term_storage->loadChildren($parent_tid);
+      if (!empty($children)) {
+        foreach ($children as $child) {
+          $options[$child->id()] = $child->label();
+        }
+      }
+      else {
+        $tree = $term_storage->loadTree('divipola', $parent_tid, 1, TRUE);
+        foreach ($tree as $term_child) {
+          $options[$term_child->id()] = $term_child->label();
+        }
+      }
+    }
+
+    // Fallback: si no se encuentran hijos de Córdoba, cargar términos de divipola.
+    if (empty($options)) {
+      $terms = $term_storage->loadByProperties(['vid' => 'divipola']);
+      foreach ($terms as $term) {
+        $options[$term->id()] = $term->label();
+      }
+    }
+
+    natcasesort($options);
+
+    return $options;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function validateForm(array &$form, FormStateInterface $form_state): void {
+    if ($form_state->hasValue('municipio_actividad')) {
+      $selected_tid = $form_state->getValue('municipio_actividad');
+      if (!empty($selected_tid)) {
+        $this->entity->set('municipio', (int) $selected_tid);
+        $form_state->setValue('municipio', [['target_id' => (int) $selected_tid]]);
+      }
+      else {
+        $this->entity->set('municipio', NULL);
+        $form_state->setValue('municipio', []);
+      }
+    }
+
     parent::validateForm($form, $form_state);
 
     $current_id = $this->entity->isNew() ? NULL : (int) $this->entity->id();

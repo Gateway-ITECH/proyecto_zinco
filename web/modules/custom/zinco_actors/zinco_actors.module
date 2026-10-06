@@ -125,3 +125,19 @@ function _zinco_actors_assign_actor_to_user(EntityInterface $entity): void {
     }
   }
 }
+
+
+/**
+ * Implements hook_field_widget_single_element_form_alter().
+ */
+function zinco_actors_field_widget_single_element_form_alter(array &$element, \Drupal\Core\Form\FormStateInterface $form_state, array $context): void {
+  $field_definition = $context['items']->getFieldDefinition();
+  if ($field_definition->getTargetEntityTypeId() === 'zinco_actors_zincoactors' && $field_definition->getName() === 'municipio') {
+    $element['#title'] = t('Municipio actividad');
+    $element['#description'] = t('Municipio de Córdoba en el cual opera un proyecto, trabaja o reside.');
+    if (isset($element['target_id'])) {
+      $element['target_id']['#title'] = t('Municipio actividad');
+      $element['target_id']['#description'] = t('Municipio de Córdoba en el cual opera un proyecto, trabaja o reside.');
+    }
+  }
+}
