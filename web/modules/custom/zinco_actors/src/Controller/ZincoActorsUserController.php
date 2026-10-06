@@ -143,131 +143,17 @@ class ZincoActorsUserController extends ControllerBase {
     return new RedirectResponse($destination);
   }
 
-  /**
-   * Generates users in batch for all actors without an associated user account.
+    /**
+   * Redirects legacy requests to the secure confirmation form.
    *
    * @param \Symfony\Component\HttpFoundation\Request $request
    *   The current request.
    *
    * @return \Symfony\Component\HttpFoundation\RedirectResponse
-   *   Redirects back to the actors collection page.
+   *   Redirects to the confirmation form.
    */
   public function generarUsuariosMasivo(Request $request): RedirectResponse {
-    $destination = Url::fromRoute('entity.zinco_actors_zincoactors.collection', [], ['query' => ['sin_usuario' => '1']])->toString();
-
-    // Query actors that already have a user in user__field_actor.
-    $user_query = \Drupal::entityQuery('user')
-      ->condition('field_actor', NULL, 'IS NOT NULL')
-      ->accessCheck(FALSE);
-    $user_ids = $user_query->execute();
-
-    $assigned_actor_ids = [];
-    if (!empty($user_ids)) {
-      $users = User::loadMultiple($user_ids);
-      foreach ($users as $u) {
-        if ($u->hasField('field_actor') && !$u->get('field_actor')->isEmpty()) {
-          $assigned_actor_ids[] = (int) $u->get('field_actor')->target_id;
-        }
-      }
-    }
-
-    // Query all actors not in assigned_actor_ids.
-    $actor_storage = $this->entityTypeManager()->getStorage('zinco_actors_zincoactors');
-    $actor_query = $actor_storage->getQuery()
-      ->accessCheck(FALSE);
-
-    if (!empty($assigned_actor_ids)) {
-      $actor_query->condition('id', array_unique($assigned_actor_ids), 'NOT IN');
-    }
-
-    $pending_actor_ids = $actor_query->execute();
-
-    if (empty($pending_actor_ids)) {
-      $this->messenger()->addStatus($this->t('Todos los actores registrados ya cuentan con un usuario asociado en el sistema.'));
-      return new RedirectResponse(Url::fromRoute('entity.zinco_actors_zincoactors.collection')->toString());
-    }
-
-    $actors = $actor_storage->loadMultiple($pending_actor_ids);
-    $success_count = 0;
-    $missing_email_count = 0;
-
-    /** @var \Drupal\Component\Utility\EmailValidatorInterface $email_validator */
-    $email_validator = \Drupal::service('email.validator');
-
-    foreach ($actors as $actor) {
-      $email = $actor->hasField('email') && !$actor->get('email')->isEmpty() ? trim((string) $actor->get('email')->value) : '';
-
-      if (empty($email) || !$email_validator->isValid($email)) {
-        $missing_email_count++;
-        continue;
-      }
-
-      try {
-        $existing_user = user_load_by_mail($email);
-        if ($existing_user) {
-          if ($existing_user->hasField('field_actor')) {
-            $existing_user->set('field_actor', $actor->id());
-          }
-          if (!$existing_user->hasRole('actor_registrado')) {
-            $existing_user->addRole('actor_registrado');
-          }
-          if ($existing_user->isBlocked()) {
-            $existing_user->activate();
-          }
-          $existing_user->save();
-          $actor->setOwnerId((int) $existing_user->id());
-          $actor->save();
-
-          _user_mail_notify('password_reset', $existing_user);
-          $success_count++;
-        }
-        else {
-          $prefix = strstr($email, '@', TRUE);
-          $base_username = !empty($prefix) ? $prefix : preg_replace('/[^a-zA-Z0-9_]/', '', (string) $actor->label());
-          $base_username = substr((string) $base_username, 0, 45);
-          if (empty($base_username)) {
-            $base_username = 'actor_' . $actor->id();
-          }
-
-          $username = $base_username;
-          $counter = 1;
-          while (user_load_by_name($username)) {
-            $username = substr($base_username, 0, 40) . '_' . $counter;
-            $counter++;
-          }
-
-          $new_user = User::create([
-            'name' => $username,
-            'mail' => $email,
-            'status' => 1,
-            'roles' => ['actor_registrado'],
-            'field_actor' => $actor->id(),
-          ]);
-          $new_user->save();
-
-          $actor->setOwnerId((int) $new_user->id());
-          $actor->save();
-
-          _user_mail_notify('register_no_approval_required', $new_user);
-          $success_count++;
-        }
-      }
-      catch (\Exception $e) {
-        $this->logger('zinco_actors')->error('Error en generación masiva para actor @id: @msg', [
-          '@id' => $actor->id(),
-          '@msg' => $e->getMessage(),
-        ]);
-      }
-    }
-
-    if ($success_count > 0) {
-      $this->messenger()->addStatus($this->t('Proceso masivo completado: se generaron y notificaron con éxito @count usuarios para sus actores correspondientes.', ['@count' => $success_count]));
-    }
-    if ($missing_email_count > 0) {
-      $this->messenger()->addWarning($this->t('@count actores fueron omitidos porque no tienen un correo electrónico válido configurado.', ['@count' => $missing_email_count]));
-    }
-
-    return new RedirectResponse($destination);
+    return new RedirectResponse(Url::fromRoute('zinco_actors.generar_usuarios_masivo')->toString());
   }
 
 }

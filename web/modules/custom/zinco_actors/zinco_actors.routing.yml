@@ -5,11 +5,12 @@ zinco_actors.generar_usuario:
     _title: 'Generar usuario para actor'
   requirements:
     _permission: 'administer zinco_actors_zincoactors types'
+    _csrf_token: 'TRUE'
 
 zinco_actors.generar_usuarios_masivo:
   path: '/admin/content/zincoactors/generate-users-batch'
   defaults:
-    _controller: '\Drupal\zinco_actors\Controller\ZincoActorsUserController::generarUsuariosMasivo'
+    _form: '\Drupal\zinco_actors\Form\GenerarUsuariosMasivoConfirmForm'
     _title: 'Generar usuarios masivamente para actores sin cuenta'
   requirements:
     _permission: 'administer zinco_actors_zincoactors types'

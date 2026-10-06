@@ -52,11 +52,10 @@ final class ZincoActorsListBuilder extends EntityListBuilder {
       if ($pending_count > 0) {
         $action_buttons['generar_masivo'] = [
           '#type' => 'link',
-          '#title' => $this->t('⚡ Generar usuarios para todos (@count)', ['@count' => $pending_count]),
+          '#title' => $this->t('⚡ Generar usuarios para todos (@count)...', ['@count' => $pending_count]),
           '#url' => Url::fromRoute('zinco_actors.generar_usuarios_masivo'),
           '#attributes' => [
             'class' => ['button', 'button--primary', 'me-2'],
-            'onclick' => 'return confirm("¿Confirmas que deseas generar usuarios y enviar los correos de confirmación a todos los actores pendientes con correo válido?");',
           ],
         ];
       }
