@@ -1,27 +1,143 @@
-{#
+﻿{#
 /**
  * @file
  * Template for editing the actor profile.
  *
  * Available variables:
  * - actor_form: The renderable array of the actor edit form.
- * - bundle_label: The human-readable label of the actor bundle.
+ * - bundle_label: The human-readable label of the active actor bundle.
+ * - actor_label: The name or trade name of the active actor.
+ * - current_actor_id: The ID of the actor currently being edited.
+ * - user_actor_cards: Array of all actor profiles belonging to the current user.
+ * - total_actors: Total number of actor profiles belonging to the user.
  */
 #}
 <div class="actor-edit-form-container container my-5">
   <div class="row justify-content-center">
     <div class="col-lg-10">
+
+      {# Actor Switcher Cards (when user has multiple actors) #}
+      {% if user_actor_cards and user_actor_cards|length > 1 %}
+        <div class="actor-switcher-section mb-4">
+          <div class="card border-0 shadow-sm p-4 bg-white" style="border-radius: 14px;">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2 mb-3 pb-2 border-bottom">
+              <div>
+                <h2 class="h5 fw-bold mb-1 text-dark d-flex align-items-center">
+                  <i class="fas fa-layer-group text-success me-2"></i>{{ 'Selecciona el actor a editar'|t }}
+                </h2>
+                <p class="text-muted small mb-0">
+                  {{ 'Tienes múltiples perfiles de actor asociados. Haz clic en el perfil que deseas gestionar:'|t }}
+                </p>
+              </div>
+              <span class="badge bg-light text-secondary border px-3 py-2 align-self-start align-self-md-center">
+                <i class="fas fa-id-card me-1"></i> {{ total_actors }} {{ total_actors == 1 ? 'perfil registrado'|t : 'perfiles registrados'|t }}
+              </span>
+            </div>
+
+            <div class="row g-3">
+              {% for card in user_actor_cards %}
+                {% set b_icon = 'fas fa-building' %}
+                {% if 'investigad' in card.bundle %}
+                  {% set b_icon = 'fas fa-user-graduate' %}
+                {% elseif 'grupo' in card.bundle %}
+                  {% set b_icon = 'fas fa-users' %}
+                {% elseif 'empresa' in card.bundle %}
+                  {% set b_icon = 'fas fa-briefcase' %}
+                {% elseif 'ies' in card.bundle or 'universidad' in card.bundle %}
+                  {% set b_icon = 'fas fa-university' %}
+                {% elseif 'gobierno' in card.bundle %}
+                  {% set b_icon = 'fas fa-landmark' %}
+                {% elseif 'financ' in card.bundle %}
+                  {% set b_icon = 'fas fa-hand-holding-usd' %}
+                {% elseif 'parque' in card.bundle or 'tecno' in card.bundle %}
+                  {% set b_icon = 'fas fa-microchip' %}
+                {% endif %}
+
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="card h-100 actor-card-item {{ card.is_current ? 'is-active' : 'is-clickable' }}" 
+                       {% if not card.is_current %}onclick="window.location.href='{{ card.edit_url }}'" style="cursor: pointer;"{% endif %}>
+                    <div class="card-body p-3 d-flex flex-column justify-content-between">
+                      <div>
+                        <!-- Header badge: Actor Bundle Type & Status -->
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                          <span class="badge actor-bundle-badge {{ card.is_current ? 'bg-success text-white' : 'bg-light text-dark border' }} text-truncate" title="{{ card.bundle_label }}">
+                            <i class="{{ b_icon }} me-1"></i>{{ card.bundle_label }}
+                          </span>
+                          {% if card.is_current %}
+                            <span class="badge bg-success-subtle text-success border border-success-subtle small py-1">
+                              <i class="fas fa-check-circle me-1"></i>{{ 'Editando'|t }}
+                            </span>
+                          {% endif %}
+                        </div>
+
+                        <!-- Actor Info: Image/Avatar & Name -->
+                        <div class="d-flex align-items-center my-2">
+                          {% if card.imagen_perfil %}
+                            <img src="{{ card.imagen_perfil }}" alt="{{ card.label }}" class="actor-card-avatar rounded-circle me-3 border flex-shrink-0">
+                          {% else %}
+                            <div class="actor-card-avatar-placeholder rounded-circle me-3 border flex-shrink-0 {{ card.is_current ? 'bg-success-light text-success' : 'bg-light text-secondary' }}">
+                              <i class="{{ b_icon }}"></i>
+                            </div>
+                          {% endif %}
+                          <div class="overflow-hidden flex-grow-1">
+                            <h6 class="card-title fw-bold mb-1 text-truncate" title="{{ card.label }}">{{ card.label }}</h6>
+                            {% if card.email %}
+                              <p class="card-text text-muted small mb-0 text-truncate" title="{{ card.email }}">
+                                <i class="fas fa-envelope me-1 opacity-75"></i>{{ card.email }}
+                              </p>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Footer Actions -->
+                      <div class="mt-3 pt-2 border-top d-flex align-items-center justify-content-between gap-2" onclick="event.stopPropagation();">
+                        <a href="{{ card.view_url }}" target="_blank" class="btn btn-sm btn-link text-decoration-none text-muted px-1" title="{{ 'Ver perfil público'|t }}">
+                          <i class="fas fa-external-link-alt me-1"></i><span class="small">{{ 'Ver perfil'|t }}</span>
+                        </a>
+
+                        {% if card.is_current %}
+                          <span class="btn btn-sm btn-success disabled py-1 px-3 fw-semibold">
+                            <i class="fas fa-pen me-1"></i>{{ 'Seleccionado'|t }}
+                          </span>
+                        {% else %}
+                          <a href="{{ card.edit_url }}" class="btn btn-sm btn-outline-success py-1 px-3 fw-semibold">
+                            <i class="fas fa-pencil-alt me-1"></i>{{ 'Editar este actor'|t }}
+                          </a>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
       <div class="card border-0 shadow-lg overflow-hidden" style="border-radius: 15px;">
         <div class="card-header bg-gradient-primary-green py-4 px-4 text-white">
           <div class="d-flex align-items-center justify-content-between">
             <div>
               <h1 class="h3 mb-1 fw-bold">{{ 'Editar mi perfil'|t }}</h1>
-              <p class="mb-0 opacity-75 small">
-                <i class="fas fa-tag me-1"></i>{{ 'Tipo de Actor:'|t }} <strong>{{ bundle_label }}</strong>
-              </p>
+              <div class="d-flex flex-wrap align-items-center gap-2 mt-2">
+                <span class="badge bg-white text-success px-3 py-2 fw-semibold shadow-xs">
+                  <i class="fas fa-tag me-1"></i>{{ 'Tipo:'|t }} {{ bundle_label }}
+                </span>
+                {% if actor_label %}
+                  <span class="badge bg-dark bg-opacity-25 text-white px-3 py-2 fw-normal">
+                    <i class="fas fa-building me-1"></i>{{ actor_label }}
+                  </span>
+                {% endif %}
+                {% if total_actors and total_actors > 1 %}
+                  <span class="badge bg-white bg-opacity-25 text-white px-2 py-2 small">
+                    <i class="fas fa-layer-group me-1"></i>{{ 'Actor activo'|t }}
+                  </span>
+                {% endif %}
+              </div>
             </div>
-            <div class="d-none d-md-block">
-              <i class="fas fa-user-edit fa-3x opacity-25"></i>
+            <div class="d-none d-md-block text-white opacity-25">
+              <i class="fas fa-user-edit fa-3x"></i>
             </div>
           </div>
         </div>
@@ -53,11 +169,63 @@
   .bg-gradient-primary-green {
     background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
   }
-  
+
   .actor-edit-form-container .card {
-    border: 1px solid rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.06);
   }
-  
+
+  /* Actor Switcher Card Styles */
+  .actor-card-item {
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    border: 1.5px solid #e9ecef;
+    background-color: #ffffff;
+  }
+
+  .actor-card-item.is-clickable:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+    border-color: #28a745;
+  }
+
+  .actor-card-item.is-active {
+    border-color: #28a745;
+    background: linear-gradient(180deg, #f8fff9 0%, #ffffff 100%);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.15);
+  }
+
+  .actor-card-avatar {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+  }
+
+  .actor-card-avatar-placeholder {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+  }
+
+  .bg-success-light {
+    background-color: #e8f5e9;
+  }
+
+  .bg-success-subtle {
+    background-color: #d1e7dd;
+  }
+
+  .border-success-subtle {
+    border-color: #a3cfbb !important;
+  }
+
+  .actor-bundle-badge {
+    font-weight: 500;
+    max-width: 65%;
+  }
+
   /* Styling Drupal form elements to look better */
   .actor-form-wrapper form {
     display: flex;

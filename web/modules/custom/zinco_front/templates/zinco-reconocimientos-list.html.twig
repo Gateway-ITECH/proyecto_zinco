@@ -17,7 +17,7 @@
           <i class="fas fa-certificate text-warning me-2"></i>{{ 'Mis Solicitudes de Reconocimiento'|t }}
         </h1>
         <div class="d-flex gap-2">
-          <a href="/reconocimientos/add" class="btn btn-success rounded-pill px-4">
+          <a href="/reconocimientos/add?actor_id={{ actor_id }}" class="btn btn-success rounded-pill px-4">
             <i class="fas fa-plus me-2"></i>{{ 'Nueva Solicitud'|t }}
           </a>
           <a href="/actores/{{ actor_id }}/reconocimientos/add" class="btn btn-primary rounded-pill px-4">

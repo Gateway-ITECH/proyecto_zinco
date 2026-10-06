@@ -915,7 +915,7 @@ class ActoresController extends ControllerBase
   {
     $current_user = $this->entityTypeManager->getStorage('user')->load(\Drupal::currentUser()->id());
 
-    if (!$current_user->hasField('field_actor') || $current_user->get('field_actor')->isEmpty()) {
+    if (!$current_user || !$current_user->hasField('field_actor') || $current_user->get('field_actor')->isEmpty()) {
       $this->messenger()->addWarning($this->t('No tienes un perfil de actor asociado. Por favor, crea uno.'));
       return $this->redirect('zinco_front.actor_categories_list');
     }
@@ -927,6 +927,11 @@ class ActoresController extends ControllerBase
       }
     }
 
+    if (empty($user_actor_ids)) {
+      $this->messenger()->addWarning($this->t('No tienes un perfil de actor asociado. Por favor, crea uno.'));
+      return $this->redirect('zinco_front.actor_categories_list');
+    }
+
     $requested_id = (int) \Drupal::request()->query->get('actor_id');
     if ($requested_id && (in_array($requested_id, $user_actor_ids, TRUE) || $current_user->hasRole('administrator'))) {
       $actor_id = $requested_id;
@@ -935,24 +940,89 @@ class ActoresController extends ControllerBase
       $actor_id = reset($user_actor_ids);
     }
 
-    $actor = $this->entityTypeManager->getStorage('zinco_actors_zincoactors')->load($actor_id);
+    $actors_storage = $this->entityTypeManager->getStorage('zinco_actors_zincoactors');
+    $actor = $actors_storage->load($actor_id);
 
     if (!$actor) {
       $this->messenger()->addError($this->t('No se pudo cargar tu perfil de actor.'));
       return $this->redirect('zinco_front.actor_categories_list');
     }
 
+    // Load all actors belonging to this user for the card switcher.
+    $user_actors = $actors_storage->loadMultiple($user_actor_ids);
     $bundle_info = $this->entityTypeBundleInfo->getBundleInfo('zinco_actors_zincoactors');
+
+    $user_actor_cards = [];
+    foreach ($user_actors as $u_actor) {
+      $u_id = (int) $u_actor->id();
+      $u_bundle = $u_actor->bundle();
+      $u_bundle_label = $bundle_info[$u_bundle]['label'] ?? $u_bundle;
+      $u_label = $u_actor->label() ?: $this->t('Sin nombre');
+      $u_email = ($u_actor->hasField('email') && !$u_actor->get('email')->isEmpty()) ? $u_actor->get('email')->value : '';
+
+      $u_imagen = '';
+      if ($u_actor->hasField('imagen_perfil') && !$u_actor->get('imagen_perfil')->isEmpty()) {
+        $image_file = $u_actor->get('imagen_perfil')->entity;
+        if ($image_file) {
+          $u_imagen = $this->fileUrlGenerator->generateAbsoluteString($image_file->getFileUri());
+        }
+      }
+
+      $user_actor_cards[] = [
+        'id' => $u_id,
+        'label' => $u_label,
+        'bundle' => $u_bundle,
+        'bundle_label' => $u_bundle_label,
+        'email' => $u_email,
+        'imagen_perfil' => $u_imagen,
+        'is_current' => ($u_id === (int) $actor->id()),
+        'edit_url' => Url::fromRoute('zinco_front.actor_edit', [], ['query' => ['actor_id' => $u_id]])->toString(),
+        'view_url' => Url::fromRoute('zinco_front.actor_profile', ['id' => $u_id])->toString(),
+      ];
+    }
+
+    // If an administrator is editing an actor not listed in their own field_actor, include it.
+    $card_ids = array_column($user_actor_cards, 'id');
+    if (!in_array((int) $actor->id(), $card_ids, TRUE)) {
+      $u_id = (int) $actor->id();
+      $u_bundle = $actor->bundle();
+      $u_bundle_label = $bundle_info[$u_bundle]['label'] ?? $u_bundle;
+      $u_label = $actor->label() ?: $this->t('Sin nombre');
+      $u_email = ($actor->hasField('email') && !$actor->get('email')->isEmpty()) ? $actor->get('email')->value : '';
+      $u_imagen = '';
+      if ($actor->hasField('imagen_perfil') && !$actor->get('imagen_perfil')->isEmpty()) {
+        $image_file = $actor->get('imagen_perfil')->entity;
+        if ($image_file) {
+          $u_imagen = $this->fileUrlGenerator->generateAbsoluteString($image_file->getFileUri());
+        }
+      }
+      $user_actor_cards[] = [
+        'id' => $u_id,
+        'label' => $u_label,
+        'bundle' => $u_bundle,
+        'bundle_label' => $u_bundle_label,
+        'email' => $u_email,
+        'imagen_perfil' => $u_imagen,
+        'is_current' => TRUE,
+        'edit_url' => Url::fromRoute('zinco_front.actor_edit', [], ['query' => ['actor_id' => $u_id]])->toString(),
+        'view_url' => Url::fromRoute('zinco_front.actor_profile', ['id' => $u_id])->toString(),
+      ];
+    }
+
     $bundle = $actor->bundle();
-    
     $form = $this->entityFormBuilder->getForm($actor, 'frontend');
 
     return [
       '#theme' => 'zinco_actor_edit_form',
       '#actor_form' => $form,
       '#bundle_label' => $bundle_info[$bundle]['label'] ?? $bundle,
+      '#actor_label' => $actor->label() ?: $this->t('Sin nombre'),
+      '#current_actor_id' => (int) $actor->id(),
+      '#user_actor_cards' => $user_actor_cards,
+      '#total_actors' => count($user_actor_cards),
       '#cache' => [
-        'tags' => $actor->getCacheTags(),
+        'tags' => array_merge($actor->getCacheTags(), $current_user->getCacheTags()),
+        'contexts' => ['user', 'url.query_args:actor_id'],
       ],
     ];
   }

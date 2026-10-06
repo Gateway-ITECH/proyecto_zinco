@@ -1,0 +1,8 @@
+zinco_reconocimientos.enviar_acceso:
+  path: '/reconocimientos/{reconocimiento_id}/enviar-acceso'
+  defaults:
+    _controller: '\Drupal\zinco_reconocimientos\Controller\ZincoReconocimientosActionController::enviarAccesoNuevoActor'
+    _title: 'Enviar acceso para nuevo actor'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+    reconocimiento_id: '\d+'

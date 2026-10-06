@@ -85,8 +85,13 @@ class ZincoReconocimientos extends ContentEntityBase implements ZincoReconocimie
   public function preSave(EntityStorageInterface $storage): void {
     parent::preSave($storage);
     if (!$this->getOwnerId()) {
-      // If no owner has been set explicitly, make the anonymous user the owner.
-      $this->setOwnerId(0);
+      $current_user_id = (int) \Drupal::currentUser()->id();
+      if ($current_user_id > 0) {
+        $this->setOwnerId($current_user_id);
+      }
+      else {
+        $this->setOwnerId(0);
+      }
     }
   }
 

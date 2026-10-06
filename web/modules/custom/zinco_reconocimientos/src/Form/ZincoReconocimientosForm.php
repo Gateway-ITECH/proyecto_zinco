@@ -53,8 +53,6 @@ class ZincoReconocimientosForm extends ContentEntityForm {
    */
   protected function notifyAdmins($entity) {
     $mail_service = \Drupal::service('zinco_front.mail_service');
-    $config = \Drupal::config('system.site');
-    $admin_email = $config->get('mail'); // Site mail as fallback or primary admin.
     
     // Get all users with administrator role.
     $ids = \Drupal::entityQuery('user')
@@ -65,20 +63,46 @@ class ZincoReconocimientosForm extends ContentEntityForm {
     $admins = \Drupal::entityTypeManager()->getStorage('user')->loadMultiple($ids);
     
     $actor_name = 'N/A';
+    $actor_bundle_label = '';
     if ($entity->hasField('field_actor_asociado') && !$entity->get('field_actor_asociado')->isEmpty()) {
-      $actor_name = $entity->get('field_actor_asociado')->entity->label();
+      $actor_entity = $entity->get('field_actor_asociado')->entity;
+      if ($actor_entity) {
+        $actor_name = $actor_entity->label();
+        $bundle_info = \Drupal::service('entity_type.bundle.info')->getBundleInfo('zinco_actors_zincoactors');
+        $actor_bundle_label = $bundle_info[$actor_entity->bundle()]['label'] ?? $actor_entity->bundle();
+      }
+    }
+
+    $owner = $entity->getOwner();
+    $user_name = ($owner && $owner->isAuthenticated()) ? $owner->getDisplayName() : 'No identificado';
+    $user_email = ($owner && $owner->isAuthenticated()) ? $owner->getEmail() : 'No disponible';
+
+    $tipo_actor_solicitado = 'No especificado';
+    if ($entity->hasField('description') && !$entity->get('description')->isEmpty()) {
+      $meta = json_decode($entity->get('description')->value, TRUE);
+      if (!empty($meta['tipo_actor_label'])) {
+        $tipo_actor_solicitado = $meta['tipo_actor_label'];
+      }
     }
 
     $variables = [
       'actor_name' => $actor_name,
+      'actor_bundle_label' => $actor_bundle_label,
+      'user_name' => $user_name,
+      'user_email' => $user_email,
+      'tipo_actor_solicitado' => $tipo_actor_solicitado,
       'label' => $entity->label(),
       'detail_url' => \Drupal::token()->replace('[site:url]') . 'reconocimientos/' . $entity->id(),
+      'admin_url' => \Drupal::token()->replace('[site:url]') . 'admin/content/zinco-reconocimientos',
     ];
 
     foreach ($admins as $admin) {
       $mail_service->sendTemplatedEmail(
         $admin->getEmail(),
-        $this->t('Nueva Solicitud de Reconocimiento: @label', ['@label' => $entity->label()]),
+        $this->t('Nueva Solicitud de Reconocimiento (@tipo): @label', [
+          '@tipo' => $tipo_actor_solicitado,
+          '@label' => $entity->label(),
+        ]),
         'email_reconocimiento_nueva_solicitud',
         $variables
       );

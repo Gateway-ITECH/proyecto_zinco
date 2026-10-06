@@ -259,6 +259,10 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
       'variables' => [
         'actor_form' => NULL,
         'bundle_label' => NULL,
+        'actor_label' => NULL,
+        'current_actor_id' => NULL,
+        'user_actor_cards' => [],
+        'total_actors' => 0,
       ],
       'template' => 'zinco-actor-edit-form',
     ],
@@ -310,6 +314,13 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
         'site_name' => NULL,
       ],
       'template' => 'email-reconocimiento-respuesta',
+    ],
+    'email_reconocimiento_acceso_actor' => [
+      'variables' => [
+        'variables' => [],
+        'site_name' => NULL,
+      ],
+      'template' => 'email-reconocimiento-acceso-actor',
     ],
     'email_solution_validated_author' => [
       'variables' => [

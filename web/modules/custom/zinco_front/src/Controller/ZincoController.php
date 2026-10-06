@@ -1354,13 +1354,18 @@ class ZincoController extends ControllerBase
     $current_user = \Drupal::entityTypeManager()->getStorage('user')->load(\Drupal::currentUser()->id());
     $actor_id = NULL;
 
-    if ($current_user->hasField('field_actor') && !$current_user->get('field_actor')->isEmpty()) {
-      $actor_id = $current_user->get('field_actor')->target_id;
+    $requested_actor_id = (int) \Drupal::request()->query->get('actor_id');
+    if ($requested_actor_id > 0) {
+      $actor_id = $requested_actor_id;
+    }
+    elseif ($current_user && $current_user->hasField('field_actor') && !$current_user->get('field_actor')->isEmpty()) {
+      $actor_id = (int) $current_user->get('field_actor')->target_id;
     }
 
     $reconocimiento = $this->entityTypeManager()->getStorage('zinco_reconocimientos')->create([
       'bundle' => $bundle,
       'field_actor_asociado' => $actor_id,
+      'uid' => \Drupal::currentUser()->id(),
     ]);
 
     $form = $this->entityFormBuilder()->getForm($reconocimiento, 'actor');
@@ -1371,18 +1376,12 @@ class ZincoController extends ControllerBase
       '#title' => $this->t('Solicitud de Reconocimiento'),
       '#cache' => [
         'tags' => $this->entityTypeManager()->getDefinition('zinco_reconocimientos')->getListCacheTags(),
+        'contexts' => ['user', 'url.query_args:actor_id'],
       ],
     ];
   }
 
   /**
-   * Returns a list of recognitions for a specific actor.
-   *
-   * @param int $actor_id
-   *   The actor ID.
-   *
-   * @return array
-   *   A renderable array.
    */
   public function listReconocimientosActor($actor_id)
   {
@@ -1443,6 +1442,26 @@ class ZincoController extends ControllerBase
 
     $has_response = $reconocimiento->hasField('field_respuesta_solicitud') && !$reconocimiento->get('field_respuesta_solicitud')->isEmpty();
 
+    // Owner info
+    $owner = $reconocimiento->getOwner();
+    $owner_name = ($owner && $owner->isAuthenticated()) ? $owner->getDisplayName() : $this->t('No identificado');
+    $owner_email = ($owner && $owner->isAuthenticated()) ? $owner->getEmail() : '';
+
+    // Requested bundle
+    $bundle_info = \Drupal::service('entity_type.bundle.info')->getBundleInfo('zinco_actors_zincoactors');
+    $tipo_actor_solicitado = 'No especificado';
+    $tipo_actor_bundle = '';
+    if ($reconocimiento->hasField('description') && !$reconocimiento->get('description')->isEmpty()) {
+      $meta = json_decode($reconocimiento->get('description')->value, TRUE);
+      if (!empty($meta['tipo_actor_label'])) {
+        $tipo_actor_solicitado = $meta['tipo_actor_label'];
+        $tipo_actor_bundle = $meta['tipo_actor_bundle'] ?? '';
+      }
+    }
+
+    $current_user = \Drupal::currentUser();
+    $is_admin = in_array('administrator', $current_user->getRoles(), TRUE) || $current_user->hasPermission('administer zinco_reconocimientos types');
+
     $data = [
       'id' => $reconocimiento->id(),
       'label' => $reconocimiento->label(),
@@ -1453,10 +1472,20 @@ class ZincoController extends ControllerBase
       'validador' => $reconocimiento->hasField('field_validado_por') && !$reconocimiento->get('field_validado_por')->isEmpty() ? $reconocimiento->get('field_validado_por')->entity->label() : 'Pendiente',
       'status' => $has_response ? 'Procesada' : 'Pendiente',
       'procesada' => $has_response,
+      'owner_name' => $owner_name,
+      'owner_email' => $owner_email,
+      'tipo_actor_solicitado' => $tipo_actor_solicitado,
+      'tipo_actor_bundle' => $tipo_actor_bundle,
+      'is_admin' => $is_admin,
+      'enviar_acceso_url' => \Drupal\Core\Url::fromRoute('zinco_reconocimientos.enviar_acceso', ['reconocimiento_id' => $reconocimiento->id()])->toString(),
     ];
 
     if ($reconocimiento->hasField('field_actor_asociado') && !$reconocimiento->get('field_actor_asociado')->isEmpty()) {
-      $data['actor'] = $reconocimiento->get('field_actor_asociado')->entity->label();
+      $actor_entity = $reconocimiento->get('field_actor_asociado')->entity;
+      if ($actor_entity) {
+        $data['actor'] = $actor_entity->label();
+        $data['actor_bundle'] = $bundle_info[$actor_entity->bundle()]['label'] ?? $actor_entity->bundle();
+      }
       $data['actor_id'] = $reconocimiento->get('field_actor_asociado')->target_id;
     }
 
@@ -1465,18 +1494,12 @@ class ZincoController extends ControllerBase
       '#reconocimiento' => $data,
       '#cache' => [
         'tags' => $reconocimiento->getCacheTags(),
+        'contexts' => ['user'],
       ],
     ];
   }
 
   /**
-   * Returns the recognition response form.
-   *
-   * @param int $reconocimiento_id
-   *   The recognition ID.
-   *
-   * @return array
-   *   A renderable array.
    */
   public function responderReconocimientoForm($reconocimiento_id)
   {

@@ -22,13 +22,18 @@
                 </ol>
               </nav>
               <h1 class="h2 mb-0 fw-bold">{{ reconocimiento.label }}</h1>
-              <div class="mt-2 d-flex align-items-center gap-3">
+              <div class="mt-2 d-flex flex-wrap align-items-center gap-2">
                 <span class="badge bg-white text-primary rounded-pill px-3 py-2 small fw-bold">
                   <i class="fas fa-calendar-alt me-1"></i>{{ reconocimiento.created }}
                 </span>
                 <span class="badge {{ reconocimiento.procesada ? 'bg-success' : 'bg-warning text-dark' }} rounded-pill px-3 py-2 small fw-bold">
                   {{ reconocimiento.status }}
                 </span>
+                {% if reconocimiento.tipo_actor_solicitado and reconocimiento.tipo_actor_solicitado != 'No especificado' %}
+                  <span class="badge bg-info text-white rounded-pill px-3 py-2 small fw-bold">
+                    <i class="fas fa-tag me-1"></i>{{ 'Aspira a:'|t }} {{ reconocimiento.tipo_actor_solicitado }}
+                  </span>
+                {% endif %}
               </div>
             </div>
             <div class="d-none d-md-block">
@@ -80,32 +85,84 @@
             <!-- Right Column: Meta Info & Actions -->
             <div class="col-md-5">
               <div class="card bg-light border-0 rounded-4 p-4 sticky-top" style="top: 2rem;">
-                <h4 class="h6 fw-bold text-muted mb-4 letter-spacing-1">{{ 'Detalles del proceso'|t }}</h4>
+                <h4 class="h6 fw-bold text-muted mb-4 letter-spacing-1 text-uppercase">{{ 'Detalles del proceso'|t }}</h4>
                 
-                <div class="mb-4">
-                  <label class="text-muted small d-block mb-1">{{ 'Actor Solicitante'|t }}</label>
-                  <div class="fw-bold text-dark h6">
-                    <i class="fas fa-user-circle me-2 text-primary"></i>{{ reconocimiento.actor|default('N/A') }}
+                <!-- Usuario Originador -->
+                <div class="mb-3 pb-3 border-bottom">
+                  <label class="text-muted small d-block mb-1 fw-semibold">{{ 'Usuario Originador'|t }}</label>
+                  <div class="fw-bold text-dark">
+                    <i class="fas fa-user-circle me-2 text-primary"></i>{{ reconocimiento.owner_name }}
                   </div>
-                </div>
-
-                <div class="mb-4">
-                  <label class="text-muted small d-block mb-1">{{ 'Validado por'|t }}</label>
-                  <div class="fw-bold text-dark h6">
-                    <i class="fas fa-user-shield me-2 text-info"></i>{{ reconocimiento.validador }}
-                  </div>
-                </div>
-
-                <hr class="my-4">
-
-                <div class="d-grid gap-3">
-                  {% if not reconocimiento.procesada %}
-                    <a href="/reconocimientos/{{ reconocimiento.id }}/responder" class="btn btn-primary btn-lg rounded-pill shadow-sm py-3 fw-bold">
-                      <i class="fas fa-edit me-2"></i>{{ 'Registrar Respuesta'|t }}
-                    </a>
+                  {% if reconocimiento.owner_email %}
+                    <small class="text-muted d-block ms-4">{{ reconocimiento.owner_email }}</small>
                   {% endif %}
-                  <a href="/actores/{{ reconocimiento.actor_id }}/reconocimientos" class="btn btn-outline-secondary rounded-pill py-2 small">
-                    <i class="fas fa-arrow-left me-2"></i>{{ 'Volver al listado'|t }}
+                </div>
+
+                <!-- Tipo de Actor Solicitado -->
+                <div class="mb-3 pb-3 border-bottom">
+                  <label class="text-muted small d-block mb-1 fw-semibold">{{ 'Tipo de Actor al que Aspira'|t }}</label>
+                  <div>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 fw-bold">
+                      <i class="fas fa-award me-1"></i>{{ reconocimiento.tipo_actor_solicitado }}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Actor Solicitante -->
+                <div class="mb-3 pb-3 border-bottom">
+                  <label class="text-muted small d-block mb-1 fw-semibold">{{ 'Actor Solicitante'|t }}</label>
+                  <div class="fw-bold text-dark">
+                    <i class="fas fa-building me-2 text-info"></i>{{ reconocimiento.actor|default('N/A') }}
+                  </div>
+                  {% if reconocimiento.actor_bundle %}
+                    <small class="text-muted d-block ms-4">Tipo actual: {{ reconocimiento.actor_bundle }}</small>
+                  {% endif %}
+                </div>
+
+                <!-- Validado por -->
+                <div class="mb-3">
+                  <label class="text-muted small d-block mb-1 fw-semibold">{{ 'Validado por'|t }}</label>
+                  <div class="fw-bold text-dark">
+                    <i class="fas fa-user-shield me-2 text-secondary"></i>{{ reconocimiento.validador }}
+                  </div>
+                </div>
+
+                <!-- Acciones del Administrador -->
+                {% if reconocimiento.is_admin %}
+                  <div class="admin-actions-card mt-3 pt-3 border-top">
+                    <h5 class="small fw-bold text-primary mb-3 text-uppercase letter-spacing-1">
+                      <i class="fas fa-tools me-1"></i>{{ 'Acciones del Administrador'|t }}
+                    </h5>
+                    <div class="d-grid gap-2">
+                      <a href="{{ reconocimiento.enviar_acceso_url }}" class="btn btn-success fw-bold py-2 shadow-xs"
+                         onclick="return confirm('¿Confirmas el envío de un correo de acceso al usuario {{ reconocimiento.owner_email }} para que pueda agregar el nuevo actor de tipo {{ reconocimiento.tipo_actor_solicitado }}?');">
+                        <i class="fas fa-paper-plane me-2"></i>{{ 'Enviar acceso por email para nuevo actor'|t }}
+                      </a>
+
+                      {% if not reconocimiento.procesada %}
+                        <a href="/reconocimientos/{{ reconocimiento.id }}/responder" class="btn btn-primary fw-bold py-2 shadow-xs">
+                          <i class="fas fa-reply me-2"></i>{{ 'Registrar Respuesta Oficial'|t }}
+                        </a>
+                      {% endif %}
+
+                      <a href="/admin/content/zinco-reconocimientos" class="btn btn-outline-secondary btn-sm py-1 mt-1">
+                        <i class="fas fa-list me-1"></i>{{ 'Ir a Gestión Administrativa'|t }}
+                      </a>
+                    </div>
+                  </div>
+                {% else %}
+                  <div class="d-grid gap-2 mt-4 pt-3 border-top">
+                    {% if not reconocimiento.procesada %}
+                      <a href="/reconocimientos/{{ reconocimiento.id }}/responder" class="btn btn-primary rounded-pill shadow-sm py-2 fw-bold">
+                        <i class="fas fa-edit me-2"></i>{{ 'Registrar Respuesta'|t }}
+                      </a>
+                    {% endif %}
+                  </div>
+                {% endif %}
+
+                <div class="mt-3 text-center">
+                  <a href="/actores/{{ reconocimiento.actor_id }}/reconocimientos" class="btn btn-link text-secondary text-decoration-none small">
+                    <i class="fas fa-arrow-left me-1"></i>{{ 'Volver al listado'|t }}
                   </a>
                 </div>
               </div>
@@ -119,10 +176,10 @@
 
 <style>
   .bg-gradient-detail {
-    background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+    background: linear-gradient(135deg, #17a2b8 0%, #117a8b 100%);
   }
   
-  .letter-spacing-1 { letter-spacing: 1px; }
+  .letter-spacing-1 { letter-spacing: 0.8px; }
   
   .solicitud-content, .respuesta-content {
     line-height: 1.8;
@@ -134,5 +191,13 @@
   .section-card h3 {
     font-size: 1.1rem;
     letter-spacing: 0.5px;
+  }
+
+  .bg-success-subtle {
+    background-color: #d1e7dd;
+  }
+
+  .border-success-subtle {
+    border-color: #a3cfbb !important;
   }
 </style>
