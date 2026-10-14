@@ -6,13 +6,12 @@
  */
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\file\Entity\File;
 
 /**
  * Implements hook_form_system_theme_settings_alter() for settings form.
  *
- * Replace Barrio setting options with subtheme ones.
- *
- * Example on how to alter theme settings form
+ * Replace Barrio setting options with subtheme ones and add secondary logo settings.
  */
 function bootstrap_barrio_subtheme_form_system_theme_settings_alter(&$form, FormStateInterface $form_state) {
   $form['components']['navbar']['bootstrap_barrio_navbar_top_background']['#options'] = [
@@ -31,6 +30,145 @@ function bootstrap_barrio_subtheme_form_system_theme_settings_alter(&$form, Form
     'bg-white' => t('White'),
     'bg-transparent' => t('Transparent'),
   ];
+
+  // Configuración de Logotipo Secundario e Hipervínculo.
+  $form['secondary_logo_fieldset'] = [
+    '#type' => 'details',
+    '#title' => t('Logotipo Secundario con Hipervínculo'),
+    '#description' => t('Permite mostrar un segundo logotipo institucional con su propio hipervínculo al lado del logotipo principal del sitio (Unicórdoba).'),
+    '#open' => TRUE,
+    '#weight' => -9,
+  ];
+
+  $form['secondary_logo_fieldset']['secondary_logo_enable'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Habilitar logotipo secundario'),
+    '#description' => t('Marque esta casilla para mostrar el segundo logotipo en el encabezado.'),
+    '#default_value' => theme_get_setting('secondary_logo_enable', 'bootstrap_barrio_subtheme') ?? FALSE,
+  ];
+
+  $form['secondary_logo_fieldset']['secondary_logo_url'] = [
+    '#type' => 'textfield',
+    '#title' => t('Hipervínculo / Enlace del logotipo secundario'),
+    '#description' => t('URL a la que redirigirá al hacer clic en el logotipo secundario (ej. https://minciencias.gov.co o /inicio).'),
+    '#default_value' => theme_get_setting('secondary_logo_url', 'bootstrap_barrio_subtheme') ?? '',
+  ];
+
+  $form['secondary_logo_fieldset']['secondary_logo_target_blank'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Abrir hipervínculo en una pestaña nueva'),
+    '#description' => t('Añade target="_blank" al hipervínculo.'),
+    '#default_value' => theme_get_setting('secondary_logo_target_blank', 'bootstrap_barrio_subtheme') ?? TRUE,
+  ];
+
+  $form['secondary_logo_fieldset']['secondary_logo_alt'] = [
+    '#type' => 'textfield',
+    '#title' => t('Texto alternativo (Alt / Título)'),
+    '#description' => t('Texto descriptivo para accesibilidad e información al pasar el cursor.'),
+    '#default_value' => theme_get_setting('secondary_logo_alt', 'bootstrap_barrio_subtheme') ?? '',
+  ];
+
+  $form['secondary_logo_fieldset']['secondary_logo_image'] = [
+    '#type' => 'managed_file',
+    '#title' => t('Subir imagen del logotipo secundario'),
+    '#description' => t('Suba un archivo de imagen (formatos: png, svg, jpg, jpeg, webp).'),
+    '#upload_location' => 'public://logos/',
+    '#upload_validators' => [
+      'FileExtension' => ['extensions' => 'png gif jpg jpeg svg webp'],
+    ],
+    '#default_value' => theme_get_setting('secondary_logo_image', 'bootstrap_barrio_subtheme') ? (array) theme_get_setting('secondary_logo_image', 'bootstrap_barrio_subtheme') : [],
+  ];
+
+  $form['secondary_logo_fieldset']['secondary_logo_path'] = [
+    '#type' => 'textfield',
+    '#title' => t('O ruta/URL externa de la imagen'),
+    '#description' => t('Ruta local (ej. public://logos/mi-logo.png o /themes/...) o URL externa (https://...). Si sube un archivo arriba, ese tendrá prioridad.'),
+    '#default_value' => theme_get_setting('secondary_logo_path', 'bootstrap_barrio_subtheme') ?? '',
+  ];
+
+  $form['#submit'][] = 'bootstrap_barrio_subtheme_theme_settings_submit';
+}
+
+/**
+ * Submit handler for secondary logo in theme settings.
+ */
+function bootstrap_barrio_subtheme_theme_settings_submit(&$form, FormStateInterface $form_state) {
+  $fids = $form_state->getValue('secondary_logo_image');
+  if (!empty($fids)) {
+    $fid = is_array($fids) ? reset($fids) : $fids;
+    if ($fid) {
+      $file = File::load($fid);
+      if ($file) {
+        $file->setPermanent();
+        $file->save();
+        \Drupal::service('file.usage')->add($file, 'bootstrap_barrio_subtheme', 'theme', 1);
+      }
+    }
+  }
+}
+
+/**
+ * Helper function to retrieve secondary logo configuration and resolved image URL.
+ *
+ * @return array
+ *   Array with secondary logo attributes.
+ */
+function _bootstrap_barrio_subtheme_get_secondary_logo_data() {
+  $theme = 'bootstrap_barrio_subtheme';
+  $enable = (bool) theme_get_setting('secondary_logo_enable', $theme);
+
+  $data = [
+    'secondary_logo_enable' => $enable,
+    'secondary_logo_image' => '',
+    'secondary_logo_url' => (string) (theme_get_setting('secondary_logo_url', $theme) ?: ''),
+    'secondary_logo_alt' => (string) (theme_get_setting('secondary_logo_alt', $theme) ?: 'Logo secundario'),
+    'secondary_logo_target_blank' => theme_get_setting('secondary_logo_target_blank', $theme) ?? TRUE,
+  ];
+
+  if ($enable) {
+    $image_url = '';
+    $fids = theme_get_setting('secondary_logo_image', $theme);
+    if (!empty($fids)) {
+      $fid = is_array($fids) ? reset($fids) : $fids;
+      if ($fid) {
+        $file = File::load($fid);
+        if ($file) {
+          $image_url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
+        }
+      }
+    }
+
+    if (empty($image_url)) {
+      $path = theme_get_setting('secondary_logo_path', $theme);
+      if (!empty($path)) {
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://') || str_starts_with($path, '//')) {
+          $image_url = $path;
+        }
+        elseif (str_starts_with($path, 'public://')) {
+          $image_url = \Drupal::service('file_url_generator')->generateAbsoluteString($path);
+        }
+        else {
+          $image_url = base_path() . ltrim($path, '/');
+        }
+      }
+    }
+
+    $data['secondary_logo_image'] = $image_url;
+  }
+
+  return $data;
+}
+
+/**
+ * Implements hook_preprocess_block() for branding block.
+ */
+function bootstrap_barrio_subtheme_preprocess_block(&$variables) {
+  if (isset($variables['plugin_id']) && $variables['plugin_id'] === 'system_branding_block') {
+    $logo_data = _bootstrap_barrio_subtheme_get_secondary_logo_data();
+    foreach ($logo_data as $key => $value) {
+      $variables[$key] = $value;
+    }
+  }
 }
 
 /**
@@ -64,4 +202,10 @@ function bootstrap_barrio_subtheme_preprocess_page(&$variables) {
   }
 
   $variables['is_entity_form'] = $is_form;
+
+  // Inyectar datos de logotipo secundario en page.
+  $logo_data = _bootstrap_barrio_subtheme_get_secondary_logo_data();
+  foreach ($logo_data as $key => $value) {
+    $variables[$key] = $value;
+  }
 }

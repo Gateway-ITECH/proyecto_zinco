@@ -3,3 +3,17 @@ zinco_front.dashboard_config_menu:
   description: 'Configure settings for the Zinco Front dashboard.'
   parent: system.admin_config_system
   route_name: zinco_front.dashboard_config
+
+zinco_front.secondary_logo_menu:
+  title: 'Logotipo Secundario con Hipervínculo'
+  description: 'Configurar el logotipo secundario y su enlace junto al logo principal de Unicórdoba.'
+  parent: system.admin_config_system
+  route_name: zinco_front.secondary_logo_settings
+  weight: 20
+
+zinco_front.email_audit_menu:
+  title: 'Auditoría de Correos Enviados a Actores'
+  description: 'Registro histórico y auditoría de correos enviados desde la lista de actores.'
+  parent: system.admin_reports
+  route_name: zinco_front.email_audit_list
+  weight: 15

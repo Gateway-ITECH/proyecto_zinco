@@ -40,6 +40,71 @@ nav.navbar.scrolled .navbar-brand img {
 }
 
 /* ============================================================
+   Site Branding & Dual Logo Styles
+   ============================================================ */
+.navbar-brand {
+  display: inline-flex !important;
+  align-items: center;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.site-branding {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.site-branding .navbar-brand-item {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.site-branding .site-logo-main,
+.site-branding .site-logo-secondary {
+  max-height: 70px;
+  width: auto;
+  object-fit: contain;
+  transition: max-height 0.35s ease, opacity 0.25s ease, transform 0.25s ease;
+}
+
+nav.navbar.scrolled .site-branding .site-logo-main,
+nav.navbar.scrolled .site-branding .site-logo-secondary {
+  max-height: 40px;
+}
+
+.site-branding .logo-separator {
+  width: 1px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.35);
+  margin: 0 0.35rem;
+  transition: height 0.35s ease, background-color 0.35s ease;
+}
+
+nav.navbar.scrolled .site-branding .logo-separator {
+  height: 26px;
+  background-color: rgba(255, 255, 255, 0.22);
+}
+
+.site-branding .secondary-logo-link:hover .site-logo-secondary {
+  transform: translateY(-1px) scale(1.03);
+  opacity: 0.95;
+}
+
+@media (max-width: 768px) {
+  .site-branding .site-logo-main,
+  .site-branding .site-logo-secondary {
+    max-height: 42px;
+  }
+  .site-branding .logo-separator {
+    height: 24px;
+    margin: 0 0.2rem;
+  }
+}
+
+/* ============================================================
    Research Carousel
    ============================================================ */
 #researchCarousel {

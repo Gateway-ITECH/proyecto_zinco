@@ -1,0 +1,48 @@
+{#
+/**
+ * @file
+ * Bootstrap Barrio Subtheme implementation for the branding block with secondary logo support.
+ *
+ * Available variables:
+ * - site_logo: Logo for site as defined in Appearance or theme settings.
+ * - site_name: Name for site as defined in Site information settings.
+ * - site_slogan: Slogan for site as defined in Site information settings.
+ * - secondary_logo_enable: Boolean indicating whether secondary logo is enabled.
+ * - secondary_logo_image: URL of the secondary logo image.
+ * - secondary_logo_url: Hyperlink for the secondary logo.
+ * - secondary_logo_alt: Alt text for the secondary logo.
+ * - secondary_logo_target_blank: Boolean indicating whether to open link in new tab.
+ */
+#}
+{% set attributes = attributes.addClass('site-branding', 'd-inline-flex', 'align-items-center') %}
+<div{{ attributes }}>
+  {% if site_logo or site_name %}
+    <a href="{{ path('<front>') }}" title="{{ 'Home'|t }}" rel="home" class="navbar-brand-item main-logo-link">
+      {% if site_logo %}
+        <img src="{{ site_logo }}" alt="{{ 'Home'|t }}" class="img-fluid d-inline-block align-middle site-logo-main" />
+      {% endif %}
+      {% if site_name %}
+        <span class="site-name align-middle ms-2">{{ site_name }}</span>
+      {% endif %}
+    </a>
+  {% endif %}
+
+  {% if secondary_logo_enable and secondary_logo_image %}
+    <div class="logo-separator mx-2 d-none d-sm-inline-block" aria-hidden="true"></div>
+    {% if secondary_logo_url %}
+      <a href="{{ secondary_logo_url }}" class="navbar-brand-item secondary-logo-link" title="{{ secondary_logo_alt }}"{% if secondary_logo_target_blank %} target="_blank" rel="noopener noreferrer"{% endif %}>
+        <img src="{{ secondary_logo_image }}" alt="{{ secondary_logo_alt }}" class="img-fluid d-inline-block align-middle site-logo-secondary" />
+      </a>
+    {% else %}
+      <span class="navbar-brand-item secondary-logo-link" title="{{ secondary_logo_alt }}">
+        <img src="{{ secondary_logo_image }}" alt="{{ secondary_logo_alt }}" class="img-fluid d-inline-block align-middle site-logo-secondary" />
+      </span>
+    {% endif %}
+  {% endif %}
+
+  {% if site_slogan %}
+    <div class="d-inline-block align-middle site-name-slogan ms-2 text-muted">
+      {{ site_slogan }}
+    </div>
+  {% endif %}
+</div>
