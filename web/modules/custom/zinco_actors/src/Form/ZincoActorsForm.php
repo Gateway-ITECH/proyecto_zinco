@@ -57,6 +57,9 @@ class ZincoActorsForm extends ContentEntityForm {
     // precargar datos de contacto y ubicación de su actor existente para facilitar el registro.
     $this->prefillFromExistingActor($form, $form_state);
 
+    // Campo de aceptación de términos y condiciones y tratamiento de datos personales.
+    $this->buildAceptarTerminosElement($form, $form_state);
+
     return $form;
   }
 
@@ -176,6 +179,70 @@ class ZincoActorsForm extends ContentEntityForm {
         '</div></div>',
       '#weight' => -100,
     ];
+  }
+
+  /**
+   * Builds the 'aceptar_terminos' checkbox element and ensures help text is visible.
+   */
+  protected function buildAceptarTerminosElement(array &$form, FormStateInterface $form_state): void {
+    $is_new = $this->entity->isNew();
+    $help_text = $this->t('Al registrarte, declaras conocer y aceptar los términos de uso y la política de tratamiento y protección de datos personales de la plataforma ZINCO, autorizando el uso de la información suministrada para la articulación en el ecosistema CTI.');
+
+    // Verificar si la entidad ya cuenta con un campo configurable de términos.
+    $terms_candidates = [
+      'field_terminos',
+      'field_aceptar_terminos',
+      'field_terminos_y_condiciones',
+      'field_terminos_condiciones',
+      'field_tratamiento_datos',
+      'terminos',
+      'aceptar_terminos',
+    ];
+
+    $configured_field = NULL;
+    foreach ($terms_candidates as $candidate) {
+      if ($this->entity->hasField($candidate)) {
+        $configured_field = $candidate;
+        break;
+      }
+    }
+
+    if ($configured_field && isset($form[$configured_field])) {
+      $form[$configured_field]['#description_display'] = 'after';
+      if (isset($form[$configured_field]['widget'])) {
+        $form[$configured_field]['widget']['#description_display'] = 'after';
+        if (isset($form[$configured_field]['widget']['value'])) {
+          $form[$configured_field]['widget']['value']['#description_display'] = 'after';
+        }
+        if (empty($form[$configured_field]['widget']['#description']) && empty($form[$configured_field]['widget']['value']['#description'])) {
+          $form[$configured_field]['widget']['#description'] = $help_text;
+          if (isset($form[$configured_field]['widget']['value'])) {
+            $form[$configured_field]['widget']['value']['#description'] = $help_text;
+          }
+        }
+        if ($is_new) {
+          $form[$configured_field]['widget']['#required'] = TRUE;
+          if (isset($form[$configured_field]['widget']['value'])) {
+            $form[$configured_field]['widget']['value']['#required'] = TRUE;
+          }
+        }
+      }
+    }
+    else {
+      // Elemento de formulario estándar para aceptar términos.
+      $form['aceptar_terminos'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Acepto los términos, condiciones y la política de tratamiento de datos personales'),
+        '#description' => $help_text,
+        '#description_display' => 'after',
+        '#required' => $is_new,
+        '#default_value' => $is_new ? 0 : 1,
+        '#weight' => 95,
+        '#attributes' => [
+          'class' => ['zinco-terminos-checkbox'],
+        ],
+      ];
+    }
   }
 
   /**
@@ -453,6 +520,46 @@ class ZincoActorsForm extends ContentEntityForm {
             '@id' => $existing_id,
           ]
         ));
+      }
+    }
+
+    // 4. Validar aceptación obligatoria de términos al registrar un nuevo actor.
+    if ($this->entity->isNew()) {
+      $terminos_aceptados = FALSE;
+
+      $terms_candidates = [
+        'field_terminos',
+        'field_aceptar_terminos',
+        'field_terminos_y_condiciones',
+        'field_terminos_condiciones',
+        'field_tratamiento_datos',
+        'terminos',
+        'aceptar_terminos',
+      ];
+
+      $matched_key = NULL;
+      foreach ($terms_candidates as $candidate) {
+        if ($form_state->hasValue($candidate)) {
+          $matched_key = $candidate;
+          $val = $form_state->getValue($candidate);
+          if (is_array($val)) {
+            $terminos_aceptados = !empty($val[0]['value']) || !empty($val['value']);
+          }
+          else {
+            $terminos_aceptados = !empty($val);
+          }
+          if ($terminos_aceptados) {
+            break;
+          }
+        }
+      }
+
+      if (!$terminos_aceptados) {
+        $error_field = $matched_key ?: 'aceptar_terminos';
+        $form_state->setErrorByName(
+          $error_field,
+          $this->t('Debes aceptar los términos y condiciones y el tratamiento de datos personales para completar tu registro.')
+        );
       }
     }
   }
