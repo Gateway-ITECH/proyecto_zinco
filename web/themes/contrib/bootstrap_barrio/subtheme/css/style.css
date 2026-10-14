@@ -1,4 +1,42 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/myriad-pro');
+
+/**
+ * ============================================================
+ * Global Typography: Myriad
+ * ============================================================
+ */
+:root {
+  --bs-font-sans-serif: 'Myriad Pro', 'Myriad', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --bs-body-font-family: 'Myriad Pro', 'Myriad', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+html,
+body,
+button,
+input,
+optgroup,
+select,
+textarea,
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6,
+.navbar,
+.navbar-nav .nav-link,
+.hero-button,
+.btn,
+.card,
+.card-title,
+.card-text,
+.modal,
+.dropdown-menu,
+.dropdown-item,
+.form-control,
+.form-select,
+.modern-title,
+.modern-subtitle,
+.quienes-somos-content,
+.site-footer {
+  font-family: 'Myriad Pro', 'Myriad', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+}
 /**
  * @file
  * Subtheme specific CSS.
@@ -139,14 +177,14 @@ nav.navbar.scrolled .site-branding .logo-separator {
 }
 
 #researchCarousel .carousel-caption h1 {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Myriad Pro', 'Myriad', sans-serif;
   font-size: 4.5rem;
   letter-spacing: -2px;
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 #researchCarousel .carousel-caption p {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Myriad Pro', 'Myriad', sans-serif;
   max-width: 800px;
   margin: 1.5rem auto;
   opacity: 0.9;
@@ -182,7 +220,7 @@ nav.navbar.scrolled .site-branding .logo-separator {
 
 .modern-title {
   text-transform: none;
-  font-family: 'Space Grotesk', sans-serif !important;
+  font-family: 'Myriad Pro', 'Myriad', sans-serif !important;
   color: #1e293b;
   font-weight: 700;
   display: inline-block;
@@ -246,7 +284,7 @@ nav.navbar .navbar-toggler-icon {
 
 html,
 body {
-  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  font-family: 'Myriad Pro', 'Myriad', Arial, Helvetica, sans-serif;
   /* Apply Space Grotesk font */
 
 }
@@ -419,7 +457,7 @@ body {
 }
 
 .detalle-dump-data-single .views-field-id .field-content {
-  font-family: 'Space Grotesk', monospace;
+  font-family: 'Myriad Pro', 'Myriad', monospace;
   color: #0284c7;
   background: #e0f2fe;
   padding: 0.25rem 0.75rem;
@@ -495,7 +533,7 @@ body {
 }
 
 .caja-herramientas-list .views-field-title .field-content {
-  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  font-family: 'Myriad Pro', 'Myriad', Arial, Helvetica, sans-serif;
   font-size: 1.25rem;
   font-weight: 700;
   color: #1e293b;
@@ -610,7 +648,7 @@ body {
 }
 
 .convocatorias .views-field-title a {
-  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  font-family: 'Myriad Pro', 'Myriad', Arial, Helvetica, sans-serif;
   font-size: 1.25rem;
   font-weight: 700;
   color: #0f172a;
@@ -945,7 +983,7 @@ nav.navbar.navbar-landing {
 }
 
 #block-bootstrap-barrio-subtheme-page-title h1 {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Myriad Pro', 'Myriad', sans-serif;
   /* Matching the clean sans-serif in the image */
   font-weight: 700;
   /* fw-bold */
