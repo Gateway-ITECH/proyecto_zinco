@@ -466,7 +466,7 @@ zinco_front.reconocimiento_actor_add:
 zinco_front.secondary_logo_settings:
   path: '/admin/config/system/secondary-logo'
   defaults:
-    _form: '\\Drupal\\zinco_front\\Form\\SecondaryLogoSettingsForm'
+    _form: '\Drupal\zinco_front\Form\SecondaryLogoSettingsForm'
     _title: 'Configuración del Logotipo Secundario'
   requirements:
     _permission: 'access administration pages'
@@ -474,7 +474,7 @@ zinco_front.secondary_logo_settings:
 zinco_front.email_audit_list:
   path: '/admin/reports/zinco-actor-emails'
   defaults:
-    _controller: '\\Drupal\\zinco_front\\Controller\\EmailAuditController::list'
+    _controller: '\Drupal\zinco_front\Controller\EmailAuditController::list'
     _title: 'Auditoría de Correos Enviados a Actores'
   requirements:
     _permission: 'access administration pages'
