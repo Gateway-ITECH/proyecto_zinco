@@ -87,7 +87,7 @@
                 </td>
                 <td class="text-muted small">{{ rec.created }}</td>
                 <td>
-                  <span class="badge {{ rec.status_class }} rounded-pill px-3 py-2 small fw-semibold">
+                  <span class="badge {% if rec.status == 'Pendiente' %}badge-ocre text-white{% else %}{{ rec.status_class }}{% endif %} rounded-pill px-3 py-2 small fw-semibold">
                     {{ rec.status }}
                   </span>
                 </td>
@@ -139,4 +139,13 @@
   .bg-success-subtle { background-color: #d1e7dd; }
   .bg-secondary-subtle { background-color: #e2e3e5; }
   .bg-warning-subtle { background-color: #fff3cd; }
+
+  /* Color ocre para el estado Pendiente */
+  .badge-ocre,
+  .bg-ocre {
+    background-color: #c5832b !important;
+    color: #ffffff !important;
+    border: 1px solid #b37320 !important;
+    box-shadow: 0 1px 3px rgba(197, 131, 43, 0.25);
+  }
 </style>

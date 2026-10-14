@@ -1065,3 +1065,11 @@ nav.navbar.navbar-landing {
   color: #495057 !important;
   line-height: 1.5 !important;
 }
+
+/* Badge color ocre para estado Pendiente */
+.badge-ocre,
+.bg-ocre {
+  background-color: #c5832b !important;
+  color: #ffffff !important;
+  border: 1px solid #b37320 !important;
+}

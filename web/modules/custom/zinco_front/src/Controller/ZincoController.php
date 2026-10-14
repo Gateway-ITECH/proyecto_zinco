@@ -1461,7 +1461,7 @@ class ZincoController extends ControllerBase
 
       // Estado legible
       $status_text = 'Pendiente';
-      $status_class = 'bg-warning-subtle text-warning-emphasis';
+      $status_class = 'badge-ocre text-white';
       if ($check_uso['usado']) {
         $status_text = 'Actor Registrado';
         $status_class = 'bg-success text-white';
