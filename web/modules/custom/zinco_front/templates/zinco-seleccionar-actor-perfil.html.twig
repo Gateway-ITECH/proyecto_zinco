@@ -9,6 +9,8 @@
  * - user_name: Display name of the current user.
  */
 #}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <div class="container mt-5 mb-5 select-actor-profile-container">
   <!-- Breadcrumb -->
   <nav aria-label="breadcrumb" class="mb-4">
@@ -18,7 +20,7 @@
     </ol>
   </nav>
 
-  <!-- Header Header Banner -->
+  <!-- Header Banner -->
   <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
     <div class="p-4 p-md-5 bg-gradient-actor-select text-white">
       <div class="row align-items-center">
@@ -93,11 +95,11 @@
 
             <!-- Card Actions -->
             <div class="pt-3 border-top d-flex gap-2" onclick="event.stopPropagation();">
-              <a href="{{ card.view_url }}" class="btn btn-success flex-grow-1 fw-semibold py-2 rounded-3 shadow-xs d-flex align-items-center justify-content-center">
-                <i class="fas fa-eye me-2"></i>{{ 'Ver Perfil'|t }}
+              <a href="{{ card.view_url }}" class="btn btn-success flex-grow-1 fw-semibold py-2 px-3 rounded-3 shadow-xs d-flex align-items-center justify-content-center">
+                <i class="fas fa-eye me-2"></i><span>{{ 'Ver Perfil'|t }}</span>
               </a>
-              <a href="{{ card.edit_url }}" class="btn btn-outline-secondary px-3 py-2 rounded-3" title="{{ 'Editar este perfil'|t }}">
-                <i class="fas fa-pencil-alt"></i>
+              <a href="{{ card.edit_url }}" class="btn btn-outline-success fw-semibold py-2 px-3 rounded-3 d-flex align-items-center justify-content-center" title="{{ 'Editar este perfil'|t }}">
+                <i class="fas fa-edit me-1"></i><span>{{ 'Editar perfil'|t }}</span>
               </a>
             </div>
           </div>

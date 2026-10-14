@@ -344,6 +344,11 @@ class ActoresController extends ControllerBase
         'tags' => array_merge($current_user->getCacheTags(), $actor_storage->getEntityType()->getListCacheTags()),
         'contexts' => ['user'],
       ],
+      '#attached' => [
+        'library' => [
+          'zinco_front/zinco-actor-profile',
+        ],
+      ],
     ];
   }
 
