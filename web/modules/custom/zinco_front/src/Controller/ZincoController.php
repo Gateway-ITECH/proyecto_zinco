@@ -1383,45 +1383,128 @@ class ZincoController extends ControllerBase
 
   /**
    */
-  public function listReconocimientosActor($actor_id)
+  /**
+   * Lists all recognition requests associated with the current user.
+   */
+  public function listMisReconocimientos()
   {
+    $current_user = \Drupal::currentUser();
+    if (!$current_user->isAuthenticated()) {
+      return $this->redirect('user.login');
+    }
+
     $request = \Drupal::request();
     $label_filter = $request->query->get('label');
+    $uid = (int) $current_user->id();
 
-    $query = \Drupal::entityTypeManager()->getStorage('zinco_reconocimientos')->getQuery()
-      ->condition('bundle', 'reconocimiento_estandar')
-      ->condition('field_actor_asociado', $actor_id)
-      ->sort('created', 'DESC')
-      ->accessCheck(FALSE);
+    // Obtener los IDs de actores del usuario actual.
+    $user_actor_ids = [];
+    $user_entity = \Drupal::entityTypeManager()->getStorage('user')->load($uid);
+    if ($user_entity && $user_entity->hasField('field_actor') && !$user_entity->get('field_actor')->isEmpty()) {
+      foreach ($user_entity->get('field_actor')->getValue() as $item) {
+        if (!empty($item['target_id'])) {
+          $user_actor_ids[] = (int) $item['target_id'];
+        }
+      }
+    }
+
+    $storage = \Drupal::entityTypeManager()->getStorage('zinco_reconocimientos');
+    $query = $storage->getQuery()
+      ->accessCheck(FALSE)
+      ->sort('created', 'DESC');
+
+    // Condición: Creadas por este usuario (uid) O asociadas a cualquiera de sus actores.
+    $or_group = $query->orConditionGroup();
+    $or_group->condition('uid', $uid);
+    if (!empty($user_actor_ids)) {
+      $or_group->condition('field_actor_asociado', $user_actor_ids, 'IN');
+    }
+    $query->condition($or_group);
 
     if ($label_filter) {
       $query->condition('label', $label_filter, 'CONTAINS');
     }
 
     $ids = $query->execute();
-    $reconocimientos = \Drupal::entityTypeManager()->getStorage('zinco_reconocimientos')->loadMultiple($ids);
+    $reconocimientos = !empty($ids) ? $storage->loadMultiple($ids) : [];
+
+    $bundle_info = \Drupal::service('entity_type.bundle.info')->getBundleInfo('zinco_actors_zincoactors');
 
     $data = [];
-    foreach ($reconocimientos as $reconocimiento) {
-      $has_response = $reconocimiento->hasField('field_respuesta_solicitud') && !$reconocimiento->get('field_respuesta_solicitud')->isEmpty();
+    foreach ($reconocimientos as $rec) {
+      $has_response = $rec->hasField('field_respuesta_solicitud') && !$rec->get('field_respuesta_solicitud')->isEmpty();
+
+      // Verificar si el enlace ya fue usado / actor creado
+      $check_uso = class_exists('\Drupal\zinco_reconocimientos\Controller\ZincoReconocimientosActionController')
+        ? \Drupal\zinco_reconocimientos\Controller\ZincoReconocimientosActionController::isReconocimientoEnlaceUsado($rec)
+        : ['usado' => FALSE, 'actor_id' => NULL];
+
+      // Actor solicitante
+      $actor_label = '';
+      $actor_bundle_label = '';
+      if ($rec->hasField('field_actor_asociado') && !$rec->get('field_actor_asociado')->isEmpty()) {
+        $act = $rec->get('field_actor_asociado')->entity;
+        if ($act) {
+          $actor_label = $act->label();
+          $actor_bundle_label = $bundle_info[$act->bundle()]['label'] ?? $act->bundle();
+        }
+      }
+
+      // Categoría / bundle solicitado
+      $tipo_solicitado = '';
+      if ($rec->hasField('description') && !$rec->get('description')->isEmpty()) {
+        $meta = json_decode($rec->get('description')->value, TRUE);
+        if (!empty($meta['tipo_actor_label'])) {
+          $tipo_solicitado = $meta['tipo_actor_label'];
+        }
+      }
+
+      // Estado legible
+      $status_text = 'Pendiente';
+      $status_class = 'bg-warning-subtle text-warning-emphasis';
+      if ($check_uso['usado']) {
+        $status_text = 'Actor Registrado';
+        $status_class = 'bg-success text-white';
+      }
+      elseif ($has_response) {
+        $status_text = 'Procesada';
+        $status_class = 'bg-success-subtle text-success';
+      }
+
       $data[] = [
-        'id' => $reconocimiento->id(),
-        'label' => $reconocimiento->label(),
-        'created' => \Drupal::service('date.formatter')->format($reconocimiento->getCreatedTime(), 'short'),
-        'status' => $has_response ? 'Procesada' : 'Pendiente',
-        'status_class' => $has_response ? 'bg-success-subtle text-success' : 'bg-warning-subtle text-warning',
+        'id' => $rec->id(),
+        'label' => $rec->label(),
+        'created' => \Drupal::service('date.formatter')->format($rec->getCreatedTime(), 'short'),
+        'actor_label' => $actor_label,
+        'actor_bundle_label' => $actor_bundle_label,
+        'tipo_solicitado' => $tipo_solicitado,
+        'status' => $status_text,
+        'status_class' => $status_class,
+        'has_response' => $has_response,
+        'enlace_usado' => $check_uso['usado'],
       ];
     }
+
+    $default_actor_id = !empty($user_actor_ids) ? reset($user_actor_ids) : 0;
 
     return [
       '#theme' => 'zinco_reconocimientos_list',
       '#reconocimientos' => $data,
-      '#actor_id' => $actor_id,
+      '#actor_id' => $default_actor_id,
       '#label_filter' => $label_filter,
       '#cache' => [
         'tags' => ['zinco_reconocimientos_list'],
+        'contexts' => ['user'],
       ],
     ];
+  }
+
+  /**
+   * Compatibility wrapper for listReconocimientosActor.
+   */
+  public function listReconocimientosActor($actor_id)
+  {
+    return $this->listMisReconocimientos();
   }
 
   /**

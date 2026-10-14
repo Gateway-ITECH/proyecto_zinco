@@ -5,7 +5,7 @@
  *
  * Available variables:
  * - reconocimientos: List of recognitions.
- * - actor_id: The ID of the actor.
+ * - actor_id: The ID of the default actor.
  * - label_filter: The current label filter.
  */
 #}
@@ -13,18 +13,18 @@
   <div class="card border-0 shadow-sm" style="border-radius: 15px; overflow: hidden;">
     <div class="card-header bg-white py-4 px-4 border-bottom-0">
       <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
-        <h1 class="h3 mb-0 fw-bold text-dark">
-          <i class="fas fa-certificate text-warning me-2"></i>{{ 'Mis Solicitudes de Reconocimiento'|t }}
-        </h1>
+        <div>
+          <h1 class="h3 mb-1 fw-bold text-dark">
+            <i class="fas fa-clipboard-list text-success me-2"></i>{{ 'Mis Solicitudes de Reconocimiento'|t }}
+          </h1>
+          <p class="text-muted small mb-0">{{ 'Historial consolidado de solicitudes de reconocimiento realizadas desde tu cuenta.'|t }}</p>
+        </div>
         <div class="d-flex gap-2">
-          <a href="/actores/mi-perfil" class="btn btn-outline-secondary rounded-pill px-3">
+          <a href="/actores/mi-perfil" class="btn btn-outline-secondary rounded-pill px-3 shadow-xs">
             <i class="fas fa-arrow-left me-1"></i>{{ 'Volver a mi perfil'|t }}
           </a>
-          <a href="/reconocimientos/add?actor_id={{ actor_id }}" class="btn btn-success rounded-pill px-4">
+          <a href="/reconocimientos/add{% if actor_id %}?actor_id={{ actor_id }}{% endif %}" class="btn btn-success rounded-pill px-4 shadow-xs">
             <i class="fas fa-plus me-2"></i>{{ 'Nueva Solicitud'|t }}
-          </a>
-          <a href="/actores/{{ actor_id }}/reconocimientos/add" class="btn btn-primary rounded-pill px-4">
-            <i class="fas fa-user-check me-2"></i>{{ 'Nuevo Reconocimiento'|t }}
           </a>
         </div>
       </div>
@@ -35,9 +35,9 @@
       <form method="get" class="mb-4 bg-light p-3 rounded-3">
         <div class="row g-3 align-items-end">
           <div class="col-md-9">
-            <label for="label-filter" class="form-label small fw-bold text-muted">{{ 'Filtrar por nombre'|t }}</label>
+            <label for="label-filter" class="form-label small fw-bold text-muted">{{ 'Filtrar por nombre de solicitud'|t }}</label>
             <input type="text" name="label" id="label-filter" class="form-control border-0 shadow-sm" 
-                   placeholder="{{ 'Nombre del reconocimiento...'|t }}" value="{{ label_filter }}">
+                   placeholder="{{ 'Buscar por nombre...'|t }}" value="{{ label_filter }}">
           </div>
           <div class="col-md-3">
             <button type="submit" class="btn btn-primary w-100 shadow-sm">
@@ -51,8 +51,10 @@
         <table class="table table-hover align-middle">
           <thead class="bg-gradient-header text-white">
             <tr>
-              <th scope="col" class="py-3 px-4">{{ 'Nombre'|t }}</th>
-              <th scope="col" class="py-3">{{ 'Fecha de Creación'|t }}</th>
+              <th scope="col" class="py-3 px-4">{{ 'Solicitud'|t }}</th>
+              <th scope="col" class="py-3">{{ 'Actor Solicitante'|t }}</th>
+              <th scope="col" class="py-3">{{ 'Categoría Solicitada'|t }}</th>
+              <th scope="col" class="py-3">{{ 'Fecha'|t }}</th>
               <th scope="col" class="py-3">{{ 'Estado'|t }}</th>
               <th scope="col" class="py-3 text-end px-4">{{ 'Acciones'|t }}</th>
             </tr>
@@ -60,24 +62,47 @@
           <tbody class="bg-white">
             {% for rec in reconocimientos %}
               <tr>
-                <td class="px-4 fw-bold text-dark">{{ rec.label }}</td>
-                <td class="text-muted">{{ rec.created }}</td>
+                <td class="px-4 fw-bold text-dark">
+                  {{ rec.label }}
+                  <div class="small text-muted fw-normal">ID: #{{ rec.id }}</div>
+                </td>
                 <td>
-                  <span class="badge {{ rec.status_class }} rounded-pill px-3">
+                  {% if rec.actor_label %}
+                    <span class="fw-semibold text-dark">{{ rec.actor_label }}</span>
+                    {% if rec.actor_bundle_label %}
+                      <small class="d-block text-muted">{{ rec.actor_bundle_label }}</small>
+                    {% endif %}
+                  {% else %}
+                    <span class="text-muted small">N/A</span>
+                  {% endif %}
+                </td>
+                <td>
+                  {% if rec.tipo_solicitado %}
+                    <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small fw-semibold">
+                      <i class="fas fa-award me-1"></i>{{ rec.tipo_solicitado }}
+                    </span>
+                  {% else %}
+                    <span class="text-muted small">No especificada</span>
+                  {% endif %}
+                </td>
+                <td class="text-muted small">{{ rec.created }}</td>
+                <td>
+                  <span class="badge {{ rec.status_class }} rounded-pill px-3 py-2 small fw-semibold">
                     {{ rec.status }}
                   </span>
                 </td>
                 <td class="text-end px-4">
-                  <a href="/reconocimientos/{{ rec.id }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
-                    <i class="fas fa-eye me-1"></i>{{ 'Ver'|t }}
+                  <a href="/reconocimientos/{{ rec.id }}" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-semibold">
+                    <i class="fas fa-eye me-1"></i>{{ 'Ver detalle'|t }}
                   </a>
                 </td>
               </tr>
             {% else %}
               <tr>
-                <td colspan="4" class="text-center py-5 text-muted">
+                <td colspan="6" class="text-center py-5 text-muted">
                   <i class="fas fa-folder-open fa-3x mb-3 opacity-25"></i>
-                  <p class="mb-0">{{ 'No se encontraron solicitudes de reconocimiento.'|t }}</p>
+                  <p class="mb-1 fw-semibold">{{ 'No se encontraron solicitudes de reconocimiento.'|t }}</p>
+                  <small class="text-muted">{{ 'Cuando solicites una nueva categoría o tipo de actor en ZINCO, podrás realizar su seguimiento aquí.'|t }}</small>
                 </td>
               </tr>
             {% endfor %}

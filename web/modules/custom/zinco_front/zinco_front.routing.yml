@@ -427,6 +427,14 @@ zinco_front.reconocimiento_add:
   requirements:
     _user_is_logged_in: 'TRUE'
 
+zinco_front.mis_reconocimientos_list:
+  path: '/reconocimientos/mis-solicitudes'
+  defaults:
+    _controller: '\Drupal\zinco_front\Controller\ZincoController::listMisReconocimientos'
+    _title: 'Mis Solicitudes de Reconocimiento'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+
 zinco_front.reconocimientos_list:
   path: '/actores/{actor_id}/reconocimientos'
   defaults:
