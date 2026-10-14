@@ -101,6 +101,9 @@
               <a href="{{ card.edit_url }}" class="btn btn-outline-success fw-semibold py-2 px-3 rounded-3 d-flex align-items-center justify-content-center" title="{{ 'Editar este perfil'|t }}">
                 <i class="fas fa-edit me-1"></i><span>{{ 'Editar perfil'|t }}</span>
               </a>
+              <a href="/actores/{{ card.id }}/reconocimientos" class="btn btn-outline-primary fw-semibold py-2 px-3 rounded-3 d-flex align-items-center justify-content-center" title="{{ 'Ver solicitudes de reconocimiento'|t }}">
+                <i class="fas fa-clipboard-list"></i>
+              </a>
             </div>
           </div>
         </div>
@@ -109,7 +112,7 @@
   </div>
 
   <!-- Bottom Option: Request Recognition for another profile -->
-  <div class="card border border-dashed rounded-4 p-4 bg-light">
+  <div class="card border border-dashed rounded-4 p-4 bg-light mb-4">
     <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
       <div class="d-flex align-items-center gap-3">
         <div class="bg-white rounded-circle p-3 shadow-xs text-success border">
@@ -121,9 +124,48 @@
         </div>
       </div>
       <div>
-        <a href="/reconocimientos/add?actor_id={{ actor_cards[0].id }}" class="btn btn-outline-success fw-semibold px-4 py-2 rounded-3">
+        <a href="/reconocimientos/add?actor_id={{ actor_cards[0].id }}" class="btn btn-outline-success fw-semibold px-4 py-2 rounded-3 shadow-xs">
           <i class="fas fa-certificate me-2"></i>{{ 'Solicitar Nuevo Reconocimiento'|t }}
         </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Option: View status of recognition requests made by the actor -->
+  <div class="card border border-dashed rounded-4 p-4 bg-light">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <div class="d-flex align-items-center gap-3">
+        <div class="bg-white rounded-circle p-3 shadow-xs text-primary border">
+          <i class="fas fa-clipboard-check fa-2x"></i>
+        </div>
+        <div>
+          <h5 class="fw-bold mb-1">{{ 'Estado de mis solicitudes de reconocimiento'|t }}</h5>
+          <p class="text-muted small mb-0">{{ 'Consulta el avance, validación y respuestas oficiales de las solicitudes de reconocimiento realizadas por tus actores.'|t }}</p>
+        </div>
+      </div>
+      <div>
+        {% if actor_cards|length == 1 %}
+          <a href="/actores/{{ actor_cards[0].id }}/reconocimientos" class="btn btn-outline-primary fw-semibold px-4 py-2 rounded-3 shadow-xs">
+            <i class="fas fa-tasks me-2"></i>{{ 'Ver Estado de Solicitudes'|t }}
+          </a>
+        {% else %}
+          <div class="dropdown">
+            <button class="btn btn-outline-primary fw-semibold px-4 py-2 rounded-3 dropdown-toggle d-flex align-items-center shadow-xs" type="button" id="solicitudesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-tasks me-2"></i>{{ 'Ver Estado de Solicitudes'|t }}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 p-2" aria-labelledby="solicitudesDropdown" style="min-width: 270px; border-radius: 12px;">
+              <li><h6 class="dropdown-header text-uppercase small fw-bold text-muted px-3 py-1">{{ 'Selecciona el actor'|t }}</h6></li>
+              {% for card in actor_cards %}
+                <li>
+                  <a class="dropdown-item py-2 px-3 rounded-2 d-flex align-items-center justify-content-between" href="/actores/{{ card.id }}/reconocimientos">
+                    <span class="text-truncate me-2"><i class="{{ card.icon }} me-2 text-success opacity-75"></i>{{ card.label }}</span>
+                    <span class="badge bg-light text-muted small border">{{ card.bundle_label }}</span>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
       </div>
     </div>
   </div>
