@@ -400,6 +400,20 @@ function zinco_front_user_update(UserInterface $account) {
 function zinco_front_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
   $form_object = $form_state->getFormObject();
 
+  if ($form_id === 'user_register_form') {
+    if (!isset($form['aceptar_terminos'])) {
+      $form['aceptar_terminos'] = [
+        '#type' => 'checkbox',
+        '#title' => t('Acepto los términos, condiciones y la política de tratamiento de datos personales'),
+        '#description' => t('Al registrarte, declaras conocer y aceptar los términos de uso y la política de tratamiento y protección de datos personales de la plataforma ZINCO.'),
+        '#description_display' => 'after',
+        '#required' => TRUE,
+        '#weight' => 95,
+      ];
+      $form['#validate'][] = '_zinco_front_user_register_validate_terminos';
+    }
+  }
+
   if ($form_id == 'user_form') {
     $current_user = \Drupal::currentUser();
     $roles = $current_user->getRoles();
@@ -879,4 +893,13 @@ function _zinco_front_get_users_from_actors(array $actor_ids) {
     ->accessCheck(FALSE);
   $uids = $query->execute();
   return !empty($uids) ? \Drupal\user\Entity\User::loadMultiple($uids) : [];
+}
+
+/**
+ * Custom validation handler for user_register_form terms acceptance.
+ */
+function _zinco_front_user_register_validate_terminos(array &$form, \Drupal\Core\Form\FormStateInterface $form_state): void {
+  if (empty($form_state->getValue('aceptar_terminos'))) {
+    $form_state->setErrorByName('aceptar_terminos', t('Debes aceptar los términos y condiciones y el tratamiento de datos personales para completar tu registro.'));
+  }
 }

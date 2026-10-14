@@ -188,8 +188,9 @@ class ZincoActorsForm extends ContentEntityForm {
     $is_new = $this->entity->isNew();
     $help_text = $this->t('Al registrarte, declaras conocer y aceptar los términos de uso y la política de tratamiento y protección de datos personales de la plataforma ZINCO, autorizando el uso de la información suministrada para la articulación en el ecosistema CTI.');
 
-    // Verificar si la entidad ya cuenta con un campo configurable de términos.
+    // Verificar si la entidad o formulario cuenta con un campo configurable de términos.
     $terms_candidates = [
+      'field_aceptacion_terminos',
       'field_terminos',
       'field_aceptar_terminos',
       'field_terminos_y_condiciones',
@@ -201,35 +202,53 @@ class ZincoActorsForm extends ContentEntityForm {
 
     $configured_field = NULL;
     foreach ($terms_candidates as $candidate) {
-      if ($this->entity->hasField($candidate)) {
+      if (isset($form[$candidate]) || $this->entity->hasField($candidate)) {
         $configured_field = $candidate;
         break;
       }
     }
 
     if ($configured_field && isset($form[$configured_field])) {
-      $form[$configured_field]['#description_display'] = 'after';
-      if (isset($form[$configured_field]['widget'])) {
-        $form[$configured_field]['widget']['#description_display'] = 'after';
-        if (isset($form[$configured_field]['widget']['value'])) {
-          $form[$configured_field]['widget']['value']['#description_display'] = 'after';
-        }
-        if (empty($form[$configured_field]['widget']['#description']) && empty($form[$configured_field]['widget']['value']['#description'])) {
-          $form[$configured_field]['widget']['#description'] = $help_text;
-          if (isset($form[$configured_field]['widget']['value'])) {
-            $form[$configured_field]['widget']['value']['#description'] = $help_text;
-          }
-        }
-        if ($is_new) {
-          $form[$configured_field]['widget']['#required'] = TRUE;
-          if (isset($form[$configured_field]['widget']['value'])) {
-            $form[$configured_field]['widget']['value']['#required'] = TRUE;
-          }
+      // Extraer descripción configurada en la entidad si existe.
+      $field_help = '';
+      if ($this->entity->hasField($configured_field)) {
+        $field_def = $this->entity->getFieldDefinition($configured_field);
+        if ($field_def && !empty($field_def->getDescription())) {
+          $field_help = (string) $field_def->getDescription();
         }
       }
+      $effective_help = !empty($field_help) ? $field_help : $help_text;
+
+      $form[$configured_field]['#description_display'] = 'after';
+      $form[$configured_field]['#description'] = $effective_help;
+
+      if (isset($form[$configured_field]['widget'])) {
+        $form[$configured_field]['widget']['#description_display'] = 'after';
+        $form[$configured_field]['widget']['#description'] = $effective_help;
+
+        $targets = [];
+        if (isset($form[$configured_field]['widget'][0]['value'])) {
+          $targets[] = &$form[$configured_field]['widget'][0]['value'];
+        }
+        if (isset($form[$configured_field]['widget']['value'])) {
+          $targets[] = &$form[$configured_field]['widget']['value'];
+        }
+        if (isset($form[$configured_field]['widget'][0]) && is_array($form[$configured_field]['widget'][0])) {
+          $targets[] = &$form[$configured_field]['widget'][0];
+        }
+
+        foreach ($targets as &$tgt) {
+          $tgt['#description_display'] = 'after';
+          $tgt['#description'] = $effective_help;
+          if ($is_new) {
+            $tgt['#required'] = TRUE;
+          }
+        }
+        unset($tgt);
+      }
     }
-    else {
-      // Elemento de formulario estándar para aceptar términos.
+    elseif (!isset($form['field_aceptacion_terminos'])) {
+      // Elemento de formulario estándar para aceptar términos si no existe ningún campo en la entidad.
       $form['aceptar_terminos'] = [
         '#type' => 'checkbox',
         '#title' => $this->t('Acepto los términos, condiciones y la política de tratamiento de datos personales'),
@@ -523,11 +542,12 @@ class ZincoActorsForm extends ContentEntityForm {
       }
     }
 
-    // 4. Validar aceptación obligatoria de términos al registrar un nuevo actor.
-    if ($this->entity->isNew()) {
+    // 4. Validar aceptación obligatoria de términos (field_aceptacion_terminos) al registrar un actor.
+    if ($this->entity->isNew() || isset($form['field_aceptacion_terminos'])) {
       $terminos_aceptados = FALSE;
 
       $terms_candidates = [
+        'field_aceptacion_terminos',
         'field_terminos',
         'field_aceptar_terminos',
         'field_terminos_y_condiciones',
@@ -543,10 +563,11 @@ class ZincoActorsForm extends ContentEntityForm {
           $matched_key = $candidate;
           $val = $form_state->getValue($candidate);
           if (is_array($val)) {
-            $terminos_aceptados = !empty($val[0]['value']) || !empty($val['value']);
+            $v1 = $val[0]['value'] ?? $val['value'] ?? 0;
+            $terminos_aceptados = (!empty($v1) && (int) $v1 === 1);
           }
           else {
-            $terminos_aceptados = !empty($val);
+            $terminos_aceptados = (!empty($val) && (int) $val === 1);
           }
           if ($terminos_aceptados) {
             break;
@@ -555,10 +576,10 @@ class ZincoActorsForm extends ContentEntityForm {
       }
 
       if (!$terminos_aceptados) {
-        $error_field = $matched_key ?: 'aceptar_terminos';
+        $error_field = $matched_key ?: (isset($form['field_aceptacion_terminos']) ? 'field_aceptacion_terminos' : 'aceptar_terminos');
         $form_state->setErrorByName(
           $error_field,
-          $this->t('Debes aceptar los términos y condiciones y el tratamiento de datos personales para completar tu registro.')
+          $this->t('Debes aceptar los términos y condiciones y la política de tratamiento de datos personales para poder registrar el actor.')
         );
       }
     }
