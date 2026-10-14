@@ -160,7 +160,20 @@
                   </div>
                 {% endif %}
 
-                {% if reconocimiento.crear_actor_url %}
+                {% if reconocimiento.enlace_usado %}
+                  <div class="alert alert-success border-0 rounded-4 shadow-sm mt-3 mb-0 p-3">
+                    <div class="d-flex align-items-center mb-1">
+                      <i class="fas fa-check-circle text-success fa-lg me-2"></i>
+                      <strong class="text-dark">{{ 'Actor registrado'|t }}</strong>
+                    </div>
+                    <p class="small text-muted mb-2">{{ 'El nuevo actor correspondiente a esta solicitud ya ha sido registrado con éxito. Este enlace ya fue utilizado y ha caducado.'|t }}</p>
+                    {% if reconocimiento.actor_creado_url %}
+                      <a href="{{ reconocimiento.actor_creado_url }}" class="btn btn-outline-success btn-sm rounded-pill fw-bold">
+                        <i class="fas fa-user me-1"></i>{{ 'Ver actor:'|t }} {{ reconocimiento.actor_creado_label|default('Ver perfil') }}
+                      </a>
+                    {% endif %}
+                  </div>
+                {% elseif reconocimiento.crear_actor_url %}
                   <div class="mt-3 pt-3 border-top">
                     <a href="{{ reconocimiento.crear_actor_url }}" class="btn btn-success fw-bold py-2 w-100 shadow-sm d-flex align-items-center justify-content-center">
                       <i class="fas fa-user-plus me-2"></i>{{ 'Ingresar nuevo actor'|t }} ({{ reconocimiento.tipo_actor_solicitado }})

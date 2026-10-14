@@ -60,6 +60,17 @@ class ZincoActorsForm extends ContentEntityForm {
     // Campo de aceptación de términos y condiciones y tratamiento de datos personales.
     $this->buildAceptarTerminosElement($form, $form_state);
 
+    // Si viene de un proceso de reconocimiento, asociar y preservar el ID de la solicitud
+    $rec_id = \Drupal::request()->query->get('reconocimiento_id') ?: $form_state->get('reconocimiento_id');
+    if ($rec_id) {
+      $rec_id = (int) $rec_id;
+      $form_state->set('reconocimiento_id', $rec_id);
+      $form['reconocimiento_id'] = [
+        '#type' => 'hidden',
+        '#value' => $rec_id,
+      ];
+    }
+
     return $form;
   }
 
@@ -583,6 +594,20 @@ class ZincoActorsForm extends ContentEntityForm {
         );
       }
     }
+
+    // 5. Validar que el enlace de reconocimiento no haya sido utilizado previamente para crear otro actor.
+    if ($this->entity->isNew()) {
+      $rec_id = $form_state->getValue('reconocimiento_id') ?: $form_state->get('reconocimiento_id') ?: \Drupal::request()->query->get('reconocimiento_id');
+      if ($rec_id && class_exists('\Drupal\zinco_reconocimientos\Controller\ZincoReconocimientosActionController')) {
+        $check = \Drupal\zinco_reconocimientos\Controller\ZincoReconocimientosActionController::isReconocimientoEnlaceUsado((int) $rec_id);
+        if ($check['usado']) {
+          $form_state->setErrorByName(
+            '',
+            $this->t('Este enlace de registro ya fue utilizado previamente para registrar un actor y ha caducado. No es posible crear múltiples actores con la misma solicitud de reconocimiento.')
+          );
+        }
+      }
+    }
   }
 
   /**
@@ -606,6 +631,12 @@ class ZincoActorsForm extends ContentEntityForm {
       case SAVED_NEW:
         $this->messenger()->addStatus($this->t('New zincoactors %label has been created.', $message_args));
         $this->logger('zinco_actors')->notice('New zincoactors %label has been created.', $logger_args);
+
+        // Si fue creado a partir de una solicitud de reconocimiento, marcar el enlace como utilizado y caducado.
+        $rec_id = $form_state->getValue('reconocimiento_id') ?: $form_state->get('reconocimiento_id') ?: \Drupal::request()->query->get('reconocimiento_id');
+        if ($rec_id && class_exists('\Drupal\zinco_reconocimientos\Controller\ZincoReconocimientosActionController')) {
+          \Drupal\zinco_reconocimientos\Controller\ZincoReconocimientosActionController::markReconocimientoEnlaceUsado((int) $rec_id, $this->entity);
+        }
         break;
 
       case SAVED_UPDATED:

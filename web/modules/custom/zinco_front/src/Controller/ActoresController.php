@@ -894,6 +894,16 @@ class ActoresController extends ControllerBase
    */
   public function listarCategoriasActores()
   {
+    // Si viene con reconocimiento_id, verificar si ya fue utilizado.
+    $rec_id = \Drupal::request()->query->get('reconocimiento_id');
+    if ($rec_id && class_exists('\Drupal\zinco_reconocimientos\Controller\ZincoReconocimientosActionController')) {
+      $check = \Drupal\zinco_reconocimientos\Controller\ZincoReconocimientosActionController::isReconocimientoEnlaceUsado((int) $rec_id);
+      if ($check['usado']) {
+        $this->messenger()->addWarning($this->t('Este enlace de registro ya fue utilizado previamente y no se encuentra disponible. El nuevo actor correspondiente a esta solicitud ya ha sido registrado.'));
+        return $this->redirect('zinco_front.reconocimiento_detail', ['reconocimiento_id' => $rec_id]);
+      }
+    }
+
     $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
     $query = $term_storage->getQuery()
       ->condition('vid', 'categorias_de_actores')
@@ -993,6 +1003,16 @@ class ActoresController extends ControllerBase
     if (!isset($bundle_info[$bundle])) {
       $this->messenger()->addError($this->t('Invalid actor bundle: @bundle', ['@bundle' => $bundle]));
       return $this->redirect('zinco_front.actor_bundles_list');
+    }
+
+    // Verificar si el enlace proviene de un reconocimiento y si ya fue utilizado.
+    $rec_id = \Drupal::request()->query->get('reconocimiento_id');
+    if ($rec_id && class_exists('\Drupal\zinco_reconocimientos\Controller\ZincoReconocimientosActionController')) {
+      $check = \Drupal\zinco_reconocimientos\Controller\ZincoReconocimientosActionController::isReconocimientoEnlaceUsado((int) $rec_id);
+      if ($check['usado']) {
+        $this->messenger()->addWarning($this->t('Este enlace de registro ya fue utilizado previamente y no se encuentra disponible. El nuevo actor correspondiente a esta solicitud ya ha sido registrado.'));
+        return $this->redirect('zinco_front.reconocimiento_detail', ['reconocimiento_id' => $rec_id]);
+      }
     }
 
     $actor = $this->entityTypeManager->getStorage('zinco_actors_zincoactors')->create(['bundle' => $bundle]);

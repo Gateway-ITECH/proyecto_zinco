@@ -32,6 +32,12 @@ class ZincoReconocimientosActionController extends ControllerBase {
       throw new NotFoundHttpException();
     }
 
+    $check_uso = self::isReconocimientoEnlaceUsado($reconocimiento);
+    if ($check_uso['usado']) {
+      $this->messenger()->addWarning($this->t('Esta solicitud de reconocimiento ya fue utilizada para registrar el nuevo actor. No es necesario enviar el enlace de registro nuevamente.'));
+      return $this->redirect('zinco_front.reconocimiento_detail', ['reconocimiento_id' => $reconocimiento_id]);
+    }
+
     $owner = $reconocimiento->getOwner();
     $target_email = '';
     $user_name = '';
@@ -123,6 +129,106 @@ class ZincoReconocimientosActionController extends ControllerBase {
     }
 
     return $this->redirect('zinco_front.reconocimiento_detail', ['reconocimiento_id' => $reconocimiento_id]);
+  }
+
+  /**
+   * Checks if a recognition registration link has already been used.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface|int $reconocimiento
+   *   The recognition entity or ID.
+   *
+   * @return array
+   *   Array with 'usado' (bool) and 'actor_id' (int|null).
+   */
+  public static function isReconocimientoEnlaceUsado($reconocimiento): array {
+    if (is_numeric($reconocimiento)) {
+      $reconocimiento = \Drupal::entityTypeManager()->getStorage('zinco_reconocimientos')->load($reconocimiento);
+    }
+    if (!$reconocimiento) {
+      return ['usado' => FALSE, 'actor_id' => NULL];
+    }
+
+    $rec_id = (int) $reconocimiento->id();
+    $meta = [];
+    if ($reconocimiento->hasField('description') && !$reconocimiento->get('description')->isEmpty()) {
+      $meta = json_decode($reconocimiento->get('description')->value, TRUE) ?: [];
+    }
+
+    // 1. Explicitly recorded in description meta.
+    if (!empty($meta['actor_creado_id']) || !empty($meta['enlace_usado'])) {
+      return [
+        'usado' => TRUE,
+        'actor_id' => !empty($meta['actor_creado_id']) ? (int) $meta['actor_creado_id'] : NULL,
+      ];
+    }
+
+    // 2. Explicitly recorded in Drupal State.
+    $state_actor_id = \Drupal::state()->get("zinco_reconocimiento_used_{$rec_id}");
+    if (!empty($state_actor_id)) {
+      return [
+        'usado' => TRUE,
+        'actor_id' => (int) $state_actor_id,
+      ];
+    }
+
+    // 3. Fallback: check if the owner has already registered an actor of the requested bundle after the recognition was created.
+    $owner_uid = $reconocimiento->getOwnerId();
+    $tipo_bundle = $meta['tipo_actor_bundle'] ?? '';
+    if (!empty($owner_uid) && !empty($tipo_bundle)) {
+      $created_time = (int) $reconocimiento->getCreatedTime();
+      $storage = \Drupal::entityTypeManager()->getStorage('zinco_actors_zincoactors');
+      $query = $storage->getQuery()
+        ->accessCheck(FALSE)
+        ->condition('uid', $owner_uid)
+        ->condition('bundle', $tipo_bundle)
+        ->condition('created', $created_time, '>=')
+        ->sort('created', 'DESC')
+        ->range(0, 1);
+      $found_ids = $query->execute();
+      if (!empty($found_ids)) {
+        $found_id = (int) reset($found_ids);
+        \Drupal::state()->set("zinco_reconocimiento_used_{$rec_id}", $found_id);
+        return [
+          'usado' => TRUE,
+          'actor_id' => $found_id,
+        ];
+      }
+    }
+
+    return ['usado' => FALSE, 'actor_id' => NULL];
+  }
+
+  /**
+   * Marks a recognition link as used by the given actor entity.
+   *
+   * @param int $rec_id
+   *   The recognition ID.
+   * @param \Drupal\Core\Entity\EntityInterface $actor
+   *   The created actor entity.
+   */
+  public static function markReconocimientoEnlaceUsado(int $rec_id, $actor): void {
+    if (!$rec_id || !$actor) {
+      return;
+    }
+
+    \Drupal::state()->set("zinco_reconocimiento_used_{$rec_id}", (int) $actor->id());
+
+    $rec = \Drupal::entityTypeManager()->getStorage('zinco_reconocimientos')->load($rec_id);
+    if ($rec) {
+      $meta = [];
+      if ($rec->hasField('description') && !$rec->get('description')->isEmpty()) {
+        $meta = json_decode($rec->get('description')->value, TRUE) ?: [];
+      }
+      $meta['actor_creado_id'] = (int) $actor->id();
+      $meta['actor_creado_bundle'] = $actor->bundle();
+      $meta['actor_creado_label'] = $actor->label();
+      $meta['actor_creado_timestamp'] = time();
+      $meta['enlace_usado'] = TRUE;
+      if ($rec->hasField('description')) {
+        $rec->set('description', json_encode($meta, JSON_UNESCAPED_UNICODE));
+      }
+      $rec->save();
+    }
   }
 
 }

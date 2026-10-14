@@ -1462,6 +1462,34 @@ class ZincoController extends ControllerBase
     $current_user = \Drupal::currentUser();
     $is_admin = in_array('administrator', $current_user->getRoles(), TRUE) || $current_user->hasPermission('administer zinco_reconocimientos types');
 
+    // Verificar si el enlace para registrar el nuevo actor ya fue utilizado.
+    $check_uso = class_exists('\Drupal\zinco_reconocimientos\Controller\ZincoReconocimientosActionController')
+      ? \Drupal\zinco_reconocimientos\Controller\ZincoReconocimientosActionController::isReconocimientoEnlaceUsado($reconocimiento)
+      : ['usado' => FALSE, 'actor_id' => NULL];
+
+    $enlace_usado = $check_uso['usado'];
+    $actor_creado_id = $check_uso['actor_id'];
+    $actor_creado_label = '';
+    $actor_creado_url = '';
+
+    if ($actor_creado_id) {
+      $actor_creado = $this->entityTypeManager->getStorage('zinco_actors_zincoactors')->load($actor_creado_id);
+      if ($actor_creado) {
+        $actor_creado_label = $actor_creado->label();
+        $actor_creado_url = \Drupal\Core\Url::fromRoute('zinco_front.actor_profile', ['actor_id' => $actor_creado_id])->toString();
+      }
+    }
+
+    $crear_actor_url = '';
+    if (!$enlace_usado) {
+      if ($tipo_actor_bundle && isset($bundle_info[$tipo_actor_bundle])) {
+        $crear_actor_url = \Drupal\Core\Url::fromRoute('zinco_front.actor_add_by_bundle', ['bundle' => $tipo_actor_bundle], ['query' => ['reconocimiento_id' => $reconocimiento->id()]])->toString();
+      }
+      elseif ($has_response) {
+        $crear_actor_url = \Drupal\Core\Url::fromRoute('zinco_front.actor_categories_list', [], ['query' => ['reconocimiento_id' => $reconocimiento->id()]])->toString();
+      }
+    }
+
     $data = [
       'id' => $reconocimiento->id(),
       'label' => $reconocimiento->label(),
@@ -1478,9 +1506,11 @@ class ZincoController extends ControllerBase
       'tipo_actor_bundle' => $tipo_actor_bundle,
       'is_admin' => $is_admin,
       'enviar_acceso_url' => \Drupal\Core\Url::fromRoute('zinco_reconocimientos.enviar_acceso', ['reconocimiento_id' => $reconocimiento->id()])->toString(),
-      'crear_actor_url' => ($tipo_actor_bundle && isset($bundle_info[$tipo_actor_bundle])) 
-        ? \Drupal\Core\Url::fromRoute('zinco_front.actor_add_by_bundle', ['bundle' => $tipo_actor_bundle], ['query' => ['reconocimiento_id' => $reconocimiento->id()]])->toString()
-        : ($has_response ? \Drupal\Core\Url::fromRoute('zinco_front.actor_categories_list', [], ['query' => ['reconocimiento_id' => $reconocimiento->id()]])->toString() : ''),
+      'crear_actor_url' => $crear_actor_url,
+      'enlace_usado' => $enlace_usado,
+      'actor_creado_id' => $actor_creado_id,
+      'actor_creado_label' => $actor_creado_label,
+      'actor_creado_url' => $actor_creado_url,
     ];
 
     if ($reconocimiento->hasField('field_actor_asociado') && !$reconocimiento->get('field_actor_asociado')->isEmpty()) {
