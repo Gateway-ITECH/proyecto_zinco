@@ -17,6 +17,9 @@
 </div>
 
 <style>
+  .zinco-actor-form-by-bundle-container .field--name-field-aceptacion-terminos,
+  .zinco-actor-form-by-bundle-container [data-drupal-selector*="edit-field-aceptacion-terminos"],
+  .zinco-actor-form-by-bundle-container .form-item-field-aceptacion-terminos-0-value,
   .zinco-actor-form-by-bundle-container .form-type-checkbox,
   .zinco-actor-form-by-bundle-container .form-check,
   .zinco-actor-form-by-bundle-container .form-item-aceptar-terminos {
@@ -29,6 +32,8 @@
     box-shadow: 0 2px 4px rgba(40, 167, 69, 0.06);
   }
 
+  .zinco-actor-form-by-bundle-container .field--name-field-aceptacion-terminos label,
+  .zinco-actor-form-by-bundle-container .form-item-field-aceptacion-terminos-0-value label,
   .zinco-actor-form-by-bundle-container .form-type-checkbox label,
   .zinco-actor-form-by-bundle-container .form-check label,
   .zinco-actor-form-by-bundle-container .form-item-aceptar-terminos label {
@@ -37,6 +42,8 @@
     cursor: pointer;
   }
 
+  .zinco-actor-form-by-bundle-container .field--name-field-aceptacion-terminos input[type="checkbox"],
+  .zinco-actor-form-by-bundle-container .form-item-field-aceptacion-terminos-0-value input[type="checkbox"],
   .zinco-actor-form-by-bundle-container .form-type-checkbox input[type="checkbox"],
   .zinco-actor-form-by-bundle-container .form-check input[type="checkbox"],
   .zinco-actor-form-by-bundle-container .form-item-aceptar-terminos input[type="checkbox"] {
@@ -48,13 +55,26 @@
     cursor: pointer;
   }
 
+  /* Desbloquear texto de ayuda incluso si el theme le agrega .visually-hidden */
+  .zinco-actor-form-by-bundle-container .field--name-field-aceptacion-terminos .visually-hidden,
+  .zinco-actor-form-by-bundle-container .form-item-field-aceptacion-terminos-0-value .visually-hidden,
+  .zinco-actor-form-by-bundle-container .form-item-aceptar-terminos .visually-hidden,
+  .zinco-actor-form-by-bundle-container .field--name-field-aceptacion-terminos .description,
+  .zinco-actor-form-by-bundle-container .form-item-field-aceptacion-terminos-0-value .description,
   .zinco-actor-form-by-bundle-container .description,
   .zinco-actor-form-by-bundle-container small.text-muted,
   .zinco-actor-form-by-bundle-container .form-item--description {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    margin-top: 0.5rem !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
     display: block !important;
-    font-size: 0.85rem;
-    color: #555 !important;
-    margin-top: 0.5rem;
-    line-height: 1.5;
+    font-size: 0.85rem !important;
+    color: #495057 !important;
+    line-height: 1.5 !important;
   }
 </style>

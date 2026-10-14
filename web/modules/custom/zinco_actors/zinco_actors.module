@@ -140,4 +140,21 @@ function zinco_actors_field_widget_single_element_form_alter(array &$element, \D
       $element['target_id']['#description'] = t('Municipio de Córdoba en el cual opera un proyecto, trabaja o reside.');
     }
   }
+
+  // Asegurar que el campo de aceptación de términos muestre siempre el texto de ayuda
+  // y se visualice claramente debajo de la casilla.
+  if ($field_definition->getName() === 'field_aceptacion_terminos' || $field_definition->getName() === 'field_terminos') {
+    $help = (string) $field_definition->getDescription();
+    if (empty($help)) {
+      $help = t('Al registrarte, declaras conocer y aceptar los términos de uso y la política de tratamiento y protección de datos personales de la plataforma ZINCO, autorizando el uso de la información suministrada para la articulación en el ecosistema CTI.');
+    }
+    $element['#description'] = $help;
+    $element['#description_display'] = 'after';
+    $element['#required'] = TRUE;
+    if (isset($element['value'])) {
+      $element['value']['#description'] = $help;
+      $element['value']['#description_display'] = 'after';
+      $element['value']['#required'] = TRUE;
+    }
+  }
 }

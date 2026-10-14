@@ -1033,3 +1033,35 @@ nav.navbar.navbar-landing {
   margin-bottom: -3px;
   box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
 }
+/* Visualización obligatoria del texto de ayuda en aceptación de términos */
+.field--name-field-aceptacion-terminos,
+.form-item-field-aceptacion-terminos-0-value,
+.form-item-aceptar-terminos {
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.25rem;
+  background-color: #f8fff9;
+  border: 1.5px solid #c3e6cb;
+  border-radius: 10px;
+}
+
+.field--name-field-aceptacion-terminos .visually-hidden,
+.field--name-field-aceptacion-terminos-0-value .visually-hidden,
+.form-item-field-aceptacion-terminos-0-value .visually-hidden,
+.form-item-aceptar-terminos .visually-hidden,
+.field--name-field-aceptacion-terminos .description,
+.form-item-field-aceptacion-terminos-0-value .description,
+.form-item-aceptar-terminos .description {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  margin-top: 0.5rem !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
+  display: block !important;
+  font-size: 0.85rem !important;
+  color: #495057 !important;
+  line-height: 1.5 !important;
+}
