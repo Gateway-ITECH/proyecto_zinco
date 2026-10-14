@@ -248,13 +248,103 @@ class ActoresController extends ControllerBase
   public function perfil()
   {
     $current_user = $this->entityTypeManager->getStorage('user')->load(\Drupal::currentUser()->id());
-
-    if ($current_user->hasField('field_actor') && !$current_user->get('field_actor')->isEmpty()) {
-      $actor_id = $current_user->get('field_actor')->target_id;
-      return $this->redirect('zinco_front.actor_profile', ['actor_id' => $actor_id]);
+    if (!$current_user) {
+      return $this->redirect('zinco_front.actor_categories_list');
     }
 
-    return $this->redirect('zinco_front.actor_categories_list');
+    $actor_ids = [];
+    if ($current_user->hasField('field_actor') && !$current_user->get('field_actor')->isEmpty()) {
+      foreach ($current_user->get('field_actor')->getValue() as $item) {
+        if (!empty($item['target_id'])) {
+          $actor_ids[] = (int) $item['target_id'];
+        }
+      }
+    }
+
+    $actor_ids = array_values(array_unique($actor_ids));
+
+    if (empty($actor_ids)) {
+      return $this->redirect('zinco_front.actor_categories_list');
+    }
+
+    $bundle_info = $this->entityTypeBundleInfo->getBundleInfo('zinco_actors_zincoactors');
+    $actor_storage = $this->entityTypeManager->getStorage('zinco_actors_zincoactors');
+    $actors = $actor_storage->loadMultiple($actor_ids);
+
+    $actor_cards = [];
+    foreach ($actors as $actor_item) {
+      if (!$actor_item) {
+        continue;
+      }
+      $act_id = (int) $actor_item->id();
+      $act_bundle = $actor_item->bundle();
+      $act_bundle_label = $bundle_info[$act_bundle]['label'] ?? $act_bundle;
+      $act_label = $actor_item->label() ?: $this->t('Sin nombre');
+      $act_email = ($actor_item->hasField('email') && !$actor_item->get('email')->isEmpty()) ? $actor_item->get('email')->value : '';
+      $act_tel = ($actor_item->hasField('telefono') && !$actor_item->get('telefono')->isEmpty()) ? $actor_item->get('telefono')->value : '';
+
+      $act_municipio = '';
+      if ($actor_item->hasField('municipio') && !$actor_item->get('municipio')->isEmpty()) {
+        $mun_entity = $actor_item->get('municipio')->entity;
+        if ($mun_entity) {
+          $act_municipio = $mun_entity->label();
+        }
+      }
+
+      $act_imagen = '';
+      if ($actor_item->hasField('imagen_perfil') && !$actor_item->get('imagen_perfil')->isEmpty()) {
+        $image_file = $actor_item->get('imagen_perfil')->entity;
+        if ($image_file) {
+          $act_imagen = $this->fileUrlGenerator->generateAbsoluteString($image_file->getFileUri());
+        }
+      }
+
+      $b_icon = 'fas fa-building';
+      if ($act_bundle === 'investigador') {
+        $b_icon = 'fas fa-user-graduate';
+      } elseif ($act_bundle === 'institucion_de_educacion_superio') {
+        $b_icon = 'fas fa-university';
+      } elseif ($act_bundle === 'entidad_gobierno') {
+        $b_icon = 'fas fa-landmark';
+      } elseif (str_contains($act_bundle, 'empresa')) {
+        $b_icon = 'fas fa-briefcase';
+      } elseif ($act_bundle === 'parque_tecnologico') {
+        $b_icon = 'fas fa-industry';
+      } elseif ($act_bundle === 'otri') {
+        $b_icon = 'fas fa-lightbulb';
+      }
+
+      $actor_cards[] = [
+        'id' => $act_id,
+        'label' => $act_label,
+        'bundle' => $act_bundle,
+        'bundle_label' => $act_bundle_label,
+        'icon' => $b_icon,
+        'email' => $act_email,
+        'telefono' => $act_tel,
+        'municipio' => $act_municipio,
+        'imagen_perfil' => $act_imagen,
+        'view_url' => Url::fromRoute('zinco_front.actor_profile', ['actor_id' => $act_id])->toString(),
+        'edit_url' => Url::fromRoute('zinco_front.actor_edit', [], ['query' => ['actor_id' => $act_id]])->toString(),
+      ];
+    }
+
+    // Si solo tiene 1 actor asociado, redirigir directamente a su perfil.
+    if (count($actor_cards) === 1) {
+      return $this->redirect('zinco_front.actor_profile', ['actor_id' => $actor_cards[0]['id']]);
+    }
+
+    // Si tiene múltiples actores, presentar pantalla de selección.
+    return [
+      '#theme' => 'zinco_seleccionar_actor_perfil',
+      '#actor_cards' => $actor_cards,
+      '#total_actors' => count($actor_cards),
+      '#user_name' => $current_user->getDisplayName(),
+      '#cache' => [
+        'tags' => array_merge($current_user->getCacheTags(), $actor_storage->getEntityType()->getListCacheTags()),
+        'contexts' => ['user'],
+      ],
+    ];
   }
 
   /**
@@ -642,11 +732,43 @@ class ActoresController extends ControllerBase
         }
       }
 
+      $user_actor_cards = [];
+      if ($current_user && $current_user->isAuthenticated() && $current_user->hasField('field_actor') && !$current_user->get('field_actor')->isEmpty()) {
+        $u_actor_ids = [];
+        foreach ($current_user->get('field_actor')->getValue() as $item) {
+          if (!empty($item['target_id'])) {
+            $u_actor_ids[] = (int) $item['target_id'];
+          }
+        }
+        $u_actor_ids = array_values(array_unique($u_actor_ids));
+        if (in_array($actor_id, $u_actor_ids, TRUE) && count($u_actor_ids) > 1) {
+          $bundle_info = $this->entityTypeBundleInfo->getBundleInfo('zinco_actors_zincoactors');
+          $all_u_actors = $actor_storage->loadMultiple($u_actor_ids);
+          foreach ($all_u_actors as $u_actor) {
+            if (!$u_actor) {
+              continue;
+            }
+            $u_act_id = (int) $u_actor->id();
+            $u_bundle = $u_actor->bundle();
+            $user_actor_cards[] = [
+              'id' => $u_act_id,
+              'label' => $u_actor->label() ?: $this->t('Sin nombre'),
+              'bundle' => $u_bundle,
+              'bundle_label' => $bundle_info[$u_bundle]['label'] ?? $u_bundle,
+              'view_url' => Url::fromRoute('zinco_front.actor_profile', ['actor_id' => $u_act_id])->toString(),
+              'is_current' => ($u_act_id === $actor_id),
+            ];
+          }
+        }
+      }
+
       return [
         '#theme' => 'zinco_actor_profile',
         '#actor' => $actor_data,
+        '#user_actor_cards' => $user_actor_cards,
         '#cache' => [
-          'tags' => $actor->getCacheTags(),
+          'tags' => array_merge($actor->getCacheTags(), $current_user ? $current_user->getCacheTags() : []),
+          'contexts' => ['user'],
         ],
         '#attached' => [
           'library' => [

@@ -1,0 +1,168 @@
+{#
+/**
+ * @file
+ * Template for selecting which actor profile to view when the user has multiple actors.
+ *
+ * Available variables:
+ * - actor_cards: Array of actor information arrays.
+ * - total_actors: Total count of actors associated with the current user.
+ * - user_name: Display name of the current user.
+ */
+#}
+<div class="container mt-5 mb-5 select-actor-profile-container">
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted">{{ 'Inicio'|t }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ 'Mis Perfiles de Actor'|t }}</li>
+    </ol>
+  </nav>
+
+  <!-- Header Header Banner -->
+  <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
+    <div class="p-4 p-md-5 bg-gradient-actor-select text-white">
+      <div class="row align-items-center">
+        <div class="col-md-9">
+          <div class="d-inline-flex align-items-center gap-2 bg-white bg-opacity-25 px-3 py-1 rounded-pill small mb-3">
+            <i class="fas fa-users-cog"></i>
+            <span>{{ 'Gestión de Cuentas Múltiples'|t }}</span>
+          </div>
+          <h1 class="display-6 fw-bold mb-2">{{ '¿Cuál de tus perfiles deseas ver?'|t }}</h1>
+          <p class="lead mb-0 text-white-50 fs-6">
+            {{ 'Hola'|t }}{% if user_name %}, <strong>{{ user_name }}</strong>{% endif %}. {{ 'Tienes'|t }} <strong>{{ total_actors }}</strong> {{ 'perfiles de actor vinculados a tu cuenta en el ecosistema ZINCO. Selecciona el perfil con el que deseas interactuar o consultar:'|t }}
+          </p>
+        </div>
+        <div class="col-md-3 text-end d-none d-md-block opacity-50">
+          <i class="fas fa-id-card-alt fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cards Grid -->
+  <div class="row g-4 mb-5">
+    {% for card in actor_cards %}
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 border-0 shadow-sm rounded-4 actor-selection-card transition-all" onclick="window.location.href='{{ card.view_url }}';">
+          <div class="card-body p-4 d-flex flex-column justify-content-between">
+            <div>
+              <!-- Header Card: Badge & Icon -->
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill small fw-semibold">
+                  <i class="{{ card.icon }} me-1"></i>{{ card.bundle_label }}
+                </span>
+                <span class="badge bg-light text-muted small px-2 py-1 border">ID: {{ card.id }}</span>
+              </div>
+
+              <!-- Avatar & Title -->
+              <div class="d-flex align-items-center gap-3 mb-3">
+                {% if card.imagen_perfil %}
+                  <img src="{{ card.imagen_perfil }}" alt="{{ card.label }}" class="rounded-circle border shadow-xs flex-shrink-0" style="width: 58px; height: 58px; object-fit: cover;">
+                {% else %}
+                  <div class="rounded-circle bg-light border d-flex align-items-center justify-content-center text-success flex-shrink-0" style="width: 58px; height: 58px; font-size: 1.5rem;">
+                    <i class="{{ card.icon }}"></i>
+                  </div>
+                {% endif %}
+                <div class="overflow-hidden">
+                  <h5 class="card-title fw-bold text-dark mb-1 text-truncate" title="{{ card.label }}">{{ card.label }}</h5>
+                  <div class="text-muted small">
+                    <i class="fas fa-tag me-1 opacity-50"></i>{{ card.bundle_label }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Metadata Details -->
+              <ul class="list-unstyled small text-muted mb-4 actor-meta-list">
+                {% if card.email %}
+                  <li class="mb-2 text-truncate" title="{{ card.email }}">
+                    <i class="fas fa-envelope text-success me-2 opacity-75"></i>{{ card.email }}
+                  </li>
+                {% endif %}
+                {% if card.telefono %}
+                  <li class="mb-2 text-truncate" title="{{ card.telefono }}">
+                    <i class="fas fa-phone text-success me-2 opacity-75"></i>{{ card.telefono }}
+                  </li>
+                {% endif %}
+                {% if card.municipio %}
+                  <li class="text-truncate" title="{{ card.municipio }}">
+                    <i class="fas fa-map-marker-alt text-success me-2 opacity-75"></i>{{ card.municipio }}
+                  </li>
+                {% endif %}
+              </ul>
+            </div>
+
+            <!-- Card Actions -->
+            <div class="pt-3 border-top d-flex gap-2" onclick="event.stopPropagation();">
+              <a href="{{ card.view_url }}" class="btn btn-success flex-grow-1 fw-semibold py-2 rounded-3 shadow-xs d-flex align-items-center justify-content-center">
+                <i class="fas fa-eye me-2"></i>{{ 'Ver Perfil'|t }}
+              </a>
+              <a href="{{ card.edit_url }}" class="btn btn-outline-secondary px-3 py-2 rounded-3" title="{{ 'Editar este perfil'|t }}">
+                <i class="fas fa-pencil-alt"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Bottom Option: Request Recognition for another profile -->
+  <div class="card border border-dashed rounded-4 p-4 bg-light">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <div class="d-flex align-items-center gap-3">
+        <div class="bg-white rounded-circle p-3 shadow-xs text-success border">
+          <i class="fas fa-plus-circle fa-2x"></i>
+        </div>
+        <div>
+          <h5 class="fw-bold mb-1">{{ '¿Perteneces a otra categoría o tipo de actor?'|t }}</h5>
+          <p class="text-muted small mb-0">{{ 'Puedes solicitar un reconocimiento de actor para vincular un perfil adicional (investigador, empresa, institución, etc.) a tu misma cuenta.'|t }}</p>
+        </div>
+      </div>
+      <div>
+        <a href="/reconocimientos/add?actor_id={{ actor_cards[0].id }}" class="btn btn-outline-success fw-semibold px-4 py-2 rounded-3">
+          <i class="fas fa-certificate me-2"></i>{{ 'Solicitar Nuevo Reconocimiento'|t }}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .bg-gradient-actor-select {
+    background: linear-gradient(135deg, #1e7e34 0%, #155724 100%);
+  }
+
+  .actor-selection-card {
+    cursor: pointer;
+    border: 1.5px solid #edf2f7 !important;
+    background-color: #ffffff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .actor-selection-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+    border-color: #28a745 !important;
+  }
+
+  .shadow-xs {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .bg-success-subtle {
+    background-color: #d1e7dd !important;
+  }
+
+  .border-success-subtle {
+    border-color: #a3cfbb !important;
+  }
+
+  .actor-meta-list li {
+    display: flex;
+    align-items: center;
+  }
+
+  .transition-all {
+    transition: all 0.25s ease-in-out;
+  }
+</style>

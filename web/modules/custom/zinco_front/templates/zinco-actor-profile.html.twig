@@ -9,6 +9,51 @@
 #}
 <div class="container mt-7 mb-5">
   <div class="actor-profile-wrapper">
+    {% if user_actor_cards and user_actor_cards|length > 1 %}
+      <div class="user-actor-switcher-bar bg-white border border-success-subtle rounded-3 p-3 mb-4 shadow-sm">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+          <div class="d-flex align-items-center gap-3">
+            <div class="rounded-circle bg-success-subtle text-success d-flex align-items-center justify-content-center p-2" style="width: 38px; height: 38px;">
+              <i class="fas fa-layer-group"></i>
+            </div>
+            <div>
+              <div class="small text-muted mb-0">{{ 'Viendo perfil de:'|t }} <strong class="text-dark">{{ actor.label }}</strong> <span class="badge bg-success-subtle text-success border border-success-subtle ms-1">{{ actor.field_tipo_actor }}</span></div>
+              <small class="text-secondary">{{ 'Tienes @count perfiles asociados a tu cuenta.'|t({'@count': user_actor_cards|length}) }}</small>
+            </div>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <div class="dropdown">
+              <button class="btn btn-sm btn-outline-success dropdown-toggle fw-semibold px-3 py-2 rounded-3" type="button" id="actorSwitcherBarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-exchange-alt me-1"></i>{{ 'Cambiar de perfil'|t }}
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end shadow border" aria-labelledby="actorSwitcherBarDropdown" style="min-width: 260px;">
+                <li class="dropdown-header text-uppercase small text-muted">{{ 'Tus perfiles asociados'|t }}</li>
+                {% for u_card in user_actor_cards %}
+                  <li>
+                    <a class="dropdown-item d-flex align-items-center justify-content-between py-2 {{ u_card.is_current ? 'active bg-success text-white' : '' }}" href="{{ u_card.view_url }}">
+                      <div class="me-2 text-truncate">
+                        <div class="fw-semibold text-truncate" style="max-width: 180px;">{{ u_card.label }}</div>
+                        <small class="{{ u_card.is_current ? 'text-white-50' : 'text-muted' }}">{{ u_card.bundle_label }}</small>
+                      </div>
+                      {% if u_card.is_current %}
+                        <i class="fas fa-check small"></i>
+                      {% endif %}
+                    </a>
+                  </li>
+                {% endfor %}
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                  <a class="dropdown-item small text-center text-success fw-semibold py-2" href="/actores/mi-perfil">
+                    <i class="fas fa-th-large me-1"></i>{{ 'Ver todos mis perfiles'|t }}
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
     <div class="position-relative">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">

@@ -115,8 +115,17 @@ function zinco_front_theme($existing_theme, $type, $theme_name) {
     'zinco_actor_profile' => [
       'variables' => [
         'actor' => NULL,
+        'user_actor_cards' => [],
       ],
       'template' => 'zinco-actor-profile',
+    ],
+    'zinco_seleccionar_actor_perfil' => [
+      'variables' => [
+        'actor_cards' => [],
+        'total_actors' => 0,
+        'user_name' => NULL,
+      ],
+      'template' => 'zinco-seleccionar-actor-perfil',
     ],
     'zinco_reto_detail' => [
       'variables' => [
