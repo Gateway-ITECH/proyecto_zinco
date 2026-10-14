@@ -1473,7 +1473,7 @@ class ZincoController extends ControllerBase
     $actor_creado_url = '';
 
     if ($actor_creado_id) {
-      $actor_creado = $this->entityTypeManager->getStorage('zinco_actors_zincoactors')->load($actor_creado_id);
+      $actor_creado = \Drupal::entityTypeManager()->getStorage('zinco_actors_zincoactors')->load($actor_creado_id);
       if ($actor_creado) {
         $actor_creado_label = $actor_creado->label();
         $actor_creado_url = \Drupal\Core\Url::fromRoute('zinco_front.actor_profile', ['actor_id' => $actor_creado_id])->toString();
