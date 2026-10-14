@@ -16,19 +16,8 @@
 #}
 {% set attributes = attributes.addClass('site-branding', 'd-inline-flex', 'align-items-center') %}
 <div{{ attributes }}>
-  {% if site_logo or site_name %}
-    <a href="{{ path('<front>') }}" title="{{ 'Home'|t }}" rel="home" class="navbar-brand-item main-logo-link">
-      {% if site_logo %}
-        <img src="{{ site_logo }}" alt="{{ 'Home'|t }}" class="img-fluid d-inline-block align-middle site-logo-main" />
-      {% endif %}
-      {% if site_name %}
-        <span class="site-name align-middle ms-2">{{ site_name }}</span>
-      {% endif %}
-    </a>
-  {% endif %}
-
+  {# 1. Logo Secundario (Izquierda) #}
   {% if secondary_logo_enable and secondary_logo_image %}
-    <div class="logo-separator mx-2 d-none d-sm-inline-block" aria-hidden="true"></div>
     {% if secondary_logo_url %}
       <a href="{{ secondary_logo_url }}" class="navbar-brand-item secondary-logo-link" title="{{ secondary_logo_alt }}"{% if secondary_logo_target_blank %} target="_blank" rel="noopener noreferrer"{% endif %}>
         <img src="{{ secondary_logo_image }}" alt="{{ secondary_logo_alt }}" class="img-fluid d-inline-block align-middle site-logo-secondary" />
@@ -38,6 +27,22 @@
         <img src="{{ secondary_logo_image }}" alt="{{ secondary_logo_alt }}" class="img-fluid d-inline-block align-middle site-logo-secondary" />
       </span>
     {% endif %}
+
+    {% if site_logo or site_name %}
+      <div class="logo-separator mx-2 d-none d-sm-inline-block" aria-hidden="true"></div>
+    {% endif %}
+  {% endif %}
+
+  {# 2. Logo Principal del Sitio (Derecha) #}
+  {% if site_logo or site_name %}
+    <a href="{{ path('<front>') }}" title="{{ 'Home'|t }}" rel="home" class="navbar-brand-item main-logo-link">
+      {% if site_logo %}
+        <img src="{{ site_logo }}" alt="{{ 'Home'|t }}" class="img-fluid d-inline-block align-middle site-logo-main" />
+      {% endif %}
+      {% if site_name %}
+        <span class="site-name align-middle ms-2">{{ site_name }}</span>
+      {% endif %}
+    </a>
   {% endif %}
 
   {% if site_slogan %}
