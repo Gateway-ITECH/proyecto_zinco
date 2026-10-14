@@ -977,7 +977,7 @@ class ActoresController extends ControllerBase
         'imagen_perfil' => $u_imagen,
         'is_current' => ($u_id === (int) $actor->id()),
         'edit_url' => Url::fromRoute('zinco_front.actor_edit', [], ['query' => ['actor_id' => $u_id]])->toString(),
-        'view_url' => Url::fromRoute('zinco_front.actor_profile', ['id' => $u_id])->toString(),
+        'view_url' => Url::fromRoute('zinco_front.actor_profile', ['actor_id' => $u_id])->toString(),
       ];
     }
 
@@ -1005,7 +1005,7 @@ class ActoresController extends ControllerBase
         'imagen_perfil' => $u_imagen,
         'is_current' => TRUE,
         'edit_url' => Url::fromRoute('zinco_front.actor_edit', [], ['query' => ['actor_id' => $u_id]])->toString(),
-        'view_url' => Url::fromRoute('zinco_front.actor_profile', ['id' => $u_id])->toString(),
+        'view_url' => Url::fromRoute('zinco_front.actor_profile', ['actor_id' => $u_id])->toString(),
       ];
     }
 
