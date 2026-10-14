@@ -160,6 +160,14 @@
                   </div>
                 {% endif %}
 
+                {% if reconocimiento.crear_actor_url %}
+                  <div class="mt-3 pt-3 border-top">
+                    <a href="{{ reconocimiento.crear_actor_url }}" class="btn btn-success fw-bold py-2 w-100 shadow-sm d-flex align-items-center justify-content-center">
+                      <i class="fas fa-user-plus me-2"></i>{{ 'Ingresar nuevo actor'|t }} ({{ reconocimiento.tipo_actor_solicitado }})
+                    </a>
+                  </div>
+                {% endif %}
+
                 <div class="mt-3 text-center">
                   <a href="/actores/{{ reconocimiento.actor_id }}/reconocimientos" class="btn btn-link text-secondary text-decoration-none small">
                     <i class="fas fa-arrow-left me-1"></i>{{ 'Volver al listado'|t }}

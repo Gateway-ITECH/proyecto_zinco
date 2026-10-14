@@ -1478,6 +1478,9 @@ class ZincoController extends ControllerBase
       'tipo_actor_bundle' => $tipo_actor_bundle,
       'is_admin' => $is_admin,
       'enviar_acceso_url' => \Drupal\Core\Url::fromRoute('zinco_reconocimientos.enviar_acceso', ['reconocimiento_id' => $reconocimiento->id()])->toString(),
+      'crear_actor_url' => ($tipo_actor_bundle && isset($bundle_info[$tipo_actor_bundle])) 
+        ? \Drupal\Core\Url::fromRoute('zinco_front.actor_add_by_bundle', ['bundle' => $tipo_actor_bundle], ['query' => ['reconocimiento_id' => $reconocimiento->id()]])->toString()
+        : ($has_response ? \Drupal\Core\Url::fromRoute('zinco_front.actor_categories_list', [], ['query' => ['reconocimiento_id' => $reconocimiento->id()]])->toString() : ''),
     ];
 
     if ($reconocimiento->hasField('field_actor_asociado') && !$reconocimiento->get('field_actor_asociado')->isEmpty()) {

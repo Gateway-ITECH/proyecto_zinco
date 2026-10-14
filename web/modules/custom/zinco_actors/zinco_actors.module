@@ -107,7 +107,7 @@ function _zinco_actors_assign_actor_to_user(EntityInterface $entity): void {
     if ($current_user->isAuthenticated()) {
       /** @var \Drupal\user\Entity\User $account */
       $account = User::load($current_user->id());
-      if ($account && $account->hasRole('actor_registrado')) {
+      if ($account && ($account->hasRole('actor_registrado') || $account->hasRole('administrator') || $account->hasField('field_actor'))) {
         if ($account->hasField('field_actor')) {
           $actor_id = (int) $entity->id();
           $existing_ids = [];

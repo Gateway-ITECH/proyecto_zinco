@@ -53,7 +53,129 @@ class ZincoActorsForm extends ContentEntityForm {
       $form['#entity_builders'][] = '::buildMunicipioActividad';
     }
 
+    // Si es un nuevo actor y el usuario ya está autenticado (proceso de reconocimiento o nuevo perfil),
+    // precargar datos de contacto y ubicación de su actor existente para facilitar el registro.
+    $this->prefillFromExistingActor($form, $form_state);
+
     return $form;
+  }
+
+  /**
+   * Pre-fills contact and location fields from an existing actor if adding a new actor.
+   */
+  protected function prefillFromExistingActor(array &$form, FormStateInterface $form_state): void {
+    if (!$this->entity->isNew()) {
+      return;
+    }
+
+    $current_user = \Drupal::currentUser();
+    if (!$current_user->isAuthenticated()) {
+      return;
+    }
+
+    $storage = $this->entityTypeManager->getStorage('zinco_actors_zincoactors');
+    $user_actor_ids = [];
+    $account = \Drupal\user\Entity\User::load($current_user->id());
+    if ($account && $account->hasField('field_actor') && !$account->get('field_actor')->isEmpty()) {
+      foreach ($account->get('field_actor')->getValue() as $item) {
+        if (!empty($item['target_id'])) {
+          $user_actor_ids[] = (int) $item['target_id'];
+        }
+      }
+    }
+
+    $primary_actor = NULL;
+    $rec_id = \Drupal::request()->query->get('reconocimiento_id');
+    if ($rec_id) {
+      $rec = $this->entityTypeManager->getStorage('zinco_reconocimientos')->load($rec_id);
+      if ($rec && $rec->hasField('field_actor_asociado') && !$rec->get('field_actor_asociado')->isEmpty()) {
+        $primary_actor = $rec->get('field_actor_asociado')->entity;
+      }
+    }
+
+    if (!$primary_actor && !empty($user_actor_ids)) {
+      $primary_actor = $storage->load(reset($user_actor_ids));
+    }
+
+    if (!$primary_actor) {
+      return;
+    }
+
+    // 1. Email
+    if ($this->entity->hasField('email') && $this->entity->get('email')->isEmpty() && $primary_actor->hasField('email') && !$primary_actor->get('email')->isEmpty()) {
+      $val = (string) $primary_actor->get('email')->value;
+      $this->entity->set('email', $val);
+      if (isset($form['email']['widget'][0]['value'])) {
+        $form['email']['widget'][0]['value']['#default_value'] = $val;
+      }
+    }
+
+    // 2. Telefono
+    if ($this->entity->hasField('telefono') && $this->entity->get('telefono')->isEmpty() && $primary_actor->hasField('telefono') && !$primary_actor->get('telefono')->isEmpty()) {
+      $val = (string) $primary_actor->get('telefono')->value;
+      $this->entity->set('telefono', $val);
+      if (isset($form['telefono']['widget'][0]['value'])) {
+        $form['telefono']['widget'][0]['value']['#default_value'] = $val;
+      }
+    }
+
+    // 3. Sitio web
+    if ($this->entity->hasField('sitio_web') && $this->entity->get('sitio_web')->isEmpty() && $primary_actor->hasField('sitio_web') && !$primary_actor->get('sitio_web')->isEmpty()) {
+      $val = (string) $primary_actor->get('sitio_web')->value;
+      $this->entity->set('sitio_web', $val);
+      if (isset($form['sitio_web']['widget'][0]['value'])) {
+        $form['sitio_web']['widget'][0]['value']['#default_value'] = $val;
+      }
+    }
+
+    // 4. Municipio
+    if ($this->entity->hasField('municipio') && $this->entity->get('municipio')->isEmpty() && $primary_actor->hasField('municipio') && !$primary_actor->get('municipio')->isEmpty()) {
+      $mun_id = (int) $primary_actor->get('municipio')->target_id;
+      $this->entity->set('municipio', $mun_id);
+      if (isset($form['municipio_actividad'])) {
+        $form['municipio_actividad']['#default_value'] = $mun_id;
+      }
+    }
+
+    // 5. NIT / Cédula / Documento
+    $nit_candidates = [
+      'field_nit', 'nit', 'field_documento', 'documento',
+      'field_numero_documento', 'numero_documento', 'field_identificacion',
+      'identificacion', 'field_numero_identificacion', 'numero_identificacion',
+      'field_cedula', 'cedula', 'field_numero_identidad', 'numero_identidad',
+    ];
+    $primary_nit = '';
+    foreach ($nit_candidates as $cand) {
+      if ($primary_actor->hasField($cand) && !$primary_actor->get($cand)->isEmpty()) {
+        $primary_nit = (string) $primary_actor->get($cand)->value;
+        break;
+      }
+    }
+    if ($primary_nit !== '') {
+      foreach ($nit_candidates as $cand) {
+        if ($this->entity->hasField($cand) && $this->entity->get($cand)->isEmpty()) {
+          $this->entity->set($cand, $primary_nit);
+          if (isset($form[$cand]['widget'][0]['value'])) {
+            $form[$cand]['widget'][0]['value']['#default_value'] = $primary_nit;
+          }
+          break;
+        }
+      }
+    }
+
+    // Alerta informativa visible
+    $form['info_prellenado_reconocimiento'] = [
+      '#type' => 'markup',
+      '#markup' => '<div class="alert alert-info border-0 shadow-sm mb-4 d-flex align-items-center" style="border-radius: 10px;">' .
+        '<i class="fas fa-info-circle fa-lg text-info me-3"></i>' .
+        '<div>' .
+        '<strong>' . $this->t('Registro de nuevo perfil de actor:') . '</strong> ' .
+        $this->t('Se han precargado tus datos de contacto habituales de <strong>@actor</strong>. Puedes conservarlos o modificarlos; en este proceso se permite compartir los mismos datos con tu cuenta sin conflicto.', [
+          '@actor' => htmlspecialchars((string) $primary_actor->label(), ENT_QUOTES, 'UTF-8'),
+        ]) .
+        '</div></div>',
+      '#weight' => -100,
+    ];
   }
 
   /**
@@ -148,6 +270,37 @@ class ZincoActorsForm extends ContentEntityForm {
     $current_id = $this->entity->isNew() ? NULL : (int) $this->entity->id();
     $storage = $this->entityTypeManager->getStorage('zinco_actors_zincoactors');
 
+    // Determinar actores asociados al usuario autenticado (para permitir compartir datos propios sin bloqueo).
+    $current_user = \Drupal::currentUser();
+    $user_owned_actor_ids = [];
+    if ($current_user->isAuthenticated()) {
+      $account = \Drupal\user\Entity\User::load($current_user->id());
+      if ($account && $account->hasField('field_actor') && !$account->get('field_actor')->isEmpty()) {
+        foreach ($account->get('field_actor')->getValue() as $item) {
+          if (!empty($item['target_id'])) {
+            $user_owned_actor_ids[] = (int) $item['target_id'];
+          }
+        }
+      }
+      $owned_query = $storage->getQuery()
+        ->condition('uid', $current_user->id())
+        ->accessCheck(FALSE);
+      $owned_ids = $owned_query->execute();
+      if (!empty($owned_ids)) {
+        $user_owned_actor_ids = array_unique(array_merge($user_owned_actor_ids, array_map('intval', $owned_ids)));
+      }
+    }
+
+    // Si viene de un reconocimiento específico en la URL:
+    $rec_id_param = \Drupal::request()->query->get('reconocimiento_id');
+    if ($rec_id_param) {
+      $rec_entity = $this->entityTypeManager->getStorage('zinco_reconocimientos')->load($rec_id_param);
+      if ($rec_entity && $rec_entity->hasField('field_actor_asociado') && !$rec_entity->get('field_actor_asociado')->isEmpty()) {
+        $user_owned_actor_ids[] = (int) $rec_entity->get('field_actor_asociado')->target_id;
+      }
+    }
+    $user_owned_actor_ids = array_unique($user_owned_actor_ids);
+
     // 1. Extraer y validar correo electrónico.
     $email = '';
     if ($this->entity->hasField('email') && !$this->entity->get('email')->isEmpty()) {
@@ -170,11 +323,13 @@ class ZincoActorsForm extends ContentEntityForm {
       if ($current_id) {
         $query->condition('id', $current_id, '<>');
       }
-      $query->range(0, 1);
       $existing_ids = $query->execute();
 
-      if (!empty($existing_ids)) {
-        $existing_id = reset($existing_ids);
+      // Permitir coincidencia si el actor existente pertenece a los perfiles del usuario actual.
+      $foreign_existing_ids = array_diff(array_map('intval', $existing_ids), $user_owned_actor_ids);
+
+      if (!empty($foreign_existing_ids)) {
+        $existing_id = reset($foreign_existing_ids);
         $existing_actor = $storage->load($existing_id);
         $label = $existing_actor ? $existing_actor->label() : "ID $existing_id";
 
@@ -211,11 +366,13 @@ class ZincoActorsForm extends ContentEntityForm {
       if ($current_id) {
         $query->condition('id', $current_id, '<>');
       }
-      $query->range(0, 1);
       $existing_ids = $query->execute();
 
-      if (!empty($existing_ids)) {
-        $existing_id = reset($existing_ids);
+      // Permitir coincidencia si el actor existente pertenece a los perfiles del usuario actual.
+      $foreign_existing_ids = array_diff(array_map('intval', $existing_ids), $user_owned_actor_ids);
+
+      if (!empty($foreign_existing_ids)) {
+        $existing_id = reset($foreign_existing_ids);
         $existing_actor = $storage->load($existing_id);
         $label = $existing_actor ? $existing_actor->label() : "ID $existing_id";
 
@@ -278,11 +435,13 @@ class ZincoActorsForm extends ContentEntityForm {
       if ($current_id) {
         $query->condition('id', $current_id, '<>');
       }
-      $query->range(0, 1);
       $existing_ids = $query->execute();
 
-      if (!empty($existing_ids)) {
-        $existing_id = reset($existing_ids);
+      // Permitir coincidencia si el actor existente pertenece a los perfiles del usuario actual.
+      $foreign_existing_ids = array_diff(array_map('intval', $existing_ids), $user_owned_actor_ids);
+
+      if (!empty($foreign_existing_ids)) {
+        $existing_id = reset($foreign_existing_ids);
         $existing_actor = $storage->load($existing_id);
         $label = $existing_actor ? $existing_actor->label() : "ID $existing_id";
 
@@ -302,6 +461,11 @@ class ZincoActorsForm extends ContentEntityForm {
    * {@inheritdoc}
    */
   public function save(array $form, FormStateInterface $form_state): int {
+    $current_user = \Drupal::currentUser();
+    if ($this->entity->isNew() && $current_user->isAuthenticated() && $this->entity->hasField('uid') && $this->entity->get('uid')->isEmpty()) {
+      $this->entity->set('uid', $current_user->id());
+    }
+
     $result = parent::save($form, $form_state);
 
     $message_args = ['%label' => $this->entity->toLink()->toString()];

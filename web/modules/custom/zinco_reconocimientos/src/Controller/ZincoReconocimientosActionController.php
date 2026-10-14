@@ -70,10 +70,10 @@ class ZincoReconocimientosActionController extends ControllerBase {
 
     // Build the registration URL
     if ($tipo_actor_bundle && isset($bundle_info[$tipo_actor_bundle])) {
-      $registro_url = Url::fromRoute('zinco_front.actor_add_by_bundle', ['bundle' => $tipo_actor_bundle], ['absolute' => TRUE])->toString();
+      $registro_url = Url::fromRoute('zinco_front.actor_add_by_bundle', ['bundle' => $tipo_actor_bundle], ['query' => ['reconocimiento_id' => $reconocimiento_id], 'absolute' => TRUE])->toString();
     }
     else {
-      $registro_url = Url::fromRoute('zinco_front.actor_categories_list', [], ['absolute' => TRUE])->toString();
+      $registro_url = Url::fromRoute('zinco_front.actor_categories_list', [], ['query' => ['reconocimiento_id' => $reconocimiento_id], 'absolute' => TRUE])->toString();
     }
 
     $actor_name = 'Actor';
