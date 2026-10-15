@@ -316,6 +316,30 @@ class RetosController extends ControllerBase
       $reto_data['fecha_inicio'] = $reto->hasField('fecha_inicio') && !$reto->get('fecha_inicio')->isEmpty() ? $reto->get('fecha_inicio')->value : '';
       $reto_data['fecha_fin'] = $reto->hasField('fecha_fin') && !$reto->get('fecha_fin')->isEmpty() ? $reto->get('fecha_fin')->value : '';
 
+      $today = new \DateTime('today');
+      $fecha_fin_val = $reto->hasField('fecha_fin') && !$reto->get('fecha_fin')->isEmpty() ? $reto->get('fecha_fin')->value : NULL;
+      $fecha_eval_val = $reto->hasField('fecha_evaluacion') && !$reto->get('fecha_evaluacion')->isEmpty() ? $reto->get('fecha_evaluacion')->value : NULL;
+
+      $dt_fin = !empty($fecha_fin_val) ? new \DateTime(substr((string) $fecha_fin_val, 0, 10)) : NULL;
+      $dt_eval = !empty($fecha_eval_val) ? new \DateTime(substr((string) $fecha_eval_val, 0, 10)) : NULL;
+
+      $es_expirado = FALSE;
+      $fecha_limite_dt = NULL;
+
+      if ($dt_fin && $dt_fin < $today) {
+        $es_expirado = TRUE;
+        $fecha_limite_dt = $dt_fin;
+      }
+      if ($dt_eval && $dt_eval < $today) {
+        $es_expirado = TRUE;
+        if (!$fecha_limite_dt || $dt_eval < $fecha_limite_dt) {
+          $fecha_limite_dt = $dt_eval;
+        }
+      }
+
+      $reto_data['es_expirado'] = $es_expirado;
+      $reto_data['fecha_limite_formateada'] = $fecha_limite_dt ? $fecha_limite_dt->format('d/m/Y') : ($dt_fin ? $dt_fin->format('d/m/Y') : '');
+
       // Calculate days remaining until fecha_fin.
       if (!empty($reto_data['fecha_fin'])) {
         $current_date = new \DateTime();
@@ -631,6 +655,39 @@ class RetosController extends ControllerBase
    */
   public function submitRetoSolutionForm($reto_id)
   {
+    $reto = $this->entityTypeManager->getStorage('zinco_retos_innovacion')->load($reto_id);
+    if (!$reto) {
+      throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+    }
+
+    // Validar si la fecha_evaluacion o fecha_fin es menor que la fecha actual.
+    $today = new \DateTime('today');
+    $fecha_fin_val = $reto->hasField('fecha_fin') && !$reto->get('fecha_fin')->isEmpty() ? $reto->get('fecha_fin')->value : NULL;
+    $fecha_eval_val = $reto->hasField('fecha_evaluacion') && !$reto->get('fecha_evaluacion')->isEmpty() ? $reto->get('fecha_evaluacion')->value : NULL;
+
+    $dt_fin = !empty($fecha_fin_val) ? new \DateTime(substr((string) $fecha_fin_val, 0, 10)) : NULL;
+    $dt_eval = !empty($fecha_eval_val) ? new \DateTime(substr((string) $fecha_eval_val, 0, 10)) : NULL;
+
+    $es_expirado = FALSE;
+    $fecha_limite_dt = NULL;
+
+    if ($dt_fin && $dt_fin < $today) {
+      $es_expirado = TRUE;
+      $fecha_limite_dt = $dt_fin;
+    }
+    if ($dt_eval && $dt_eval < $today) {
+      $es_expirado = TRUE;
+      if (!$fecha_limite_dt || $dt_eval < $fecha_limite_dt) {
+        $fecha_limite_dt = $dt_eval;
+      }
+    }
+
+    if ($es_expirado) {
+      $fecha_str = $fecha_limite_dt ? $fecha_limite_dt->format('d/m/Y') : '';
+      $this->messenger()->addError($this->t('La fecha límite para enviar la propuesta de reto era hasta el @fecha.', ['@fecha' => $fecha_str]));
+      return $this->redirect('zinco_front.reto_detail', ['reto_id' => $reto_id]);
+    }
+
     $entity = $this->entityTypeManager()->getStorage('zinco_retos_soluciones')->create([
       'reto_id' => $reto_id,
     ]);

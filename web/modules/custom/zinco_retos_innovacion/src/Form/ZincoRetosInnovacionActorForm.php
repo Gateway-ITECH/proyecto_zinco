@@ -17,6 +17,43 @@ final class ZincoRetosInnovacionActorForm extends ZincoRetosInnovacionForm
   /**
    * {@inheritdoc}
    */
+  public function validateForm(array &$form, FormStateInterface $form_state): void
+  {
+    parent::validateForm($form, $form_state);
+
+    $today = new \DateTime('today');
+
+    $fecha_fin = $form_state->getValue('fecha_fin');
+    $fecha_eval = $form_state->getValue('fecha_evaluacion');
+
+    $fecha_fin_val = is_array($fecha_fin) ? ($fecha_fin[0]['value'] ?? NULL) : $fecha_fin;
+    $fecha_eval_val = is_array($fecha_eval) ? ($fecha_eval[0]['value'] ?? NULL) : $fecha_eval;
+
+    if ($fecha_fin_val instanceof \Drupal\Core\Datetime\DrupalDateTime) {
+      $fecha_fin_val = $fecha_fin_val->format('Y-m-d');
+    }
+    if ($fecha_eval_val instanceof \Drupal\Core\Datetime\DrupalDateTime) {
+      $fecha_eval_val = $fecha_eval_val->format('Y-m-d');
+    }
+
+    if (!empty($fecha_fin_val)) {
+      $dt_fin = new \DateTime(substr((string) $fecha_fin_val, 0, 10));
+      if ($dt_fin < $today) {
+        $form_state->setErrorByName('fecha_fin', $this->t('La fecha de fin no puede ser menor que la fecha actual (@fecha).', ['@fecha' => $today->format('d/m/Y')]));
+      }
+    }
+
+    if (!empty($fecha_eval_val)) {
+      $dt_eval = new \DateTime(substr((string) $fecha_eval_val, 0, 10));
+      if ($dt_eval < $today) {
+        $form_state->setErrorByName('fecha_evaluacion', $this->t('La fecha de evaluación no puede ser menor que la fecha actual (@fecha).', ['@fecha' => $today->format('d/m/Y')]));
+      }
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function save(array $form, FormStateInterface $form_state): int
   {
     $result = parent::save($form, $form_state);

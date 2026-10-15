@@ -41,12 +41,19 @@
       </div>
 
       <div class="col-md-4">
-        {% if reto.estado_reto_innovacion != 'Cumplido' %}
+        {% if reto.estado_reto_innovacion != 'Cumplido' and not reto.es_expirado %}
         <div class="card mb-4">
           <div class="card-body">
             <h5 class="card-title">¿Listo para innovar?</h5>
             <p class="card-text">Tu siguiente gran idea podría dar forma al futuro.</p>
             <a href="/retos/{{ reto.id }}/solution/add" class="btn btn-primary btn-block"><i class="fas fa-lightbulb"></i> Envía tu propuesta</a>
+          </div>
+        </div>
+        {% elseif reto.es_expirado %}
+        <div class="card mb-4 border-warning bg-warning bg-opacity-10 shadow-sm" style="border-radius: 12px;">
+          <div class="card-body">
+            <h5 class="card-title text-warning-emphasis fw-bold mb-2"><i class="fas fa-clock me-2"></i>{{ 'Convocatoria cerrada'|t }}</h5>
+            <p class="card-text small text-muted mb-0">{{ 'La fecha límite para enviar la propuesta de reto era hasta el'|t }} <strong>{{ reto.fecha_limite_formateada }}</strong>.</p>
           </div>
         </div>
         {% endif %}
