@@ -171,19 +171,104 @@
             <div class="accordion-item">
               <h2 class="accordion-header" id="headingInnovationChallenges">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInnovationChallenges" aria-expanded="true" aria-controls="collapseInnovationChallenges">
-                  Retos de innovación publicados
+                  Retos de innovación
                 </button>
               </h2>
               <div id="collapseInnovationChallenges" class="accordion-collapse collapse show" aria-labelledby="headingInnovationChallenges" data-bs-parent="#accordionInnovationChallenges">
                 <div class="accordion-body">
-                  {% for reto in actor.retos_innovacion %}
-                        <div class="card mb-2">
-                          <div class="card-body">
-                            <p class="mb-0">{{ reto.label }}</p>
-                            <p class="text-muted mb-0"><small>Tipo: {{ reto.tipo }} | Estado: {{ reto.estado }}</small></p>
+                  <ul class="nav nav-tabs mb-3" id="retosTab-{{ actor.id }}" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link active" id="retos-publicados-tab-{{ actor.id }}" data-bs-toggle="tab" data-bs-target="#retos-publicados-{{ actor.id }}" type="button" role="tab" aria-controls="retos-publicados-{{ actor.id }}" aria-selected="true">
+                        <i class="fas fa-bullhorn me-1"></i>{{ 'Retos publicados'|t }}
+                        {% if actor.retos_innovacion is defined and actor.retos_innovacion|length > 0 %}
+                          <span class="badge bg-secondary ms-1">{{ actor.retos_innovacion|length }}</span>
+                        {% endif %}
+                      </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="retos-postulados-tab-{{ actor.id }}" data-bs-toggle="tab" data-bs-target="#retos-postulados-{{ actor.id }}" type="button" role="tab" aria-controls="retos-postulados-{{ actor.id }}" aria-selected="false">
+                        <i class="fas fa-paper-plane me-1"></i>{{ 'Retos en los que el actor se ha postulado'|t }}
+                        {% if actor.retos_postulados is defined and actor.retos_postulados|length > 0 %}
+                          <span class="badge bg-primary ms-1">{{ actor.retos_postulados|length }}</span>
+                        {% endif %}
+                      </button>
+                    </li>
+                  </ul>
+                  <div class="tab-content" id="retosTabContent-{{ actor.id }}">
+                    <div class="tab-pane fade show active" id="retos-publicados-{{ actor.id }}" role="tabpanel" aria-labelledby="retos-publicados-tab-{{ actor.id }}">
+                      {% if actor.retos_innovacion is not empty %}
+                        {% for reto in actor.retos_innovacion %}
+                          <div class="card mb-2 shadow-sm border-0 bg-light">
+                            <div class="card-body py-2 px-3">
+                              <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                  <h6 class="mb-1 fw-bold text-dark">
+                                    {% if reto.url %}
+                                      <a href="{{ reto.url }}" class="text-decoration-none text-dark">{{ reto.label }}</a>
+                                    {% else %}
+                                      {{ reto.label }}
+                                    {% endif %}
+                                  </h6>
+                                  <p class="text-muted mb-0 small">
+                                    {% if reto.tipo %}Tipo: {{ reto.tipo }}{% endif %}
+                                    {% if reto.tipo and reto.estado %} | {% endif %}
+                                    {% if reto.estado %}Estado: <span class="badge bg-secondary-subtle text-secondary">{{ reto.estado }}</span>{% endif %}
+                                  </p>
+                                </div>
+                                {% if reto.url %}
+                                  <a href="{{ reto.url }}" class="btn btn-sm btn-outline-primary ms-2">{{ 'Ver reto'|t }}</a>
+                                {% endif %}
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      {% endfor %}
+                        {% endfor %}
+                      {% else %}
+                        <p class="text-muted small my-2">{{ 'No hay retos de innovación publicados.'|t }}</p>
+                      {% endif %}
+                    </div>
+                    <div class="tab-pane fade" id="retos-postulados-{{ actor.id }}" role="tabpanel" aria-labelledby="retos-postulados-tab-{{ actor.id }}">
+                      {% if actor.retos_postulados is not empty %}
+                        {% for postulado in actor.retos_postulados %}
+                          <div class="card mb-2 shadow-sm border-0 bg-light">
+                            <div class="card-body py-2 px-3">
+                              <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                  <h6 class="mb-1 fw-bold text-dark">
+                                    {% if postulado.reto_url %}
+                                      <a href="{{ postulado.reto_url }}" class="text-decoration-none text-dark">{{ postulado.reto_label }}</a>
+                                    {% else %}
+                                      {{ postulado.reto_label }}
+                                    {% endif %}
+                                  </h6>
+                                  <p class="text-muted mb-1 small">
+                                    <strong>{{ 'Propuesta'|t }}:</strong> {{ postulado.solucion_label }}
+                                  </p>
+                                  <p class="text-muted mb-0 small">
+                                    {% if postulado.estado_postulacion %}
+                                      <span>{{ 'Estado postulación'|t }}: <span class="badge bg-info-subtle text-info-emphasis">{{ postulado.estado_postulacion }}</span></span>
+                                    {% endif %}
+                                    {% if postulado.fecha %}
+                                      <span class="ms-2 text-secondary"><i class="far fa-calendar-alt me-1"></i>{{ postulado.fecha }}</span>
+                                    {% endif %}
+                                  </p>
+                                </div>
+                                <div class="d-flex flex-column align-items-end gap-1 ms-2">
+                                  {% if postulado.reto_url %}
+                                    <a href="{{ postulado.reto_url }}" class="btn btn-sm btn-outline-primary">{{ 'Ver reto'|t }}</a>
+                                  {% endif %}
+                                  {% if postulado.solucion_url %}
+                                    <a href="{{ postulado.solucion_url }}" class="btn btn-sm btn-outline-secondary">{{ 'Ver propuesta'|t }}</a>
+                                  {% endif %}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        {% endfor %}
+                      {% else %}
+                        <p class="text-muted small my-2">{{ 'No hay retos en los que el actor se haya postulado.'|t }}</p>
+                      {% endif %}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -398,19 +483,104 @@
             <div class="accordion-item">
               <h2 class="accordion-header" id="headingInnovationChallenges">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInnovationChallenges" aria-expanded="true" aria-controls="collapseInnovationChallenges">
-                  Retos de innovación publicados
+                  Retos de innovación
                 </button>
               </h2>
               <div id="collapseInnovationChallenges" class="accordion-collapse collapse show" aria-labelledby="headingInnovationChallenges" data-bs-parent="#accordionInnovationChallenges">
                 <div class="accordion-body">
-                  {% for reto in actor.retos_innovacion %}
-                        <div class="card mb-2">
-                          <div class="card-body">
-                            <p class="mb-0">{{ reto.label }}</p>
-                            <p class="text-muted mb-0"><small>Tipo: {{ reto.tipo }} | Estado: {{ reto.estado }}</small></p>
+                  <ul class="nav nav-tabs mb-3" id="retosTab-{{ actor.id }}" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link active" id="retos-publicados-tab-{{ actor.id }}" data-bs-toggle="tab" data-bs-target="#retos-publicados-{{ actor.id }}" type="button" role="tab" aria-controls="retos-publicados-{{ actor.id }}" aria-selected="true">
+                        <i class="fas fa-bullhorn me-1"></i>{{ 'Retos publicados'|t }}
+                        {% if actor.retos_innovacion is defined and actor.retos_innovacion|length > 0 %}
+                          <span class="badge bg-secondary ms-1">{{ actor.retos_innovacion|length }}</span>
+                        {% endif %}
+                      </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="retos-postulados-tab-{{ actor.id }}" data-bs-toggle="tab" data-bs-target="#retos-postulados-{{ actor.id }}" type="button" role="tab" aria-controls="retos-postulados-{{ actor.id }}" aria-selected="false">
+                        <i class="fas fa-paper-plane me-1"></i>{{ 'Retos en los que el actor se ha postulado'|t }}
+                        {% if actor.retos_postulados is defined and actor.retos_postulados|length > 0 %}
+                          <span class="badge bg-primary ms-1">{{ actor.retos_postulados|length }}</span>
+                        {% endif %}
+                      </button>
+                    </li>
+                  </ul>
+                  <div class="tab-content" id="retosTabContent-{{ actor.id }}">
+                    <div class="tab-pane fade show active" id="retos-publicados-{{ actor.id }}" role="tabpanel" aria-labelledby="retos-publicados-tab-{{ actor.id }}">
+                      {% if actor.retos_innovacion is not empty %}
+                        {% for reto in actor.retos_innovacion %}
+                          <div class="card mb-2 shadow-sm border-0 bg-light">
+                            <div class="card-body py-2 px-3">
+                              <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                  <h6 class="mb-1 fw-bold text-dark">
+                                    {% if reto.url %}
+                                      <a href="{{ reto.url }}" class="text-decoration-none text-dark">{{ reto.label }}</a>
+                                    {% else %}
+                                      {{ reto.label }}
+                                    {% endif %}
+                                  </h6>
+                                  <p class="text-muted mb-0 small">
+                                    {% if reto.tipo %}Tipo: {{ reto.tipo }}{% endif %}
+                                    {% if reto.tipo and reto.estado %} | {% endif %}
+                                    {% if reto.estado %}Estado: <span class="badge bg-secondary-subtle text-secondary">{{ reto.estado }}</span>{% endif %}
+                                  </p>
+                                </div>
+                                {% if reto.url %}
+                                  <a href="{{ reto.url }}" class="btn btn-sm btn-outline-primary ms-2">{{ 'Ver reto'|t }}</a>
+                                {% endif %}
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      {% endfor %}
+                        {% endfor %}
+                      {% else %}
+                        <p class="text-muted small my-2">{{ 'No hay retos de innovación publicados.'|t }}</p>
+                      {% endif %}
+                    </div>
+                    <div class="tab-pane fade" id="retos-postulados-{{ actor.id }}" role="tabpanel" aria-labelledby="retos-postulados-tab-{{ actor.id }}">
+                      {% if actor.retos_postulados is not empty %}
+                        {% for postulado in actor.retos_postulados %}
+                          <div class="card mb-2 shadow-sm border-0 bg-light">
+                            <div class="card-body py-2 px-3">
+                              <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                  <h6 class="mb-1 fw-bold text-dark">
+                                    {% if postulado.reto_url %}
+                                      <a href="{{ postulado.reto_url }}" class="text-decoration-none text-dark">{{ postulado.reto_label }}</a>
+                                    {% else %}
+                                      {{ postulado.reto_label }}
+                                    {% endif %}
+                                  </h6>
+                                  <p class="text-muted mb-1 small">
+                                    <strong>{{ 'Propuesta'|t }}:</strong> {{ postulado.solucion_label }}
+                                  </p>
+                                  <p class="text-muted mb-0 small">
+                                    {% if postulado.estado_postulacion %}
+                                      <span>{{ 'Estado postulación'|t }}: <span class="badge bg-info-subtle text-info-emphasis">{{ postulado.estado_postulacion }}</span></span>
+                                    {% endif %}
+                                    {% if postulado.fecha %}
+                                      <span class="ms-2 text-secondary"><i class="far fa-calendar-alt me-1"></i>{{ postulado.fecha }}</span>
+                                    {% endif %}
+                                  </p>
+                                </div>
+                                <div class="d-flex flex-column align-items-end gap-1 ms-2">
+                                  {% if postulado.reto_url %}
+                                    <a href="{{ postulado.reto_url }}" class="btn btn-sm btn-outline-primary">{{ 'Ver reto'|t }}</a>
+                                  {% endif %}
+                                  {% if postulado.solucion_url %}
+                                    <a href="{{ postulado.solucion_url }}" class="btn btn-sm btn-outline-secondary">{{ 'Ver propuesta'|t }}</a>
+                                  {% endif %}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        {% endfor %}
+                      {% else %}
+                        <p class="text-muted small my-2">{{ 'No hay retos en los que el actor se haya postulado.'|t }}</p>
+                      {% endif %}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -554,19 +724,104 @@
             <div class="accordion-item">
               <h2 class="accordion-header" id="headingInnovationChallenges">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInnovationChallenges" aria-expanded="true" aria-controls="collapseInnovationChallenges">
-                  Retos de innovación publicados
+                  Retos de innovación
                 </button>
               </h2>
               <div id="collapseInnovationChallenges" class="accordion-collapse collapse show" aria-labelledby="headingInnovationChallenges" data-bs-parent="#accordionInnovationChallenges">
                 <div class="accordion-body">
-                  {% for reto in actor.retos_innovacion %}
-                        <div class="card mb-2">
-                          <div class="card-body">
-                            <p class="mb-0">{{ reto.label }}</p>
-                            <p class="text-muted mb-0"><small>Tipo: {{ reto.tipo }} | Estado: {{ reto.estado }}</small></p>
+                  <ul class="nav nav-tabs mb-3" id="retosTab-{{ actor.id }}" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link active" id="retos-publicados-tab-{{ actor.id }}" data-bs-toggle="tab" data-bs-target="#retos-publicados-{{ actor.id }}" type="button" role="tab" aria-controls="retos-publicados-{{ actor.id }}" aria-selected="true">
+                        <i class="fas fa-bullhorn me-1"></i>{{ 'Retos publicados'|t }}
+                        {% if actor.retos_innovacion is defined and actor.retos_innovacion|length > 0 %}
+                          <span class="badge bg-secondary ms-1">{{ actor.retos_innovacion|length }}</span>
+                        {% endif %}
+                      </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="retos-postulados-tab-{{ actor.id }}" data-bs-toggle="tab" data-bs-target="#retos-postulados-{{ actor.id }}" type="button" role="tab" aria-controls="retos-postulados-{{ actor.id }}" aria-selected="false">
+                        <i class="fas fa-paper-plane me-1"></i>{{ 'Retos en los que el actor se ha postulado'|t }}
+                        {% if actor.retos_postulados is defined and actor.retos_postulados|length > 0 %}
+                          <span class="badge bg-primary ms-1">{{ actor.retos_postulados|length }}</span>
+                        {% endif %}
+                      </button>
+                    </li>
+                  </ul>
+                  <div class="tab-content" id="retosTabContent-{{ actor.id }}">
+                    <div class="tab-pane fade show active" id="retos-publicados-{{ actor.id }}" role="tabpanel" aria-labelledby="retos-publicados-tab-{{ actor.id }}">
+                      {% if actor.retos_innovacion is not empty %}
+                        {% for reto in actor.retos_innovacion %}
+                          <div class="card mb-2 shadow-sm border-0 bg-light">
+                            <div class="card-body py-2 px-3">
+                              <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                  <h6 class="mb-1 fw-bold text-dark">
+                                    {% if reto.url %}
+                                      <a href="{{ reto.url }}" class="text-decoration-none text-dark">{{ reto.label }}</a>
+                                    {% else %}
+                                      {{ reto.label }}
+                                    {% endif %}
+                                  </h6>
+                                  <p class="text-muted mb-0 small">
+                                    {% if reto.tipo %}Tipo: {{ reto.tipo }}{% endif %}
+                                    {% if reto.tipo and reto.estado %} | {% endif %}
+                                    {% if reto.estado %}Estado: <span class="badge bg-secondary-subtle text-secondary">{{ reto.estado }}</span>{% endif %}
+                                  </p>
+                                </div>
+                                {% if reto.url %}
+                                  <a href="{{ reto.url }}" class="btn btn-sm btn-outline-primary ms-2">{{ 'Ver reto'|t }}</a>
+                                {% endif %}
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      {% endfor %}
+                        {% endfor %}
+                      {% else %}
+                        <p class="text-muted small my-2">{{ 'No hay retos de innovación publicados.'|t }}</p>
+                      {% endif %}
+                    </div>
+                    <div class="tab-pane fade" id="retos-postulados-{{ actor.id }}" role="tabpanel" aria-labelledby="retos-postulados-tab-{{ actor.id }}">
+                      {% if actor.retos_postulados is not empty %}
+                        {% for postulado in actor.retos_postulados %}
+                          <div class="card mb-2 shadow-sm border-0 bg-light">
+                            <div class="card-body py-2 px-3">
+                              <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                  <h6 class="mb-1 fw-bold text-dark">
+                                    {% if postulado.reto_url %}
+                                      <a href="{{ postulado.reto_url }}" class="text-decoration-none text-dark">{{ postulado.reto_label }}</a>
+                                    {% else %}
+                                      {{ postulado.reto_label }}
+                                    {% endif %}
+                                  </h6>
+                                  <p class="text-muted mb-1 small">
+                                    <strong>{{ 'Propuesta'|t }}:</strong> {{ postulado.solucion_label }}
+                                  </p>
+                                  <p class="text-muted mb-0 small">
+                                    {% if postulado.estado_postulacion %}
+                                      <span>{{ 'Estado postulación'|t }}: <span class="badge bg-info-subtle text-info-emphasis">{{ postulado.estado_postulacion }}</span></span>
+                                    {% endif %}
+                                    {% if postulado.fecha %}
+                                      <span class="ms-2 text-secondary"><i class="far fa-calendar-alt me-1"></i>{{ postulado.fecha }}</span>
+                                    {% endif %}
+                                  </p>
+                                </div>
+                                <div class="d-flex flex-column align-items-end gap-1 ms-2">
+                                  {% if postulado.reto_url %}
+                                    <a href="{{ postulado.reto_url }}" class="btn btn-sm btn-outline-primary">{{ 'Ver reto'|t }}</a>
+                                  {% endif %}
+                                  {% if postulado.solucion_url %}
+                                    <a href="{{ postulado.solucion_url }}" class="btn btn-sm btn-outline-secondary">{{ 'Ver propuesta'|t }}</a>
+                                  {% endif %}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        {% endfor %}
+                      {% else %}
+                        <p class="text-muted small my-2">{{ 'No hay retos en los que el actor se haya postulado.'|t }}</p>
+                      {% endif %}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

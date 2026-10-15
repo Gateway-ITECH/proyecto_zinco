@@ -458,25 +458,103 @@ class ActoresController extends ControllerBase
       }
       $actor_data['proyectos_idi'] = $proyectos_idi;
 
-      //obtener entidades zinco_retos_innovacion_types en los que el actor actual se encuentra referenciado.
+      // Obtener entidades zinco_retos_innovacion en los que el actor actual es organizador.
       $retos_innovacion = [];
-      $query = $this->entityTypeManager->getStorage('zinco_retos_innovacion')->getQuery()
-        ->condition('organizador_reto.target_id', $actor_id, 'IN')
-        ->range(0, 3)
-        ->accessCheck(FALSE)
-        ->execute();
-      if (!empty($query)) {
-        $retos_innovacion_entities = $this->entityTypeManager->getStorage('zinco_retos_innovacion')->loadMultiple($query);
-        foreach ($retos_innovacion_entities as $reto) {
-          $retos_innovacion[] = [
-            'id' => $reto->id(),
-            'label' => $reto->label(),
-            'tipo' => $reto->hasField('area_enfoque') && !$reto->get('area_enfoque')->isEmpty() ? $reto->get('area_enfoque')->entity->label() : '',
-            'estado' => $reto->hasField('estado_reto_innovacion') && !$reto->get('estado_reto_innovacion')->isEmpty() ? $reto->get('estado_reto_innovacion')->entity->label() : '',
-          ];
+      if ($this->entityTypeManager->hasDefinition('zinco_retos_innovacion')) {
+        $retos_storage = $this->entityTypeManager->getStorage('zinco_retos_innovacion');
+        $query = $retos_storage->getQuery()->accessCheck(FALSE);
+        $or_reto = $query->orConditionGroup();
+        $or_reto->condition('organizador_reto.target_id', $actor_id);
+        if ($actor->getOwnerId()) {
+          $or_reto->condition('uid', $actor->getOwnerId());
+        }
+        $query->condition($or_reto);
+        $query->sort('created', 'DESC');
+        $retos_ids = $query->execute();
+
+        if (!empty($retos_ids)) {
+          $retos_innovacion_entities = $retos_storage->loadMultiple($retos_ids);
+          foreach ($retos_innovacion_entities as $reto) {
+            $retos_innovacion[] = [
+              'id' => $reto->id(),
+              'label' => $reto->label(),
+              'tipo' => $reto->hasField('area_enfoque') && !$reto->get('area_enfoque')->isEmpty() && $reto->get('area_enfoque')->entity ? $reto->get('area_enfoque')->entity->label() : '',
+              'estado' => $reto->hasField('estado_reto_innovacion') && !$reto->get('estado_reto_innovacion')->isEmpty() && $reto->get('estado_reto_innovacion')->entity ? $reto->get('estado_reto_innovacion')->entity->label() : '',
+              'url' => '/retos/' . $reto->id(),
+            ];
+          }
         }
       }
       $actor_data['retos_innovacion'] = $retos_innovacion;
+
+      // Obtener retos en los que el actor se ha postulado (entidades zinco_retos_soluciones).
+      $retos_postulados = [];
+      if ($this->entityTypeManager->hasDefinition('zinco_retos_soluciones')) {
+        try {
+          $user_uids = [];
+          if (method_exists($actor, 'getOwnerId') && $actor->getOwnerId()) {
+            $user_uids[] = (int) $actor->getOwnerId();
+          }
+          $users_with_actor = $this->entityTypeManager->getStorage('user')->getQuery()
+            ->condition('field_actor', $actor_id)
+            ->accessCheck(FALSE)
+            ->execute();
+          if (!empty($users_with_actor)) {
+            $user_uids = array_unique(array_merge($user_uids, array_map('intval', $users_with_actor)));
+          }
+
+          $sol_storage = $this->entityTypeManager->getStorage('zinco_retos_soluciones');
+          $sol_query = $sol_storage->getQuery()->accessCheck(FALSE);
+          $or_sol = $sol_query->orConditionGroup();
+          $or_sol->condition('field_autores_solucion', $actor_id);
+          if (!empty($user_uids)) {
+            $or_sol->condition('uid', $user_uids, 'IN');
+          }
+          $sol_query->condition($or_sol);
+          $sol_query->sort('created', 'DESC');
+          $sol_ids = $sol_query->execute();
+
+          if (!empty($sol_ids)) {
+            $soluciones = $sol_storage->loadMultiple($sol_ids);
+            foreach ($soluciones as $solucion) {
+              $reto_entity = NULL;
+              if ($solucion->hasField('field_reto_asociado') && !$solucion->get('field_reto_asociado')->isEmpty()) {
+                $reto_entity = $solucion->get('field_reto_asociado')->entity;
+              }
+
+              $estado_postulacion = '';
+              if ($solucion->hasField('field_estado_postulacion_idea') && !$solucion->get('field_estado_postulacion_idea')->isEmpty() && $solucion->get('field_estado_postulacion_idea')->entity) {
+                $estado_postulacion = $solucion->get('field_estado_postulacion_idea')->entity->label();
+              }
+
+              $fecha_postulacion = '';
+              if ($solucion->hasField('created') && !$solucion->get('created')->isEmpty()) {
+                $fecha_postulacion = \Drupal::service('date.formatter')->format((int) $solucion->get('created')->value, 'custom', 'd/m/Y');
+              }
+
+              $retos_postulados[] = [
+                'solucion_id' => $solucion->id(),
+                'solucion_label' => $solucion->label(),
+                'solucion_url' => '/retos/detalle/' . $solucion->id(),
+                'estado_postulacion' => $estado_postulacion,
+                'fecha' => $fecha_postulacion,
+                'reto_id' => $reto_entity ? $reto_entity->id() : NULL,
+                'reto_label' => $reto_entity ? $reto_entity->label() : $solucion->label(),
+                'reto_url' => $reto_entity ? '/retos/' . $reto_entity->id() : '',
+                'reto_tipo' => ($reto_entity && $reto_entity->hasField('area_enfoque') && !$reto_entity->get('area_enfoque')->isEmpty() && $reto_entity->get('area_enfoque')->entity)
+                  ? $reto_entity->get('area_enfoque')->entity->label()
+                  : '',
+                'reto_estado' => ($reto_entity && $reto_entity->hasField('estado_reto_innovacion') && !$reto_entity->get('estado_reto_innovacion')->isEmpty() && $reto_entity->get('estado_reto_innovacion')->entity)
+                  ? $reto_entity->get('estado_reto_innovacion')->entity->label()
+                  : '',
+              ];
+            }
+          }
+        } catch (\Exception $e) {
+          \Drupal::logger('zinco_front')->error('Error loading retos postulados: @message', ['@message' => $e->getMessage()]);
+        }
+      }
+      $actor_data['retos_postulados'] = $retos_postulados;
 
       //agregar campo sitio_web
       $actor_data['datos_contacto']['sitio_web'] = '';
@@ -772,7 +850,12 @@ class ActoresController extends ControllerBase
         '#actor' => $actor_data,
         '#user_actor_cards' => $user_actor_cards,
         '#cache' => [
-          'tags' => array_merge($actor->getCacheTags(), $current_user ? $current_user->getCacheTags() : []),
+          'tags' => array_merge(
+            $actor->getCacheTags(),
+            $current_user ? $current_user->getCacheTags() : [],
+            $this->entityTypeManager->hasDefinition('zinco_retos_innovacion') ? $this->entityTypeManager->getDefinition('zinco_retos_innovacion')->getListCacheTags() : [],
+            $this->entityTypeManager->hasDefinition('zinco_retos_soluciones') ? $this->entityTypeManager->getDefinition('zinco_retos_soluciones')->getListCacheTags() : []
+          ),
           'contexts' => ['user'],
         ],
         '#attached' => [
